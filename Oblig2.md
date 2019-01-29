@@ -65,8 +65,15 @@
 * Se hvordan vi kommuniserer på slack. Møter 2 ganger i uka, en på gruppe og en utenom.
 * Slack
 
+### Møte nr 1 (Ukjent dato)
+* Finne et møte om et par dager etter gruppetime 29. Januar. Gi en mer spesifikk arbeidsfordeling der.
+* Finne bedre struktur på møte der.
+* Fremtidlige møter kommer i en egen mappe.
+
 ### Arbeidsfordeling
 * Fordele oppgaver, refordele og rebalanser
+* Alle må ha kontroll på maven, libgdx, git, tiled
+* Alle må se på hvordan roborally fungerer
 
 ### Oppfølging
 * Issues, commits..
