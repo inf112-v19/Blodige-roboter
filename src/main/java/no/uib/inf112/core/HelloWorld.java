@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package no.uib.inf112.core;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
