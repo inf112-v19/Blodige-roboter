@@ -1,5 +1,4 @@
-# INF112 Maven template 
-Simple skeleton with libgdx. 
+# INF112 RoboRally
 
 
 ## Known bugs
