@@ -2,7 +2,7 @@ package no.uib.inf112.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import no.uib.inf112.core.HelloWorld;
+import no.uib.inf112.core.RoboRally;
 
 
 public class Main {
@@ -12,6 +12,6 @@ public class Main {
         cfg.width = 480;
         cfg.height = 320;
 
-        new LwjglApplication(new HelloWorld(), cfg);
+        new LwjglApplication(new RoboRally(), cfg);
     }
 }
