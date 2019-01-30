@@ -12,4 +12,11 @@ public class Robot {
         handler.setCell(x, y, 1);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
