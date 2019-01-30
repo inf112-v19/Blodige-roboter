@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.player.Robot;
 
 public class RoboRally extends Game {
 
@@ -18,6 +19,8 @@ public class RoboRally extends Game {
 
     private TiledMapHandler map;
     private OrthographicCamera camera;
+    private Robot robot;
+    private Robot robot2;
 
 
     /**
@@ -37,8 +40,9 @@ public class RoboRally extends Game {
 
         Gdx.input.setInputProcessor(new InputHandler(this));
 
-
         map = new TiledMapHandler(FALLBACK_MAP_FILE);
+        robot = new Robot(5, 5, map);
+        robot2 = new Robot(1, 1, map);
     }
 
 
