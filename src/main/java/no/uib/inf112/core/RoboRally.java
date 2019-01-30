@@ -14,7 +14,7 @@ public class RoboRally extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    public static final String FALLBACK_MAP_FILE = "test_map.tmx";
+    public static final String FALLBACK_MAP_FILE = "assets/test_map.tmx";
 
     private TiledMapHandler map;
     private OrthographicCamera camera;
