@@ -24,4 +24,8 @@ public class Robot {
     public int getY() {
         return y;
     }
+
+    public void move(int newX, int newY) {
+        //Todo, implement this
+    }
 }
