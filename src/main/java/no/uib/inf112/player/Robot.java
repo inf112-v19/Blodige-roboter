@@ -5,6 +5,11 @@ import no.uib.inf112.core.map.TiledMapHandler;
 public class Robot {
     private int x, y;
 
+    /**
+     * @param x
+     * @param y
+     * @param handler from the map
+     */
     public Robot(int x, int y, TiledMapHandler handler) {
         this.x = x;
         this.y = y;

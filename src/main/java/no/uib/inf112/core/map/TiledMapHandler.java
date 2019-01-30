@@ -110,6 +110,12 @@ public class TiledMapHandler implements Disposable {
         tiledMap.dispose();
     }
 
+    /**
+     * Sets the cell to a given block
+     * @param x
+     * @param y
+     * @param i the id of the block
+     */
     public void setCell(int x, int y, int i) {
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(tiledMap.getTileSets().getTile(i));
