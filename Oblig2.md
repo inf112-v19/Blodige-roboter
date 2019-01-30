@@ -43,7 +43,7 @@
 ## Beskrivelse av mål
 * Skal kunne spille roborally med andre personer, med begrensede funksjoner.
 
-## Liste over kraf 
+## Liste over krav 
 * Brett, Interaksjon (Brett mot brikke)
 
 ## Prioritert liste over hva som skal med i første iterasjon
