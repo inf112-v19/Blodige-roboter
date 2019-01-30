@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="test_tile.tsx"/>
+ <layer id="1" name="Rutelag 1" width="10" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,1,1,1,1,0,
+0,0,0,0,0,1,1,1,1,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,1,1,0,0,0,0,
+0,0,0,1,1,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+1,1,1,1,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

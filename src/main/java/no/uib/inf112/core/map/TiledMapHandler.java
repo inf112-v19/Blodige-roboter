@@ -2,10 +2,13 @@ package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
+
 
 public class TiledMapHandler implements Disposable {
 
@@ -19,6 +22,8 @@ public class TiledMapHandler implements Disposable {
 
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
+    final MapLayer blockLayer;
+
 
     private int mapWidth;
     private int mapHeight;
@@ -35,11 +40,8 @@ public class TiledMapHandler implements Disposable {
     /**
      * TODO make the zoom properties be part of the map file
      *
-     * @param map
-     *     The relative path from assets folder to the Tiled map file
-     *
-     * @throws IllegalArgumentException
-     *     if max zoom is less than min zoom
+     * @param map The relative path from assets folder to the Tiled map file
+     * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
         try {
@@ -53,7 +55,6 @@ public class TiledMapHandler implements Disposable {
         tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
         tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
-
         zoom = 1f; //Start with no zoom
 
         zoomSensitivity = tiledMap.getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
@@ -62,8 +63,14 @@ public class TiledMapHandler implements Disposable {
 
         if (maxZoom < minZoom) {
             throw new IllegalArgumentException(
-                "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
         }
+
+        blockLayer = tiledMap.getLayers().get("Rutelag 1");
+        if (!(blockLayer instanceof TiledMapTileLayer)) {
+        throw new IllegalArgumentException(
+                "Map " + tiledMap + " does not has a tile layer named '" + "Rutelag 1" + "'");
+    }
 
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -81,11 +88,8 @@ public class TiledMapHandler implements Disposable {
     /**
      * Zoom in or out of the map
      *
-     * @param direction
-     *     The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
-     *
-     * @throws IllegalArgumentException
-     *     if give zoom is 0
+     * @param direction The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
+     * @throws IllegalArgumentException if give zoom is 0
      */
     public void zoom(int direction) {
         if (direction == 0) {
@@ -93,13 +97,22 @@ public class TiledMapHandler implements Disposable {
         }
         float delta = Math.signum(direction) * zoomSensitivity;
         zoom += delta;
-        if (zoom > maxZoom) { zoom = maxZoom; }
-        else if (zoom < minZoom) { zoom = minZoom; }
+        if (zoom > maxZoom) {
+            zoom = maxZoom;
+        } else if (zoom < minZoom) {
+            zoom = minZoom;
+        }
     }
 
     @Override
     public void dispose() {
         renderer.dispose();
         tiledMap.dispose();
+    }
+
+    public void setCell(int x, int y, int i) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(tiledMap.getTileSets().getTile(i));
+        layer.setCell(x, y, cell);
     }
 }
