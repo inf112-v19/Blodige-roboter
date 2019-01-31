@@ -6,13 +6,11 @@ import no.uib.inf112.player.Movement;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 public class DeckTest {
     private Deck deck;
+    private final int N = 1000;
 
     @Before
     public void init() {
@@ -121,21 +119,22 @@ public class DeckTest {
 
     @Test
     public void shuffleTest() {
-        Deck d = new Deck();
-        Card[] cards = d.getCards().clone();
-        d.shuffle();
-        Card[] cards1 = d.getCards().clone();
+        for (int i = 0; i < N; i++) {
+            Deck d = new Deck();
+            Card[] cards = d.getCards().clone();
+            d.shuffle();
+            Card[] cards1 = d.getCards().clone();
 
-        System.out.println(Arrays.toString(cards));
-        System.out.println(Arrays.toString(cards1));
-        int sameCardPos = 0;
+            int sameCardPos = 0;
 
-        for (int i = 0; i < cards.length; i++) {
-            if (cards[i].equals(cards1[i])) {
-                sameCardPos++;
+            for (int j = 0; j < cards.length; j++) {
+                if (cards[j].equals(cards1[j])) {
+                    sameCardPos++;
+                }
             }
+            assertNotEquals(cards.length, sameCardPos);
+            assertNotEquals(cards1.length, sameCardPos);
         }
-        assertNotEquals(cards.length, sameCardPos);
-        assertNotEquals(cards1.length, sameCardPos);
+
     }
 }
