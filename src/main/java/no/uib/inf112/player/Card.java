@@ -2,21 +2,11 @@ package no.uib.inf112.player;
 
 public class Card {
 
-    public enum Movement {
-        RIGHT_TURN,
-        LEFT_TURN,
-        U_TURN,
-        MOVE_1,
-        MOVE_2,
-        MOVE_3,
-        BACK_UP
-    }
-
     private final Movement ACTION;
     private final int PRIORITY;
 
     /**
-     * @param action The movement the card will prescribe
+     * @param action The movement the card will impose
      * @param priority The unique priority of the card
      */
     public Card(Movement action, int priority) {
@@ -24,10 +14,16 @@ public class Card {
         this.PRIORITY = priority;
     }
 
+    /**
+     * @return The action (movement) imposed by this card
+     */
     public Movement getAction() {
         return this.ACTION;
     }
 
+    /**
+     * @return The priority of this card
+     */
     public int getPriority() {
         return this.PRIORITY;
     }
