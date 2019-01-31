@@ -15,10 +15,14 @@ public class RoboRally extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    public static final String FALLBACK_MAP_FILE = "assets/daniels_testmap.tmx";
+    //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
+    //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
+    public static final String FALLBACK_MAP_FILE = "test_map.tmx";
 
     private TiledMapHandler map;
     private OrthographicCamera camera;
+
+    //FIXME create a robot handler that handles all the players (as we can have between 2 and N robots)
     private Robot robot;
     private Robot robot2;
 
@@ -35,9 +39,6 @@ public class RoboRally extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        camera = new OrthographicCamera();
-        camera.update();
-
         Gdx.input.setInputProcessor(new InputHandler(this));
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE);
@@ -48,7 +49,6 @@ public class RoboRally extends Game {
 
     @Override
     public void render() {
-        batch.setProjectionMatrix(camera.combined);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         super.render();
@@ -56,9 +56,8 @@ public class RoboRally extends Game {
         batch.begin();
 
         map.update(Gdx.graphics.getDeltaTime());
-        map.render(camera);
+        map.render(batch);
 
-        camera.update();
 
         batch.end();
     }
