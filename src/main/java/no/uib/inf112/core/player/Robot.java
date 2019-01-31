@@ -7,7 +7,6 @@ public class Robot implements Entity {
 
     private final TiledMapTile tile;
     private int x, y;
-    private MapHandler handler;
 
     /**
      * @param handler
@@ -17,8 +16,7 @@ public class Robot implements Entity {
         this.x = x;
         this.y = y;
 
-        this.handler = handler;
-        tile = handler.getMapTileSets().getTile(1);
+        tile = handler.getMapTileSets().getTileSet("robot_32").getTile(2);
         if (tile == null) { throw new IllegalStateException("Failed to find robot tile"); }
         handler.addEntity(this);
     }
