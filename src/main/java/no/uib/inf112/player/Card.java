@@ -27,5 +27,10 @@ public class Card {
     public int getPriority() {
         return this.PRIORITY;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }
 
