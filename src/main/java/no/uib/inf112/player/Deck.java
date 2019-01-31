@@ -94,6 +94,11 @@ public class Deck {
         }
     }
 
-
-
+    /**
+     * Gets current cards in deck
+     * @return cards
+     */
+    public Card[] getCards() {
+        return cards;
+    }
 }
