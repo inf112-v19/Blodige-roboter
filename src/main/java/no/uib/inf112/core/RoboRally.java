@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.player.Robot;
+import no.uib.inf112.core.player.Robot;
 
 public class RoboRally extends Game {
 
