@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class DeckTest {
@@ -119,22 +121,21 @@ public class DeckTest {
 
     @Test
     public void shuffleTest() {
-        //Todo
-//        Deck d = new Deck();
-//        Card[] cards = d.getCards();
-//        d.shuffle();
-//        Card[] cards1 = d.getCards();
-//
-//        System.out.println(Arrays.toString(cards));
-//        System.out.println(Arrays.toString(cards1));
-//        int sameCardPos = 0;
-//
-//        for (int i = 0; i < cards.length; i++) {
-//            if (cards[i].equals(cards1[i])) {
-//                sameCardPos++;
-//            }
-//        }
-//        assertFalse(cards.length == sameCardPos);
-//        assertFalse(cards1.length == sameCardPos);
+        Deck d = new Deck();
+        Card[] cards = d.getCards().clone();
+        d.shuffle();
+        Card[] cards1 = d.getCards().clone();
+
+        System.out.println(Arrays.toString(cards));
+        System.out.println(Arrays.toString(cards1));
+        int sameCardPos = 0;
+
+        for (int i = 0; i < cards.length; i++) {
+            if (cards[i].equals(cards1[i])) {
+                sameCardPos++;
+            }
+        }
+        assertNotEquals(cards.length, sameCardPos);
+        assertNotEquals(cards1.length, sameCardPos);
     }
 }
