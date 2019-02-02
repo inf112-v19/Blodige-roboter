@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Robot;
+import org.jetbrains.annotations.NotNull;
 
 public class RoboRally extends Game {
 
@@ -19,7 +22,7 @@ public class RoboRally extends Game {
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE = "test_map.tmx";
 
-    private TiledMapHandler map;
+    private static TiledMapHandler map;
     private OrthographicCamera camera;
 
     //FIXME create a robot handler that handles all the players (as we can have between 2 and N robots)
@@ -30,7 +33,8 @@ public class RoboRally extends Game {
     /**
      * @return The current map in play
      */
-    public TiledMapHandler getCurrentMap() {
+    @NotNull
+    public static MapHandler getCurrentMap() {
         return map;
     }
 
@@ -42,8 +46,8 @@ public class RoboRally extends Game {
         Gdx.input.setInputProcessor(new InputHandler(this));
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE);
-        robot = new Robot(5, 5, map);
-        robot2 = new Robot(1, 1, map);
+        robot = new Robot(5, 5, Direction.NORTH);
+        robot2 = new Robot(1, 1, Direction.SOUTH);
     }
 
 

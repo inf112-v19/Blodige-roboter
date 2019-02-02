@@ -1,5 +1,6 @@
 package no.uib.inf112.core.io;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import no.uib.inf112.core.RoboRally;
 
@@ -14,6 +15,12 @@ public class InputHandler extends InputAdapter {
     @Override
     public boolean scrolled(int direction) {
         rr.getCurrentMap().zoom(direction);
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        rr.getCurrentMap().pan(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
         return true;
     }
 }

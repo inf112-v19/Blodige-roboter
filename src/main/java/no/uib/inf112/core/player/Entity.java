@@ -1,6 +1,7 @@
 package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,5 +26,16 @@ public interface Entity {
      */
     @Nullable
     TiledMapTile getTile();
+
+    /**
+     * @return the direction the entity is facing
+     */
+    @NotNull
+    Direction getDirection();
+
+    /**
+     * Sets the direction the entity is facing
+     */
+    void setDirection(@NotNull Direction direction);
 
 }

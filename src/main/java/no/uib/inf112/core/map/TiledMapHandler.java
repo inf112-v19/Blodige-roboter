@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -109,11 +110,15 @@ public class TiledMapHandler implements MapHandler {
     public void update(float delta) {
         //remove all known entity sprites
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            entityLayer.setCell((int) entry.getValue().x, (int) entry.getValue().y, null);
+            entityLayer.setCell(, (int) entry.getValue().y, null);
         }
         //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            setEntityOnBoard(entry.getKey());
+            if(entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y){
+                continue;
+            }
+
+            entry.setValue(setEntityOnBoard(entry.getKey(), entry.getValue()));
         }
     }
 
@@ -207,13 +212,33 @@ public class TiledMapHandler implements MapHandler {
     }
 
 
-    private void setEntityOnBoard(@NotNull Entity entity) {
-        if (entity.getTile() == null) { return; }
+    private Vector2 setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos) {
+        if (entity.getTile() == null) { return null; }
         if (isOutsideBoard(entity.getX(), entity.getY())) {
             throw new IllegalArgumentException(
                 "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
         }
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
         entityLayer.setCell(entity.getX(), entity.getY(), cell);
+
+
+        Direction dir = entity.getDirection();
+
+        int dx = (int) (entity.getX() - oldPos.x);
+        int dy = (int) (entity.getY() - oldPos.y);
+        if(dx > 0){
+            dir = Direction.EAST;
+        }else if(dx < 0 ){
+            dir = Direction.WEST;
+        }else {
+            if (dy > 0) {
+                dir = Direction.NORTH;
+            } else if (dy < 0) {
+                dir = Direction.SOUTH;
+            }
+        }
+        entity.setDirection(dir);
+
+        return new Vector2(entity.getX(),entity.getY());
     }
 }
