@@ -110,7 +110,7 @@ public class TiledMapHandler implements MapHandler {
     public void update(float delta) {
         //remove all known entity sprites
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            entityLayer.setCell(, (int) entry.getValue().y, null);
+            entityLayer.setCell((int) entry.getValue().x, (int) entry.getValue().y, null);
         }
         //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
