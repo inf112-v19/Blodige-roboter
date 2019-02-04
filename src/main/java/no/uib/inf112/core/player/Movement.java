@@ -1,4 +1,4 @@
-package no.uib.inf112.player;
+package no.uib.inf112.core.player;
 
 /**
  * All legal movements that robots can do.

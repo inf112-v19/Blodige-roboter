@@ -1,8 +1,8 @@
 package no.uib.inf112.desktop;
 
-import no.uib.inf112.player.Card;
-import no.uib.inf112.player.Deck;
-import no.uib.inf112.player.Movement;
+import no.uib.inf112.core.player.Card;
+import no.uib.inf112.core.player.Deck;
+import no.uib.inf112.core.player.Movement;
 import org.junit.Before;
 import org.junit.Test;
 
