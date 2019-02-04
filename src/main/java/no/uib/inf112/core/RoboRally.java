@@ -13,17 +13,22 @@ import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Robot;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public class RoboRally extends Game {
+
+    public static final String MAP_FOLDER = "maps";
+
+    //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
+    //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
 
     private SpriteBatch batch;
     private BitmapFont font;
 
-    //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
-    //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
-    public static final String FALLBACK_MAP_FILE = "test_map.tmx";
 
     private static TiledMapHandler map;
-    private OrthographicCamera camera;
+    private OrthographicCamera camera; //use this for UI
 
     //FIXME create a robot handler that handles all the players (as we can have between 2 and N robots)
     private Robot robot;
@@ -45,7 +50,7 @@ public class RoboRally extends Game {
 
         Gdx.input.setInputProcessor(new InputHandler(this));
 
-        map = new TiledMapHandler(FALLBACK_MAP_FILE);
+        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         robot = new Robot(5, 5, Direction.NORTH);
         robot2 = new Robot(1, 1, Direction.SOUTH);
     }
