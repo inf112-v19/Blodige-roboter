@@ -44,17 +44,17 @@ public class TiledMapHandler implements MapHandler {
     /**
      * TODO make the zoom properties be part of the map file
      *
-     * @param map
-     *     The relative path from assets folder to the Tiled map file
-     *
-     * @throws IllegalArgumentException
-     *     if max zoom is less than min zoom
+     * @param map The relative path from assets folder to the Tiled map file
+     * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
         try {
-            tiledMap = new TmxMapLoader().load(map);
+            TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
+            params.textureMagFilter = Texture.TextureFilter.Linear;
+            params.textureMinFilter = Texture.TextureFilter.Linear;
+            tiledMap = new TmxMapLoader().load(map, params);
         } catch (final Exception e) {
-            throw new IllegalArgumentException("Invalid map");
+            throw new IllegalArgumentException("Failed to load map at '" + map + "'");
         }
 
         mapWidth = tiledMap.getProperties().get("width", int.class);
