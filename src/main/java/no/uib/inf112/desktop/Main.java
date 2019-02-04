@@ -11,6 +11,7 @@ public class Main {
         cfg.title = "Robo Rally";
         cfg.width = 480;
         cfg.height = 320;
+        cfg.samples = 16; //max out the samples as this isn't a very heavy game.
 
         new LwjglApplication(new RoboRally(), cfg);
     }

@@ -1,53 +1,53 @@
 package no.uib.inf112.core.map;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.math.Vector2;
+import no.uib.inf112.core.player.Direction;
+import no.uib.inf112.core.player.Entity;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 
-public class TiledMapHandler implements Disposable {
-
-    public static final float DEFAULT_ZOOM_SENSITIVITY = 1f;
-    public static final float DEFAULT_MAX_ZOOM = 10f;
-    public static final float DEFAULT_MIN_ZOOM = 1f;
-
-    public static final String ZOOM_SENSITIVITY_PATH = "zoomsensitivity";
-    public static final String MAX_ZOOM_PATH = "maxzoom";
-    public static final String MIN_ZOOM_PATH = "minzoom";
+public class TiledMapHandler extends MapCamera {
 
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
-    final MapLayer blockLayer;
 
+    private final TiledMapTileLayer boardLayer;
+    private final TiledMapTileLayer entityLayer;
+
+
+    //A map of all know entities and their last know location
+    private Map<Entity, Vector2> entities;
 
     private int mapWidth;
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
 
-    private float zoom;
-
-    private float zoomSensitivity;
-    private float maxZoom;
-    private float minZoom;
-
 
     /**
-     * TODO make the zoom properties be part of the map file
-     *
      * @param map The relative path from assets folder to the Tiled map file
      * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
+        super();
+
         try {
-            tiledMap = new TmxMapLoader().load(map);
+            TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
+            params.textureMagFilter = Texture.TextureFilter.Linear;
+            params.textureMinFilter = Texture.TextureFilter.Linear;
+            tiledMap = new TmxMapLoader().load(map, params);
         } catch (final Exception e) {
-            throw new IllegalArgumentException("Invalid map");
+            throw new IllegalArgumentException("Failed to load map at '" + map + "'");
         }
 
         mapWidth = tiledMap.getProperties().get("width", int.class);
@@ -55,53 +55,118 @@ public class TiledMapHandler implements Disposable {
         tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
         tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
-        zoom = 1f; //Start with no zoom
 
-        zoomSensitivity = tiledMap.getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
-        maxZoom = tiledMap.getProperties().get(MAX_ZOOM_PATH, DEFAULT_MAX_ZOOM, float.class);
-        minZoom = tiledMap.getProperties().get(MIN_ZOOM_PATH, DEFAULT_MIN_ZOOM, float.class);
-
-        if (maxZoom < minZoom) {
-            throw new IllegalArgumentException(
-                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+        TiledMapTileLayer baseLayer = null;
+        try {
+            baseLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
+        } catch (ClassCastException ignore) {
         }
+        if (baseLayer == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+        }
+        boardLayer = baseLayer;
 
-        blockLayer = tiledMap.getLayers().get("Rutelag 1");
-        if (!(blockLayer instanceof TiledMapTileLayer)) {
-        throw new IllegalArgumentException(
-                "Map " + tiledMap + " does not has a tile layer named '" + "Rutelag 1" + "'");
-    }
+        //create a new empty layer for all the robots to play on :)
+        entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
+        tiledMap.getLayers().add(entityLayer);
 
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+        //use a linked hashmap to make sure the iteration is consistent
+        entities = new LinkedHashMap<>();
+
     }
 
-    public void render(OrthographicCamera camera) {
-        camera.setToOrtho(false, zoom * Gdx.graphics.getWidth(), zoom * Gdx.graphics.getHeight());
-        renderer.setView(camera);
+
+    @Override
+    public void render(@NotNull Batch batch) {
+        getCamera().update();
+        batch.setProjectionMatrix(getCamera().combined);
+        renderer.setView(getCamera());
         renderer.render();
     }
 
+    @Override
     public void update(float delta) {
+        //remove all known entity sprites
+        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+            entityLayer.setCell((int) entry.getValue().x, (int) entry.getValue().y, null);
+        }
+        //set new pos
+        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+            if (entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y) {
+                continue;
+            }
 
+            entry.setValue(setEntityOnBoard(entry.getKey(), entry.getValue()));
+        }
     }
 
-    /**
-     * Zoom in or out of the map
-     *
-     * @param direction The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
-     * @throws IllegalArgumentException if give zoom is 0
-     */
-    public void zoom(int direction) {
-        if (direction == 0) {
-            throw new IllegalArgumentException("Zoom direction cannot be 0");
+
+    @Override
+    public MapProperties getProperties() {
+        return tiledMap.getProperties();
+    }
+
+    @NotNull
+    @Override
+    public TiledMapTile getBoardLayerTile(int x, int y) {
+        return boardLayer.getCell(x, y).getTile();
+    }
+
+    @Override
+    @Nullable
+    public Entity getEntity(int x, int y) {
+        Vector2 v = new Vector2(x, y);
+        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+            if (v.equals(entry.getValue())) {
+                return entry.getKey();
+            }
         }
-        float delta = Math.signum(direction) * zoomSensitivity;
-        zoom += delta;
-        if (zoom > maxZoom) {
-            zoom = maxZoom;
-        } else if (zoom < minZoom) {
-            zoom = minZoom;
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public TiledMapTileSets getMapTileSets() {
+        return tiledMap.getTileSets();
+    }
+
+    @Override
+    public void addEntity(@NotNull Entity entity) {
+        for (Entity knownRobot : getEntities()) {
+            if (entity.getX() == knownRobot.getX() && entity.getY() == knownRobot.getY()) {
+                throw new IllegalStateException("Cannot add an entity on top of another entity");
+            }
         }
+        //add the entity last in the array
+        entities.put(entity, new Vector2(entity.getX(), entity.getY()));
+    }
+
+    @Override
+    public boolean removeEntity(Entity entity) {
+        return entities.remove(entity) == null;
+    }
+
+    @NotNull
+    @Override
+    public Set<Entity> getEntities() {
+        return entities.keySet();
+    }
+
+    @Override
+    public boolean isOutsideBoard(int x, int y) {
+        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
+    }
+
+    @Override
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    @Override
+    public int getMapHeight() {
+        return mapHeight;
     }
 
     @Override
@@ -110,15 +175,36 @@ public class TiledMapHandler implements Disposable {
         tiledMap.dispose();
     }
 
-    /**
-     * Sets the cell to a given block
-     * @param x
-     * @param y
-     * @param i the id of the block
-     */
-    public void setCell(int x, int y, int i) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(tiledMap.getTileSets().getTile(i));
-        layer.setCell(x, y, cell);
+
+    private Vector2 setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos) {
+        if (entity.getTile() == null) {
+            return null;
+        }
+        if (isOutsideBoard(entity.getX(), entity.getY())) {
+            throw new IllegalArgumentException(
+                    "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
+        }
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
+        entityLayer.setCell(entity.getX(), entity.getY(), cell);
+
+
+        Direction dir = entity.getDirection();
+
+        int dx = (int) (entity.getX() - oldPos.x);
+        int dy = (int) (entity.getY() - oldPos.y);
+        if (dx > 0) {
+            dir = Direction.EAST;
+        } else if (dx < 0) {
+            dir = Direction.WEST;
+        } else {
+            if (dy > 0) {
+                dir = Direction.NORTH;
+            } else if (dy < 0) {
+                dir = Direction.SOUTH;
+            }
+        }
+        entity.setDirection(dir);
+
+        return new Vector2(entity.getX(), entity.getY());
     }
 }
