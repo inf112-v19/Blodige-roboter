@@ -54,9 +54,9 @@ public interface MapHandler extends Disposable {
     void zoom(int direction);
 
     /**
-     * Pan the camera around the map
+     * Move the camera around the map
      */
-    void pan(float dx, float dy);
+    void moveCamera(float dx, float dy);
 
     /**
      * @return The board tile at the given {@code (x, y)} coordinate

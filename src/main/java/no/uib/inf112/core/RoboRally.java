@@ -48,7 +48,7 @@ public class RoboRally extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        Gdx.input.setInputProcessor(new InputHandler(this));
+        Gdx.input.setInputProcessor(new InputHandler());
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         robot = new Robot(5, 5, Direction.NORTH);

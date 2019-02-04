@@ -189,7 +189,7 @@ public class TiledMapHandler implements MapHandler {
     }
 
     @Override
-    public void pan(float dx, float dy) {
+    public void moveCamera(float dx, float dy) {
         boardCamera.position.x += dx * boardCamera.zoom;
         boardCamera.position.y += dy * boardCamera.zoom;
         //TODO make sure the camera is within a reasonable distance of the board edges
