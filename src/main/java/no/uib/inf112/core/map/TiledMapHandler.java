@@ -2,7 +2,6 @@ package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -18,7 +17,6 @@ import java.util.Set;
 
 
 public class TiledMapHandler extends MapCamera {
-
 
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
@@ -37,8 +35,6 @@ public class TiledMapHandler extends MapCamera {
 
 
     /**
-     * TODO make the zoom properties be part of the map file
-     *
      * @param map The relative path from assets folder to the Tiled map file
      * @throws IllegalArgumentException if max zoom is less than min zoom
      */
@@ -54,23 +50,21 @@ public class TiledMapHandler extends MapCamera {
             throw new IllegalArgumentException("Failed to load map at '" + map + "'");
         }
 
-        for (MapLayer layer : tiledMap.getLayers()) {
-            if (!(layer instanceof TiledMapTileLayer)) {
-                throw new IllegalArgumentException(
-                        "One or more of the layer in the map " + map + " is not a TiledMapTileLayer");
-            }
-        }
-
         mapWidth = tiledMap.getProperties().get("width", int.class);
         mapHeight = tiledMap.getProperties().get("height", int.class);
         tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
         tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
-        //TODO check class cast exception
-        boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
-        if (boardLayer == null) {
-            throw new IllegalStateException("Given tiled map does not have a board layer named '" + BOARD_LAYER_NAME + "'");
+
+        TiledMapTileLayer baseLayer = null;
+        try {
+            baseLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
+        } catch (ClassCastException ignore) {
         }
+        if (baseLayer == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+        }
+        boardLayer = baseLayer;
 
         //create a new empty layer for all the robots to play on :)
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
