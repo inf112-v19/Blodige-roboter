@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class TiledMapHandler extends MapCamera implements MapHandler {
+public class TiledMapHandler extends MapCamera {
 
 
     private TiledMap tiledMap;
