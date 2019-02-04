@@ -127,4 +127,9 @@ public interface MapHandler extends Disposable {
      * @return How many tiles there are in the maps height
      */
     int getMapHeight();
+
+    /**
+     * The application window has been resized
+     */
+    void resize();
 }

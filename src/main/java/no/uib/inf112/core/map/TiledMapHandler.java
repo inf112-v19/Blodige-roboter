@@ -92,10 +92,15 @@ public class TiledMapHandler implements MapHandler {
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         boardCamera = new OrthographicCamera();
-        boardCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        resize();
 
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
+    }
+
+    @Override
+    public void resize() {
+        boardCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
