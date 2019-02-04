@@ -68,7 +68,6 @@ public class RoboRally extends Game {
         map.update(Gdx.graphics.getDeltaTime());
         map.render(batch);
 
-
         batch.end();
     }
 

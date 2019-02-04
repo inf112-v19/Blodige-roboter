@@ -36,8 +36,7 @@ public interface MapHandler extends Disposable {
     /**
      * Update the the map and the locations of all entities known to this map
      *
-     * @param delta
-     *     How long since the last frame (see {@link Graphics#getDeltaTime()}
+     * @param delta How long since the last frame (see {@link Graphics#getDeltaTime()}
      */
     void update(float delta);
 
@@ -45,11 +44,8 @@ public interface MapHandler extends Disposable {
     /**
      * Zoom in or out of the map
      *
-     * @param direction
-     *     The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
-     *
-     * @throws IllegalArgumentException
-     *     if {@code direction} is 0
+     * @param direction The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
+     * @throws IllegalArgumentException if {@code direction} is 0
      */
     void zoom(int direction);
 
@@ -60,9 +56,7 @@ public interface MapHandler extends Disposable {
 
     /**
      * @return The board tile at the given {@code (x, y)} coordinate
-     *
-     * @throws IllegalArgumentException
-     *     if the given given {@code (x, y)} coordinate is outside the map
+     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
      */
     @NotNull
     TiledMapTile getBoardLayerTile(int x, int y);
@@ -82,22 +76,16 @@ public interface MapHandler extends Disposable {
     /**
      * Add a robot to the list of robots to render
      *
-     * @param entity
-     *     The entity to add
-     *
-     * @throws IllegalArgumentException
-     *     If the the x or y is out of bounds
-     * @throws IllegalStateException
-     *     If the added entity has the name coordinates as another robot on the map
+     * @param entity The entity to add
+     * @throws IllegalArgumentException If the the x or y is out of bounds
+     * @throws IllegalStateException    If the added entity has the name coordinates as another robot on the map
      */
     void addEntity(@NotNull Entity entity);
 
     /**
      * Remove a robot from the map
      *
-     * @param entity
-     *     The robot to remove
-     *
+     * @param entity The robot to remove
      * @return If the robot was successfully removed
      */
     boolean removeEntity(@Nullable Entity entity);
@@ -109,11 +97,8 @@ public interface MapHandler extends Disposable {
     Set<Entity> getEntities();
 
     /**
-     * @param x
-     *     The x coordinate to test
-     * @param y
-     *     The y coordinate to test
-     *
+     * @param x The x coordinate to test
+     * @param y The y coordinate to test
      * @return If the given {@code x} and {@code y} is outside this map
      */
     boolean isOutsideBoard(int x, int y);

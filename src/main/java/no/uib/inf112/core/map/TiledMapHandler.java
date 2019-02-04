@@ -2,6 +2,7 @@ package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
@@ -68,13 +69,13 @@ public class TiledMapHandler implements MapHandler {
 
         if (maxZoom < minZoom) {
             throw new IllegalArgumentException(
-                "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
         }
 
         for (MapLayer layer : tiledMap.getLayers()) {
             if (!(layer instanceof TiledMapTileLayer)) {
                 throw new IllegalArgumentException(
-                    "One or more of the layer in the map " + map + " is not a TiledMapTileLayer");
+                        "One or more of the layer in the map " + map + " is not a TiledMapTileLayer");
             }
         }
 
@@ -82,7 +83,7 @@ public class TiledMapHandler implements MapHandler {
         //TODO check class cast exception
         boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
         if (boardLayer == null) {
-            throw new IllegalStateException("Given tiled map does not have a board layer named " + BOARD_LAYER_NAME);
+            throw new IllegalStateException("Given tiled map does not have a board layer named '" + BOARD_LAYER_NAME + "'");
         }
 
         //create a new empty layer for all the robots to play on :)
@@ -119,7 +120,7 @@ public class TiledMapHandler implements MapHandler {
         }
         //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            if(entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y){
+            if (entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y) {
                 continue;
             }
 
@@ -204,8 +205,7 @@ public class TiledMapHandler implements MapHandler {
         boardCamera.zoom += delta;
         if (boardCamera.zoom > maxZoom) {
             boardCamera.zoom = maxZoom;
-        }
-        else if (boardCamera.zoom < minZoom) {
+        } else if (boardCamera.zoom < minZoom) {
             boardCamera.zoom = minZoom;
         }
     }
@@ -218,10 +218,12 @@ public class TiledMapHandler implements MapHandler {
 
 
     private Vector2 setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos) {
-        if (entity.getTile() == null) { return null; }
+        if (entity.getTile() == null) {
+            return null;
+        }
         if (isOutsideBoard(entity.getX(), entity.getY())) {
             throw new IllegalArgumentException(
-                "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
+                    "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
         }
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
         entityLayer.setCell(entity.getX(), entity.getY(), cell);
@@ -231,11 +233,11 @@ public class TiledMapHandler implements MapHandler {
 
         int dx = (int) (entity.getX() - oldPos.x);
         int dy = (int) (entity.getY() - oldPos.y);
-        if(dx > 0){
+        if (dx > 0) {
             dir = Direction.EAST;
-        }else if(dx < 0 ){
+        } else if (dx < 0) {
             dir = Direction.WEST;
-        }else {
+        } else {
             if (dy > 0) {
                 dir = Direction.NORTH;
             } else if (dy < 0) {
@@ -244,6 +246,6 @@ public class TiledMapHandler implements MapHandler {
         }
         entity.setDirection(dir);
 
-        return new Vector2(entity.getX(),entity.getY());
+        return new Vector2(entity.getX(), entity.getY());
     }
 }
