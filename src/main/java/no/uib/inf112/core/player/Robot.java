@@ -1,9 +1,10 @@
-package no.uib.inf112.player;
+package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.TiledMapHandler;
 
 public class Robot {
     private int x, y;
+    private TiledMapHandler handler;
 
     /**
      * @param x
@@ -14,6 +15,7 @@ public class Robot {
         this.x = x;
         this.y = y;
 
+        this.handler = handler;
         handler.setCell(x, y, 1);
     }
 
