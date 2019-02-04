@@ -6,6 +6,6 @@ public class MapCameraTest {
 
     @Test
     public void moveCameratest() {
-
+        
     }
 }
