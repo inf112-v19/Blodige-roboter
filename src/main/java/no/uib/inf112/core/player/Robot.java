@@ -27,7 +27,7 @@ public class Robot implements Entity {
         if (direction == null) throw new IllegalArgumentException("Given direction can not be null");
         this.direction = direction;
 
-        //TODO make this standardized (as parameters? as constants?)
+        //TODO #Issue 32: make this standardized (as parameters? as constants?)
         tile = RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(106);
         if (tile == null) {
             throw new IllegalStateException("Failed to find robot tile");

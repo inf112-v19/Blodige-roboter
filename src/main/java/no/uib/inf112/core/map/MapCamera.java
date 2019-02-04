@@ -9,10 +9,10 @@ public abstract class MapCamera implements MapHandler {
     private float maxZoom;
     private float minZoom;
 
-    private  OrthographicCamera camera;
+    private OrthographicCamera camera;
 
-    public MapCamera(){
-        Gdx.app.postRunnable(()->{
+    public MapCamera() {
+        Gdx.app.postRunnable(() -> {
             camera = new OrthographicCamera();
             resize();
 
@@ -24,8 +24,9 @@ public abstract class MapCamera implements MapHandler {
 
             if (maxZoom < minZoom) {
                 throw new IllegalArgumentException(
-                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
-        }});
+                        "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+            }
+        });
     }
 
     @Override
@@ -51,12 +52,12 @@ public abstract class MapCamera implements MapHandler {
     public void moveCamera(float dx, float dy) {
         camera.position.x += dx * camera.zoom;
         camera.position.y += dy * camera.zoom;
-        //TODO make sure the camera is within a reasonable distance of the board edges
+        //TODO Issue 34: make sure the camera is within a reasonable distance of the board edges
     }
 
     @Override
     public void resize() {
-        if(camera == null) return;
+        if (camera == null) return;
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }

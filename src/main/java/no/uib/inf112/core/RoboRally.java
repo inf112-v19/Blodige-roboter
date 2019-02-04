@@ -30,7 +30,7 @@ public class RoboRally extends Game {
     private static TiledMapHandler map;
     private OrthographicCamera camera; //use this for UI
 
-    //FIXME create a robot handler that handles all the players (as we can have between 2 and N robots)
+    //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
     private Robot robot;
     private Robot robot2;
 
