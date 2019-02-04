@@ -1,10 +1,9 @@
 package no.uib.inf112.core.map;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,10 +17,9 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class TiledMapHandler implements MapHandler {
+public class TiledMapHandler extends MapCamera implements MapHandler {
 
 
-    private final OrthographicCamera boardCamera;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
 
@@ -37,10 +35,6 @@ public class TiledMapHandler implements MapHandler {
     private int tileWidth;
     private int tileHeight;
 
-    private float zoomSensitivity;
-    private float maxZoom;
-    private float minZoom;
-
 
     /**
      * TODO make the zoom properties be part of the map file
@@ -49,6 +43,8 @@ public class TiledMapHandler implements MapHandler {
      * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
+        super();
+
         try {
             TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
             params.textureMagFilter = Texture.TextureFilter.Linear;
@@ -58,20 +54,6 @@ public class TiledMapHandler implements MapHandler {
             throw new IllegalArgumentException("Failed to load map at '" + map + "'");
         }
 
-        mapWidth = tiledMap.getProperties().get("width", int.class);
-        mapHeight = tiledMap.getProperties().get("height", int.class);
-        tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
-        tileHeight = tiledMap.getProperties().get("tileheight", int.class);
-
-        zoomSensitivity = tiledMap.getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
-        maxZoom = tiledMap.getProperties().get(MAX_ZOOM_PATH, DEFAULT_MAX_ZOOM, float.class);
-        minZoom = tiledMap.getProperties().get(MIN_ZOOM_PATH, DEFAULT_MIN_ZOOM, float.class);
-
-        if (maxZoom < minZoom) {
-            throw new IllegalArgumentException(
-                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
-        }
-
         for (MapLayer layer : tiledMap.getLayers()) {
             if (!(layer instanceof TiledMapTileLayer)) {
                 throw new IllegalArgumentException(
@@ -79,6 +61,10 @@ public class TiledMapHandler implements MapHandler {
             }
         }
 
+        mapWidth = tiledMap.getProperties().get("width", int.class);
+        mapHeight = tiledMap.getProperties().get("height", int.class);
+        tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
+        tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
         //TODO check class cast exception
         boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
@@ -92,23 +78,17 @@ public class TiledMapHandler implements MapHandler {
 
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        boardCamera = new OrthographicCamera();
-        resize();
-
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
+
     }
 
-    @Override
-    public void resize() {
-        boardCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
 
     @Override
     public void render(@NotNull Batch batch) {
-        boardCamera.update();
-        batch.setProjectionMatrix(boardCamera.combined);
-        renderer.setView(boardCamera);
+        getCamera().update();
+        batch.setProjectionMatrix(getCamera().combined);
+        renderer.setView(getCamera());
         renderer.render();
     }
 
@@ -126,6 +106,12 @@ public class TiledMapHandler implements MapHandler {
 
             entry.setValue(setEntityOnBoard(entry.getKey(), entry.getValue()));
         }
+    }
+
+
+    @Override
+    public MapProperties getProperties() {
+        return tiledMap.getProperties();
     }
 
     @NotNull
@@ -187,27 +173,6 @@ public class TiledMapHandler implements MapHandler {
     @Override
     public int getMapHeight() {
         return mapHeight;
-    }
-
-    @Override
-    public void moveCamera(float dx, float dy) {
-        boardCamera.position.x += dx * boardCamera.zoom;
-        boardCamera.position.y += dy * boardCamera.zoom;
-        //TODO make sure the camera is within a reasonable distance of the board edges
-    }
-
-    @Override
-    public void zoom(int direction) {
-        if (direction == 0) {
-            throw new IllegalArgumentException("Zoom direction cannot be 0");
-        }
-        float delta = Math.signum(direction) * zoomSensitivity;
-        boardCamera.zoom += delta;
-        if (boardCamera.zoom > maxZoom) {
-            boardCamera.zoom = maxZoom;
-        } else if (boardCamera.zoom < minZoom) {
-            boardCamera.zoom = minZoom;
-        }
     }
 
     @Override

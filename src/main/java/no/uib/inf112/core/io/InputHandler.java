@@ -8,7 +8,7 @@ public class InputHandler extends InputAdapter {
 
     @Override
     public boolean scrolled(int direction) {
-        RoboRally.getCurrentMap().zoom(direction);
+        RoboRally.getCurrentMap().zoomCamera(direction);
         return true;
     }
 

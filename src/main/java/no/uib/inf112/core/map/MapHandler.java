@@ -1,7 +1,9 @@
 package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Disposable;
@@ -25,6 +27,7 @@ public interface MapHandler extends Disposable {
     String MAX_ZOOM_PATH = "maxzoom";
     String MIN_ZOOM_PATH = "minzoom";
 
+
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
 
@@ -45,14 +48,21 @@ public interface MapHandler extends Disposable {
      * Zoom in or out of the map
      *
      * @param direction The direction to zoom, if not 1 or -1 {@link Math#signum(float)} is used to get the direction
-     * @throws IllegalArgumentException if {@code direction} is 0
      */
-    void zoom(int direction);
+    void zoomCamera(int direction);
+
 
     /**
      * Move the camera around the map
      */
     void moveCamera(float dx, float dy);
+
+    /**
+     * @return The current position of the board camera
+     */
+    OrthographicCamera getCamera();
+
+    MapProperties getProperties();
 
     /**
      * @return The board tile at the given {@code (x, y)} coordinate
