@@ -1,4 +1,4 @@
-package no.uib.inf112.desktop;
+package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -6,11 +6,11 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Clipboard;
-import no.uib.inf112.core.map.MapCamera;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Set;
@@ -19,10 +19,9 @@ import static junit.framework.TestCase.assertEquals;
 
 public class MapCameraTest {
     private MapCamera c;
-    private HeadlessLauncher l;
-    private static int N = 100;
 
-    static {
+    @BeforeClass
+    public static void initiateApp() {
 
         Gdx.app = new Application() {
             @Override
@@ -160,7 +159,6 @@ public class MapCameraTest {
 
     @Before
     public void init() {
-        l = new HeadlessLauncher();
         c = new MapCamera() {
 
             @Override
