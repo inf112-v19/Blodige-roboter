@@ -1,6 +1,6 @@
 package no.uib.inf112.core.player;
 
-public class Card {
+public class ProgramCard {
 
     private final Movement ACTION;
     private final int PRIORITY;
@@ -9,7 +9,7 @@ public class Card {
      * @param action The movement the card will impose
      * @param priority The unique priority of the card
      */
-    public Card(Movement action, int priority) {
+    public ProgramCard(Movement action, int priority) {
         this.ACTION = action;
         this.PRIORITY = priority;
     }
