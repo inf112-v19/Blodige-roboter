@@ -13,6 +13,17 @@ public class InputHandler extends InputAdapter {
     }
 
     @Override
+    public boolean keyTyped(char character) {
+        if (character == '+') {
+            RoboRally.getCurrentMap().zoomCamera(-1);
+        } else if (character == '-') {
+            RoboRally.getCurrentMap().zoomCamera(1);
+        }
+        return true;
+    }
+
+    
+    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         RoboRally.getCurrentMap().moveCamera(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
         return true;
