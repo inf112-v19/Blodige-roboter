@@ -246,14 +246,14 @@ public class MapCameraTest {
     }
 
     @Test
-    public void moveCameraTest1() {
+    public void moveCameraChangesXandYposition() {
         c.moveCamera(1000, 1000);
         assertEquals(1000f, c.getCamera().position.x);
         assertEquals(1000f, c.getCamera().position.y);
     }
 
     @Test
-    public void moveCameraTest2() {
+    public void moveCameraTwoTimesTest() {
         c.moveCamera(-1000, -1000);
         assertEquals(-1000f, c.getCamera().position.x);
         assertEquals(-1000f, c.getCamera().position.y);
@@ -264,19 +264,19 @@ public class MapCameraTest {
     }
 
     @Test
-    public void zoomTest1() {
+    public void zoomZeroDoesNotZoom() {
         c.zoomCamera(0);
         assertEquals(c.DEFAULT_MIN_ZOOM, c.getCamera().zoom);
     }
 
     @Test
-    public void zoomTest2() {
+    public void zoomOneTimeZoomsOnce() {
         c.zoomCamera(1);
         assertEquals(c.DEFAULT_MIN_ZOOM + c.DEFAULT_ZOOM_SENSITIVITY, c.getCamera().zoom);
     }
 
     @Test
-    public void zoomTest3() {
+    public void zoomNineTimesZoomsCorrect() {
         for (int i = 1; i <= 9; i++) {
             float zoom = c.getCamera().zoom;
             c.zoomCamera(54);
@@ -285,7 +285,7 @@ public class MapCameraTest {
     }
 
     @Test
-    public void zoomTest4() {
+    public void zoomOverMaxResultsInMaxZoom() {
         for (int i = 0; i < 50; i++) {
             c.zoomCamera(30);
         }
@@ -293,7 +293,7 @@ public class MapCameraTest {
     }
 
     @Test
-    public void zoomTest5() {
+    public void zoomZeroManyTimesDoesNotZoom() {
         for (int i = 0; i < 20; i++) {
             c.zoomCamera(0);
             assertEquals(c.DEFAULT_MIN_ZOOM, c.getCamera().zoom);
@@ -301,7 +301,7 @@ public class MapCameraTest {
     }
 
     @Test
-    public void zoomTest6() {
+    public void zoomInDoesNotZoomOverMinzoom() {
         for (int i = 0; i < 20; i++) {
             c.zoomCamera(-50);
             assertEquals(c.DEFAULT_MIN_ZOOM, c.getCamera().zoom);
