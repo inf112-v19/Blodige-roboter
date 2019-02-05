@@ -60,4 +60,14 @@ public class Robot implements Entity {
     public int getY() {
         return y;
     }
+
+    /**
+     * Move the robot to given coorinates
+     * @param newX
+     * @param newY
+     *
+     */
+    public void move(int newX, int newY) {
+        //TODO
+    }
 }
