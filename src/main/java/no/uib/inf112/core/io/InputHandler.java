@@ -13,19 +13,17 @@ public class InputHandler extends InputAdapter {
     }
 
     @Override
-    public boolean keyTyped(char c) {
-        //EQUALS Button an american keyboard maps to a Norwegian PLUS (ie the button left of 0)
-        int delta = 0;
-        if (c == '=' || c == '+') {
-            delta -= 1;
-        } else if (c == '-') {
-            delta += 1;
+    public boolean keyTyped(char character) {
+        if (character == '+') {
+            RoboRally.getCurrentMap().zoomCamera(-1);
+        } else if (character == '-') {
+            RoboRally.getCurrentMap().zoomCamera(1);
         } else {
             return false;
         }
-        RoboRally.getCurrentMap().zoomCamera(delta);
         return true;
     }
+
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
