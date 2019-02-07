@@ -88,17 +88,18 @@ public class TiledMapHandler extends MapCamera {
 
     @Override
     public void update(float delta) {
-        //remove all known entity sprites
-        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            entityLayer.setCell((int) entry.getValue().x, (int) entry.getValue().y, null);
-        }
         //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            if (entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y) {
+            Entity entity = entry.getKey();
+            Vector2 lastPos = entry.getValue();
+            if (lastPos == null) {
+                lastPos = new Vector2(entity.getX(), entity.getY());
+            } else if (entity.getX() == lastPos.x && entity.getY() == lastPos.y) {
                 continue;
             }
 
-            entry.setValue(setEntityOnBoard(entry.getKey(), entry.getValue()));
+            entityLayer.setCell((int) lastPos.x, (int) lastPos.y, null);
+            entry.setValue(setEntityOnBoard(entity, lastPos));
         }
     }
 
@@ -140,7 +141,7 @@ public class TiledMapHandler extends MapCamera {
             }
         }
         //add the entity last in the array
-        entities.put(entity, new Vector2(entity.getX(), entity.getY()));
+        entities.put(entity, null);
     }
 
     @Override
