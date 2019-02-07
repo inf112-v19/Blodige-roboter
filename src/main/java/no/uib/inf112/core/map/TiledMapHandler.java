@@ -88,17 +88,24 @@ public class TiledMapHandler extends MapCamera {
 
     @Override
     public void update(float delta) {
-        //remove all known entity sprites
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            entityLayer.setCell((int) entry.getValue().x, (int) entry.getValue().y, null);
-        }
-        //set new pos
-        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            if (entry.getKey().getX() == entry.getValue().x && entry.getKey().getY() == entry.getValue().y) {
+
+            //make sure the new x and y are always consistent
+            int x = entry.getKey().getX();
+            int y = entry.getKey().getY();
+            Vector2 lastPos = entry.getValue();
+
+            if (lastPos == null) {
+                lastPos = new Vector2(x, y);
+                entry.setValue(lastPos);
+            } else if (x == lastPos.x && y == lastPos.y) {
+                //do not update if there is no change
                 continue;
             }
 
-            entry.setValue(setEntityOnBoard(entry.getKey(), entry.getValue()));
+            entityLayer.setCell((int) lastPos.x, (int) lastPos.y, null);
+            setEntityOnBoard(entry.getKey(), lastPos, x, y);
+
         }
     }
 
@@ -139,8 +146,7 @@ public class TiledMapHandler extends MapCamera {
                 throw new IllegalStateException("Cannot add an entity on top of another entity");
             }
         }
-        //add the entity last in the array
-        entities.put(entity, new Vector2(entity.getX(), entity.getY()));
+        entities.put(entity, null);
     }
 
     @Override
@@ -176,22 +182,30 @@ public class TiledMapHandler extends MapCamera {
     }
 
 
-    private Vector2 setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos) {
+    /**
+     * Draw an entity on the entity layer
+     *
+     * @param entity The entity to draw
+     * @param oldPos The last known position
+     * @param x      The new x, provided as a parameter to make this thread safe
+     * @param y      The new y, provided as a parameter to make this thread safe
+     */
+    private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
         if (entity.getTile() == null) {
-            return null;
+            return;
         }
-        if (isOutsideBoard(entity.getX(), entity.getY())) {
+        if (isOutsideBoard(x, y)) {
             throw new IllegalArgumentException(
-                    "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
+                    "Given location (" + x + ", " + y + ") is out of bounds");
         }
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
-        entityLayer.setCell(entity.getX(), entity.getY(), cell);
+        entityLayer.setCell(x, y, cell);
 
 
         Direction dir = entity.getDirection();
 
-        int dx = (int) (entity.getX() - oldPos.x);
-        int dy = (int) (entity.getY() - oldPos.y);
+        float dx = x - oldPos.x;
+        float dy = y - oldPos.y;
         if (dx > 0) {
             dir = Direction.EAST;
         } else if (dx < 0) {
@@ -205,6 +219,7 @@ public class TiledMapHandler extends MapCamera {
         }
         entity.setDirection(dir);
 
-        return new Vector2(entity.getX(), entity.getY());
+        oldPos.x = x;
+        oldPos.y = y;
     }
 }
