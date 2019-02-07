@@ -2,6 +2,7 @@ package no.uib.inf112.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,6 +12,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -34,6 +36,10 @@ public class RoboRally extends Game {
     private Robot robot;
     private Robot robot2;
 
+    InputMultiplexer inputMultiplexer;
+
+    UIHandler uiHandler;
+
 
     /**
      * @return The current map in play
@@ -48,7 +54,13 @@ public class RoboRally extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        Gdx.input.setInputProcessor(new InputHandler());
+        inputMultiplexer = new InputMultiplexer();
+
+        uiHandler = new UIHandler();
+        inputMultiplexer.addProcessor(uiHandler.getStage());
+        inputMultiplexer.addProcessor(new InputHandler());
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         robot = new Robot(5, 5, Direction.NORTH);
@@ -67,6 +79,8 @@ public class RoboRally extends Game {
 
         map.update(Gdx.graphics.getDeltaTime());
         map.render(batch);
+
+        uiHandler.update();
 
         batch.end();
     }
