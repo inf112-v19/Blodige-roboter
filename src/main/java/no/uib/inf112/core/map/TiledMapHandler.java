@@ -91,15 +91,19 @@ public class TiledMapHandler extends MapCamera {
         //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
             Entity entity = entry.getKey();
+            int x = entity.getX();
+            int y = entity.getY();
             Vector2 lastPos = entry.getValue();
             if (lastPos == null) {
-                lastPos = new Vector2(entity.getX(), entity.getY());
-            } else if (entity.getX() == lastPos.x && entity.getY() == lastPos.y) {
+                lastPos = new Vector2(x, y);
+                entry.setValue(lastPos);
+            } else if (x == lastPos.x && y == lastPos.y) {
                 continue;
             }
 
             entityLayer.setCell((int) lastPos.x, (int) lastPos.y, null);
-            entry.setValue(setEntityOnBoard(entity, lastPos));
+            setEntityOnBoard(entity, lastPos, x, y);
+
         }
     }
 
@@ -177,22 +181,22 @@ public class TiledMapHandler extends MapCamera {
     }
 
 
-    private Vector2 setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos) {
+    private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
         if (entity.getTile() == null) {
-            return null;
+            return;
         }
-        if (isOutsideBoard(entity.getX(), entity.getY())) {
+        if (isOutsideBoard(x, y)) {
             throw new IllegalArgumentException(
-                    "Given location (" + entity.getX() + ", " + entity.getY() + ") is out of bounds");
+                    "Given location (" + x + ", " + y + ") is out of bounds");
         }
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
-        entityLayer.setCell(entity.getX(), entity.getY(), cell);
+        entityLayer.setCell(x, y, cell);
 
 
         Direction dir = entity.getDirection();
 
-        int dx = (int) (entity.getX() - oldPos.x);
-        int dy = (int) (entity.getY() - oldPos.y);
+        float dx = x - oldPos.x;
+        float dy = y - oldPos.y;
         if (dx > 0) {
             dir = Direction.EAST;
         } else if (dx < 0) {
@@ -206,6 +210,7 @@ public class TiledMapHandler extends MapCamera {
         }
         entity.setDirection(dir);
 
-        return new Vector2(entity.getX(), entity.getY());
+        oldPos.x = x;
+        oldPos.y = y;
     }
 }
