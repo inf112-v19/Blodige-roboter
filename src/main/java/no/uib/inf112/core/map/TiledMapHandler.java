@@ -88,21 +88,23 @@ public class TiledMapHandler extends MapCamera {
 
     @Override
     public void update(float delta) {
-        //set new pos
         for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
-            Entity entity = entry.getKey();
-            int x = entity.getX();
-            int y = entity.getY();
+
+            //make sure the new x and y are always consistent
+            int x = entry.getKey().getX();
+            int y = entry.getKey().getY();
             Vector2 lastPos = entry.getValue();
+
             if (lastPos == null) {
                 lastPos = new Vector2(x, y);
                 entry.setValue(lastPos);
             } else if (x == lastPos.x && y == lastPos.y) {
+                //do not update if there is no change
                 continue;
             }
 
             entityLayer.setCell((int) lastPos.x, (int) lastPos.y, null);
-            setEntityOnBoard(entity, lastPos, x, y);
+            setEntityOnBoard(entry.getKey(), lastPos, x, y);
 
         }
     }
@@ -144,7 +146,6 @@ public class TiledMapHandler extends MapCamera {
                 throw new IllegalStateException("Cannot add an entity on top of another entity");
             }
         }
-        //add the entity last in the array
         entities.put(entity, null);
     }
 
@@ -181,6 +182,14 @@ public class TiledMapHandler extends MapCamera {
     }
 
 
+    /**
+     * Draw an entity on the entity layer
+     *
+     * @param entity The entity to draw
+     * @param oldPos The last known position
+     * @param x      The new x, provided as a parameter to make this thread safe
+     * @param y      The new y, provided as a parameter to make this thread safe
+     */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
         if (entity.getTile() == null) {
             return;
