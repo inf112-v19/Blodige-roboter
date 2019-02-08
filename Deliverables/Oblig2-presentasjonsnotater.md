@@ -1,8 +1,9 @@
-Før inn det rikke har skrevet i oblig2.md
+* We have decided to not follow one specific project methodology, but to pick elements we likefrom all of them. We are using a board inspired by both Scrum and Kanban to organize ourtasks. The board doesn’t have limitations to how many tasks can be in each column of theboard (Scrum), and we are also able to add tasks to the ToDo-column as they come up and notonly at the end of the iteration (Kanban).When a task is created and assigned to a group member (the developper), anothergroup member is also assigned to the task to write tests. We wanted to do it this way so thatyou don’t write tests for your own code, but your code has to pass someone elses tests. Anotherbenefit is that there are always two pairs of eyes to look for bugs in the code which will(hopefully) prevent most of the bugs from slipping through the testing phase. In addition wewant every push to master to go through a push request that has to be reviewed and acceptedby a third group member. The reviewer will read through the push request and check the coderuns without bugs on his/her computer. If the reviewer finds bugs, ugly code, lackingdocumentation, etc. (s)he won’t fix the problems, but comment in the push request what needsto be fixed and it’s the developers and testers responsibility to read the comment, fix whatneeds to be fixed and ask for a new review.We want to have two meetings per week (one meeting in addition to the group session).The organization of where and when will be done either at the previous meeting, or on Slack. Atmeetings we start with our version of the Scrum “standup”. We will also define tasks and assignthem, redefine and reassign tasks if necessary, and discuss any issues team members mighthave. The team leader (Kristian) is responsible for creating a meeting agenda, but all teammembers can add things they want to discuss to the agenda. In the project wiki we will postnotes of what has been discussed at every meeting.We are aware of the amount of bureaucracy we have prescribed, but we think this will bebeneficial to the project flow and code quality. If we at some point during the process realise thatour method isn’t efficient we will adapt, as both Kanban and Scrum prescribes!
+* Testing: 1 developer that implements, someone else makes tests
 
 Teknisk
 - Tiled
 - Annotations
 
-Demo av spillet?
-Hvilke funksjoner har vi?
+Demo av spillet
+Bilde av klassediagram, snakke om flyt og hva som beveger på hva

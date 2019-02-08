@@ -46,6 +46,7 @@
 * Github wiki (documentation)
 * Tiled (dependency)
 * Annotations from jetbrains
+* JUnit
 
 # Task 2
 
