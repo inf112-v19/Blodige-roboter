@@ -1,7 +1,5 @@
 # INF112 RoboRally
 
+This is the repository for the inf112-v19 group blodige roboter, to run the application see [Run with Intellij}](https://github.com/inf112-v19/Blodige-roboter/wiki/Other_Run-with-IntelliJ)
 
-## Known bugs
-Currently throws "WARNING: An illegal reflective access operation has occurred", 
-when the java version used is >8. This has no effect on function or performance, and is just a warning.
-
+All other information should be available from the wiki
