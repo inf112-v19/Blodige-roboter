@@ -36,9 +36,9 @@ public class RoboRally extends Game {
     private Robot robot;
     private Robot robot2;
 
-    InputMultiplexer inputMultiplexer;
+    private InputMultiplexer inputMultiplexer;
 
-    UIHandler uiHandler;
+    private UIHandler uiHandler;
 
 
     /**
