@@ -16,6 +16,7 @@ import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Random;
 
 public class RoboRally extends Game {
 
@@ -56,7 +57,7 @@ public class RoboRally extends Game {
 
         inputMultiplexer = new InputMultiplexer();
 
-        uiHandler = new UIHandler();
+        uiHandler = new UIHandler(this);
         inputMultiplexer.addProcessor(uiHandler.getStage());
         inputMultiplexer.addProcessor(new InputHandler());
 
@@ -97,5 +98,13 @@ public class RoboRally extends Game {
     public void resize(int width, int height) {
         super.resize(width, height);
         map.resize();
+    }
+
+    public void move() {
+        try {
+            robot.move(-1, 0);
+        } catch (IllegalArgumentException ex) {
+            robot.move(5, 0);
+        }
     }
 }
