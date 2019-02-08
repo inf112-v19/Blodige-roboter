@@ -8,13 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import no.uib.inf112.core.RoboRally;
 
 
 public class UIHandler {
 
     private Stage stage;
+    private RoboRally roboRally;
 
-    public UIHandler(){
+    public UIHandler(RoboRally roboRally){
+        this.roboRally = roboRally;
         stage = new Stage(new ScreenViewport());
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = new BitmapFont();
@@ -23,7 +26,7 @@ public class UIHandler {
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                button.setText("uaaa");
+                roboRally.round(); // user has placed his "cards"
             }
         });
 

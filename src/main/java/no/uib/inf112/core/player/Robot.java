@@ -62,12 +62,19 @@ public class Robot implements Entity {
     }
 
     /**
-     * Move the robot to given coorinates
-     * @param newX
-     * @param newY
-     *
+     * Move the robot with given delta to new coordinates
+     * @param deltaX
+     * @param deltaY
      */
-    public void move(int newX, int newY) {
-        //TODO
+    public void move(int deltaX, int deltaY) {
+        //If sentence is while we are doing it simple as can be to avoid exception with click on the button
+        //Fixme #44
+        if(deltaX+x < 0) {
+            this.x = 5;
+            return;
+        }
+        this.x = x+deltaX;
+        this.y = y+deltaY;
+
     }
 }
