@@ -16,12 +16,13 @@ import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Random;
+
+import static java.lang.Thread.sleep;
 
 public class RoboRally extends Game {
 
     public static final String MAP_FOLDER = "maps";
-
+    public static final int PHASES_PER_ROUND = 5;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
@@ -36,6 +37,8 @@ public class RoboRally extends Game {
     //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
     private Robot robot;
     private Robot robot2;
+
+    private boolean waitingForUser;
 
     private InputMultiplexer inputMultiplexer;
 
@@ -66,9 +69,32 @@ public class RoboRally extends Game {
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         robot = new Robot(5, 5, Direction.NORTH);
         robot2 = new Robot(1, 1, Direction.SOUTH);
+
+
+        //Setup done, waiting for user(s) to pick cards
+        waitingForUser = true;
     }
 
+    public void round(){
+        waitingForUser = false;
+        for (int i = 0; i < PHASES_PER_ROUND; i++) {
+            // Decide which robot moves
+            // Move robots in order
+            move();
+            System.out.println("moved!");
+            // End of robot movement
 
+            // Activate lasers
+
+            // Move rotation gears
+
+            // Move assembly lines
+
+            //Should wait some time
+        }
+        waitingForUser=true;
+        //User plans next round
+    }
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
