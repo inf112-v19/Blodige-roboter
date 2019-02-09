@@ -17,8 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-import static java.lang.Thread.sleep;
-
 public class RoboRally extends Game {
 
     public static final String MAP_FOLDER = "maps";
@@ -75,7 +73,7 @@ public class RoboRally extends Game {
         waitingForUser = true;
     }
 
-    public void round(){
+    public void round() {
         waitingForUser = false;
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             // Decide which robot moves
@@ -92,13 +90,14 @@ public class RoboRally extends Game {
 
             //Should wait some time
         }
-        waitingForUser=true;
+        waitingForUser = true;
         //User plans next round
     }
+
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+                       (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
         super.render();
 
@@ -124,6 +123,7 @@ public class RoboRally extends Game {
     public void resize(int width, int height) {
         super.resize(width, height);
         map.resize();
+        uiHandler.resize();
     }
 
     public void move() {
