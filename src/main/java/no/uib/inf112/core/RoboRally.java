@@ -3,7 +3,6 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +12,8 @@ import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.ui.UIHandler;
+import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
+import no.uib.inf112.core.ui.event.TestListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -28,8 +29,6 @@ public class RoboRally extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
 
-
-    private static AssetManager assetManager = new AssetManager();
     private static TiledMapHandler map;
 
     //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
@@ -40,6 +39,7 @@ public class RoboRally extends Game {
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
+    private static ControlPanelEventHandler cpEventHandler;
 
     @Override
     public void create() {
@@ -56,9 +56,9 @@ public class RoboRally extends Game {
         robot = new Robot(5, 5, Direction.NORTH);
         robot2 = new Robot(1, 1, Direction.SOUTH);
 
-        //wait for all assets to load
-        assetManager.finishLoading();
+        cpEventHandler = new ControlPanelEventHandler();
 
+        new TestListener();
     }
 
     public static void round() {
@@ -129,11 +129,12 @@ public class RoboRally extends Game {
         return map;
     }
 
-    public static AssetManager getAssetManager() {
-        return assetManager;
-    }
-
+    @NotNull
     public static InputMultiplexer getInputMultiplexer() {
         return inputMultiplexer;
+    }
+
+    public static ControlPanelEventHandler getControlPanelEventHandler() {
+        return cpEventHandler;
     }
 }
