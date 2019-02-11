@@ -13,7 +13,6 @@ import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
-import no.uib.inf112.core.ui.event.TestListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -58,7 +57,16 @@ public class RoboRally extends Game {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-        new TestListener();
+//        RoboRally.getControlPanelEventHandler().registerListener(CardClickedEvent.class,
+//                                                                 (ControlPanelEventListener<CardClickedEvent>)
+//                                                                 event -> System.out
+//                                                                     .println("Clicked card nr " + event.getId()));
+//
+//
+//        RoboRally.getControlPanelEventHandler().registerListener(PowerDownEvent.class,
+//                                                                 (ControlPanelEventListener<PowerDownEvent>) event
+//                                                                 -> System.out
+//                                                                     .println("Clicked power down!"));
     }
 
     public static void round() {
