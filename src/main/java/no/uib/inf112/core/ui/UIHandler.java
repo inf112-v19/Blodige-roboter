@@ -151,7 +151,7 @@ public class UIHandler implements Disposable {
                 Card card = RoboRally.player.getCards().get(id);
                 button.setText(card.getPriority() + "\n" + card.getAction().name());
                 button.getLabelCell().padLeft(-textureRegion.getRegionWidth()); //make sure the tex is with in the card
-                return true;
+                return false;
             }
         });
 
