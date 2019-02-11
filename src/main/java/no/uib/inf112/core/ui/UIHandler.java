@@ -77,7 +77,7 @@ public class UIHandler implements Disposable {
         stage = new Stage(new ScreenViewport());
         RoboRally.getInputMultiplexer().addProcessor(stage);
 
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
 
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
         table = new Table(skin);
