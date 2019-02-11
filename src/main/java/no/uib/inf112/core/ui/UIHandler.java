@@ -62,7 +62,7 @@ public class UIHandler implements Disposable {
         stage = new Stage(new ScreenViewport());
         RoboRally.getInputMultiplexer().addProcessor(stage);
 
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
 
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
         table = new Table(skin);
@@ -77,10 +77,11 @@ public class UIHandler implements Disposable {
      */
     private void create() {
 
+        table.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        table.padLeft(50);
+        table.padRight(50);
         stage.addActor(table);
         table.setTransform(false);
-
-//        table.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
 
         Table topRow = new Table(skin);
         table.add(topRow).expandX().fillX().align(Align.center);
@@ -122,8 +123,11 @@ public class UIHandler implements Disposable {
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        table.setX(Gdx.graphics.getWidth() / 2f);
         table.setHeight(table.getPrefHeight() + 25);
+
+        table.setWidth(table.getPrefWidth());
+        table.setX(Gdx.graphics.getWidth() / 2f - table.getPrefWidth() / 2);
+        table.setY(5);
     }
 
     @Override
