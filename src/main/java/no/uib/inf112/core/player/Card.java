@@ -6,7 +6,7 @@ public class Card {
     private final int PRIORITY;
 
     /**
-     * @param action The movement the card will impose
+     * @param action   The movement the card will impose
      * @param priority The unique priority of the card
      */
     public Card(Movement action, int priority) {

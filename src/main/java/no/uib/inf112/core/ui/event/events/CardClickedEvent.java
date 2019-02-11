@@ -9,10 +9,16 @@ public class CardClickedEvent implements ControlPanelEvent {
 
     private final int id;
 
+    /**
+     * @param id id of card on screen
+     */
     public CardClickedEvent(int id) {
         this.id = id;
     }
 
+    /**
+     * @return The identification of the card clicked
+     */
     public int getId() {
         return id;
     }

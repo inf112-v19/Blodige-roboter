@@ -6,18 +6,16 @@ import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.CardClickedEvent;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Elg
  */
 public class Player {
 
-    private static final int MAX_LIVES = 3;
-    private static final int MAX_HEALTH = 10;
+    public static final int MAX_LIVES = 3;
+    public static final int MAX_HEALTH = 10;
+    public static final int MAX_PLAYER_CARDS = 5;
 
     private Robot robot;
     private Deck deck;
@@ -32,12 +30,20 @@ public class Player {
 
     private Card[] cards;
 
-    public Player(int x, int y, Direction direction) {
+    /**
+     * @param x         Start x position
+     * @param y         Start y position
+     * @param direction Start direction
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
+     */
+    public Player(int x, int y, @NotNull Direction direction) {
 
         robot = new Robot(x, y, direction);
         deck = new Deck();
-        //initially have 5 cards
-        cards = deck.draw(5);
+
+        //TODO make player choose his cards
+        cards = deck.draw(MAX_PLAYER_CARDS);
 
         backup = new Vector2Int(x, y);
 
@@ -46,39 +52,35 @@ public class Player {
         poweredDown = false;
         alive = true;
 
-        ControlPanelEventHandler eventHandler = RoboRally.getControlPanelEventHandler();
+        ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
         eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
             poweredDown = !poweredDown;
-            System.out.println("Powered down? " + poweredDown);
+            System.out.println("Powered down? " + isPoweredDown());
         });
 
         eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
-            System.out.println("Clicked card " + event.getId());
-            System.out.println("movement = " + cards[event.getId()].getAction());
+            System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
             robot.move(cards[event.getId()].getAction());
         });
     }
 
     public void doTurn() {
+        //TODO check if dead
+        //TODO check if is powered down (then heal)
         for (Card card : cards) {
             robot.move(card.getAction());
+            //TODO Issue #44 check if player is out side of map
         }
 
-    }
-
-    public List<Card> getCards() {
-        return Collections.unmodifiableList(Arrays.asList(cards));
+        //TODO redraw cards after
     }
 
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
-     * @param damageAmount
-     *     How much to damage the player
-     *
-     * @throws IllegalArgumentException
-     *     If the damage amount is not positive
+     * @param damageAmount How much to damage the player
+     * @throws IllegalArgumentException If the damage amount is not positive
      */
     public void damage(int damageAmount) {
         if (damageAmount <= 0) {
@@ -90,6 +92,9 @@ public class Player {
         }
     }
 
+    /**
+     * Kill the player, decreasing their lives and might permanently remove from map if there are not lives left
+     */
     public void kill() {
         lives--;
         if (lives == 0) {
@@ -103,17 +108,26 @@ public class Player {
     /**
      * Heal the player by the given amount up to {@link #MAX_HEALTH}
      *
-     * @param healAmount
-     *     How much to heal
-     *
-     * @throws IllegalArgumentException
-     *     If the heal amount is not positive
+     * @param healAmount How much to heal
+     * @throws IllegalArgumentException If the heal amount is not positive
      */
     public void heal(int healAmount) {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
         health = Math.max(MAX_HEALTH, health + healAmount);
+    }
+
+    /**
+     * @return If the player is dead. A player is dead if their lives are 0 or less
+     */
+    public boolean isDead() {
+        return lives <= 0;
+    }
+
+    @NotNull
+    public Card[] getCards() {
+        return cards;
     }
 
     public int getLives() {

@@ -184,14 +184,10 @@ public class TiledMapHandler extends MapCamera {
     /**
      * Draw an entity on the entity layer
      *
-     * @param entity
-     *     The entity to draw
-     * @param oldPos
-     *     The last known position
-     * @param x
-     *     The new x, provided as a parameter to make this thread safe
-     * @param y
-     *     The new y, provided as a parameter to make this thread safe
+     * @param entity The entity to draw
+     * @param oldPos The last known position
+     * @param x      The new x, provided as a parameter to make this thread safe
+     * @param y      The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
         if (entity.getTile() == null) {
