@@ -3,8 +3,8 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
@@ -29,27 +29,17 @@ public class RoboRally extends Game {
     private BitmapFont font;
 
 
+    private static AssetManager assetManager = new AssetManager();
     private static TiledMapHandler map;
-    private OrthographicCamera camera; //use this for UI
 
     //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
-    private Robot robot;
+    private static Robot robot;
     private Robot robot2;
 
     private boolean waitingForUser;
 
-    private InputMultiplexer inputMultiplexer;
-
+    private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
-
-
-    /**
-     * @return The current map in play
-     */
-    @NotNull
-    public static MapHandler getCurrentMap() {
-        return map;
-    }
 
     @Override
     public void create() {
@@ -57,24 +47,21 @@ public class RoboRally extends Game {
         font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
-
-        uiHandler = new UIHandler(this);
-        inputMultiplexer.addProcessor(uiHandler.getStage());
-        inputMultiplexer.addProcessor(new InputHandler());
-
         Gdx.input.setInputProcessor(inputMultiplexer);
+
+        uiHandler = new UIHandler();
+        new InputHandler();
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         robot = new Robot(5, 5, Direction.NORTH);
         robot2 = new Robot(1, 1, Direction.SOUTH);
 
+        //wait for all assets to load
+        assetManager.finishLoading();
 
-        //Setup done, waiting for user(s) to pick cards
-        waitingForUser = true;
     }
 
-    public void round() {
-        waitingForUser = false;
+    public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             // Decide which robot moves
             // Move robots in order
@@ -90,7 +77,6 @@ public class RoboRally extends Game {
 
             //Should wait some time
         }
-        waitingForUser = true;
         //User plans next round
     }
 
@@ -117,6 +103,7 @@ public class RoboRally extends Game {
         super.dispose();
         batch.dispose();
         font.dispose();
+        uiHandler.dispose();
     }
 
     @Override
@@ -126,11 +113,27 @@ public class RoboRally extends Game {
         uiHandler.resize();
     }
 
-    public void move() {
+    public static void move() {
         try {
             robot.move(-1, 0);
         } catch (IllegalArgumentException ex) {
             robot.move(5, 0);
         }
+    }
+
+    /**
+     * @return The current map in play
+     */
+    @NotNull
+    public static MapHandler getCurrentMap() {
+        return map;
+    }
+
+    public static AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public static InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
     }
 }
