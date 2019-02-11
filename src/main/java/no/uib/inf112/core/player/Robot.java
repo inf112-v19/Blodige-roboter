@@ -12,27 +12,21 @@ public class Robot implements Entity {
     private int x, y;
 
     /**
-     * @param x
-     *     The x position the player starts at
-     * @param y
-     *     The y position the player starts at
-     * @param direction
-     *     What direction the player is facing on start
-     *
-     * @throws IllegalArgumentException
-     *     If the given position is out of bounds
-     * @throws IllegalArgumentException
-     *     If direction is {@code null}
-     * @throws IllegalArgumentException
-     *     If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
-     * @throws IllegalStateException
-     *     If no {@link TiledMapTile} can be found
+     * @param x         The x position the player starts at
+     * @param y         The y position the player starts at
+     * @param direction What direction the player is facing on start
+     * @throws IllegalArgumentException If the given position is out of bounds
+     * @throws IllegalArgumentException If direction is {@code null}
+     * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
+     * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
     public Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
 
-        if (direction == null) { throw new IllegalArgumentException("Given direction can not be null"); }
+        if (direction == null) {
+            throw new IllegalArgumentException("Given direction can not be null");
+        }
         this.direction = direction;
 
         //TODO #Issue 32: make this standardized (as parameters? as constants?)
@@ -73,11 +67,9 @@ public class Robot implements Entity {
     /**
      * Move the robot by the given movement card
      *
-     * @param movement
-     *     how to move
+     * @param movement how to move
      */
     public void move(Movement movement) {
-        //TODO move according to card
         switch (movement) {
             case MOVE_1:
                 move(direction.getDx(), direction.getDy());
@@ -90,20 +82,21 @@ public class Robot implements Entity {
                 break;
             case BACK_UP:
                 move(-1 * direction.getDx(), -1 * direction.getDy());
-                setDirection(direction.inverse());
                 break;
             case LEFT_TURN:
                 setDirection(direction.left());
-                move(direction.getDx(), direction.getDy());
                 break;
             case RIGHT_TURN:
                 setDirection(direction.right());
-                move(direction.getDx(), direction.getDy());
+                break;
+            case U_TURN:
+                setDirection(direction.inverse());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown movement " + movement.name());
         }
     }
+
 
     /**
      * Move the robot with given delta to new coordinates

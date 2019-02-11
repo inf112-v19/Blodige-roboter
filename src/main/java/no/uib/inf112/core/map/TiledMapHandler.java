@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -185,39 +184,24 @@ public class TiledMapHandler extends MapCamera {
     /**
      * Draw an entity on the entity layer
      *
-     * @param entity The entity to draw
-     * @param oldPos The last known position
-     * @param x      The new x, provided as a parameter to make this thread safe
-     * @param y      The new y, provided as a parameter to make this thread safe
+     * @param entity
+     *     The entity to draw
+     * @param oldPos
+     *     The last known position
+     * @param x
+     *     The new x, provided as a parameter to make this thread safe
+     * @param y
+     *     The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
         if (entity.getTile() == null) {
             return;
         }
         if (isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException(
-                    "Given location (" + x + ", " + y + ") is out of bounds");
+            throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds");
         }
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
         entityLayer.setCell(x, y, cell);
-
-
-        Direction dir = entity.getDirection();
-
-        float dx = x - oldPos.x;
-        float dy = y - oldPos.y;
-        if (dx > 0) {
-            dir = Direction.EAST;
-        } else if (dx < 0) {
-            dir = Direction.WEST;
-        } else {
-            if (dy > 0) {
-                dir = Direction.NORTH;
-            } else if (dy < 0) {
-                dir = Direction.SOUTH;
-            }
-        }
-        entity.setDirection(dir);
 
         oldPos.x = x;
         oldPos.y = y;
