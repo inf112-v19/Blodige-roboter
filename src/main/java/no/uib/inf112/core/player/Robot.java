@@ -12,19 +12,27 @@ public class Robot implements Entity {
     private int x, y;
 
     /**
-     * @param x         The x position the player starts at
-     * @param y         The y position the player starts at
-     * @param direction What direction the player is facing on start
-     * @throws IllegalArgumentException If the given position is out of bounds
-     * @throws IllegalArgumentException If direction is {@code null}
-     * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
-     * @throws IllegalStateException    If no {@link TiledMapTile} can be found
+     * @param x
+     *     The x position the player starts at
+     * @param y
+     *     The y position the player starts at
+     * @param direction
+     *     What direction the player is facing on start
+     *
+     * @throws IllegalArgumentException
+     *     If the given position is out of bounds
+     * @throws IllegalArgumentException
+     *     If direction is {@code null}
+     * @throws IllegalArgumentException
+     *     If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
+     * @throws IllegalStateException
+     *     If no {@link TiledMapTile} can be found
      */
     public Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
 
-        if (direction == null) throw new IllegalArgumentException("Given direction can not be null");
+        if (direction == null) { throw new IllegalArgumentException("Given direction can not be null"); }
         this.direction = direction;
 
         //TODO #Issue 32: make this standardized (as parameters? as constants?)
@@ -48,6 +56,7 @@ public class Robot implements Entity {
 
     @Override
     public void setDirection(@NotNull Direction direction) {
+        //TODO rotate texture of robot ie visually show it
         this.direction = direction;
     }
 
@@ -62,19 +71,50 @@ public class Robot implements Entity {
     }
 
     /**
-     * Move the robot with given delta to new coordinates
-     * @param deltaX
-     * @param deltaY
+     * Move the robot by the given movement card
+     *
+     * @param movement
+     *     how to move
      */
-    public void move(int deltaX, int deltaY) {
-        //If sentence is while we are doing it simple as can be to avoid exception with click on the button
-        //Fixme #44
-        if(deltaX+x < 0) {
-            this.x = 5;
-            return;
+    public void move(Movement movement) {
+        //TODO move according to card
+        switch (movement) {
+            case MOVE_1:
+                move(direction.getDx(), direction.getDy());
+                break;
+            case MOVE_2:
+                move(2 * direction.getDx(), 2 * direction.getDy());
+                break;
+            case MOVE_3:
+                move(3 * direction.getDx(), 3 * direction.getDy());
+                break;
+            case BACK_UP:
+                move(-1 * direction.getDx(), -1 * direction.getDy());
+                setDirection(direction.inverse());
+                break;
+            case LEFT_TURN:
+                setDirection(direction.left());
+                move(direction.getDx(), direction.getDy());
+                break;
+            case RIGHT_TURN:
+                setDirection(direction.right());
+                move(direction.getDx(), direction.getDy());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown movement " + movement.name());
         }
-        this.x = x+deltaX;
-        this.y = y+deltaY;
+    }
 
+    /**
+     * Move the robot with given delta to new coordinates
+     */
+    private void move(int deltaX, int deltaY) {
+        this.x = x + deltaX;
+        this.y = y + deltaY;
+    }
+
+    public void teleport(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

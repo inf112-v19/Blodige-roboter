@@ -10,7 +10,7 @@ import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.Direction;
-import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -31,10 +31,7 @@ public class RoboRally extends Game {
     private static TiledMapHandler map;
 
     //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
-    private static Robot robot;
-    private Robot robot2;
-
-    private boolean waitingForUser;
+    public static Player player;
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
@@ -50,30 +47,22 @@ public class RoboRally extends Game {
 
         uiHandler = new UIHandler();
         new InputHandler();
-
-        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        robot = new Robot(5, 5, Direction.NORTH);
-        robot2 = new Robot(1, 1, Direction.SOUTH);
-
         cpEventHandler = new ControlPanelEventHandler();
 
-//        RoboRally.getControlPanelEventHandler().registerListener(CardClickedEvent.class,
-//                                                                 (ControlPanelEventListener<CardClickedEvent>)
-//                                                                 event -> System.out
-//                                                                     .println("Clicked card nr " + event.getId()));
-//
-//
-//        RoboRally.getControlPanelEventHandler().registerListener(PowerDownEvent.class,
-//                                                                 (ControlPanelEventListener<PowerDownEvent>) event
-//                                                                 -> System.out
-//                                                                     .println("Clicked power down!"));
+        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
+        player = new Player(5, 2, Direction.NORTH);
+
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             // Decide which robot moves
             // Move robots in order
-            move();
+            if (player.isPoweredDown()) {
+                System.out.println("Player is powered down");
+                continue;
+            }
+            player.doTurn();
             System.out.println("moved!");
             // End of robot movement
 
@@ -119,14 +108,6 @@ public class RoboRally extends Game {
         super.resize(width, height);
         map.resize();
         uiHandler.resize();
-    }
-
-    public static void move() {
-        try {
-            robot.move(-1, 0);
-        } catch (IllegalArgumentException ex) {
-            robot.move(5, 0);
-        }
     }
 
     /**
