@@ -55,4 +55,14 @@ public class DirectionTest {
     public void NORTHTurnedRightFourTimesShouldReturnNorth() {
         assertEquals(NORTH, dir.right().right().right().right());
     }
+
+
+    @Test
+    public void InvertingShouldReturnTheSameAsTurningTwice() {
+        Direction turnedLeft = NORTH.left().left();
+        Direction turnedRight = NORTH.right().right();
+
+        assertEquals(turnedLeft, dir.inverse());
+        assertEquals(turnedRight, dir.inverse());
+    }
 }
