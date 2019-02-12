@@ -11,6 +11,7 @@ import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.Direction;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +45,8 @@ public class RoboRally extends Game {
 
     private UIHandler uiHandler;
 
+    private PlayerHandler playerHandler;
+
 
     /**
      * @return The current map in play
@@ -67,6 +70,8 @@ public class RoboRally extends Game {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
+
+        playerHandler = new PlayerHandler(2);
         robot = new Robot(5, 5, Direction.NORTH);
         robot2 = new Robot(1, 1, Direction.SOUTH);
 
