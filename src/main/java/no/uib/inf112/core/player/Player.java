@@ -27,6 +27,7 @@ public class Player {
     private int health;
 
     private boolean alive;
+    private boolean headless;
 
     private Card[] cards;
 
@@ -51,6 +52,7 @@ public class Player {
         health = MAX_HEALTH;
         poweredDown = false;
         alive = true;
+        this.headless = headless;
 
         if (!headless) {
             robot = new Robot(x, y, direction);
@@ -101,10 +103,14 @@ public class Player {
         lives--;
         if (lives == 0) {
             alive = false;
-            RoboRally.getCurrentMap().removeEntity(robot);
+            if (!headless) {
+                RoboRally.getCurrentMap().removeEntity(robot);
+            }
             return;
         }
-        robot.teleport(backup.x, backup.y);
+        if (!headless) {
+            robot.teleport(backup.x, backup.y);
+        }
     }
 
     /**
