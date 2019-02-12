@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static no.uib.inf112.core.player.Direction.*;
@@ -9,16 +10,19 @@ public class DirectionTest {
 
     private Direction dir;
 
+    @Before
+    public void setup() {
+        dir = NORTH;
+    }
+
     //INVERSE()
     @Test
     public void NORTHInvertedShouldReturnSOUTH() {
-        dir = NORTH;
         assertEquals(SOUTH, dir.inverse());
     }
 
     @Test
     public void NORTHInvertedTwiceShouldReturnNORTH() {
-        dir = NORTH;
         assertEquals(NORTH, dir.inverse().inverse());
     }
 
@@ -32,14 +36,23 @@ public class DirectionTest {
     // LEFT()
     @Test
     public void NORTHTurnedLeftShouldReturnWest() {
-        dir = NORTH;
         assertEquals(WEST, dir.left());
     }
 
     @Test
     public void NORTHTurnedLeftFourTimesShouldReturnNorth() {
-        dir = NORTH;
         assertEquals(NORTH, dir.left().left().left().left());
     }
-    
+
+
+    // RIGHT()
+    @Test
+    public void NORTHTurnedRightShouldReturnEast() {
+        assertEquals(EAST, dir.right());
+    }
+
+    @Test
+    public void NORTHTurnedRightFourTimesShouldReturnNorth() {
+        assertEquals(NORTH, dir.right().right().right().right());
+    }
 }
