@@ -42,7 +42,7 @@ public class Player {
         robot = new Robot(x, y, direction);
         deck = new Deck();
 
-        //TODO make player choose his cards
+        //TODO Issue 47 make player choose his cards
         cards = deck.draw(MAX_PLAYER_CARDS);
 
         backup = new Vector2Int(x, y);
@@ -66,14 +66,12 @@ public class Player {
     }
 
     public void doTurn() {
-        //TODO check if dead
-        //TODO check if is powered down (then heal)
+        //TODO Issue #44 check if dead
+        //TODO Issue #24 check if is powered down (then heal)
         for (Card card : cards) {
             robot.move(card.getAction());
             //TODO Issue #44 check if player is out side of map
         }
-
-        //TODO redraw cards after
     }
 
     /**

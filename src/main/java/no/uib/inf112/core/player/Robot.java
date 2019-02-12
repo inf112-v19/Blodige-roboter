@@ -50,7 +50,7 @@ public class Robot implements Entity {
 
     @Override
     public void setDirection(@NotNull Direction direction) {
-        //TODO rotate texture of robot ie visually show it
+        //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
     }
 
