@@ -3,7 +3,7 @@ package no.uib.inf112.core.player;
 
 import java.util.Random;
 
-public class ProgramDeck {
+public class ProgramDeck implements Deck {
 
     private ProgramCard[] cards;
     private int nextCard = 0;
@@ -21,13 +21,7 @@ public class ProgramDeck {
         this.shuffle();
     }
 
-    /**
-     * Lets you draw the n next cards in the deck. Class keeps track of the index of the next card.
-     * Since deck is reshuffled after each player has drawn once the number of cards in deck will never be exceeded.
-     *
-     * @param amount How many cards you want to draw from the deck
-     * @return A list of the card-objects you drew from the deck
-     */
+
     public ProgramCard[] draw(int amount) {
         ProgramCard[] drawn = new ProgramCard[amount];
         for (int i = 0; i < amount; i++) {
@@ -37,11 +31,6 @@ public class ProgramDeck {
     }
 
 
-    /**
-     *  Method will shuffle all cards in deck and reset the index of the next card to be drawn to 0.
-     * Shufflereps is how many times you want to go through the deck to shuffle. (Higher rep -> more randomness)
-     * Nb: to change shufflereps use method setShufflereps()
-     */
     public void shuffle(){
         Random rnd = new Random();
         for (int i = 0; i < shufflereps; i++) {
@@ -56,13 +45,8 @@ public class ProgramDeck {
     }
 
 
-    /**
-     * Changes the number of repetitions that the shuffle-method does.
-     *
-     * @param shufflereps How many times you want to go through the deck while shuffling. Higher rep -> more random.
-     * Default value is 5
-     */
-    public void setShufflereps(int shufflereps) {
+
+    public void setShuffleReps(int shufflereps) {
         this.shufflereps = shufflereps;
     }
 
@@ -94,10 +78,7 @@ public class ProgramDeck {
         }
     }
 
-    /**
-     * Gets current cards in deck
-     * @return cards
-     */
+
     public ProgramCard[] getCards() {
         return cards;
     }

@@ -1,6 +1,6 @@
 package no.uib.inf112.core.player;
 
-public class ProgramCard {
+public class ProgramCard implements Card {
 
     private final Movement ACTION;
     private final int PRIORITY;
