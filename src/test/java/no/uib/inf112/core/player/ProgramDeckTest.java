@@ -1,4 +1,4 @@
-package no.uib.inf112.desktop;
+package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.player.ProgramCard;
 import no.uib.inf112.core.player.ProgramDeck;
