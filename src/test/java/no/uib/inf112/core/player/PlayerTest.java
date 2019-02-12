@@ -48,4 +48,24 @@ public class PlayerTest {
         assertEquals(health, testPlayer.getHealth());
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void healingNegativeAmountShouldThrowException() {
+        testPlayer.heal(-1);
+    }
+
+    @Test
+    public void healingWhenHealthIsFullShouldNotAffectHealth() {
+        testPlayer.heal(10);
+        assertEquals(health, testPlayer.getHealth());
+    }
+
+    @Test
+    public void healingOneToDamagedPlayerShouldIncreaseHealthByOne() {
+        testPlayer.damage(health - 1);
+        health = testPlayer.getHealth();
+        testPlayer.heal(1);
+        assertEquals(health + 1, testPlayer.getHealth());
+    }
+
+
 }
