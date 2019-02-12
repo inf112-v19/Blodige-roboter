@@ -40,7 +40,7 @@ public class Player {
     public Player(int x, int y, @NotNull Direction direction) {
 
         robot = new Robot(x, y, direction);
-        deck = new Deck();
+        deck = new ProgramDeck();
 
         //TODO Issue 47 make player choose his cards
         cards = deck.draw(MAX_PLAYER_CARDS);

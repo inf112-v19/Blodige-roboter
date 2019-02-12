@@ -1,20 +1,20 @@
 package no.uib.inf112.desktop;
 
-import no.uib.inf112.core.player.Card;
-import no.uib.inf112.core.player.Deck;
+import no.uib.inf112.core.player.ProgramCard;
+import no.uib.inf112.core.player.ProgramDeck;
 import no.uib.inf112.core.player.Movement;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class DeckTest {
-    private Deck deck;
+public class ProgramDeckTest {
+    private ProgramDeck deck;
     private final int N = 1000;
 
     @Before
     public void init() {
-        deck = new Deck();
+        deck = new ProgramDeck();
     }
 
     @Test
@@ -24,7 +24,7 @@ public class DeckTest {
 
     @Test
     public void leftTurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int leftTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.LEFT_TURN) {
@@ -36,7 +36,7 @@ public class DeckTest {
 
     @Test
     public void rightTurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int rightTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.RIGHT_TURN) {
@@ -48,7 +48,7 @@ public class DeckTest {
 
     @Test
     public void uTurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int uTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.U_TURN) {
@@ -61,7 +61,7 @@ public class DeckTest {
 
     @Test
     public void move1TurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int moveTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.MOVE_1) {
@@ -73,7 +73,7 @@ public class DeckTest {
 
     @Test
     public void move2TurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int moveTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.MOVE_2) {
@@ -86,7 +86,7 @@ public class DeckTest {
 
     @Test
     public void move3TurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int moveTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.MOVE_3) {
@@ -98,7 +98,7 @@ public class DeckTest {
 
     @Test
     public void backupTurnCardsExistTest() {
-        Card[] cards = deck.getCards();
+        ProgramCard[] cards = deck.getCards();
         int backupTurnCount = 0;
         for (int i = 0; i < cards.length; i++) {
             if (cards[i].getAction() == Movement.BACK_UP) {
@@ -112,7 +112,7 @@ public class DeckTest {
     @Test
     public void drawDeckTest() {
         for (int i = 1; i <= 5; i++) {
-            Card[] draw = deck.draw(i);
+            ProgramCard[] draw = deck.draw(i);
             assertEquals(i, draw.length);
         }
     }
@@ -120,10 +120,10 @@ public class DeckTest {
     @Test
     public void shuffleTest() {
         for (int i = 0; i < N; i++) {
-            Deck d = new Deck();
-            Card[] cards = d.getCards().clone();
+            ProgramDeck d = new ProgramDeck();
+            ProgramCard[] cards = d.getCards().clone();
             d.shuffle();
-            Card[] cards1 = d.getCards().clone();
+            ProgramCard[] cards1 = d.getCards().clone();
 
             int sameCardPos = 0;
 
