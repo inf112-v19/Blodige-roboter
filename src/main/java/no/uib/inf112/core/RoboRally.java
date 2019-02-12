@@ -50,7 +50,7 @@ public class RoboRally extends Game {
         cpEventHandler = new ControlPanelEventHandler();
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        player = new Player(5, 2, Direction.NORTH);
+        player = new Player(5, 2, Direction.NORTH, false);
 
     }
 

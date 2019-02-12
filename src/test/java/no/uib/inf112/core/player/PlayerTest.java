@@ -12,7 +12,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        testPlayer = new Player(0,0, Direction.NORTH);
+        testPlayer = new Player(0,0, Direction.NORTH, true);
     }
 
     @Test
@@ -21,5 +21,7 @@ public class PlayerTest {
         testPlayer.damage(1);
         assertEquals(health-1, testPlayer.getHealth());
     }
+
+
 
 }

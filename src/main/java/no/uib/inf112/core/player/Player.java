@@ -34,12 +34,12 @@ public class Player {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
+     * @param headless  true if you want player without graphics, false otherwise
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
-    public Player(int x, int y, @NotNull Direction direction) {
+    public Player(int x, int y, @NotNull Direction direction, boolean headless) {
 
-        robot = new Robot(x, y, direction);
         deck = new ProgramDeck();
 
         //TODO Issue 47 make player choose his cards
@@ -52,17 +52,21 @@ public class Player {
         poweredDown = false;
         alive = true;
 
-        ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
+        if (!headless) {
+            robot = new Robot(x, y, direction);
 
-        eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-            poweredDown = !poweredDown;
-            System.out.println("Powered down? " + isPoweredDown());
-        });
+            ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
-        eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
-            System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
-            robot.move(cards[event.getId()].getAction());
-        });
+            eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
+                poweredDown = !poweredDown;
+                System.out.println("Powered down? " + isPoweredDown());
+            });
+
+            eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
+                System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
+                robot.move(cards[event.getId()].getAction());
+            });
+        }
     }
 
     public void doTurn() {
