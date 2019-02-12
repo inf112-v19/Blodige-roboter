@@ -7,24 +7,39 @@ import static org.junit.Assert.*;
 
 public class DirectionTest {
 
+    private Direction dir;
 
-
-
+    //INVERSE()
     @Test
     public void NORTHInvertedShouldReturnSOUTH() {
-        Direction dir = NORTH;
+        dir = NORTH;
         assertEquals(SOUTH, dir.inverse());
     }
 
     @Test
     public void NORTHInvertedTwiceShouldReturnNORTH() {
-        Direction dir = NORTH;
+        dir = NORTH;
         assertEquals(NORTH, dir.inverse().inverse());
     }
 
     @Test
     public void EASTInvertedShouldReturnWEST() {
-        Direction dir = EAST;
+        dir = EAST;
         assertEquals(WEST, dir.inverse());
     }
+
+
+    // LEFT()
+    @Test
+    public void NORTHTurnedLeftShouldReturnWest() {
+        dir = NORTH;
+        assertEquals(WEST, dir.left());
+    }
+
+    @Test
+    public void NORTHTurnedLeftFourTimesShouldReturnNorth() {
+        dir = NORTH;
+        assertEquals(NORTH, dir.left().left().left().left());
+    }
+    
 }
