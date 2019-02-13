@@ -38,11 +38,11 @@ public class Deck {
 
 
     /**
-     *  Method will shuffle all cards in deck and reset the index of the next card to be drawn to 0.
+     * Method will shuffle all cards in deck and reset the index of the next card to be drawn to 0.
      * Shufflereps is how many times you want to go through the deck to shuffle. (Higher rep -> more randomness)
      * Nb: to change shufflereps use method setShufflereps()
      */
-    public void shuffle(){
+    public void shuffle() {
         Random rnd = new Random();
         for (int i = 0; i < shufflereps; i++) {
             for (int j = 0; j < size; j++) {
@@ -60,7 +60,7 @@ public class Deck {
      * Changes the number of repetitions that the shuffle-method does.
      *
      * @param shufflereps How many times you want to go through the deck while shuffling. Higher rep -> more random.
-     * Default value is 5
+     *                    Default value is 5
      */
     public void setShufflereps(int shufflereps) {
         this.shufflereps = shufflereps;
@@ -72,30 +72,31 @@ public class Deck {
      */
     private void initialize() {
         for (int i = 0; i < 18; i++) {
-            cards[i] = new Card(Movement.LEFT_TURN, (80 + 20*i));
+            cards[i] = new Card(Movement.LEFT_TURN, (80 + 20 * i));
         }
         for (int i = 18; i < 36; i++) {
-            cards[i] = new Card(Movement.RIGHT_TURN, (70 + 20*(i-18)));
+            cards[i] = new Card(Movement.RIGHT_TURN, (70 + 20 * (i - 18)));
         }
         for (int i = 36; i < 42; i++) {
-            cards[i] = new Card(Movement.U_TURN, (10 + 10*(i-36)));
+            cards[i] = new Card(Movement.U_TURN, (10 + 10 * (i - 36)));
         }
         for (int i = 42; i < 60; i++) {
-            cards[i] = new Card(Movement.MOVE_1, (490 + 10*(i-42)));
+            cards[i] = new Card(Movement.MOVE_1, (490 + 10 * (i - 42)));
         }
         for (int i = 60; i < 72; i++) {
-            cards[i] = new Card(Movement.MOVE_2, (670 + 10*(i-60)));
+            cards[i] = new Card(Movement.MOVE_2, (670 + 10 * (i - 60)));
         }
         for (int i = 72; i < 78; i++) {
-            cards[i] = new Card(Movement.MOVE_3, (790 + 10*(i-72)));
+            cards[i] = new Card(Movement.MOVE_3, (790 + 10 * (i - 72)));
         }
         for (int i = 78; i < 84; i++) {
-            cards[i] = new Card(Movement.BACK_UP, (430 + 10*(i-78)));
+            cards[i] = new Card(Movement.BACK_UP, (430 + 10 * (i - 78)));
         }
     }
 
     /**
      * Gets current cards in deck
+     *
      * @return cards
      */
     public Card[] getCards() {
