@@ -10,7 +10,6 @@ import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.PlayerHandler;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -51,12 +50,13 @@ public class RoboRally extends Game {
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         playerHandler = new PlayerHandler(2);
+        playerHandler.generatePlayers(); //Need this because of line 43 in player class
 
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-           playerHandler.doTurn();
+            playerHandler.doTurn();
             // End of robot movement
 
             // Activate lasers

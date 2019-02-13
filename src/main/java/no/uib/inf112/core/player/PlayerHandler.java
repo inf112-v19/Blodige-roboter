@@ -1,15 +1,18 @@
 package no.uib.inf112.core.player;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class PlayerHandler implements IPlayerHandler {
+
+    private Deck deck;
 
     private final int playerCount;
 
     private ArrayList<Player> players;
 
+    private Player currentPlayer;
+
     /**
-     *
      * @param playerCount
      */
     public PlayerHandler(int playerCount) {
@@ -21,8 +24,22 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
+        deck = new ProgramDeck();
+    }
+
+    public void generatePlayers() {
         for (int i = 0; i < playerCount; i++) {
             players.add(new Player(5 + i, 2, Direction.NORTH, false));
+        }
+
+        Stack<Integer> docks = new Stack<>();
+        for (int i = 1; i <= playerCount; i++) {
+            docks.push(i);
+        }
+        Collections.shuffle(docks);
+
+        for(Player player : players) {
+            player.setDock(docks.pop());
         }
     }
 
@@ -34,6 +51,10 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public int getPlayerCount() {
         return playerCount;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 
     /**
@@ -48,10 +69,20 @@ public class PlayerHandler implements IPlayerHandler {
     public void doTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #24 check if is powered down (then heal)
-        for(Player player : players)
-        for (Card card : player.getCards()) {
-            player.getRobot().move(card.getAction());
-            //TODO Issue #44 check if player is out side of map
+        for (Player player : players) {
+            for (Card card : player.getCards()) {
+                //player.getRobot().move(card.getAction());
+                //FIXME #33 Should not do card on all players
+                //TODO Issue #44 check if player is out side of map
+            }
         }
+    }
+
+    public Player getCurrentPlayer() {
+        return null;
+    }
+
+    private void nextPlayer() {
+
     }
 }

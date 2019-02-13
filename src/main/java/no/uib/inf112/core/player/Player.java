@@ -16,15 +16,18 @@ public class Player {
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
     public static final int MAX_PLAYER_CARDS = 5;
+    public static final int MAX_DRAW_CARDS = 9;
 
     private Robot robot;
-    private Deck deck; //TODO Issue #33 move to PlayerHandler
 
     private Vector2Int backup;
+
+    private int dock;
 
     private int lives;
     private boolean poweredDown;
     private int health;
+    private int damageTokens;
 
     private boolean alive;
     private boolean headless;
@@ -40,11 +43,8 @@ public class Player {
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
-
-        deck = new ProgramDeck();
-
         //TODO Issue 47 make player choose his cards
-        cards = deck.draw(MAX_PLAYER_CARDS);
+        cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS);
 
         backup = new Vector2Int(x, y);
 
@@ -146,6 +146,10 @@ public class Player {
         return poweredDown;
     }
 
+    public int getDamageTokens() {
+        return damageTokens;
+    }
+
     public Vector2Int getBackup() {
         return backup;
     }
@@ -157,5 +161,13 @@ public class Player {
 
     public Robot getRobot() {
         return robot;
+    }
+
+    public int getDock() {
+        return dock;
+    }
+
+    public void setDock(int dock) {
+        this.dock = dock;
     }
 }
