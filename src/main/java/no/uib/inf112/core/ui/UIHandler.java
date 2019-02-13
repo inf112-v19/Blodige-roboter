@@ -83,6 +83,8 @@ public class UIHandler implements Disposable {
         controlPanelTable = new Table(skin);
 
         dad = new DragAndDrop();
+        dad.setDragTime(50);
+        dad.setDragActorPosition(CARDS_TEXTURE.getRegionWidth() / 2f, -CARDS_TEXTURE.getRegionHeight() / 2f);
         cardDrawTable = new Table();
 
         create();
@@ -98,7 +100,7 @@ public class UIHandler implements Disposable {
 
         cardDrawTable.setTransform(false);
         cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        cardDrawTable.getColor().a = 0.85f;
+        cardDrawTable.getColor().a = 0.9f;
         cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
@@ -177,7 +179,7 @@ public class UIHandler implements Disposable {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                float state = RoboRally.player.isPoweredDown() ? 0.5f : -0.5f;
+                float state = RoboRally.player.isPoweredDown() ? 0.25f : -0.25f;
                 button.getColor().a += state;
                 RoboRally.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
@@ -229,6 +231,10 @@ public class UIHandler implements Disposable {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public DragAndDrop getDad() {
+        return dad;
     }
 }
 

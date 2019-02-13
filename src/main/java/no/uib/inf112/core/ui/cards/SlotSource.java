@@ -26,14 +26,13 @@ public class SlotSource extends DragAndDrop.Source {
         if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards()) {
             return null;
         }
-
-        final Payload payload = new Payload();
-
-        payload.setObject(sourceSlot);
+        RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
         final CardActor dragActor = new CardActor();
         dragActor.setCard(sourceSlot.getCard());
 
+        final Payload payload = new Payload();
+        payload.setObject(sourceSlot);
         payload.setDragActor(dragActor);
         payload.setValidDragActor(dragActor);
         payload.setInvalidDragActor(dragActor);
@@ -47,6 +46,7 @@ public class SlotSource extends DragAndDrop.Source {
         final CardSlot payloadSlot = (CardSlot) payload.getObject();
         if (target != null) {
             final CardSlot targetSlot = (CardSlot) target.getActor();
+
 
             final CardContainer cont = targetSlot.getContainer();
 
