@@ -123,7 +123,7 @@ public class Player {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
-        health = Math.max(MAX_HEALTH, health + healAmount);
+        health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
     /**
