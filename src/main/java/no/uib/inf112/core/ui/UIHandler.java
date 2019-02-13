@@ -159,6 +159,10 @@ public class UIHandler implements Disposable {
         cardDrawTable.setVisible(false);
     }
 
+    public boolean canMoveCards() {
+        return cardDrawTable.isVisible();
+    }
+
     private ImageTextButton createPowerDownButton() {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.imageUp = new TextureRegionDrawable(UIHandler.POWER_DOWN_TEXTURE);

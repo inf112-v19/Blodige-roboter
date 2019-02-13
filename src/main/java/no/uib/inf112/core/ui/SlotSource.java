@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Card;
 
 /**
@@ -22,7 +23,7 @@ public class SlotSource extends DragAndDrop.Source {
 
     @Override
     public Payload dragStart(final InputEvent event, final float x, final float y, final int pointer) {
-        if (sourceSlot == null || sourceSlot.getCard() == null) {
+        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards()) {
             return null;
         }
 
