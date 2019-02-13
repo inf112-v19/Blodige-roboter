@@ -18,7 +18,7 @@ public class Player {
     public static final int MAX_PLAYER_CARDS = 5;
 
     private Robot robot;
-    private Deck deck;
+    private Deck deck; //TODO Issue #33 move to PlayerHandler
 
     private Vector2Int backup;
 
@@ -71,6 +71,7 @@ public class Player {
         }
     }
 
+    //TODO Issue #33 this logic to PlayerHandler
     public void doTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #24 check if is powered down (then heal)

@@ -1,12 +1,10 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.core.player.ProgramCard;
-import no.uib.inf112.core.player.ProgramDeck;
-import no.uib.inf112.core.player.Movement;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ProgramDeckTest {
     private ProgramDeck deck;

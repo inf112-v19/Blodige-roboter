@@ -37,7 +37,9 @@ public class Robot implements Entity {
                 throw new IllegalStateException("Failed to find robot tile");
             }
             RoboRally.getCurrentMap().addEntity(this);
-        } else { tile = null; }
+        } else {
+            tile = null;
+        }
     }
 
     @Override

@@ -24,9 +24,7 @@ public interface Deck {
     /**
      * Changes the number of repetitions that the shuffle-method does.
      *
-     * @param newShuffleReps How many times you want to go through the deck while shuffling. Higher rep -> more random.
-     *
-     * Default value is 5
+     * @param newShuffleReps How many times you want to go through the deck while shuffling. Higher rep -> more random. Default value is 5
      */
     void setShuffleReps(int newShuffleReps);
 
