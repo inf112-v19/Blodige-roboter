@@ -7,21 +7,18 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.Card;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.ui.event.ControlPanelEvent;
-import no.uib.inf112.core.ui.event.events.CardClickedEvent;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 
 import java.io.File;
@@ -29,21 +26,23 @@ import java.io.File;
 
 public class UIHandler implements Disposable {
 
-    private final Skin skin;
-    private final Table table;
-    private final Stage stage;
-
-
     public static final String SKIN_NAME = "neutralizer-ui-skin";
     public static final String SKIN_FOLDER = "skins" + File.separator + SKIN_NAME + File.separator;
     public static final String SKIN_JSON_FILE = SKIN_FOLDER + SKIN_NAME + ".json";
 
     private static final TextureRegion UI_BACKGROUND_TEXTURE;
-    private static final TextureRegion CARDS_TEXTURE;
+    public static final TextureRegion CARDS_TEXTURE;
 
     private static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
+
+    private final Skin skin;
+    private final Table controlPanelTable;
+    private final Stage stage;
+
+    private final DragAndDrop dad;
+    private final Table cardDrawTable;
 
     static {
         //temp textures, to be replaced with real textures
@@ -72,7 +71,6 @@ public class UIHandler implements Disposable {
         return new TextureRegion(new Texture(pixmap));
     }
 
-
     public UIHandler() {
         stage = new Stage(new ScreenViewport());
         RoboRally.getInputMultiplexer().addProcessor(stage);
@@ -80,7 +78,10 @@ public class UIHandler implements Disposable {
 //        stage.setDebugAll(true);
 
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
-        table = new Table(skin);
+        controlPanelTable = new Table(skin);
+
+        dad = new DragAndDrop();
+        cardDrawTable = new Table();
 
         create();
         resize();
@@ -90,19 +91,24 @@ public class UIHandler implements Disposable {
      * Initiate ui
      */
     private void create() {
-        stage.addActor(table);
+        stage.addActor(cardDrawTable);
+        stage.addActor(controlPanelTable);
+
+        cardDrawTable.setTransform(false);
+        cardDrawTable.setFillParent(true);
+        cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
-        table.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        table.padLeft(50);
-        table.padRight(50);
-        table.setTransform(false); //optimization
+        controlPanelTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        controlPanelTable.padLeft(50);
+        controlPanelTable.padRight(50);
+        controlPanelTable.setTransform(false); //optimization
 
 
         //Top row is within a table to make the alignment work
         Table topRow = new Table();
-        table.add(topRow).fillX(); //let the top row be as wide as the widest part of the cp
-        table.row();
+        controlPanelTable.add(topRow).fillX(); //let the top row be as wide as the widest part of the cp
+        controlPanelTable.row();
 
         //display life tokens
         HorizontalGroup lifeTokens = new HorizontalGroup();
@@ -113,13 +119,13 @@ public class UIHandler implements Disposable {
         }
 
         //display power button, it will by default be to the right
-        topRow.add(createInteractButton(PowerDownEvent.class, 0, POWER_DOWN_TEXTURE));
+        topRow.add(createPowerDownButton());
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
         damageRow.space(5); //space between tokens
-        table.add(damageRow).align(Align.left).padBottom(5);
-        table.row();
+        controlPanelTable.add(damageRow).align(Align.left).padBottom(5);
+        controlPanelTable.row();
 
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
             damageRow.addActor(new ImageButton(new TextureRegionDrawable(DAMAGE_TOKEN_TEXTURE)));
@@ -128,46 +134,45 @@ public class UIHandler implements Disposable {
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(5); //space between cards
-        table.add(cardsRow);
+        controlPanelTable.add(cardsRow);
+        CardContainer container = RoboRally.player.getCards();
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            cardsRow.addActor(createInteractButton(CardClickedEvent.class, i, CARDS_TEXTURE));
+            CardActor cardActor = new CardActor(CARDS_TEXTURE, dad, container, SlotType.HAND, i);
+            container.handCard[i] = cardActor;
+            cardsRow.addActor(cardActor);
+        }
+
+        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+            CardActor cardActor = new CardActor(CARDS_TEXTURE, dad, container, SlotType.DRAWN, i);
+            container.drawnCard[i] = cardActor;
+            cardDrawTable.add(cardActor).space(5);
         }
     }
 
-    private ImageTextButton createInteractButton(Class<? extends ControlPanelEvent> eventType, int id,
-                                                 TextureRegion textureRegion) {
+    public void drawNewCards(Player player) {
+        player.getCards().draw();
+        cardDrawTable.setVisible(true);
+    }
+
+    public void finishDrawCards() {
+        cardDrawTable.setVisible(false);
+    }
+
+    private ImageTextButton createPowerDownButton() {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.imageUp = new TextureRegionDrawable(textureRegion);
+        style.imageUp = new TextureRegionDrawable(UIHandler.POWER_DOWN_TEXTURE);
         style.font = new BitmapFont();
 
         //display what kind of card it is
         ImageTextButton button = new ImageTextButton("", style);
-        button.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
-                if (eventType != CardClickedEvent.class) {
-                    return true;
-                }
-                Card card = RoboRally.player.getCards()[id];
-                button.setText("pri " + card.getPriority() + "\n" + card.getAction().name());
-                button.getLabelCell().padLeft(-textureRegion.getRegionWidth()); //make sure the tex is with in the card
-                return false;
-            }
-        });
+
 
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //this can be written better
-                ControlPanelEvent cpEvent;
-                if (eventType == CardClickedEvent.class) {
-                    cpEvent = new CardClickedEvent(id);
-                } else {
-                    cpEvent = new PowerDownEvent();
-                    float state = RoboRally.player.isPoweredDown() ? 0.5f : -0.5f;
-                    button.getColor().a += state;
-                }
-                RoboRally.getCPEventHandler().fireEvent(cpEvent);
+                float state = RoboRally.player.isPoweredDown() ? 0.5f : -0.5f;
+                button.getColor().a += state;
+                RoboRally.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
 
             @Override
@@ -196,11 +201,11 @@ public class UIHandler implements Disposable {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         //make sure we have some background around the down down button
-        table.setHeight(table.getPrefHeight() + 20);
+        controlPanelTable.setHeight(controlPanelTable.getPrefHeight() + 20);
 
-        table.setWidth(table.getPrefWidth()); //make sure the background image is drawn
-        table.setX(Gdx.graphics.getWidth() / 2f - table.getPrefWidth() / 2); //center the cp in the x axis
-        table.setY(5); //let there be a gap at the bottom of screen
+        controlPanelTable.setWidth(controlPanelTable.getPrefWidth()); //make sure the background image is drawn
+        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getPrefWidth() / 2); //center the cp in the x axis
+        controlPanelTable.setY(5); //let there be a gap at the bottom of screen
     }
 
     @Override

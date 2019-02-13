@@ -16,6 +16,8 @@ import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class RoboRally extends Game {
 
@@ -34,23 +36,28 @@ public class RoboRally extends Game {
     public static Player player;
 
     private static InputMultiplexer inputMultiplexer;
-    private UIHandler uiHandler;
+    private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
+    public static ScheduledExecutorService executorService;
 
     @Override
     public void create() {
+
+        executorService = Executors.newSingleThreadScheduledExecutor();
+
         batch = new SpriteBatch();
         font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
+        cpEventHandler = new ControlPanelEventHandler();
+        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
+        player = new Player(5, 2, Direction.NORTH);
+
         uiHandler = new UIHandler();
         new InputHandler();
-        cpEventHandler = new ControlPanelEventHandler();
 
-        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        player = new Player(5, 2, Direction.NORTH, false);
 
     }
 
@@ -62,7 +69,7 @@ public class RoboRally extends Game {
                 System.out.println("Player is powered down");
                 continue;
             }
-            player.doTurn();
+//            playerHandler.doTurn();
             System.out.println("moved!");
             // End of robot movement
 
@@ -125,5 +132,10 @@ public class RoboRally extends Game {
     @NotNull
     public static ControlPanelEventHandler getCPEventHandler() {
         return cpEventHandler;
+    }
+
+    @NotNull
+    public static UIHandler getUiHandler() {
+        return uiHandler;
     }
 }
