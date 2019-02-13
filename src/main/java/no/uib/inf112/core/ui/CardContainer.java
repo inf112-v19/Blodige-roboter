@@ -21,21 +21,21 @@ public class CardContainer {
     private final Deck deck;
     private Random random;
 
-    CardActor[] handCard;
-    CardActor[] drawnCard;
+    CardActorSlot[] handCard;
+    CardActorSlot[] drawnCard;
 
     public CardContainer(@NotNull Player holder, @NotNull Deck deck) {
         this.holder = holder;
         this.deck = deck;
         this.random = new Random();
 
-        handCard = new CardActor[Player.MAX_PLAYER_CARDS];
-        drawnCard = new CardActor[Player.MAX_HEALTH];
+        handCard = new CardActorSlot[Player.MAX_PLAYER_CARDS];
+        drawnCard = new CardActorSlot[Player.MAX_HEALTH];
     }
 
     void draw() {
 
-        for (CardActor actor : handCard) {
+        for (CardActorSlot actor : handCard) {
             actor.setCard(null);
         }
 
@@ -57,9 +57,9 @@ public class CardContainer {
     //TODO test
     public void randomizeHand() {
         //make sure all previously picked cards are back in the drawn cards array
-        for (CardActor handCard : handCard) {
+        for (CardActorSlot handCard : handCard) {
             if (handCard.getCard() != null) {
-                for (CardActor drawnCard : drawnCard) {
+                for (CardActorSlot drawnCard : drawnCard) {
                     if (drawnCard.getCard() == null) {
                         drawnCard.setCard(handCard.getCard());
                     }
@@ -86,8 +86,8 @@ public class CardContainer {
 
 
     //TODO test
-    boolean setCard(@NotNull CardActor cardActor, @Nullable Card card) {
-        return setCard(cardActor.getSlotType(), cardActor.getSlotId(), card);
+    boolean setCard(@NotNull CardActorSlot cardActorSlot, @Nullable Card card) {
+        return setCard(cardActorSlot.getSlotType(), cardActorSlot.getSlotId(), card);
     }
 
     //TODO test
@@ -121,8 +121,8 @@ public class CardContainer {
     /**
      * @return The card at the given id
      */
-    public Card getCard(@NotNull CardActor cardActor) {
-        return getCard(cardActor.getSlotType(), cardActor.getSlotId());
+    public Card getCard(@NotNull CardActorSlot cardActorSlot) {
+        return getCard(cardActorSlot.getSlotType(), cardActorSlot.getSlotId());
     }
 
     /**
@@ -141,7 +141,7 @@ public class CardContainer {
     }
 
     public boolean hasInvalidHand() {
-        for (CardActor actor : handCard) {
+        for (CardActorSlot actor : handCard) {
             if (actor.getCard() == null) {
                 return true;
             }

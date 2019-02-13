@@ -1,9 +1,8 @@
 package no.uib.inf112.core.ui;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import no.uib.inf112.core.RoboRally;
@@ -14,9 +13,9 @@ import no.uib.inf112.core.player.Card;
  */
 public class SlotSource extends DragAndDrop.Source {
 
-    private final CardActor sourceSlot;
+    private final CardActorSlot sourceSlot;
 
-    public SlotSource(final CardActor actor) {
+    public SlotSource(final CardActorSlot actor) {
         super(actor);
         sourceSlot = actor;
     }
@@ -31,18 +30,12 @@ public class SlotSource extends DragAndDrop.Source {
 
         payload.setObject(sourceSlot);
 
-        final TextureRegion icon = sourceSlot.getCard().getRegionTexture();
+        final CardActor dragActor = new CardActor();
+        dragActor.setCard(sourceSlot.getCard());
 
-        final Actor dragActor = new Image(icon);
         payload.setDragActor(dragActor);
-
-        final Actor validDragActor = new Image(icon);
-        // validDragActor.setColor(0, 1, 0, 1);
-        payload.setValidDragActor(validDragActor);
-
-        final Actor invalidDragActor = new Image(icon);
-        // invalidDragActor.setColor(1, 0, 0, 1);
-        payload.setInvalidDragActor(invalidDragActor);
+        payload.setValidDragActor(dragActor);
+        payload.setInvalidDragActor(dragActor);
 
         return payload;
     }
@@ -50,9 +43,9 @@ public class SlotSource extends DragAndDrop.Source {
     @Override
     public void dragStop(final InputEvent event, final float x, final float y, final int pointer, final Payload payload,
                          final DragAndDrop.Target target) {
-        final CardActor payloadSlot = (CardActor) payload.getObject();
+        final CardActorSlot payloadSlot = (CardActorSlot) payload.getObject();
         if (target != null) {
-            final CardActor targetSlot = (CardActor) target.getActor();
+            final CardActorSlot targetSlot = (CardActorSlot) target.getActor();
 
             final CardContainer cont = targetSlot.getContainer();
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
  */
 public class SlotTarget extends DragAndDrop.Target {
 
-    public SlotTarget(final CardActor actor) {
+    public SlotTarget(final CardActorSlot actor) {
         super(actor);
     }
 
