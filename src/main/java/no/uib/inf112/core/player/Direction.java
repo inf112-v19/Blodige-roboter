@@ -51,7 +51,7 @@ public enum Direction {
     /**
      * @return The relative direction to the right
      */
-    public Direction left() {
+    public Direction turnLeft() {
         switch (this) {
             case NORTH:
                 return WEST;
@@ -69,7 +69,7 @@ public enum Direction {
     /**
      * @return The relative direction to the left
      */
-    public Direction right() {
+    public Direction turnRight() {
         switch (this) {
             case NORTH:
                 return EAST;
