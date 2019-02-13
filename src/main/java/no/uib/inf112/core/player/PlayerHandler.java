@@ -8,6 +8,10 @@ public class PlayerHandler implements IPlayerHandler {
 
     private ArrayList<Player> players;
 
+    /**
+     *
+     * @param playerCount
+     */
     public PlayerHandler(int playerCount) {
         if (playerCount < 2) {
             throw new IllegalArgumentException("Not enough players");
@@ -17,12 +21,10 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-
         for (int i = 0; i < playerCount; i++) {
             players.add(new Player(5 + i, 2, Direction.NORTH));
         }
     }
-
 
     @Override
     public ArrayList<Player> getPlayers() {
