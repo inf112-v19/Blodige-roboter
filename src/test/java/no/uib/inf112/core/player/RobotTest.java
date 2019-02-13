@@ -97,4 +97,20 @@ public class RobotTest {
         assertEquals(testBot.getDirection(), testBot2.getDirection());
     }
 
+    @Test
+    public void movingRobotInASquareShouldResultInRobotBeingBackAtStartingPosition() {
+        Direction facing = testBot.getDirection();
+        for (int i = 0; i < 100; i++) {
+            if (i % 4 == 0) {
+                assertEquals(roboX, testBot.getX());
+                assertEquals(roboY, testBot.getY());
+                assertEquals(facing, testBot.getDirection());
+            } else {
+                assertFalse(roboX == testBot.getX() && roboY == testBot.getY());
+                assertNotEquals(facing, testBot.getDirection());
+            }
+            testBot.move(Movement.MOVE_2);
+            testBot.move(Movement.LEFT_TURN);
+        }
+    }
 }
