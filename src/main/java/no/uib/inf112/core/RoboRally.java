@@ -71,10 +71,7 @@ public class RoboRally extends Game {
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
 
-        playerHandler = new PlayerHandler(2);
-        robot = new Robot(5, 5, Direction.NORTH);
-        robot2 = new Robot(1, 1, Direction.SOUTH);
-
+        playerHandler = new PlayerHandler(3);
 
         //Setup done, waiting for user(s) to pick cards
         waitingForUser = true;
