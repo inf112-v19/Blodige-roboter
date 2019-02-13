@@ -1,5 +1,7 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public interface Card {
 
 
@@ -13,5 +15,9 @@ public interface Card {
      */
     int getPriority();
 
+    /**
+     * @return The texture of this card
+     */
+    TextureRegion getRegionTexture();
 
 }

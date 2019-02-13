@@ -41,7 +41,7 @@ public class Player {
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
 
-        deck = new ProgramDeck();
+        deck = new ProgramDeck(headless);
 
         //TODO Issue 47 make player choose his cards
         cards = deck.draw(MAX_PLAYER_CARDS);

@@ -1,12 +1,10 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.core.player.ProgramCard;
-import no.uib.inf112.core.player.ProgramDeck;
-import no.uib.inf112.core.player.Movement;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ProgramDeckTest {
     private ProgramDeck deck;
@@ -14,7 +12,7 @@ public class ProgramDeckTest {
 
     @Before
     public void init() {
-        deck = new ProgramDeck();
+        deck = new ProgramDeck(true);
     }
 
     @Test
@@ -120,7 +118,7 @@ public class ProgramDeckTest {
     @Test
     public void shuffleTest() {
         for (int i = 0; i < N; i++) {
-            ProgramDeck d = new ProgramDeck();
+            ProgramDeck d = new ProgramDeck(true);
             ProgramCard[] cards = d.getCards().clone();
             d.shuffle();
             ProgramCard[] cards1 = d.getCards().clone();
