@@ -98,7 +98,7 @@ public class UIHandler implements Disposable {
 
         cardDrawTable.setTransform(false);
         cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        cardDrawTable.getColor().a = 0.70f;
+        cardDrawTable.getColor().a = 0.85f;
         cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
@@ -218,7 +218,7 @@ public class UIHandler implements Disposable {
         cardDrawTable.setHeight(CARDS_TEXTURE.getRegionHeight() + 10);
 
         cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
-        cardDrawTable.setY(Gdx.graphics.getHeight() / 2f - cardDrawTable.getHeight() / 2f);
+        cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + 5);
     }
 
     @Override

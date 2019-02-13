@@ -21,7 +21,7 @@ public class TooltipListener extends Tooltip<Label> {
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
-        style.fontColor = Color.GRAY;
+        style.fontColor = Color.LIGHT_GRAY;
 
         label = new Label("", style);
         setActor(label);
