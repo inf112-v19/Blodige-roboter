@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static no.uib.inf112.core.player.Direction.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DirectionTest {
 
@@ -36,31 +36,31 @@ public class DirectionTest {
     // LEFT()
     @Test
     public void NORTHTurnedLeftShouldReturnWest() {
-        assertEquals(WEST, dir.left());
+        assertEquals(WEST, dir.turnLeft());
     }
 
     @Test
     public void NORTHTurnedLeftFourTimesShouldReturnNorth() {
-        assertEquals(NORTH, dir.left().left().left().left());
+        assertEquals(NORTH, dir.turnLeft().turnLeft().turnLeft().turnLeft());
     }
 
 
     // RIGHT()
     @Test
     public void NORTHTurnedRightShouldReturnEast() {
-        assertEquals(EAST, dir.right());
+        assertEquals(EAST, dir.turnRight());
     }
 
     @Test
     public void NORTHTurnedRightFourTimesShouldReturnNorth() {
-        assertEquals(NORTH, dir.right().right().right().right());
+        assertEquals(NORTH, dir.turnRight().turnRight().turnRight().turnRight());
     }
 
 
     @Test
     public void InvertingShouldReturnTheSameAsTurningTwice() {
-        Direction turnedLeft = NORTH.left().left();
-        Direction turnedRight = NORTH.right().right();
+        Direction turnedLeft = NORTH.turnLeft().turnLeft();
+        Direction turnedRight = NORTH.turnRight().turnRight();
 
         assertEquals(turnedLeft, dir.inverse());
         assertEquals(turnedRight, dir.inverse());

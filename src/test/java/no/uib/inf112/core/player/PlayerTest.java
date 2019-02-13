@@ -1,10 +1,9 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.core.RoboRally;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
 
@@ -14,7 +13,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        testPlayer = new Player(0,0, Direction.NORTH, true);
+        testPlayer = new Player(0, 0, Direction.NORTH, true);
         health = testPlayer.getHealth();
         lives = testPlayer.getLives();
     }
@@ -25,7 +24,7 @@ public class PlayerTest {
         assertEquals(health - 1, testPlayer.getHealth());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void negativeDamageAmountShouldThrowException() {
         testPlayer.damage(-1);
     }
@@ -48,7 +47,7 @@ public class PlayerTest {
         assertEquals(health, testPlayer.getHealth());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void healingNegativeAmountShouldThrowException() {
         testPlayer.heal(-1);
     }

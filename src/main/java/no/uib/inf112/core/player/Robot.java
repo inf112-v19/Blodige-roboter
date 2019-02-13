@@ -37,7 +37,9 @@ public class Robot implements Entity {
                 throw new IllegalStateException("Failed to find robot tile");
             }
             RoboRally.getCurrentMap().addEntity(this);
-        } else { tile = null; }
+        } else {
+            tile = null;
+        }
     }
 
     @Override
@@ -87,10 +89,10 @@ public class Robot implements Entity {
                 move(-1 * direction.getDx(), -1 * direction.getDy());
                 break;
             case LEFT_TURN:
-                setDirection(direction.left());
+                setDirection(direction.turnLeft());
                 break;
             case RIGHT_TURN:
-                setDirection(direction.right());
+                setDirection(direction.turnRight());
                 break;
             case U_TURN:
                 setDirection(direction.inverse());
