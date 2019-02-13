@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.UIHandler;
@@ -52,8 +51,6 @@ public class RoboRally extends Game {
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         playerHandler = new PlayerHandler(2);
-
-
     }
 
     public static void round() {

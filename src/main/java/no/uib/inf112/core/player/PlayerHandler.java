@@ -1,6 +1,5 @@
 package no.uib.inf112.core.player;
 
-
 import java.util.ArrayList;
 
 public class PlayerHandler implements IPlayerHandler {
@@ -10,9 +9,9 @@ public class PlayerHandler implements IPlayerHandler {
     private ArrayList<Player> players;
 
     public PlayerHandler(int playerCount) {
-        if(playerCount < 2) {
+        if (playerCount < 2) {
             throw new IllegalArgumentException("Not enough players");
-        } else if(playerCount > 8) {
+        } else if (playerCount > 8) {
             throw new IllegalArgumentException("Too many players");
         }
         this.playerCount = playerCount;
@@ -20,7 +19,7 @@ public class PlayerHandler implements IPlayerHandler {
 
 
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5+i, 2, Direction.NORTH));
+            players.add(new Player(5 + i, 2, Direction.NORTH));
         }
     }
 
@@ -37,6 +36,7 @@ public class PlayerHandler implements IPlayerHandler {
 
     /**
      * Temporary mainplayer
+     *
      * @return player
      */
     public Player mainPlayer() {
