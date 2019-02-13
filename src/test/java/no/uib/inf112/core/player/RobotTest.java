@@ -52,4 +52,25 @@ public class RobotTest {
         assertEquals(roboX + 2, testBot.getX());
     }
 
+    @Test
+    public void backingUpWhileFacingNorthShouldDecrementY() {
+        testBot.move(Movement.BACK_UP);
+        assertEquals(roboY - 1, testBot.getY());
+    }
+
+    @Test
+    public void backingUpShouldNotAffectDirectionOfRobot() {
+        Direction facing = testBot.getDirection();
+        testBot.move(Movement.BACK_UP);
+        assertEquals(facing, testBot.getDirection());
+    }
+
+    @Test
+    public void movingForwardShouldNotAffectDirectionOfRobot() {
+        Direction facing = testBot.getDirection();
+        testBot.move(Movement.MOVE_2);
+        testBot.move(Movement.MOVE_1);
+        testBot.move(Movement.MOVE_3);
+        assertEquals(facing, testBot.getDirection());
+    }
 }
