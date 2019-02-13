@@ -5,27 +5,41 @@ import java.util.ArrayList;
 
 public class PlayerHandler implements IPlayerHandler {
 
-    private final int players;
+    private final int playerCount;
 
-    private ArrayList<Robot> robots;
+    private ArrayList<Player> players;
 
-    public PlayerHandler(int players) {
-        if(players < 2) {
+    public PlayerHandler(int playerCount) {
+        if(playerCount < 2) {
             throw new IllegalArgumentException("Not enough players");
-        } else if(players > 8) {
+        } else if(playerCount > 8) {
             throw new IllegalArgumentException("Too many players");
         }
-        this.players = players;
-        robots = new ArrayList<>(players);
+        this.playerCount = playerCount;
+        players = new ArrayList<>(playerCount);
 
 
-        for (int i = 0; i < players; i++) {
-            robots.add(new Robot(5+i, 2, Direction.NORTH));
+        for (int i = 0; i < playerCount; i++) {
+            players.add(new Player(5+i, 2, Direction.NORTH));
         }
     }
 
+
     @Override
-    public int getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    /**
+     * Temporary mainplayer
+     * @return player
+     */
+    public Player mainPlayer() {
+        return players.get(0);
     }
 }

@@ -1,12 +1,13 @@
 package no.uib.inf112.core.player;
 
+import java.util.ArrayList;
+
 /**
  * @author Daniel
  */
 public interface IPlayerHandler {
-    /**
-     *
-     * @return
-     */
-    int getPlayers();
+
+    ArrayList<Player> getPlayers();
+
+    int getPlayerCount();
 }

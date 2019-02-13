@@ -148,7 +148,7 @@ public class UIHandler implements Disposable {
                 if (eventType != CardClickedEvent.class) {
                     return true;
                 }
-                Card card = RoboRally.player.getCards()[id];
+                Card card = RoboRally.getPlayerHandler().mainPlayer().getCards()[id];
                 button.setText("pri " + card.getPriority() + "\n" + card.getAction().name());
                 button.getLabelCell().padLeft(-textureRegion.getRegionWidth()); //make sure the tex is with in the card
                 return false;
@@ -164,7 +164,7 @@ public class UIHandler implements Disposable {
                     cpEvent = new CardClickedEvent(id);
                 } else {
                     cpEvent = new PowerDownEvent();
-                    float state = RoboRally.player.isPoweredDown() ? 0.5f : -0.5f;
+                    float state = RoboRally.getPlayerHandler().mainPlayer().isPoweredDown() ? 0.5f : -0.5f;
                     button.getColor().a += state;
                 }
                 RoboRally.getCPEventHandler().fireEvent(cpEvent);
