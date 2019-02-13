@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui;
+package no.uib.inf112.core.ui.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;

@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui;
+package no.uib.inf112.core.ui.cards;
 
 /**
  * @author Elg

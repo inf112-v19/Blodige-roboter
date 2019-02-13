@@ -3,6 +3,8 @@ package no.uib.inf112.core.ui;
 import no.uib.inf112.core.player.Card;
 import no.uib.inf112.core.player.Deck;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.ui.cards.CardActorSlot;
+import no.uib.inf112.core.ui.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,7 +88,7 @@ public class CardContainer {
 
 
     //TODO test
-    boolean setCard(@NotNull CardActorSlot cardActorSlot, @Nullable Card card) {
+    public boolean setCard(@NotNull CardActorSlot cardActorSlot, @Nullable Card card) {
         return setCard(cardActorSlot.getSlotType(), cardActorSlot.getSlotId(), card);
     }
 
@@ -98,7 +100,7 @@ public class CardContainer {
      * @param card
      * @return If the card at given location was updated
      */
-    boolean setCard(@NotNull SlotType slotType, int id, @Nullable Card card) {
+    public boolean setCard(@NotNull SlotType slotType, int id, @Nullable Card card) {
         switch (slotType) {
             case HAND:
                 handCard[id].setCard(card);

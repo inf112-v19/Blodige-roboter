@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui;
+package no.uib.inf112.core.ui.cards;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Card;
+import no.uib.inf112.core.ui.CardContainer;
 
 /**
  * @author Elg

@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui;
+package no.uib.inf112.core.ui.cards;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

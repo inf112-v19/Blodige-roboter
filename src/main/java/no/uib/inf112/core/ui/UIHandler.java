@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.ui.cards.CardActorSlot;
+import no.uib.inf112.core.ui.cards.SlotType;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 
 import java.io.File;

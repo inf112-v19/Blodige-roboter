@@ -3,7 +3,7 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.CardContainer;
-import no.uib.inf112.core.ui.SlotType;
+import no.uib.inf112.core.ui.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
