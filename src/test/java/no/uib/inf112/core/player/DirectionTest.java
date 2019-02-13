@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static no.uib.inf112.core.player.Direction.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DirectionTest {
 

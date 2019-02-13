@@ -3,6 +3,7 @@ package no.uib.inf112.core.player;
 /**
  * @author Elg
  */
+@SuppressWarnings("Duplicates")
 public enum Direction {
 
     NORTH(0, 1),
@@ -29,6 +30,9 @@ public enum Direction {
         return dy;
     }
 
+    /**
+     * @return The opposite direction of this one
+     */
     public Direction inverse() {
         switch (this) {
             case NORTH:
@@ -44,6 +48,9 @@ public enum Direction {
         }
     }
 
+    /**
+     * @return The relative direction to the right
+     */
     public Direction left() {
         switch (this) {
             case NORTH:
@@ -59,6 +66,9 @@ public enum Direction {
         }
     }
 
+    /**
+     * @return The relative direction to the left
+     */
     public Direction right() {
         switch (this) {
             case NORTH:

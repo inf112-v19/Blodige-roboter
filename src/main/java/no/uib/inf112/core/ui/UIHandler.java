@@ -47,7 +47,7 @@ public class UIHandler implements Disposable {
 
     static {
         //temp textures, to be replaced with real textures
-        //TODO find/create real textures for control panel
+        //TODO Issue #52 find/create real textures for control panel
         UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
         CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
         POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
@@ -195,7 +195,7 @@ public class UIHandler implements Disposable {
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        //make sure we have some background around the down down button
+        //make sure we have background around the whole control panel
         table.setHeight(table.getPrefHeight() + 20);
 
         table.setWidth(table.getPrefWidth()); //make sure the background image is drawn
