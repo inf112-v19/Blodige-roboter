@@ -13,5 +13,4 @@ public interface Card {
      */
     int getPriority();
 
-
 }

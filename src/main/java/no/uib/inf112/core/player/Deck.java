@@ -14,7 +14,7 @@ public interface Deck {
 
 
     /**
-     *  Method will shuffle all cards in deck and reset the index of the next card to be drawn to 0.
+     * Method will shuffle all cards in deck and reset the index of the next card to be drawn to 0.
      * Shufflereps is how many times you want to go through the deck to shuffle. (Higher rep -> more randomness)
      * Nb: to change shufflereps use method setShufflereps()
      */
@@ -24,15 +24,14 @@ public interface Deck {
     /**
      * Changes the number of repetitions that the shuffle-method does.
      *
-     * @param newShuffleReps How many times you want to go through the deck while shuffling. Higher rep -> more random.
-     *
-     * Default value is 5
+     * @param newShuffleReps How many times you want to go through the deck while shuffling. Higher rep -> more random. Default value is 5
      */
     void setShuffleReps(int newShuffleReps);
 
 
     /**
      * Gets current cards in deck
+     *
      * @return cards
      */
     Card[] getCards();

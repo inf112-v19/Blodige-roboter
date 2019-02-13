@@ -6,7 +6,7 @@ public class ProgramCard implements Card {
     private final int PRIORITY;
 
     /**
-     * @param action The movement the card will impose
+     * @param action   The movement the card will impose
      * @param priority The unique priority of the card
      */
     public ProgramCard(Movement action, int priority) {
@@ -17,6 +17,7 @@ public class ProgramCard implements Card {
     /**
      * @return The action (movement) imposed by this card
      */
+    @Override
     public Movement getAction() {
         return this.ACTION;
     }
@@ -24,6 +25,7 @@ public class ProgramCard implements Card {
     /**
      * @return The priority of this card
      */
+    @Override
     public int getPriority() {
         return this.PRIORITY;
     }
