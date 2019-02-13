@@ -71,16 +71,6 @@ public class Player {
         }
     }
 
-    //TODO Issue #33 this logic to PlayerHandler
-    public void doTurn() {
-        //TODO Issue #44 check if dead
-        //TODO Issue #24 check if is powered down (then heal)
-        for (Card card : cards) {
-            robot.move(card.getAction());
-            //TODO Issue #44 check if player is out side of map
-        }
-    }
-
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -163,5 +153,9 @@ public class Player {
     public void setBackup(int x, int y) {
         backup.x = x;
         backup.y = y;
+    }
+
+    public Robot getRobot() {
+        return robot;
     }
 }

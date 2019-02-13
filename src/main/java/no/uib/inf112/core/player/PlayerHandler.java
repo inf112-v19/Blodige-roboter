@@ -22,7 +22,7 @@ public class PlayerHandler implements IPlayerHandler {
         players = new ArrayList<>(playerCount);
 
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH));
+            players.add(new Player(5 + i, 2, Direction.NORTH, false));
         }
     }
 
@@ -43,5 +43,15 @@ public class PlayerHandler implements IPlayerHandler {
      */
     public Player mainPlayer() {
         return players.get(0);
+    }
+
+    public void doTurn() {
+        //TODO Issue #44 check if dead
+        //TODO Issue #24 check if is powered down (then heal)
+        for(Player player : players)
+        for (Card card : player.getCards()) {
+            player.getRobot().move(card.getAction());
+            //TODO Issue #44 check if player is out side of map
+        }
     }
 }

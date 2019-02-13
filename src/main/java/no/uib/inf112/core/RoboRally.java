@@ -56,18 +56,7 @@ public class RoboRally extends Game {
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            for (Player player : playerHandler.getPlayers()) {
-                // Decide which robot moves
-                // Move robots in order
-
-                if (player.isPoweredDown()) {
-                    System.out.println("Player is powered down");
-                    continue;
-                }
-
-                player.doTurn();
-                System.out.println("moved!");
-            }
+           playerHandler.doTurn();
             // End of robot movement
 
             // Activate lasers
