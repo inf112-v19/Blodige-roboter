@@ -130,6 +130,10 @@ public class Player {
         return cards;
     }
 
+    public void drawCards() {
+        cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS - getDamageTokens());
+    }
+
     public int getLives() {
         return lives;
     }

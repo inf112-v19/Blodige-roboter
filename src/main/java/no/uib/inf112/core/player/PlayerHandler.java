@@ -5,15 +5,12 @@ import java.util.*;
 public class PlayerHandler implements IPlayerHandler {
 
     private Deck deck;
-
     private final int playerCount;
-
     private ArrayList<Player> players;
-
-    private Player currentPlayer;
 
     /**
      * @param playerCount
+     * @throws IllegalArgumentException if playercount is invalid
      */
     public PlayerHandler(int playerCount) {
         if (playerCount < 2) {
@@ -27,6 +24,7 @@ public class PlayerHandler implements IPlayerHandler {
         deck = new ProgramDeck();
     }
 
+    @Override
     public void generatePlayers() {
         for (int i = 0; i < playerCount; i++) {
             players.add(new Player(5 + i, 2, Direction.NORTH, false));
@@ -38,9 +36,25 @@ public class PlayerHandler implements IPlayerHandler {
         }
         Collections.shuffle(docks);
 
-        for(Player player : players) {
+        for (Player player : players) {
             player.setDock(docks.pop());
         }
+    }
+
+    @Override
+    public void doTurn() {
+        //TODO Issue #44 check if dead
+        //TODO Issue #44 check if player is out side of map
+        deck.shuffle();
+        for(Player player : players) {
+            if(player.isPoweredDown()) {
+                //TODO Issue #24 check if is powered down (then heal)
+                continue;
+            } else {
+                player.drawCards();
+            }
+        }
+
     }
 
     @Override
@@ -53,6 +67,7 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
+    @Override
     public Deck getDeck() {
         return deck;
     }
@@ -64,25 +79,5 @@ public class PlayerHandler implements IPlayerHandler {
      */
     public Player mainPlayer() {
         return players.get(0);
-    }
-
-    public void doTurn() {
-        //TODO Issue #44 check if dead
-        //TODO Issue #24 check if is powered down (then heal)
-        for (Player player : players) {
-            for (Card card : player.getCards()) {
-                //player.getRobot().move(card.getAction());
-                //FIXME #33 Should not do card on all players
-                //TODO Issue #44 check if player is out side of map
-            }
-        }
-    }
-
-    public Player getCurrentPlayer() {
-        return null;
-    }
-
-    private void nextPlayer() {
-
     }
 }
