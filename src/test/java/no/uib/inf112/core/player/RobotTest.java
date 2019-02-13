@@ -73,4 +73,28 @@ public class RobotTest {
         testBot.move(Movement.MOVE_3);
         assertEquals(facing, testBot.getDirection());
     }
+
+    @Test
+    public void turningLeftWhileFacingNorthShouldResultInWest() {
+        testBot.setDirection(Direction.NORTH); //Just in case setup is changed
+        testBot.move(Movement.LEFT_TURN);
+        assertEquals(Direction.WEST, testBot.getDirection());
+    }
+
+    @Test
+    public void turningLeftShouldNotChangeXOrY() {
+        testBot.move(Movement.LEFT_TURN);
+        assertEquals(roboX, testBot.getX());
+        assertEquals(roboY, testBot.getY());
+    }
+
+    @Test
+    public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
+        Robot testBot2 = new Robot(5, 5, testBot.getDirection(), true);
+        testBot.move(Movement.RIGHT_TURN);
+        testBot.move(Movement.RIGHT_TURN);
+        testBot2.move(Movement.U_TURN);
+        assertEquals(testBot.getDirection(), testBot2.getDirection());
+    }
+
 }
