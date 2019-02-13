@@ -95,7 +95,8 @@ public class UIHandler implements Disposable {
         stage.addActor(controlPanelTable);
 
         cardDrawTable.setTransform(false);
-        cardDrawTable.setFillParent(true);
+        cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        cardDrawTable.getColor().a = 0.70f;
         cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
@@ -204,8 +205,14 @@ public class UIHandler implements Disposable {
         controlPanelTable.setHeight(controlPanelTable.getPrefHeight() + 20);
 
         controlPanelTable.setWidth(controlPanelTable.getPrefWidth()); //make sure the background image is drawn
-        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getPrefWidth() / 2); //center the cp in the x axis
+        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2); //center the cp in the x axis
         controlPanelTable.setY(5); //let there be a gap at the bottom of screen
+
+        cardDrawTable.setWidth(((CARDS_TEXTURE.getRegionWidth() + 8) * Player.MAX_HEALTH));
+        cardDrawTable.setHeight(CARDS_TEXTURE.getRegionHeight() + 10);
+
+        cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
+        cardDrawTable.setY(Gdx.graphics.getHeight() / 2f - cardDrawTable.getHeight() / 2f);
     }
 
     @Override
