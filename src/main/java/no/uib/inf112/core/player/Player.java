@@ -18,7 +18,7 @@ public class Player {
     public static final int MAX_PLAYER_CARDS = 5;
 
     private Robot robot;
-    private Deck deck;
+    private Deck deck; //TODO Issue #33 move to PlayerHandler
 
     private Vector2Int backup;
 
@@ -27,6 +27,7 @@ public class Player {
     private int health;
 
     private boolean alive;
+    private boolean headless;
 
     private Card[] cards;
 
@@ -34,13 +35,13 @@ public class Player {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
+     * @param headless  true if you want player without graphics, false otherwise
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
-    public Player(int x, int y, @NotNull Direction direction) {
+    public Player(int x, int y, @NotNull Direction direction, boolean headless) {
 
-        robot = new Robot(x, y, direction);
-        deck = new Deck();
+        deck = new ProgramDeck();
 
         //TODO Issue 47 make player choose his cards
         cards = deck.draw(MAX_PLAYER_CARDS);
@@ -51,20 +52,26 @@ public class Player {
         health = MAX_HEALTH;
         poweredDown = false;
         alive = true;
+        this.headless = headless;
 
-        ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
+        if (!headless) {
+            robot = new Robot(x, y, direction, false);
 
-        eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-            poweredDown = !poweredDown;
-            System.out.println("Powered down? " + isPoweredDown());
-        });
+            ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
-        eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
-            System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
-            robot.move(cards[event.getId()].getAction());
-        });
+            eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
+                poweredDown = !poweredDown;
+                System.out.println("Powered down? " + isPoweredDown());
+            });
+
+            eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
+                System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
+                robot.move(cards[event.getId()].getAction());
+            });
+        }
     }
 
+    //TODO Issue #33 this logic to PlayerHandler
     public void doTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #24 check if is powered down (then heal)
@@ -97,10 +104,15 @@ public class Player {
         lives--;
         if (lives == 0) {
             alive = false;
-            RoboRally.getCurrentMap().removeEntity(robot);
+            if (!headless) {
+                RoboRally.getCurrentMap().removeEntity(robot);
+            }
             return;
         }
-        robot.teleport(backup.x, backup.y);
+        health = MAX_HEALTH;
+        if (!headless) {
+            robot.teleport(backup.x, backup.y);
+        }
     }
 
     /**
@@ -113,7 +125,7 @@ public class Player {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
-        health = Math.max(MAX_HEALTH, health + healAmount);
+        health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
     /**

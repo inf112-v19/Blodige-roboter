@@ -15,12 +15,13 @@ public class Robot implements Entity {
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
      * @param direction What direction the player is facing on start
+     * @param headless  true if you want player without graphics (e.g. for testing purposes), false otherwise
      * @throws IllegalArgumentException If the given position is out of bounds
      * @throws IllegalArgumentException If direction is {@code null}
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(int x, int y, Direction direction) {
+    public Robot(int x, int y, Direction direction, boolean headless) {
         this.x = x;
         this.y = y;
 
@@ -29,12 +30,16 @@ public class Robot implements Entity {
         }
         this.direction = direction;
 
-        //TODO #Issue 32: make this standardized (as parameters? as constants?)
-        tile = RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(106);
-        if (tile == null) {
-            throw new IllegalStateException("Failed to find robot tile");
+        if (!headless) {
+            //TODO #Issue 32: make this standardized (as parameters? as constants?)
+            tile = RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(106);
+            if (tile == null) {
+                throw new IllegalStateException("Failed to find robot tile");
+            }
+            RoboRally.getCurrentMap().addEntity(this);
+        } else {
+            tile = null;
         }
-        RoboRally.getCurrentMap().addEntity(this);
     }
 
     @Override
@@ -84,10 +89,10 @@ public class Robot implements Entity {
                 move(-1 * direction.getDx(), -1 * direction.getDy());
                 break;
             case LEFT_TURN:
-                setDirection(direction.left());
+                setDirection(direction.turnLeft());
                 break;
             case RIGHT_TURN:
-                setDirection(direction.right());
+                setDirection(direction.turnRight());
                 break;
             case U_TURN:
                 setDirection(direction.inverse());
