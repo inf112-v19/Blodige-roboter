@@ -59,6 +59,16 @@ public class SlotSource extends DragAndDrop.Source {
                 payloadSlot.setCard(cont.getCard(targetSlot));
                 targetSlot.setCard(payloadCard);
             }
+
+            //fire an enter event to display tooltip when dropping the card
+            Vector2 tempCoords = new Vector2();
+            RoboRally.getUiHandler().getStage().screenToStageCoordinates(tempCoords.set(Gdx.input.getX(), Gdx.input.getY()));
+            InputEvent inputEvent = new InputEvent();
+            inputEvent.setType(InputEvent.Type.enter);
+            inputEvent.setPointer(-1);
+            inputEvent.setStageX(tempCoords.x);
+            inputEvent.setStageY(tempCoords.y);
+            targetSlot.fire(inputEvent);
         }
     }
 }

@@ -30,7 +30,7 @@ public class UIHandler implements Disposable {
     public static final String SKIN_FOLDER = "skins" + File.separator + SKIN_NAME + File.separator;
     public static final String SKIN_JSON_FILE = SKIN_FOLDER + SKIN_NAME + ".json";
 
-    private static final TextureRegion UI_BACKGROUND_TEXTURE;
+    public static final TextureRegion UI_BACKGROUND_TEXTURE;
     public static final TextureRegion CARDS_TEXTURE;
 
     private static final TextureRegion POWER_DOWN_TEXTURE;
@@ -223,6 +223,10 @@ public class UIHandler implements Disposable {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
 
