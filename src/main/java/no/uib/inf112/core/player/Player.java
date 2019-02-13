@@ -53,6 +53,7 @@ public class Player {
         poweredDown = false;
         alive = true;
         this.headless = headless;
+        damageTokens = 0;
 
         if (!headless) {
             robot = new Robot(x, y, direction, false);
