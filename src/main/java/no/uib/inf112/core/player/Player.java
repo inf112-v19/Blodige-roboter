@@ -55,7 +55,7 @@ public class Player {
         this.headless = headless;
 
         if (!headless) {
-            robot = new Robot(x, y, direction);
+            robot = new Robot(x, y, direction, false);
 
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
