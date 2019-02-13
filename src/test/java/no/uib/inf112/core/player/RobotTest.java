@@ -1,6 +1,6 @@
 package no.uib.inf112.core.player;
 
-import jdk.nashorn.internal.objects.annotations.Setter;
+//import jdk.nashorn.internal.objects.annotations.Setter;
 import org.junit.Before;
 import org.junit.Test;
 
