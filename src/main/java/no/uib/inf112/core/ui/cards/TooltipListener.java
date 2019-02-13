@@ -12,10 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
  */
 public class TooltipListener extends Tooltip<Label> {
 
-    private final CardActorSlot parent;
+    private final CardSlot parent;
     private Label label;
 
-    public TooltipListener(CardActorSlot parent) {
+    public TooltipListener(CardSlot parent) {
         super(null);
         this.parent = parent;
 

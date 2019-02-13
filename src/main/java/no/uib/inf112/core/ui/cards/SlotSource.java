@@ -14,9 +14,9 @@ import no.uib.inf112.core.ui.CardContainer;
  */
 public class SlotSource extends DragAndDrop.Source {
 
-    private final CardActorSlot sourceSlot;
+    private final CardSlot sourceSlot;
 
-    public SlotSource(final CardActorSlot actor) {
+    public SlotSource(final CardSlot actor) {
         super(actor);
         sourceSlot = actor;
     }
@@ -44,9 +44,9 @@ public class SlotSource extends DragAndDrop.Source {
     @Override
     public void dragStop(final InputEvent event, final float x, final float y, final int pointer, final Payload payload,
                          final DragAndDrop.Target target) {
-        final CardActorSlot payloadSlot = (CardActorSlot) payload.getObject();
+        final CardSlot payloadSlot = (CardSlot) payload.getObject();
         if (target != null) {
-            final CardActorSlot targetSlot = (CardActorSlot) target.getActor();
+            final CardSlot targetSlot = (CardSlot) target.getActor();
 
             final CardContainer cont = targetSlot.getContainer();
 

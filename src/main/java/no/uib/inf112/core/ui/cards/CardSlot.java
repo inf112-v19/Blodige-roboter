@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public class CardActorSlot extends CardActor {
+public class CardSlot extends CardActor {
 
     @NotNull
     private final CardContainer container;
@@ -17,7 +17,7 @@ public class CardActorSlot extends CardActor {
     private int slotId;
 
 
-    public CardActorSlot(@NotNull DragAndDrop dad, @NotNull CardContainer container, @NotNull SlotType slotType, int id) {
+    public CardSlot(@NotNull DragAndDrop dad, @NotNull CardContainer container, @NotNull SlotType slotType, int id) {
 
         this.container = container;
         this.slotType = slotType;

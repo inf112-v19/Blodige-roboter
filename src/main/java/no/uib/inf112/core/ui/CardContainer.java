@@ -3,7 +3,7 @@ package no.uib.inf112.core.ui;
 import no.uib.inf112.core.player.Card;
 import no.uib.inf112.core.player.Deck;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.ui.cards.CardActorSlot;
+import no.uib.inf112.core.ui.cards.CardSlot;
 import no.uib.inf112.core.ui.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,21 +23,21 @@ public class CardContainer {
     private final Deck deck;
     private Random random;
 
-    CardActorSlot[] handCard;
-    CardActorSlot[] drawnCard;
+    CardSlot[] handCard;
+    CardSlot[] drawnCard;
 
     public CardContainer(@NotNull Player holder, @NotNull Deck deck) {
         this.holder = holder;
         this.deck = deck;
         this.random = new Random();
 
-        handCard = new CardActorSlot[Player.MAX_PLAYER_CARDS];
-        drawnCard = new CardActorSlot[Player.MAX_HEALTH];
+        handCard = new CardSlot[Player.MAX_PLAYER_CARDS];
+        drawnCard = new CardSlot[Player.MAX_HEALTH];
     }
 
     void draw() {
 
-        for (CardActorSlot actor : handCard) {
+        for (CardSlot actor : handCard) {
             actor.setCard(null);
         }
 
@@ -59,9 +59,9 @@ public class CardContainer {
     //TODO test
     public void randomizeHand() {
         //make sure all previously picked cards are back in the drawn cards array
-        for (CardActorSlot handCard : handCard) {
+        for (CardSlot handCard : handCard) {
             if (handCard.getCard() != null) {
-                for (CardActorSlot drawnCard : drawnCard) {
+                for (CardSlot drawnCard : drawnCard) {
                     if (drawnCard.getCard() == null) {
                         drawnCard.setCard(handCard.getCard());
                     }
@@ -88,8 +88,8 @@ public class CardContainer {
 
 
     //TODO test
-    public boolean setCard(@NotNull CardActorSlot cardActorSlot, @Nullable Card card) {
-        return setCard(cardActorSlot.getSlotType(), cardActorSlot.getSlotId(), card);
+    public boolean setCard(@NotNull CardSlot cardSlot, @Nullable Card card) {
+        return setCard(cardSlot.getSlotType(), cardSlot.getSlotId(), card);
     }
 
     //TODO test
@@ -123,8 +123,8 @@ public class CardContainer {
     /**
      * @return The card at the given id
      */
-    public Card getCard(@NotNull CardActorSlot cardActorSlot) {
-        return getCard(cardActorSlot.getSlotType(), cardActorSlot.getSlotId());
+    public Card getCard(@NotNull CardSlot cardSlot) {
+        return getCard(cardSlot.getSlotType(), cardSlot.getSlotId());
     }
 
     /**
@@ -143,7 +143,7 @@ public class CardContainer {
     }
 
     public boolean hasInvalidHand() {
-        for (CardActorSlot actor : handCard) {
+        for (CardSlot actor : handCard) {
             if (actor.getCard() == null) {
                 return true;
             }
