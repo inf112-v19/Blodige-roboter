@@ -108,6 +108,7 @@ public class Player {
             }
             return;
         }
+        health = MAX_HEALTH;
         if (!headless) {
             robot.teleport(backup.x, backup.y);
         }
