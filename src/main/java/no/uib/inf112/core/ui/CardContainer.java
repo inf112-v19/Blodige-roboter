@@ -86,12 +86,6 @@ public class CardContainer {
         }
     }
 
-
-    //TODO test
-    public boolean setCard(@NotNull CardSlot cardSlot, @Nullable Card card) {
-        return setCard(cardSlot.getSlotType(), cardSlot.getSlotId(), card);
-    }
-
     //TODO test
 
     /**
@@ -117,15 +111,7 @@ public class CardContainer {
         }
     }
 
-
     //TODO test
-
-    /**
-     * @return The card at the given id
-     */
-    public Card getCard(@NotNull CardSlot cardSlot) {
-        return getCard(cardSlot.getSlotType(), cardSlot.getSlotId());
-    }
 
     /**
      * @param id The local id of the card

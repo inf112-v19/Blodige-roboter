@@ -25,6 +25,9 @@ public class SlotSource extends DragAndDrop.Source {
         if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards() || sourceSlot.isDisabled()) {
             return null;
         }
+
+//        System.out.println("Starting to drag card " + sourceSlot.getSlotId() + " from " + sourceSlot.getSlotType());
+
         RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
         final CardActor dragActor = new CardActor();

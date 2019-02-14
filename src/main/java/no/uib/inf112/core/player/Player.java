@@ -30,7 +30,6 @@ public class Player {
     private boolean poweredDown;
     private int health;
 
-    private boolean alive;
     private boolean headless;
 
     private CardContainer cards;
@@ -65,7 +64,6 @@ public class Player {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        alive = true;
         this.headless = headless;
 
         if (!headless) {
@@ -73,26 +71,42 @@ public class Player {
 
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
+            //TODO REMOVE
+//            health = 1;
+//            lives = 1;
+
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
-                //Test drawing cards //TODO REMOVE BEFORE PR
+
+                //TODO REMOVE BEFORE PR
+                //Test drawing cards
                 if (!poweredDown) {
+                    damage(1);
                     RoboRally.getUiHandler().finishDrawCards();
                     if (cards.hasInvalidHand()) {
                         cards.randomizeHand();
                     }
+
                     for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
                         int id = i;
+
+                        //this is a way to do player turns (ie wait some between each card is played)
                         RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                             Card card = cards.getCard(SlotType.HAND, id);
-                            robot.move(card.getAction());
-                        }), i + 1, TimeUnit.SECONDS);
-
+                            try {
+                                robot.move(card.getAction());
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
+                        }), 500 * (i + 1), TimeUnit.MILLISECONDS);
                     }
+
                 } else {
+                    deck.shuffle();
                     RoboRally.getUiHandler().drawNewCards(this);
                 }
+
             });
         }
     }
@@ -151,13 +165,6 @@ public class Player {
         health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
-    /**
-     * @return If the player is dead. A player is dead if their lives are 0 or less
-     */
-    public boolean isDead() {
-        return lives <= 0;
-    }
-
     @NotNull
     public CardContainer getCards() {
         return cards;
@@ -169,10 +176,6 @@ public class Player {
 
     public int getHealth() {
         return health;
-    }
-
-    public boolean isAlive() {
-        return alive;
     }
 
     public boolean isPoweredDown() {
