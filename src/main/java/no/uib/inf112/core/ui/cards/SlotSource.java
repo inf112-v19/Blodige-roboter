@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Card;
-import no.uib.inf112.core.ui.CardContainer;
 
 /**
  * @author Elg
@@ -51,17 +50,18 @@ public class SlotSource extends DragAndDrop.Source {
                 //do not allow dropping on disabled slots (both drawn and hand)
                 return;
             }
-            
-            final CardContainer cont = targetSlot.getContainer();
+
+//            System.out.println("Dropping card on card " + targetSlot.getSlotId() + " from " + targetSlot.getSlotType());
 
             if (targetSlot.getCard() == null) {
-                cont.setCard(targetSlot, payloadSlot.getCard());
-                cont.setCard(payloadSlot, null);
+                //move the payload to the target slot
+                targetSlot.setCard(payloadSlot.getCard());
+                payloadSlot.setCard(null);
             } else {
                 //swap the two items
-                final Card payloadCard = cont.getCard(payloadSlot);
+                final Card payloadCard = payloadSlot.getCard();
 
-                payloadSlot.setCard(cont.getCard(targetSlot));
+                payloadSlot.setCard(targetSlot.getCard());
                 targetSlot.setCard(payloadCard);
             }
 
