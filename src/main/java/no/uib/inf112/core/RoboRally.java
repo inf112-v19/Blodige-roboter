@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Player;
@@ -32,6 +33,7 @@ public class RoboRally extends Game {
 
     //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
     public static Player player;
+    public static MapInteractOnUser mapInteractOnUser;
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
@@ -51,6 +53,7 @@ public class RoboRally extends Game {
 
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         player = new Player(5, 2, Direction.NORTH, false);
+        mapInteractOnUser = new MapInteractOnUser();
 
     }
 
