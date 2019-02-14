@@ -128,16 +128,13 @@ public class Player {
      */
     public void kill() {
         lives--;
-        if (lives == 0) {
-            alive = false;
+        if (lives > 0) {
+            health = MAX_HEALTH;
             if (!headless) {
-                RoboRally.getCurrentMap().removeEntity(robot);
+                robot.teleport(backup.x, backup.y);
             }
-            return;
-        }
-        health = MAX_HEALTH;
-        if (!headless) {
-            robot.teleport(backup.x, backup.y);
+        } else if (!headless) {
+            RoboRally.getCurrentMap().removeEntity(robot);
         }
     }
 
