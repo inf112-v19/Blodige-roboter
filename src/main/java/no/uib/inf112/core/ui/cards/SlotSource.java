@@ -23,7 +23,7 @@ public class SlotSource extends DragAndDrop.Source {
 
     @Override
     public Payload dragStart(final InputEvent event, final float x, final float y, final int pointer) {
-        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards()) {
+        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards() || sourceSlot.isDisabled()) {
             return null;
         }
         RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
@@ -47,7 +47,11 @@ public class SlotSource extends DragAndDrop.Source {
         if (target != null) {
             final CardSlot targetSlot = (CardSlot) target.getActor();
 
-
+            if (targetSlot.isDisabled()) {
+                //do not allow dropping on disabled slots (both drawn and hand)
+                return;
+            }
+            
             final CardContainer cont = targetSlot.getContainer();
 
             if (targetSlot.getCard() == null) {
