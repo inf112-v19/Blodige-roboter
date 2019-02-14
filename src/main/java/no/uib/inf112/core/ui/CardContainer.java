@@ -35,15 +35,14 @@ public class CardContainer {
         drawnCard = new CardSlot[Player.MAX_HEALTH];
     }
 
-    void draw() {
-
+    public void draw() {
         for (CardSlot actor : handCard) {
-            actor.setCard(null);
+            if (!actor.isDisabled()) {
+                actor.setCard(null);
+            }
         }
 
         int amount = holder.getHealth();
-        System.out.println("drawnCard.l = " + drawnCard.length);
-        System.out.println("amount = " + amount);
         Card[] draw = deck.draw(amount);
 
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
@@ -56,11 +55,12 @@ public class CardContainer {
         }
     }
 
-    //TODO test
+    //FIXME probably broken
     public void randomizeHand() {
         //make sure all previously picked cards are back in the drawn cards array
         for (CardSlot handCard : handCard) {
-            if (handCard.getCard() != null) {
+            if (handCard.getCard() != null && !handCard.isDisabled()) {
+
                 for (CardSlot drawnCard : drawnCard) {
                     if (drawnCard.getCard() == null) {
                         drawnCard.setCard(handCard.getCard());
@@ -69,7 +69,7 @@ public class CardContainer {
             }
         }
 
-        //TODO assert handCards is empty
+        //TODO assert handCards is empty/disabled
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             int randomCard = random.nextInt(drawnCard.length);
