@@ -10,7 +10,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -120,7 +123,13 @@ public class UIHandler implements Disposable {
         topRow.add(lifeTokens).expandX().align(Align.left); //make sire the life tokens are to the left
         lifeTokens.space(5);
         for (int i = 0; i < Player.MAX_LIVES; i++) {
-            lifeTokens.addActor(new ImageButton(new TextureRegionDrawable(LIFE_TOKEN_TEXTURE)));
+            int id = i;
+            lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
+                @Override
+                public boolean isDisabled() {
+                    return RoboRally.player.getLives() <= id;
+                }
+            });
         }
 
         //display power button, it will by default be to the right
@@ -133,7 +142,13 @@ public class UIHandler implements Disposable {
         controlPanelTable.row();
 
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
-            damageRow.addActor(new ImageButton(new TextureRegionDrawable(DAMAGE_TOKEN_TEXTURE)));
+            int id = i;
+            damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
+                @Override
+                public boolean isDisabled() {
+                    return RoboRally.player.getHealth() <= id;
+                }
+            });
         }
 
         //display cards

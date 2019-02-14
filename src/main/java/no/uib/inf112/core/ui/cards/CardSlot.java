@@ -1,13 +1,15 @@
 package no.uib.inf112.core.ui.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.CardContainer;
+import no.uib.inf112.core.ui.DisabledVisualizer;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Elg
  */
-public class CardSlot extends CardActor {
+public class CardSlot extends CardActor implements DisabledVisualizer {
 
     @NotNull
     private final CardContainer container;
@@ -28,6 +30,16 @@ public class CardSlot extends CardActor {
         addListener(new TooltipListener(this));
     }
 
+    @Override
+    public boolean isDisabled() {
+        return RoboRally.player.getHealth() <= slotId;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        act();
+    }
 
     public int getSlotId() {
         return slotId;
