@@ -5,7 +5,7 @@ import java.util.*;
 public class PlayerHandler implements IPlayerHandler {
 
     private Deck deck;
-    private final int playerCount;
+    private int playerCount;
     private ArrayList<Player> players;
 
     /**
@@ -46,8 +46,8 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
         deck.shuffle();
-        for(Player player : players) {
-            if(player.isPoweredDown()) {
+        for (Player player : players) {
+            if (player.isPoweredDown()) {
                 //TODO Issue #24 check if is powered down (then heal)
                 continue;
             } else {

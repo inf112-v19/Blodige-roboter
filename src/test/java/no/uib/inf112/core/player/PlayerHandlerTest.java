@@ -16,12 +16,12 @@ public class PlayerHandlerTest {
         assertEquals(2, testHandler.getPlayerCount());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void creatingHandlerWith1PlayerShouldThrowException() {
         testHandler = new PlayerHandler(1);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void creatingHandlerWith9PlayersShouldThrowException() {
         testHandler = new PlayerHandler(9);
     }
@@ -57,7 +57,4 @@ public class PlayerHandlerTest {
             playerDocks.add(player.getDock());
         }
     }
-
-    //TODO Test if constructor works as expected.
-    //TODO Test if generatePlayers() words as expected.
 }

@@ -8,12 +8,14 @@ import java.util.ArrayList;
 public interface IPlayerHandler {
     /**
      * Get currently playing players
+     *
      * @return
      */
     ArrayList<Player> getPlayers();
 
     /**
      * Get the number of players playing
+     *
      * @return
      */
     int getPlayerCount();
@@ -28,7 +30,6 @@ public interface IPlayerHandler {
 
     /**
      * Do next turn in game
-     *
      */
     void doTurn();
 
