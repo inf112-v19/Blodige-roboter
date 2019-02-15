@@ -43,9 +43,6 @@ public class Player {
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
-        //TODO Issue 47 make player choose his cards
-        cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS);
-
         backup = new Vector2Int(x, y);
 
         lives = MAX_LIVES;
@@ -56,6 +53,8 @@ public class Player {
         damageTokens = 0;
 
         if (!headless) {
+            //TODO Issue 47 make player choose his cards
+            cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS);
             robot = new Robot(x, y, direction, false);
 
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
