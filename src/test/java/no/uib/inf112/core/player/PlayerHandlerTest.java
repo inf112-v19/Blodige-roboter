@@ -1,10 +1,8 @@
 package no.uib.inf112.core.player;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PlayerHandlerTest {
 
@@ -29,10 +27,17 @@ public class PlayerHandlerTest {
     @Test
     public void creatingHandlerWith2PlayersShouldResultInPlayerListOfCapacity2() {
         testHandler = new PlayerHandler(2);
-        testHandler.generatePlayers();
+        testHandler.generatePlayers(true);
         assertEquals(2, testHandler.getPlayers().size());
     }
 
+    @Test
+    public void creatingHandlerShouldInitializeProgramDeck() {
+        testHandler = new PlayerHandler(2);
+        assertNotNull(testHandler.getDeck());
+    }
+
+    
 
     //TODO Test if constructor works as expected.
     //TODO Test if generatePlayers() words as expected.
