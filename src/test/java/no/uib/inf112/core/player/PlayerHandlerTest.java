@@ -1,6 +1,9 @@
 package no.uib.inf112.core.player;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 public class PlayerHandlerTest {
@@ -21,6 +24,13 @@ public class PlayerHandlerTest {
     @Test (expected = IllegalArgumentException.class)
     public void creatingHandlerWith9PlayersShouldThrowException() {
         testHandler = new PlayerHandler(9);
+    }
+
+    @Test
+    public void creatingHandlerWith2PlayersShouldResultInPlayerListOfCapacity2() {
+        testHandler = new PlayerHandler(2);
+        testHandler.generatePlayers();
+        assertEquals(2, testHandler.getPlayers().size());
     }
 
 

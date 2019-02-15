@@ -25,9 +25,9 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public void generatePlayers() {
+    public void generatePlayers(boolean headless) {
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH, false));
+            players.add(new Player(5 + i, 2, Direction.NORTH, headless));
         }
 
         Stack<Integer> docks = new Stack<>();
