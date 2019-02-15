@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.player.Direction;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -26,14 +25,14 @@ public class RoboRally extends Game {
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
+    public static int numberOfPlayers = 3;
 
     private SpriteBatch batch;
     private BitmapFont font;
 
     private static TiledMapHandler map;
 
-    //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
-    public static Player player;
+    private static PlayerHandler playerHandler;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -53,24 +52,16 @@ public class RoboRally extends Game {
 
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        player = new Player(5, 2, Direction.NORTH);
 
+        playerHandler = new PlayerHandler(numberOfPlayers);
+        playerHandler.generatePlayers(false); //Need this because of line 57 in player class
         uiHandler = new UIHandler();
-        new InputHandler();
-
-
+        new InputHandler(); //this must be after UIHandler to allow dragging of cards
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            // Decide which robot moves
-            // Move robots in order
-            if (player.isPoweredDown()) {
-                System.out.println("Player is powered down");
-                continue;
-            }
-//            playerHandler.doTurn();
-            System.out.println("moved!");
+            playerHandler.doTurn();
             // End of robot movement
 
             // Activate lasers
@@ -132,6 +123,11 @@ public class RoboRally extends Game {
     @NotNull
     public static ControlPanelEventHandler getCPEventHandler() {
         return cpEventHandler;
+    }
+
+    @NotNull
+    public static PlayerHandler getPlayerHandler() {
+        return playerHandler;
     }
 
     @NotNull

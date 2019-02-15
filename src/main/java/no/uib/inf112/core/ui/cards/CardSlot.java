@@ -1,7 +1,6 @@
 package no.uib.inf112.core.ui.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.DisabledVisualizer;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
 
 
     public CardSlot(@NotNull DragAndDrop dad, @NotNull CardContainer container, @NotNull SlotType slotType, int id) {
-
+        super();
         this.container = container;
         this.slotType = slotType;
         this.slotId = id;
@@ -32,7 +31,8 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
 
     @Override
     public boolean isDisabled() {
-        return RoboRally.player.getHealth() <= slotId;
+        //noinspection ConstantConditions container must be checked to be not null as isDisabled is called in the super constructor
+        return container != null && container.getPlayer().getHealth() <= slotId;
     }
 
     @Override

@@ -20,15 +20,18 @@ public class Player {
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
     public static final int MAX_PLAYER_CARDS = 5;
+    public static final int MAX_DRAW_CARDS = 9;
 
     private Robot robot;
-    private Deck deck; //TODO Issue #33 move to PlayerHandler
 
     private Vector2Int backup;
+
+    private int dock;
 
     private int lives;
     private boolean poweredDown;
     private int health;
+    private int damageTokens;
 
     private boolean headless;
 
@@ -38,8 +41,8 @@ public class Player {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
      */
     public Player(int x, int y, @NotNull Direction direction) {
         this(x, y, direction, false);
@@ -50,25 +53,21 @@ public class Player {
      * @param y         Start y position
      * @param direction Start direction
      * @param headless  true if you want player without graphics, false otherwise
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
-
-        deck = new ProgramDeck(headless);
-        //TODO Issue 47 make player choose his cards
-        cards = new CardContainer(this, deck);
-
         backup = new Vector2Int(x, y);
 
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
         this.headless = headless;
+        damageTokens = 0;
 
         if (!headless) {
             robot = new Robot(x, y, direction, false);
-
+            cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
             //TODO REMOVE
@@ -76,6 +75,10 @@ public class Player {
 //            lives = 1;
 
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
+                if (this != RoboRally.getPlayerHandler().mainPlayer()) {
+                    return;
+                }
+
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
 
@@ -94,32 +97,18 @@ public class Player {
                         //this is a way to do player turns (ie wait some between each card is played)
                         RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                             Card card = cards.getCard(SlotType.HAND, id);
-                            try {
-                                robot.move(card.getAction());
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            }
+                            robot.move(card.getAction());
                         }), 500 * (i + 1), TimeUnit.MILLISECONDS);
                     }
 
                 } else {
-                    deck.shuffle();
+                    RoboRally.getPlayerHandler().getDeck().shuffle();
                     RoboRally.getUiHandler().drawNewCards(this);
                 }
 
             });
         }
     }
-
-    //TODO Issue #33 this logic to PlayerHandler
-//    public void doTurn() {
-//        //TODO Issue #44 check if dead
-//        //TODO Issue #24 check if is powered down (then heal)
-////        for (Card card : cards) {
-////            robot.move(card.getAction());
-//        //TODO Issue #44 check if player is out side of map
-////        }
-//    }
 
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
@@ -170,6 +159,10 @@ public class Player {
         return cards;
     }
 
+    public void drawCards() {
+        cards.draw();
+    }
+
     public int getLives() {
         return lives;
     }
@@ -182,6 +175,10 @@ public class Player {
         return poweredDown;
     }
 
+    public int getDamageTokens() {
+        return damageTokens;
+    }
+
     public Vector2Int getBackup() {
         return backup;
     }
@@ -189,5 +186,17 @@ public class Player {
     public void setBackup(int x, int y) {
         backup.x = x;
         backup.y = y;
+    }
+
+    public Robot getRobot() {
+        return robot;
+    }
+
+    public int getDock() {
+        return dock;
+    }
+
+    public void setDock(int dock) {
+        this.dock = dock;
     }
 }

@@ -19,14 +19,13 @@ public class CardContainer {
 
     @NotNull
     private final Player holder;
-    @NotNull
     private final Deck deck;
     private Random random;
 
     CardSlot[] handCard;
     CardSlot[] drawnCard;
 
-    public CardContainer(@NotNull Player holder, @NotNull Deck deck) {
+    public CardContainer(@NotNull Player holder, Deck deck) {
         this.holder = holder;
         this.deck = deck;
         this.random = new Random();
@@ -135,5 +134,9 @@ public class CardContainer {
             }
         }
         return false;
+    }
+
+    public Player getPlayer() {
+        return holder;
     }
 }

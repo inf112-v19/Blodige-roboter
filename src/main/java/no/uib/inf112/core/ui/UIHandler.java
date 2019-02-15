@@ -127,7 +127,7 @@ public class UIHandler implements Disposable {
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.player.getLives() <= id;
+                    return RoboRally.getPlayerHandler().mainPlayer().getLives() <= id;
                 }
             });
         }
@@ -146,7 +146,7 @@ public class UIHandler implements Disposable {
             damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.player.getHealth() <= id;
+                    return RoboRally.getPlayerHandler().mainPlayer().getHealth() <= id;
                 }
             });
         }
@@ -155,7 +155,8 @@ public class UIHandler implements Disposable {
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(5); //space between cards
         controlPanelTable.add(cardsRow);
-        CardContainer container = RoboRally.player.getCards();
+        CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
+        System.out.println("container.getPlayer() = " + container.getPlayer());
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(dad, container, SlotType.HAND, i);
             container.handCard[i] = cardSlot;
@@ -194,7 +195,7 @@ public class UIHandler implements Disposable {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                float state = RoboRally.player.isPoweredDown() ? 0.25f : -0.25f;
+                float state = RoboRally.getPlayerHandler().mainPlayer().isPoweredDown() ? 0.25f : -0.25f;
                 button.getColor().a += state;
                 RoboRally.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
