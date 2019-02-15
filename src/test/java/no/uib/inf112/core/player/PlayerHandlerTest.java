@@ -1,8 +1,10 @@
 package no.uib.inf112.core.player;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 public class PlayerHandlerTest {
 
@@ -37,7 +39,24 @@ public class PlayerHandlerTest {
         assertNotNull(testHandler.getDeck());
     }
 
-    
+    @Test
+    public void generating5PlayersShouldResultInListOfPlayersOfSize5() {
+        testHandler = new PlayerHandler(5);
+        testHandler.generatePlayers(true);
+        assertEquals(5, testHandler.getPlayers().size());
+    }
+
+    @Test
+    public void whenGeneratedEachPlayerShouldHaveAUniqueDock() {
+        testHandler = new PlayerHandler(8);
+        testHandler.generatePlayers(true);
+
+        ArrayList<Integer> playerDocks = new ArrayList<>();
+        for (Player player : testHandler.getPlayers()) {
+            assertFalse(playerDocks.contains(player.getDock()));
+            playerDocks.add(player.getDock());
+        }
+    }
 
     //TODO Test if constructor works as expected.
     //TODO Test if generatePlayers() words as expected.
