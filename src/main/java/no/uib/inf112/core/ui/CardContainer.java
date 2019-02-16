@@ -34,6 +34,9 @@ public class CardContainer {
         drawnCard = new CardSlot[Player.MAX_DRAW_CARDS];
     }
 
+    /**
+     * Draw cards for the players drawn cards and removes any non-disabled cards from the players hand
+     */
     public void draw() {
         for (CardSlot actor : handCard) {
             if (!actor.isDisabled()) {
@@ -54,7 +57,13 @@ public class CardContainer {
         }
     }
 
+
     //FIXME probably broken
+
+    /**
+     * Set the players hand to a random selection of the drawn cards.
+     * Any disabled cards should not be updated
+     */
     public void randomizeHand() {
         //make sure all previously picked cards are back in the drawn cards array
         for (CardSlot handCard : handCard) {
@@ -85,35 +94,36 @@ public class CardContainer {
         }
     }
 
-    //TODO test
 
     /**
-     * @param slotType
-     * @param id
-     * @param card
+     * TODO test if this updates cards correctly (and returns correctly)
+     *
+     * @param slotType The type of slot to put this cards in
+     * @param id       The id (index) of the card
+     * @param card     The card to be set, can be {@code null}
      * @return If the card at given location was updated
      */
     public boolean setCard(@NotNull SlotType slotType, int id, @Nullable Card card) {
+        if (id < holder.getHealth()) {
+            return false;
+        }
         switch (slotType) {
             case HAND:
                 handCard[id].setCard(card);
                 return true;
             case DRAWN:
-                if (id < holder.getHealth()) {
-                    drawnCard[id].setCard(card);
-                    return true;
-                } else {
-                    return false;
-                }
+                drawnCard[id].setCard(card);
+                return true;
             default:
                 throw new IllegalArgumentException("Failed to find cards of type " + slotType);
         }
     }
 
-    //TODO test
-
     /**
-     * @param id The local id of the card
+     * TODO test if this return the correct cards
+     *
+     * @param slotType Where to put the card
+     * @param id       The id(index) of the card
      * @return The card at the given id
      */
     public Card getCard(@NotNull SlotType slotType, int id) {
@@ -127,6 +137,11 @@ public class CardContainer {
         }
     }
 
+    /**
+     * TODO use this combined to test if we should start/stop timer for randomizing players hand
+     *
+     * @return If any of the player hand cards are {@code null}
+     */
     public boolean hasInvalidHand() {
         for (CardSlot actor : handCard) {
             if (actor.getCard() == null) {
@@ -136,6 +151,9 @@ public class CardContainer {
         return false;
     }
 
+    /**
+     * @return The player who owns this container
+     */
     public Player getPlayer() {
         return holder;
     }

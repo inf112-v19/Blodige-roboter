@@ -230,8 +230,9 @@ public class UIHandler implements Disposable {
 
         controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2f); //center the cp in the x axis
         controlPanelTable.setY(DEFAULT_SPACING); //let there be a gap at the bottom of screen
-//
+
         cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
+        //place the draw ui just above the control panel
         cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + DEFAULT_SPACING);
     }
 

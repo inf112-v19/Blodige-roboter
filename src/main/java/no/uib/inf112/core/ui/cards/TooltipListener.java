@@ -25,9 +25,12 @@ public class TooltipListener extends Tooltip<Label> {
 
         label = new Label("", style);
         setActor(label);
-        setInstant(true);
 
+        //configure how the tooltip act
+        setInstant(true);
         getManager().animations = false;
+
+        getManager().hideAll();
 
     }
 

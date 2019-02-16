@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
+ * Class to hide boilerplate code when creating control panel elements (such as life and health)
+ *
  * @author Elg
  */
 public abstract class ControlPanelElement extends ImageButton implements DisabledVisualizer {
