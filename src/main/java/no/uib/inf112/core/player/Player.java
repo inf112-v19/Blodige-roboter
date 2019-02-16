@@ -16,11 +16,13 @@ public class Player {
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
     public static final int MAX_PLAYER_CARDS = 5;
+    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
 
     private Robot robot;
-    private Deck deck; //TODO Issue #33 move to PlayerHandler
 
     private Vector2Int backup;
+
+    private int dock;
 
     private int lives;
     private boolean poweredDown;
@@ -40,12 +42,6 @@ public class Player {
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
-
-        deck = new ProgramDeck();
-
-        //TODO Issue 47 make player choose his cards
-        cards = deck.draw(MAX_PLAYER_CARDS);
-
         backup = new Vector2Int(x, y);
 
         lives = MAX_LIVES;
@@ -55,6 +51,8 @@ public class Player {
         this.headless = headless;
 
         if (!headless) {
+            //TODO Issue 47 make player choose his cards
+            cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS);
             robot = new Robot(x, y, direction, false);
 
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
@@ -68,16 +66,6 @@ public class Player {
                 System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
                 robot.move(cards[event.getId()].getAction());
             });
-        }
-    }
-
-    //TODO Issue #33 this logic to PlayerHandler
-    public void doTurn() {
-        //TODO Issue #44 check if dead
-        //TODO Issue #24 check if is powered down (then heal)
-        for (Card card : cards) {
-            robot.move(card.getAction());
-            //TODO Issue #44 check if player is out side of map
         }
     }
 
@@ -140,6 +128,10 @@ public class Player {
         return cards;
     }
 
+    public void drawCards() {
+        cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS - getDamageTokens());
+    }
+
     public int getLives() {
         return lives;
     }
@@ -156,6 +148,10 @@ public class Player {
         return poweredDown;
     }
 
+    public int getDamageTokens() {
+        return MAX_HEALTH - health;
+    }
+
     public Vector2Int getBackup() {
         return backup;
     }
@@ -163,5 +159,17 @@ public class Player {
     public void setBackup(int x, int y) {
         backup.x = x;
         backup.y = y;
+    }
+
+    public Robot getRobot() {
+        return robot;
+    }
+
+    public int getDock() {
+        return dock;
+    }
+
+    public void setDock(int dock) {
+        this.dock = dock;
     }
 }
