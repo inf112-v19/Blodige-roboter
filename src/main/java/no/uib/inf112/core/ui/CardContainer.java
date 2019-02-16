@@ -31,7 +31,7 @@ public class CardContainer {
         this.random = new Random();
 
         handCard = new CardSlot[Player.MAX_PLAYER_CARDS];
-        drawnCard = new CardSlot[Player.MAX_HEALTH];
+        drawnCard = new CardSlot[Player.MAX_DRAW_CARDS];
     }
 
     public void draw() {
@@ -44,7 +44,7 @@ public class CardContainer {
         int amount = holder.getHealth();
         Card[] draw = deck.draw(amount);
 
-        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             if (i >= amount) {
                 drawnCard[i].setCard(null);
                 drawnCard[i].getColor().a = 0.70f;

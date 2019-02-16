@@ -163,7 +163,7 @@ public class UIHandler implements Disposable {
             cardsRow.addActor(cardSlot);
         }
 
-        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(dad, container, SlotType.DRAWN, i);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(5);
