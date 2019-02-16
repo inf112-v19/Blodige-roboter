@@ -6,6 +6,10 @@ import no.uib.inf112.core.RoboRally;
 
 public class InputHandler extends InputAdapter {
 
+    public InputHandler() {
+        RoboRally.getInputMultiplexer().addProcessor(this);
+    }
+
     @Override
     public boolean scrolled(int direction) {
         RoboRally.getCurrentMap().zoomCamera(direction);

@@ -6,12 +6,12 @@ package no.uib.inf112.core.player;
 
 public enum Movement {
 
-        RIGHT_TURN,
-        LEFT_TURN,
-        U_TURN,
-        MOVE_1,
-        MOVE_2,
-        MOVE_3,
-        BACK_UP
+    RIGHT_TURN,
+    LEFT_TURN,
+    U_TURN,
+    MOVE_1,
+    MOVE_2,
+    MOVE_3,
+    BACK_UP
 }
 

@@ -4,20 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.player.Direction;
-import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
+import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-
-import static java.lang.Thread.sleep;
 
 public class RoboRally extends Game {
 
@@ -30,28 +27,15 @@ public class RoboRally extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
 
-
     private static TiledMapHandler map;
-    private OrthographicCamera camera; //use this for UI
 
-    //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
-    private Robot robot;
-    private Robot robot2;
+    private static PlayerHandler playerHandler;
 
-    private boolean waitingForUser;
-
-    private InputMultiplexer inputMultiplexer;
-
+    private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
 
 
-    /**
-     * @return The current map in play
-     */
-    @NotNull
-    public static MapHandler getCurrentMap() {
-        return map;
-    }
+    private static ControlPanelEventHandler cpEventHandler;
 
     @Override
     public void create() {
@@ -59,29 +43,20 @@ public class RoboRally extends Game {
         font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
-
-        uiHandler = new UIHandler(this);
-        inputMultiplexer.addProcessor(uiHandler.getStage());
-        inputMultiplexer.addProcessor(new InputHandler());
-
         Gdx.input.setInputProcessor(inputMultiplexer);
 
+        uiHandler = new UIHandler();
+        new InputHandler();
+        cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        robot = new Robot(5, 5, Direction.NORTH);
-        robot2 = new Robot(1, 1, Direction.SOUTH);
+        playerHandler = new PlayerHandler(3);
+        playerHandler.generatePlayers(false);
 
-
-        //Setup done, waiting for user(s) to pick cards
-        waitingForUser = true;
     }
 
-    public void round(){
-        waitingForUser = false;
+    public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            // Decide which robot moves
-            // Move robots in order
-            move();
-            System.out.println("moved!");
+            playerHandler.doTurn();
             // End of robot movement
 
             // Activate lasers
@@ -92,9 +67,9 @@ public class RoboRally extends Game {
 
             //Should wait some time
         }
-        waitingForUser=true;
         //User plans next round
     }
+
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
@@ -112,25 +87,41 @@ public class RoboRally extends Game {
         batch.end();
     }
 
-
     @Override
     public void dispose() {
         super.dispose();
         batch.dispose();
         font.dispose();
+        uiHandler.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         map.resize();
+        uiHandler.resize();
     }
 
-    public void move() {
-        try {
-            robot.move(-1, 0);
-        } catch (IllegalArgumentException ex) {
-            robot.move(5, 0);
-        }
+    /**
+     * @return The current map in play
+     */
+    @NotNull
+    public static MapHandler getCurrentMap() {
+        return map;
+    }
+
+    @NotNull
+    public static InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
+    }
+
+    @NotNull
+    public static ControlPanelEventHandler getCPEventHandler() {
+        return cpEventHandler;
+    }
+
+    @NotNull
+    public static PlayerHandler getPlayerHandler() {
+        return playerHandler;
     }
 }

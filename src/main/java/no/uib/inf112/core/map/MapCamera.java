@@ -57,7 +57,9 @@ public abstract class MapCamera implements MapHandler {
 
     @Override
     public void resize() {
-        if (camera == null) return;
+        if (camera == null) {
+            return;
+        }
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 }
