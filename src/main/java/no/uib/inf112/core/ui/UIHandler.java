@@ -42,6 +42,9 @@ public class UIHandler implements Disposable {
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
 
+    //How much space there should be between each element in the ui
+    public static final int DEFAULT_SPACING = 5;
+
     private final Skin skin;
     private final Table controlPanelTable;
     private final Stage stage;
@@ -81,7 +84,6 @@ public class UIHandler implements Disposable {
         RoboRally.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
-
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
         controlPanelTable = new Table(skin);
 
@@ -91,7 +93,6 @@ public class UIHandler implements Disposable {
         cardDrawTable = new Table();
 
         create();
-        resize();
     }
 
     /**
@@ -104,12 +105,12 @@ public class UIHandler implements Disposable {
         cardDrawTable.setTransform(false);
         cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
         cardDrawTable.getColor().a = 0.9f;
+        cardDrawTable.pad(DEFAULT_SPACING);
         cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
         controlPanelTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        controlPanelTable.padLeft(50);
-        controlPanelTable.padRight(50);
+        controlPanelTable.pad(DEFAULT_SPACING * 2, DEFAULT_SPACING * 4, DEFAULT_SPACING * 2, DEFAULT_SPACING * 4);
         controlPanelTable.setTransform(false); //optimization
 
 
@@ -121,7 +122,7 @@ public class UIHandler implements Disposable {
         //display life tokens
         HorizontalGroup lifeTokens = new HorizontalGroup();
         topRow.add(lifeTokens).expandX().align(Align.left); //make sire the life tokens are to the left
-        lifeTokens.space(5);
+        lifeTokens.space(DEFAULT_SPACING);
         for (int i = 0; i < Player.MAX_LIVES; i++) {
             int id = i;
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
@@ -137,8 +138,8 @@ public class UIHandler implements Disposable {
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
-        damageRow.space(5); //space between tokens
-        controlPanelTable.add(damageRow).align(Align.left).padBottom(5);
+        damageRow.space(DEFAULT_SPACING); //space between tokens
+        controlPanelTable.add(damageRow).align(Align.left).padBottom(DEFAULT_SPACING);
         controlPanelTable.row();
 
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
@@ -153,7 +154,7 @@ public class UIHandler implements Disposable {
 
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
-        cardsRow.space(5); //space between cards
+        cardsRow.space(DEFAULT_SPACING); //space between cards
         controlPanelTable.add(cardsRow);
         CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
         System.out.println("container.getPlayer() = " + container.getPlayer());
@@ -166,7 +167,7 @@ public class UIHandler implements Disposable {
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(dad, container, SlotType.DRAWN, i);
             container.drawnCard[i] = cardSlot;
-            cardDrawTable.add(cardSlot).space(5);
+            cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
 
@@ -225,18 +226,14 @@ public class UIHandler implements Disposable {
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        //make sure we have background around the whole control panel
-        controlPanelTable.setHeight(controlPanelTable.getPrefHeight() + 20);
+        controlPanelTable.pack();
+        cardDrawTable.pack();
 
-        controlPanelTable.setWidth(controlPanelTable.getPrefWidth()); //make sure the background image is drawn
-        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2); //center the cp in the x axis
-        controlPanelTable.setY(5); //let there be a gap at the bottom of screen
-
-        cardDrawTable.setWidth(((CARDS_TEXTURE.getRegionWidth() + 8) * Player.MAX_HEALTH));
-        cardDrawTable.setHeight(CARDS_TEXTURE.getRegionHeight() + 10);
-
+        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2f); //center the cp in the x axis
+        controlPanelTable.setY(DEFAULT_SPACING); //let there be a gap at the bottom of screen
+//
         cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
-        cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + 5);
+        cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + DEFAULT_SPACING);
     }
 
     @Override
