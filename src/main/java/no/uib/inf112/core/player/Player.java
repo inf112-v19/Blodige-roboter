@@ -27,7 +27,6 @@ public class Player {
     private int lives;
     private boolean poweredDown;
     private int health;
-    private int damageTokens;
 
     private boolean alive;
     private boolean headless;
@@ -50,7 +49,6 @@ public class Player {
         poweredDown = false;
         alive = true;
         this.headless = headless;
-        damageTokens = 0;
 
         if (!headless) {
             //TODO Issue 47 make player choose his cards
@@ -151,7 +149,7 @@ public class Player {
     }
 
     public int getDamageTokens() {
-        return damageTokens;
+        return MAX_HEALTH - health -1;
     }
 
     public Vector2Int getBackup() {
