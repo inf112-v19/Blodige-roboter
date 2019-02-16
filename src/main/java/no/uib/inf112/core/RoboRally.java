@@ -50,7 +50,7 @@ public class RoboRally extends Game {
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         playerHandler = new PlayerHandler(3);
-        playerHandler.generatePlayers(false); //Need this because of line 57 in player class
+        playerHandler.generatePlayers(false);
 
     }
 
