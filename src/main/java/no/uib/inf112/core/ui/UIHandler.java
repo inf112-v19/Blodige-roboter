@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.cards.CardSlot;
-import no.uib.inf112.core.ui.cards.SlotType;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 
 import java.io.File;
@@ -159,13 +158,13 @@ public class UIHandler implements Disposable {
         CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
         System.out.println("container.getPlayer() = " + container.getPlayer());
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(dad, container, SlotType.HAND, i);
+            CardSlot cardSlot = new CardSlot(i, container, dad);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(dad, container, SlotType.DRAWN, i);
+            CardSlot cardSlot = new CardSlot(i, container, dad);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }

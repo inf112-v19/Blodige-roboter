@@ -12,16 +12,13 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
 
     @NotNull
     private final CardContainer container;
-    @NotNull
-    private final SlotType slotType;
 
     private int slotId;
 
 
-    public CardSlot(@NotNull DragAndDrop dad, @NotNull CardContainer container, @NotNull SlotType slotType, int id) {
+    public CardSlot(int id, @NotNull CardContainer container, @NotNull DragAndDrop dad) {
         super();
         this.container = container;
-        this.slotType = slotType;
         this.slotId = id;
 
         dad.addSource(new SlotSource(this));
@@ -39,19 +36,5 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
     public void act(float delta) {
         super.act(delta);
         act();
-    }
-
-    public int getSlotId() {
-        return slotId;
-    }
-
-    @NotNull
-    public SlotType getSlotType() {
-        return slotType;
-    }
-
-    @NotNull
-    public CardContainer getContainer() {
-        return container;
     }
 }
