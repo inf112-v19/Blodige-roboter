@@ -23,7 +23,6 @@ public class RoboRally extends Game {
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
-    public static int numberOfPlayers = 3;
 
     private SpriteBatch batch;
     private BitmapFont font;
@@ -50,7 +49,7 @@ public class RoboRally extends Game {
         new InputHandler();
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        playerHandler = new PlayerHandler(numberOfPlayers);
+        playerHandler = new PlayerHandler(3);
         playerHandler.generatePlayers(false); //Need this because of line 57 in player class
 
     }
