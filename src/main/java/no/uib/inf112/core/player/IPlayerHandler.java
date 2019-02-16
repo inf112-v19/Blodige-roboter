@@ -7,16 +7,12 @@ import java.util.ArrayList;
  */
 public interface IPlayerHandler {
     /**
-     * Get currently playing players
-     *
-     * @return
+     * @return currently playing players
      */
     ArrayList<Player> getPlayers();
 
     /**
-     * Get the number of players playing
-     *
-     * @return
+     * @return the number of players playing
      */
     int getPlayerCount();
 
