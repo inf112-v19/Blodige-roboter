@@ -20,7 +20,7 @@ public class Player {
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
     public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = 9;
+    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
 
     private Robot robot;
 
@@ -31,7 +31,6 @@ public class Player {
     private int lives;
     private boolean poweredDown;
     private int health;
-    private int damageTokens;
 
     private boolean headless;
 
@@ -63,7 +62,6 @@ public class Player {
         health = MAX_HEALTH;
         poweredDown = false;
         this.headless = headless;
-        damageTokens = 0;
 
         if (!headless) {
             robot = new Robot(x, y, direction, false);
@@ -176,7 +174,7 @@ public class Player {
     }
 
     public int getDamageTokens() {
-        return damageTokens;
+        return MAX_HEALTH - health;
     }
 
     public Vector2Int getBackup() {
