@@ -149,7 +149,7 @@ public class Player {
     }
 
     public int getDamageTokens() {
-        return MAX_HEALTH - health -1;
+        return MAX_HEALTH - health;
     }
 
     public Vector2Int getBackup() {
