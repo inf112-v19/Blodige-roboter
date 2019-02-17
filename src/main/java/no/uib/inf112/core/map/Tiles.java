@@ -5,48 +5,63 @@ import no.uib.inf112.core.RoboRally;
 
 public enum Tiles {
 
-    /* THE ROBOT (Group Player)*/
-    PLAYERTILE(106, "Player"),
+    /**
+     *  THE ROBOT
+     *  (Group Player)
+     */
+    PLAYERTILE(106, Group.Player),
 
-    /* THE TILE THAT ROBOTS CAN FALL THROUGH (Group Void)*/
-    VOIDTILE(81,"Void"),
+    /**
+     *  THE TILE THAT ROBOTS CAN FALL THROUGH
+     *  (Group Void)
+     */
+    VOIDTILE(81,Group.Void),
 
-    /* CONSIDERED TO BE THE TILE A PLAYER CAN STAND ON WITHOUT FALLING THROUGH (Group Empty)*/
-    EMPTYTILE(5,"Empty"),
+    /**
+     * CONSIDERED TO BE THE TILE A PLAYER CAN STAND ON WITHOUT FALLING THROUGH
+     * (Group Empty)
+     */
+    EMPTYTILE(5,Group.Empty),
 
-    /* FLAGS (Group Flag)*/
-    FLAG1(85,"Flag"),
-    FLAG2(86,"Flag"),
-    FLAG3(87,"Flag"),
-    FLAG4(88,"Flag"),
+    /**
+     *  FLAGS
+     *  (Group Flag)
+     */
+    FLAG1(85,Group.Flag),
+    FLAG2(86,Group.Flag),
+    FLAG3(87,Group.Flag),
+    FLAG4(88,Group.Flag),
 
-    /* WALL TILES (Group Wall)*/
-    WALLTOP(28, "Wall"),
-    WALLTOPWITHLASER(40, "Wall"),
-    WALLTOPWITHDOUBLELASER(83, "Wall"),
-    WALLRIGHT(21, "Wall"),
-    WALLRIGHTWITHLASER(41, "Wall"),
-    WALLRIGHTWITHDOUBLELASER(84, "Wall"),
-    WALLLEFT(27, "Wall"),
-    WALLLEFTWITHLASER(34, "Wall"),
-    WALLLEFTWITHDOUBLELASER(82, "Wall"),
-    WALLBOTTOM(26, "Wall"),
-    WALLBOTTOMWITHLASER(33, "Wall"),
-    WALLBOTTOMWITHDOUBLELASER(77, "Wall"),
+    /**
+     *  WALL TILES
+     *  (Group Wall)
+     */
+    WALLTOP(28, Group.Wall),
+    WALLTOPWITHLASER(40, Group.Wall),
+    WALLTOPWITHDOUBLELASER(83, Group.Wall),
+    WALLRIGHT(21, Group.Wall),
+    WALLRIGHTWITHLASER(41, Group.Wall),
+    WALLRIGHTWITHDOUBLELASER(84, Group.Wall),
+    WALLLEFT(27, Group.Wall),
+    WALLLEFTWITHLASER(34, Group.Wall),
+    WALLLEFTWITHDOUBLELASER(82, Group.Wall),
+    WALLBOTTOM(26, Group.Wall),
+    WALLBOTTOMWITHLASER(33, Group.Wall),
+    WALLBOTTOMWITHDOUBLELASER(77, Group.Wall),
 
     /* STANDALONE LASERS (Group Laser)*/
-    LASERVERTICAL(42, "Laser"),
-    LASERHORIZONTAL(35, "Laser"),
-    DOUBLELASERVERTICAL(90, "Laser"),
-    DOUBLELASERHORIZONTAL(91, "Laser"),
+    LASERVERTICAL(42, Group.Laser),
+    LASERHORIZONTAL(35, Group.Laser),
+    DOUBLELASERVERTICAL(90, Group.Laser),
+    DOUBLELASERHORIZONTAL(91, Group.Laser),
 
     /**
      * OPTION TILES
      * (Group Option)
      */
     //Todo find better names
-    HAMMERANDWRENCH(7,"Option"),
-    WRENCH(14,"Option"),
+    HAMMERANDWRENCH(7,Group.Option),
+    WRENCH(14,Group.Option),
 
 
     /**
@@ -54,62 +69,66 @@ public enum Tiles {
      * (Group Conveyor)
      * GO"Direction" is the conveyors that turn into an already straight conveyor
      */
-    CONVEYORRIGHT(46,"Conveyor"),
-    CONVEYORLEFT(45,"Conveyor"),
-    CONVEYORUP(43,"Conveyor"),
-    CONVEYORDOWN(44,"Conveyor"),
-    CONVEYORFROMLEFTGOUP(50,"Conveyor"),
-    CONVEYORFROMTOPGORIGHT(36,"Conveyor"),
-    CONVEYORFROMRIGHTGODOWN(29,"Conveyor"),
-    CONVEYORFROMBOTTOMGOLEFT(30,"Conveyor"),
-    CONVEYORFROMTOPANDBOTTOMGORIGHT(54,"Conveyor"),
-    CONVEYORFROMLEFTANDRIGHTGODOWN(55,"Conveyor"),
-    CONVEYORFROMRIGHTGOUP(57,"Conveyor"),
-    CONVEYORFROMBOTTOMGORIGHT(58,"Conveyor"),
-    CONVEYORFROMLEFTGODOWN(59,"Conveyor"),
-    CONVEYORFROMTOPGOLEFT(60,"Conveyor"),
-    CONVEYORFROMRIGHTANDLEFTGOUP(61,"Conveyor"),
-    CONVEYORFROMTOPANDBOTTOMGOLEFT(62,"Conveyor"),
-    CONVEYORRIGHTDOUBLESTEP(13,"Conveyor"),
-    CONVEYORLEFTDOUBLESTEP(20,"Conveyor"),
-    CONVEYORUPDOUBLESTEP(12,"Conveyor"),
-    CONVEYORDOWNDOUBLESTEP(19,"Conveyor"),
-    CONVEYORFROMLEFTGOUPDOUBLESTEP(64,"Conveyor"),
-    CONVEYORFROMTOPGORIGHTDOUBLESTEP(65,"Conveyor"),
-    CONVEYORFROMRIGHTGODOWNDOUBLESTEP(66,"Conveyor"),
-    CONVEYORFROMBOTTOMGOLEFTDOUBLESTEP(67,"Conveyor"),
-    CONVEYORFROMTOPANDBOTTOMGORIGHTDOUBLESTEP(71,"Conveyor"),
-    CONVEYORFROMLEFTANDRIGHTGODOWNDOUBLESTEP(72,"Conveyor"),
-    CONVEYORFROMRIGHTGOUPDOUBLESTEP(68,"Conveyor"),
-    CONVEYORFROMBOTTOMGORIGHTDOUBLESTEP(69,"Conveyor"),
-    CONVEYORFROMLEFTGODOWNDOUBLESTEP(76,"Conveyor"),
-    CONVEYORFROMTOPGOLEFTDOUBLESTEP(75,"Conveyor"),
-    CONVEYORFROMRIGHTANDLEFTGOUPDOUBLESTEP(74,"Conveyor"),
-    CONVEYORFROMTOPANDBOTTOMGOLEFTDOUBLESTEP(73,"Conveyor"),
-    CONVEYORFROMRIGHTDOWN(29,"Conveyor"),
-    CONVEYORFROMTOPRIGHT(36,"Conveyor"),
-    CONVEYORFROMLEFTUP(37,"Conveyor"),
-    CONVEYORFROMBOTTOMLEFT(30,"Conveyor"),
-    CONVEYORFROMBOTTOMRIGTH(31,"Conveyor"),
-    CONVEYORFROMLEFTDOWN(32,"Conveyor"),
-    CONVEYORFROMTOPLEFT(39,"Conveyor"),
-    CONVEYORFROMRIGHTUP(38,"Conveyor"),
-    CONVEYORFROMRIGHTDOWNDOUBLESTEP(15,"Conveyor"),
-    CONVEYORFROMTOPRIGHTDOUBLESTEP(22,"Conveyor"),
-    CONVEYORFROMLEFTUPDOUBLESTEP(23,"Conveyor"),
-    CONVEYORFROMBOTTOMLEFTDOUBLESTEP(16,"Conveyor"),
-    CONVEYORFROMBOTTOMRIGTHDOUBLESTEP(17,"Conveyor"),
-    CONVEYORFROMLEFTDOWNDOUBLESTEP(18,"Conveyor"),
-    CONVEYORFROMTOPLEFTDOUBLESTEP(25,"Conveyor"),
-    CONVEYORFROMRIGHTUPDOUBLESTEP(24,"Conveyor");
+    CONVEYORRIGHT(46,Group.Conveyor),
+    CONVEYORLEFT(45,Group.Conveyor),
+    CONVEYORUP(43,Group.Conveyor),
+    CONVEYORDOWN(44,Group.Conveyor),
+    CONVEYORFROMLEFTGOUP(50,Group.Conveyor),
+    CONVEYORFROMTOPGORIGHT(36,Group.Conveyor),
+    CONVEYORFROMRIGHTGODOWN(29,Group.Conveyor),
+    CONVEYORFROMBOTTOMGOLEFT(30,Group.Conveyor),
+    CONVEYORFROMTOPANDBOTTOMGORIGHT(54,Group.Conveyor),
+    CONVEYORFROMLEFTANDRIGHTGODOWN(55,Group.Conveyor),
+    CONVEYORFROMRIGHTGOUP(57,Group.Conveyor),
+    CONVEYORFROMBOTTOMGORIGHT(58,Group.Conveyor),
+    CONVEYORFROMLEFTGODOWN(59,Group.Conveyor),
+    CONVEYORFROMTOPGOLEFT(60,Group.Conveyor),
+    CONVEYORFROMRIGHTANDLEFTGOUP(61,Group.Conveyor),
+    CONVEYORFROMTOPANDBOTTOMGOLEFT(62,Group.Conveyor),
+    CONVEYORRIGHTDOUBLESTEP(13,Group.Conveyor),
+    CONVEYORLEFTDOUBLESTEP(20,Group.Conveyor),
+    CONVEYORUPDOUBLESTEP(12,Group.Conveyor),
+    CONVEYORDOWNDOUBLESTEP(19,Group.Conveyor),
+    CONVEYORFROMLEFTGOUPDOUBLESTEP(64,Group.Conveyor),
+    CONVEYORFROMTOPGORIGHTDOUBLESTEP(65,Group.Conveyor),
+    CONVEYORFROMRIGHTGODOWNDOUBLESTEP(66,Group.Conveyor),
+    CONVEYORFROMBOTTOMGOLEFTDOUBLESTEP(67,Group.Conveyor),
+    CONVEYORFROMTOPANDBOTTOMGORIGHTDOUBLESTEP(71,Group.Conveyor),
+    CONVEYORFROMLEFTANDRIGHTGODOWNDOUBLESTEP(72,Group.Conveyor),
+    CONVEYORFROMRIGHTGOUPDOUBLESTEP(68,Group.Conveyor),
+    CONVEYORFROMBOTTOMGORIGHTDOUBLESTEP(69,Group.Conveyor),
+    CONVEYORFROMLEFTGODOWNDOUBLESTEP(76,Group.Conveyor),
+    CONVEYORFROMTOPGOLEFTDOUBLESTEP(75,Group.Conveyor),
+    CONVEYORFROMRIGHTANDLEFTGOUPDOUBLESTEP(74,Group.Conveyor),
+    CONVEYORFROMTOPANDBOTTOMGOLEFTDOUBLESTEP(73,Group.Conveyor),
+    CONVEYORFROMRIGHTDOWN(29,Group.Conveyor),
+    CONVEYORFROMTOPRIGHT(36,Group.Conveyor),
+    CONVEYORFROMLEFTUP(37,Group.Conveyor),
+    CONVEYORFROMBOTTOMLEFT(30,Group.Conveyor),
+    CONVEYORFROMBOTTOMRIGTH(31,Group.Conveyor),
+    CONVEYORFROMLEFTDOWN(32,Group.Conveyor),
+    CONVEYORFROMTOPLEFT(39,Group.Conveyor),
+    CONVEYORFROMRIGHTUP(38,Group.Conveyor),
+    CONVEYORFROMRIGHTDOWNDOUBLESTEP(15,Group.Conveyor),
+    CONVEYORFROMTOPRIGHTDOUBLESTEP(22,Group.Conveyor),
+    CONVEYORFROMLEFTUPDOUBLESTEP(23,Group.Conveyor),
+    CONVEYORFROMBOTTOMLEFTDOUBLESTEP(16,Group.Conveyor),
+    CONVEYORFROMBOTTOMRIGTHDOUBLESTEP(17,Group.Conveyor),
+    CONVEYORFROMLEFTDOWNDOUBLESTEP(18,Group.Conveyor),
+    CONVEYORFROMTOPLEFTDOUBLESTEP(25,Group.Conveyor),
+    CONVEYORFROMRIGHTUPDOUBLESTEP(24,Group.Conveyor);
 
 
     private final int id;
-    private String group;
+    private Group group;
 
-    Tiles(int id, String group) {
+    Tiles(int id, Group group) {
         this.id = id;
         this.group = group;
+    }
+
+    public boolean isInGroup(Group Group){
+        return this.group == group;
     }
 
     public TiledMapTile getTile(Tiles tileName) {
@@ -117,7 +136,18 @@ public enum Tiles {
     }
 
     public TiledMapTile getPlayerTile() {
-        return RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(106);
+        return RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(PLAYERTILE.id);
+    }
+
+    public enum Group{
+        Conveyor,
+        Option,
+        Wall,
+        Flag,
+        Empty,
+        Void,
+        Laser,
+        Player;
     }
 }
 
