@@ -1,12 +1,13 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class PlayerHandlerTest {
+public class PlayerHandlerTest extends TestGraphics {
 
     private PlayerHandler testHandler;
 

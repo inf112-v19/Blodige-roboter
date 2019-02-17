@@ -2,20 +2,22 @@ package no.uib.inf112.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.player.*;
-import no.uib.inf112.core.ui.cards.*;
+import no.uib.inf112.core.ui.cards.CardSlot;
+import no.uib.inf112.core.ui.cards.SlotType;
+import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import static org.junit.Assert.*;
-
-public class CardContainerTest {
+public class CardContainerTest extends TestGraphics {
     private Deck deck;
     CardContainer container;
 
     @Before
     public void setUp() throws Exception {
-        deck  = new ProgramDeck(true);
+        deck = new ProgramDeck(true);
         container = new CardContainer(new Player(1, 1, Direction.NORTH, true), deck);
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
