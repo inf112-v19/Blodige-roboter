@@ -10,8 +10,7 @@ import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.player.Direction;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -31,12 +30,13 @@ public class RoboRally extends Game {
 
     private static TiledMapHandler map;
 
-    //FIXME Issue #33: create a robot handler that handles all the players (as we can have between 2 and N robots)
-    public static Player player;
     public static MapInteractOnUser mapInteractOnUser;
+
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
+
+
     private static ControlPanelEventHandler cpEventHandler;
 
     @Override
@@ -50,23 +50,17 @@ public class RoboRally extends Game {
         uiHandler = new UIHandler();
         new InputHandler();
         cpEventHandler = new ControlPanelEventHandler();
-
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
-        player = new Player(5, 2, Direction.NORTH, false);
+        playerHandler = new PlayerHandler(3);
+        playerHandler.generatePlayers(false);
         mapInteractOnUser = new MapInteractOnUser();
+
 
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            // Decide which robot moves
-            // Move robots in order
-            if (player.isPoweredDown()) {
-                System.out.println("Player is powered down");
-                continue;
-            }
-            player.doTurn();
-            System.out.println("moved!");
+            playerHandler.doTurn();
             // End of robot movement
 
             // Activate lasers
@@ -128,5 +122,10 @@ public class RoboRally extends Game {
     @NotNull
     public static ControlPanelEventHandler getCPEventHandler() {
         return cpEventHandler;
+    }
+
+    @NotNull
+    public static PlayerHandler getPlayerHandler() {
+        return playerHandler;
     }
 }
