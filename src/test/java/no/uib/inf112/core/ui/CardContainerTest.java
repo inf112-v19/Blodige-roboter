@@ -1,9 +1,11 @@
 package no.uib.inf112.core.ui;
 
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.player.*;
-import no.uib.inf112.core.ui.cards.SlotType;
+import no.uib.inf112.core.ui.cards.*;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import static org.junit.Assert.*;
 
@@ -15,7 +17,11 @@ public class CardContainerTest {
     public void setUp() throws Exception {
         deck  = new ProgramDeck(true);
         container = new CardContainer(new Player(1, 1, Direction.NORTH, true), deck);
-        container.draw();
+
+        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+            CardSlot cardSlot = new CardSlot(i, container, new DragAndDrop());
+            container.handCard[i] = cardSlot;
+        }
     }
 
     @Test
@@ -26,6 +32,9 @@ public class CardContainerTest {
 
     @Test
     public void setCard() {
+        Card card = deck.draw(1)[0];
+        container.setCard(SlotType.HAND, 0, card);
+        assertEquals(card, container.getCard(SlotType.HAND, 0));
 
     }
 
@@ -34,8 +43,6 @@ public class CardContainerTest {
         Card card = container.getCard(SlotType.DRAWN, 0);
         container.setCard(SlotType.HAND, 0, card);
         assertEquals(card, container.getCard(SlotType.HAND, 0));
-
-
     }
 
     @Test
