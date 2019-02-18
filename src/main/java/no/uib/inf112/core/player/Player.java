@@ -22,6 +22,7 @@ public class Player {
 
     private Vector2Int backup;
 
+    private int flags;
     private int lives;
     private boolean poweredDown;
     private int health;
@@ -48,6 +49,7 @@ public class Player {
 
         backup = new Vector2Int(x, y);
 
+        flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
@@ -139,6 +141,8 @@ public class Player {
     public Card[] getCards() {
         return cards;
     }
+
+    public int getFlags() { return flags; }
 
     public int getLives() {
         return lives;
