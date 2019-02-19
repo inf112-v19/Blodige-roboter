@@ -50,7 +50,7 @@ public class ProgramCard implements Card {
     @NotNull
     @Override
     public String getTooltip() {
-        return "Priority: " + priority + "\nAction: " + action;
+        return getAction().getTooltip() + "\nPriority: " + priority;
     }
 
     @Override
