@@ -42,6 +42,7 @@ public class MapInteractOnUser {
                 queue.add(mapAction); // Add every action thats needed
             }
         }
+        //Need additional logic since only robot closest to laser start is hit, also shoot lasers from robots
 
         for (MapAction mapAction : queue) {
             mapAction.doAction();
@@ -52,7 +53,8 @@ public class MapInteractOnUser {
         Map<Vector2Int, Entity> posRobotMap = new HashMap<>(entitiesOnMap.size());
         for (Entity entity : entitiesOnMap) {
             posRobotMap.put(new Vector2Int(entity.getX(), entity.getY()), entity);
-        }
+        } //Keep track of old positions
+
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         for (Entity entity : entitiesOnMap) {
             MapAction mapAction = getAction(entity);
@@ -61,7 +63,7 @@ public class MapInteractOnUser {
             }
         }
 
-        Map<Entity, Entity> entityConflictWithEntity = new HashMap<>();
+        Map<Entity, Entity> entityConflictWithEntity = new HashMap<>(); //Currently not used just stores information
         ArrayList<MapAction> conflictActions = new ArrayList<>();
         for (MapAction mapAction : queue) {
             if (posRobotMap.containsKey(mapAction.getResultOfMovement())) {
@@ -81,15 +83,15 @@ public class MapInteractOnUser {
                     //do nothing movement is not allowed on stationary other robot
                 } else {
                     // Revert conflicting robot nobody moves!
-                    // This is dangerous, for what if a robot moved to this position?
                     for (MapAction mapAction1 : queue) {
                         if (mapAction1.getParent() == conflictingRobot) {
                             queue.remove(conflictingRobot);
                             Vector2Int pos = new Vector2Int(conflictingRobot.getX(), conflictingRobot.getY());
-                            if (!posRobotMap.containsKey(pos)) {
+                            if (!posRobotMap.containsKey(pos)) { // No robot on this position
                                 posRobotMap.remove(mapAction1.getResultOfMovement());
                                 posRobotMap.put(pos, conflictingRobot);
                             } else {
+                                // This is dangerous, for what if a robot moved to this position?
                                 // Handle that someone moved to this position, recursive function call?
                             }
 
