@@ -1,6 +1,7 @@
 package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import jdk.internal.jline.internal.Nullable;
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Robot;
@@ -10,6 +11,11 @@ import java.util.*;
 
 public class MapInteractOnUser {
 
+    /**
+     * Scan the entitites and the tiles they are standing on and try to do the actions on the map
+     * @param entitiesOnMap all the  entities on the map
+     * @return true
+     */
     public boolean scan(Collection<Entity> entitiesOnMap) {
 
         findAndDoMovement(entitiesOnMap);
@@ -20,6 +26,10 @@ public class MapInteractOnUser {
         return true;
     }
 
+    /**
+     * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
+     * @param entitiesOnMap
+     */
     private void registerSpecialTiles(Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         for (Entity entity : entitiesOnMap) {
@@ -34,6 +44,10 @@ public class MapInteractOnUser {
         }
     }
 
+    /**
+     * Finds all entities in line of a laser, (this should also shoot lasers from robots).
+     * @param entitiesOnMap
+     */
     private void shootLasers(Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         for (Entity entity : entitiesOnMap) {
@@ -49,6 +63,10 @@ public class MapInteractOnUser {
         }
     }
 
+    /**
+     * finds all enitites standing on coneyors and does logic to move those that should move
+     * @param entitiesOnMap
+     */
     private void findAndDoMovement(Collection<Entity> entitiesOnMap) {
         Map<Vector2Int, Entity> posRobotMap = new HashMap<>(entitiesOnMap.size());
         for (Entity entity : entitiesOnMap) {
@@ -109,6 +127,12 @@ public class MapInteractOnUser {
         }
     }
 
+    /**
+     * Returns a mapAction object according to the tile the player is standing on
+     * @param entity entity standing on a tile
+     * @return a mapAction if standing on a tile that should have corresponding action, null otherwise
+     */
+    @Nullable
     private MapAction getAction(Entity entity) {
         TiledMapTile tile = entity.getTile();
         //Switch on tile

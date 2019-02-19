@@ -14,6 +14,11 @@ public class Conveyor implements MapAction {
     private Robot entity;
     private Direction direction; //Temporary to avoid compile error, shoudl change to tile when this is an enum
 
+    /**
+     * Create new Conveyor object
+     * @param tile the tile that caused the creation of this conveyor object
+     * @param entity the entity standing on the tile
+     */
     public Conveyor(TiledMapTile tile, Robot entity){
         this.tile = tile;
         this.entity = entity;
