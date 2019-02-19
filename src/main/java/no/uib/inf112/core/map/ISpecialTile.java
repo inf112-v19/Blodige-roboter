@@ -11,4 +11,10 @@ public interface ISpecialTile {
 
     int getY();
 
+    /**
+     * Rank for f.ex. flags
+     *
+     * @return the rank
+     */
+    int getRank();
 }

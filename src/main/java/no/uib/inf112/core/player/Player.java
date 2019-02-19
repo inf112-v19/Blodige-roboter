@@ -132,6 +132,14 @@ public class Player {
 
     public int getFlags() { return flags; }
 
+    public boolean canGetFlag(int flagRank) {
+        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    }
+
+    public void registerFlagVisit() {
+        flags += 1;
+    }
+
     public void drawCards() {
         cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS - getDamageTokens());
     }

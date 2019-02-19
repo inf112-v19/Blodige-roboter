@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
+import no.uib.inf112.core.map.FlagHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -30,6 +32,7 @@ public class RoboRally extends Game {
     private static TiledMapHandler map;
 
     private static PlayerHandler playerHandler;
+    private static FlagHandler flagHandler;
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
@@ -52,11 +55,31 @@ public class RoboRally extends Game {
         playerHandler = new PlayerHandler(3);
         playerHandler.generatePlayers(false);
 
+        flagHandler = new FlagHandler(4);
+
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             playerHandler.doTurn();
+
+            // Checking if a player can register a flag visit after turn is done.
+            for (Player player : playerHandler.getPlayers()) {
+                int x = player.getRobot().getX();
+                int y = player.getRobot().getY();
+
+                int possibleFlagRank = flagHandler.getRankOfFlag(x, y);
+                if (possibleFlagRank != -1 && player.canGetFlag(possibleFlagRank)) {
+                    player.registerFlagVisit();
+                    if (player.getFlags() == flagHandler.getFLagCount()) {
+                        //TODO here player has wun the game
+                        return;
+                    }
+                }
+
+            }
+
+
             // End of robot movement
 
             // Activate lasers

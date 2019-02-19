@@ -1,5 +1,6 @@
 package no.uib.inf112.core.map;
 
+import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 
 /**
@@ -31,24 +32,58 @@ public class FlagHandler {
 
     }
 
-    private ArrayList<Flag> flags;
-    private final int[][] FLAG_POSITIONS;
+    private ArrayList<ISpecialTile> flags;
+    private final ArrayList<int[]> FLAG_POSITIONS;
+    private final int FLAG_COUNT;
 
-    public FlagHandler(int nbOfFlags) {
-        FLAG_POSITIONS = getDefaultPositions(nbOfFlags);
-        flags = new ArrayList<>(nbOfFlags);
+    public FlagHandler(int flagCount) {
+        FLAG_POSITIONS = getDefaultPositions(flagCount);
+        FLAG_COUNT = flagCount;
+        flags = new ArrayList<>(flagCount);
 
-        for (int i = 0; i < nbOfFlags; i++) {
-            flags.add(new Flag(FLAG_POSITIONS[i][0], FLAG_POSITIONS[i][1], i+1));
+        for (int i = 0; i < flagCount; i++) {
+            flags.add(new Flag(FLAG_POSITIONS.get(i)[0], FLAG_POSITIONS.get(i)[1], i+1));
         }
-
     }
 
-    private int[][] getDefaultPositions(int nbOfPositions) {
-        int[][] positions = new int[nbOfPositions][2];
+    public int getFLagCount() { return this.FLAG_COUNT; }
+
+    public ArrayList<ISpecialTile> getFlags() { return this.flags; }
+
+    public boolean coordinateHasFlag(int x, int y) {
+        int[] coords = new int[2];
+        coords[0] = x; coords[1] = y;
+        return FLAG_POSITIONS.contains(coords);
+    }
+
+    /**
+     * Searches up rank of flag at position x,y. If there is no flag method will return -1
+     *
+     * @param x the x coordinate of the position that is checked
+     * @param y the y coordinate of the position that is checked
+     * @return the rank of flag at x,y or -1 if there is no flag
+     */
+    public int getRankOfFlag(int x, int y) {
+        for (ISpecialTile flag : flags) {
+            if (flag.getX() == x && flag.getY() == y) {
+                return flag.getRank();
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Some non-important default positions. Will be (3,1), (3,2), (3,3),...
+     *
+     * @param nbOfPositions number of positions you want to generate
+     * @return the positions
+     */
+    private ArrayList<int[]> getDefaultPositions(int nbOfPositions) {
+        ArrayList<int[]> positions = new ArrayList<>(nbOfPositions);
         for (int i = 0; i < nbOfPositions; i++) {
-            positions[i][0] = 3;
-            positions[i][1] = i + 1;
+            int[] temp = new int[2];
+            temp[0] = 3; temp[1] = i + 1;
+            positions.add(temp);
         }
         return positions;
     }
