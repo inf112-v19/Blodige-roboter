@@ -13,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 public class CardActor extends ImageTextButton {
 
     private Card card;
+    private boolean headless;
 
-    public CardActor() {
+    public CardActor(boolean headless) {
         super("", createSkin());
+        this.headless = headless;
     }
 
     private static ImageTextButtonStyle createSkin() {
@@ -26,6 +28,7 @@ public class CardActor extends ImageTextButton {
     }
 
     public void updateCard() {
+        if (headless) return;
         if (card == null) {
             setText("");
             getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);

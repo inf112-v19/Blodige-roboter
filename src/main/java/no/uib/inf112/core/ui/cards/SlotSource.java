@@ -30,7 +30,7 @@ public class SlotSource extends DragAndDrop.Source {
 
         RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
-        final CardActor dragActor = new CardActor();
+        final CardActor dragActor = new CardActor(true);
         dragActor.setCard(sourceSlot.getCard());
 
         final Payload payload = new Payload();
