@@ -30,8 +30,8 @@ public class RoboRally extends Game {
 
     private static TiledMapHandler map;
 
+    private static PlayerHandler playerHandler;
     public static MapInteractOnUser mapInteractOnUser;
-
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;

@@ -3,6 +3,7 @@ package no.uib.inf112.core.map.MapAction;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -10,10 +11,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Conveyor implements MapAction {
 
     private TiledMapTile tile;
-    private Entity entity;
+    private Robot entity;
     private Direction direction; //Temporary to avoid compile error, shoudl change to tile when this is an enum
 
-    public Conveyor(TiledMapTile tile, Entity entity){
+    public Conveyor(TiledMapTile tile, Robot entity){
         this.tile = tile;
         this.entity = entity;
     }
@@ -21,6 +22,8 @@ public class Conveyor implements MapAction {
     @Override
     public void doAction() {
         switch (direction) {
+            case NORTH:
+                entity.teleport(1, 0); //Should be move
             //Maybe just set x and y to getResultOfMovement()? Make wall handling and other factors implementet in getResultOfMovement?
             default:
                 throw new NotImplementedException();

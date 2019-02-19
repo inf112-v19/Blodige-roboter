@@ -16,7 +16,7 @@ public interface MapAction{
     Vector2Int getResultOfMovement();
 
     /**
-     * @return the parent that triggered this exception
+     * @return the parent that triggered this Action
      */
     Entity getParent();
 }
