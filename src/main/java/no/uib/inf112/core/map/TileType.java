@@ -3,13 +3,15 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.RoboRally;
 
-public enum Tiles {
+import java.util.HashMap;
+
+public enum TileType {
 
     /**
      *  THE ROBOT
      *  (Group Player)
      */
-    PLAYER_TILE(106, Group.Player),
+    PLAYER_TILE(106, Group.Player, "player_tileset"),
 
     /**
      *  THE TILE THAT ROBOTS CAN FALL THROUGH
@@ -124,22 +126,36 @@ public enum Tiles {
 
     private final int id;
     private final Group group;
+    private String tileSetName;
 
-    Tiles(int id, Group group) {
-        this.id = id;
-        this.group = group;
+    private static HashMap<Integer, TileType> map = new HashMap<>();
+
+    TileType(int id, Group group) {
+        this(id, group, "tiles_tileset");
     }
 
-    public boolean isInGroup(Group Group){
+    TileType(int id, Group group, String tileSetName) {
+        this.id = id;
+        this.group = group;
+        this.tileSetName = tileSetName;
+    }
+
+    static {
+        for (TileType value : values()) {
+            map.put(value.id, value);
+        }
+    }
+
+    public static TileType fromTiledId(int id) {
+        return map.get(id);
+    }
+
+    public boolean isInGroup(Group group) {
         return this.group == group;
     }
 
-    public TiledMapTile getTile(Tiles tileName) {
-        return RoboRally.getCurrentMap().getMapTileSets().getTileSet("tiles_tileset").getTile(tileName.id);
-    }
-
-    public TiledMapTile getPlayerTile() {
-        return RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(PLAYER_TILE.id);
+    public TiledMapTile getTile() {
+        return RoboRally.getCurrentMap().getMapTileSets().getTileSet(tileSetName).getTile(id);
     }
 
     public enum Group{
