@@ -1,10 +1,11 @@
 package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
-import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 
 import java.util.*;
@@ -30,7 +31,7 @@ public class MapInteractOnUser {
      * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
      * @param entitiesOnMap
      */
-    private void registerSpecialTiles(Collection<Entity> entitiesOnMap) {
+    private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         for (Entity entity : entitiesOnMap) {
             MapAction mapAction = getAction(entity);
@@ -103,7 +104,7 @@ public class MapInteractOnUser {
                     // Revert conflicting robot nobody moves!
                     for (MapAction mapAction1 : queue) {
                         if (mapAction1.getParent() == conflictingRobot) {
-                            queue.remove(conflictingRobot);
+                            queue.remove(mapAction1);
                             Vector2Int pos = new Vector2Int(conflictingRobot.getX(), conflictingRobot.getY());
                             if (!posRobotMap.containsKey(pos)) { // No robot on this position
                                 posRobotMap.remove(mapAction1.getResultOfMovement());
@@ -133,7 +134,7 @@ public class MapInteractOnUser {
      * @return a mapAction if standing on a tile that should have corresponding action, null otherwise
      */
     @Nullable
-    private MapAction getAction(Entity entity) {
+    private MapAction getAction(@NotNull Entity entity) {
         TiledMapTile tile = entity.getTile();
         //Switch on tile
         return null;

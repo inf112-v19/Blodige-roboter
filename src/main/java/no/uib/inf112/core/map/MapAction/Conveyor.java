@@ -6,13 +6,12 @@ import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Conveyor implements MapAction {
 
     private TiledMapTile tile;
     private Robot entity;
-    private Direction direction; //Temporary to avoid compile error, shoudl change to tile when this is an enum
+    private Direction direction; //Temporary to avoid compile error, should change to tile when this is an enum
 
     /**
      * Create new Conveyor object
@@ -31,7 +30,7 @@ public class Conveyor implements MapAction {
                 entity.teleport(1, 0); //Should be move
             //Maybe just set x and y to getResultOfMovement()? Make wall handling and other factors implementet in getResultOfMovement?
             default:
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException();
         }
     }
 
