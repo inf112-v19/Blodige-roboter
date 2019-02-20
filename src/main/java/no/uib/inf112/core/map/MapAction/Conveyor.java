@@ -5,7 +5,6 @@ import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
-import org.jetbrains.annotations.NotNull;
 
 public class Conveyor implements MapAction {
 
