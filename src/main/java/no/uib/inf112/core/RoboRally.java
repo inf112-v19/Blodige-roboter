@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
@@ -30,6 +31,7 @@ public class RoboRally extends Game {
     private static TiledMapHandler map;
 
     private static PlayerHandler playerHandler;
+    public static MapInteractOnUser mapInteractOnUser;
 
     private static InputMultiplexer inputMultiplexer;
     private UIHandler uiHandler;
@@ -51,6 +53,8 @@ public class RoboRally extends Game {
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         playerHandler = new PlayerHandler(3);
         playerHandler.generatePlayers(false);
+        mapInteractOnUser = new MapInteractOnUser();
+
 
     }
 
