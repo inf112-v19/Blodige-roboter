@@ -8,8 +8,7 @@ import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class CardContainerTest extends TestGraphics {
     private Deck deck;
@@ -20,9 +19,16 @@ public class CardContainerTest extends TestGraphics {
         deck = new ProgramDeck(true);
         container = new CardContainer(new Player(1, 1, Direction.NORTH, true), deck);
 
+        DragAndDrop dad = new DragAndDrop();
+
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, container, new DragAndDrop());
+            CardSlot cardSlot = new CardSlot(i, container, dad, true);
             container.handCard[i] = cardSlot;
+        }
+
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+            CardSlot cardSlot = new CardSlot(i, container, dad, true);
+            container.drawnCard[i] = cardSlot;
         }
     }
 
@@ -34,9 +40,12 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void setCard() {
-        Card card = deck.draw(1)[0];
-        container.setCard(SlotType.HAND, 0, card);
-        assertEquals(card, container.getCard(SlotType.HAND, 0));
+        int id = 0;
+        SlotType type = SlotType.HAND;
+
+        Card card = deck.draw(1)[id];
+        assertTrue(container.setCard(type, id, card));
+        assertEquals(card, container.getCard(type, id));
 
     }
 

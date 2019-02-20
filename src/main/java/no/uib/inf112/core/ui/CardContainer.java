@@ -28,7 +28,7 @@ public class CardContainer {
     public CardContainer(@NotNull Player holder, Deck deck) {
         this.holder = holder;
         this.deck = deck;
-        this.random = new Random();
+        random = new Random();
 
         handCard = new CardSlot[Player.MAX_PLAYER_CARDS];
         drawnCard = new CardSlot[Player.MAX_DRAW_CARDS];
@@ -104,7 +104,7 @@ public class CardContainer {
      * @return If the card at given location was updated
      */
     public boolean setCard(@NotNull SlotType slotType, int id, @Nullable Card card) {
-        if (id < holder.getHealth()) {
+        if (id >= holder.getHealth()) {
             return false;
         }
         switch (slotType) {

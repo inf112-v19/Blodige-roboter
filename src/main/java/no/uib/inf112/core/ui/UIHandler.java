@@ -158,13 +158,13 @@ public class UIHandler implements Disposable {
         CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
         System.out.println("container.getPlayer() = " + container.getPlayer());
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, container, dad);
+            CardSlot cardSlot = new CardSlot(i, container, dad, false);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, container, dad);
+            CardSlot cardSlot = new CardSlot(i, container, dad, false);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
