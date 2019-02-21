@@ -36,7 +36,7 @@ public class Robot implements Entity {
 
     @Override
     public TileType getTileType() {
-        return TileType.PLAYER_TILE;
+        return TileType.ROBOT_TILE;
     }
 
     @NotNull
