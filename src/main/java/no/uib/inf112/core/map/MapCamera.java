@@ -3,7 +3,7 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public abstract class MapCamera implements MapHandler {
+public abstract class MapCamera extends GameMap {
 
     private float zoomSensitivity;
     private float maxZoom;
@@ -11,7 +11,16 @@ public abstract class MapCamera implements MapHandler {
 
     private OrthographicCamera camera;
 
-    public MapCamera() {
+    public MapCamera(String map) {
+        super(map);
+        setupCamera();
+    }
+
+    public MapCamera(){
+        setupCamera();
+    }
+
+    private void setupCamera() {
         Gdx.app.postRunnable(() -> {
             camera = new OrthographicCamera();
             resize();

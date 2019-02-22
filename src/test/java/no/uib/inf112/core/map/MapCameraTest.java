@@ -4,14 +4,18 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Clipboard;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
@@ -158,6 +162,7 @@ public class MapCameraTest {
 
     @Before
     public void init() {
+        Main.HEADLESS = true;
         c = new MapCamera() {
 
             @Override
@@ -205,7 +210,7 @@ public class MapCameraTest {
 
             @NotNull
             @Override
-            public Set<Entity> getEntities() {
+            public Map<Entity, Vector2> getEntities() {
                 return null;
             }
 
