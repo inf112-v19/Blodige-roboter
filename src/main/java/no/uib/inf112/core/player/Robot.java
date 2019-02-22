@@ -15,7 +15,7 @@ public class Robot implements Entity {
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
      * @param direction What direction the player is facing on start
-     * @param headless
+     * @param headless  True if you want player without graphics (e.g. for testing purposes), false otherwise
      * @throws IllegalArgumentException If the given position is out of bounds
      * @throws IllegalArgumentException If direction is {@code null}
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
@@ -99,8 +99,8 @@ public class Robot implements Entity {
      * Move the robot with given delta to new coordinates
      */
     private void move(int deltaX, int deltaY) {
-        x = x + deltaX;
-        y = y + deltaY;
+        this.x += deltaX;
+        this.y += deltaY;
     }
 
     public void teleport(int x, int y) {

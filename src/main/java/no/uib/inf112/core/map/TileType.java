@@ -189,6 +189,14 @@ public enum TileType {
         return RoboRally.getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
     }
 
+    public Group getGroup(){
+        return this.group;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
     public enum Group{
         CONVEYOR,
         OPTION,
