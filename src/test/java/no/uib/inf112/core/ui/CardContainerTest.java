@@ -2,11 +2,14 @@ package no.uib.inf112.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.player.*;
+import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -51,19 +54,20 @@ public class CardContainerTest extends TestGraphics {
         int damageAmount = 3;
         container.getPlayer().damage(damageAmount);
         container.draw();
-        for (int i = 0; i < nCards-damageAmount; i++) {
-            assertNotNull("Missing card on" + i + ", all drawn cards should be 0",
+        System.out.println("container = " + Arrays.toString(Arrays.stream(container.drawnCard).map(CardActor::getCard).toArray()));
+        for (int i = 0; i < nCards - damageAmount; i++) {
+            assertNotNull("Found null card (nr " + i + "), all drawn cards below " + (nCards - damageAmount) + " should not be null",
                     container.getCard(SlotType.DRAWN, i));
         }
 
         assertNull("player should not have more cards then health",
-                container.getCard(SlotType.DRAWN, nCards-damageAmount));
+                container.getCard(SlotType.DRAWN, nCards - damageAmount));
     }
 
     @Test
     public void drawingFor1HealthPlayerShouldGetNothing() {
         Player player = container.getPlayer();
-        player.damage(player.getHealth()-1);
+        player.damage(player.getHealth() - 1);
         container.draw();
 
         // We might want to instead make it so that a player with 0 health is still alive.
@@ -88,7 +92,7 @@ public class CardContainerTest extends TestGraphics {
     public void randomizingAlreadyFullHandShouldMakeHandStayFull() {
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            container.handCard[i].setCard(new ProgramCard(Movement.MOVE_1,1 , true));
+            container.handCard[i].setCard(new ProgramCard(Movement.MOVE_1, 1, true));
         }
         container.randomizeHand();
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
@@ -112,14 +116,14 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void overridingCardShouldReturnNewCard() {
-        assertNotNull(container.getCard(SlotType.DRAWN,1));
+        assertNotNull(container.getCard(SlotType.DRAWN, 1));
         Card card = new ProgramCard(Movement.LEFT_TURN, 100, true);
-        container.handCard[1].setCard(card);
+        container.drawnCard[1].setCard(card);
 
         assertEquals(card, container.getCard(SlotType.DRAWN, 1));
     }
 
-    @Test (expected = IndexOutOfBoundsException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void gettingNonValidIdShouldThrowException() {
         container.getCard(SlotType.HAND, 5);
     }
@@ -145,7 +149,7 @@ public class CardContainerTest extends TestGraphics {
         }
         assertFalse(container.hasInvalidHand());
         final int damage = 6;
-        final int hp = Player.MAX_HEALTH-damage; //4
+        final int hp = Player.MAX_HEALTH - damage; //4
         container.getPlayer().damage(damage);
         assertEquals(hp, container.getPlayer().getHealth());
         assertTrue(container.handCard[hp].isDisabled());

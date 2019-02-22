@@ -47,13 +47,15 @@ public class CardContainer {
      * Draw cards for the players drawn cards and removes any non-disabled cards from the players hand
      */
     public void draw() {
+//        System.out.println("handCard = " + Arrays.toString(handCard));
+//        System.out.println("drawnCard = " + Arrays.toString(drawnCard));
         for (CardSlot actor : handCard) {
             if (!actor.isDisabled()) {
                 actor.setCard(null);
             }
         }
 
-        int amount = holder.getHealth();
+        int amount = Player.MAX_HEALTH - holder.getDamageTokens() - 1;
         Card[] draw = deck.draw(amount);
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
@@ -64,6 +66,7 @@ public class CardContainer {
                 drawnCard[i].setCard(draw[i]);
             }
         }
+
     }
 
 
