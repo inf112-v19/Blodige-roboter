@@ -37,8 +37,8 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         if (container == null) {
             return false;
         }
-        int max = type == SlotType.HAND ? Player.MAX_PLAYER_CARDS : Player.MAX_DRAW_CARDS;
-        return max <= slotId && container.getPlayer().getDamageTokens() > max - slotId;
+        int max = type == SlotType.DRAWN ? Player.MAX_DRAW_CARDS - 1 : Player.MAX_DRAW_CARDS;
+        return slotId > max - container.getPlayer().getDamageTokens();
     }
 
     @Override
