@@ -3,7 +3,6 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Clipboard;
 import no.uib.inf112.core.player.Entity;
@@ -178,7 +177,7 @@ public class MapCameraTest {
 
             @NotNull
             @Override
-            public TiledMapTile getBoardLayerTile(int x, int y) {
+            public TileType getBoardLayerTile(int x, int y) {
                 return null;
             }
 
