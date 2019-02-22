@@ -39,8 +39,8 @@ public class Player {
      * @param y         Start y position
      * @param direction Start direction
      * @param headless  true if you want player without graphics, false otherwise
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
      */
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
         backup = new Vector2Int(x, y);

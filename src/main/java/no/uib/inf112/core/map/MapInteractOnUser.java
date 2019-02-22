@@ -135,7 +135,7 @@ public class MapInteractOnUser {
      */
     @Nullable
     private MapAction getAction(@NotNull Entity entity) {
-        TiledMapTile tile = entity.getTile();
+        TileType tile = entity.getTileType();
         //Switch on tile
         return null;
     }

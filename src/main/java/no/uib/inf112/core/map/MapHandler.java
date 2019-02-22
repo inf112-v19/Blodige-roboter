@@ -4,7 +4,6 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Disposable;
 import no.uib.inf112.core.player.Entity;
@@ -69,7 +68,7 @@ public interface MapHandler extends Disposable {
      * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
      */
     @NotNull
-    TiledMapTile getBoardLayerTile(int x, int y);
+    TileType getBoardLayerTile(int x, int y);
 
     /**
      * @return The entity at the given {@code (x, y)} coordinate or {@code null} if there is nothing there
