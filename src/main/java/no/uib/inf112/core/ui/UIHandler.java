@@ -37,7 +37,7 @@ public class UIHandler implements Disposable {
     public static final TextureRegion UI_BACKGROUND_TEXTURE;
     public static final TextureRegion CARDS_TEXTURE;
 
-    private static final TextureRegion POWER_DOWN_TEXTURE;
+    public static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
 
@@ -133,7 +133,7 @@ public class UIHandler implements Disposable {
         }
 
         //display power button, it will by default be to the right
-        topRow.add(createPowerDownButton());
+        topRow.add(new PowerButton());
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
@@ -181,40 +181,6 @@ public class UIHandler implements Disposable {
 
     public boolean canMoveCards() {
         return cardDrawTable.isVisible();
-    }
-
-    private ImageTextButton createPowerDownButton() {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.imageUp = new TextureRegionDrawable(UIHandler.POWER_DOWN_TEXTURE);
-        style.font = new BitmapFont();
-
-        //display what kind of card it is
-        ImageTextButton button = new ImageTextButton("", style);
-
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                float state = RoboRally.getPlayerHandler().mainPlayer().isPoweredDown() ? 0.25f : -0.25f;
-                button.getColor().a += state;
-                RoboRally.getCPEventHandler().fireEvent(new PowerDownEvent());
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                //darken when hovering over to signal this object can be clicked
-                button.getColor().a -= 0.25f;
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                //reset color when leaving
-                button.getColor().a += 0.25;
-            }
-        });
-        return button;
     }
 
     public void update() {
