@@ -84,27 +84,15 @@ public class Player {
                 //Test drawing cards
                 if (!poweredDown) {
                     damage(1);
-                    RoboRally.getUiHandler().finishDrawCards();
-                    if (cards.hasInvalidHand()) {
-                        cards.randomizeHand();
-                    }
 
-                    for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-                        int id = i;
-
-                        //this is a way to do player turns (ie wait some between each card is played)
-                        RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                            Card card = cards.getCard(SlotType.HAND, id);
-                            robot.move(card.getAction());
-                        }), 500 * (i + 1), TimeUnit.MILLISECONDS);
-                    }
 
                 } else {
-                    RoboRally.getPlayerHandler().getDeck().shuffle();
-                    RoboRally.getUiHandler().drawNewCards(this);
                 }
 
             });
+
+//            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> RoboRally.getUiHandler().showDrawnCards(this)), 150, TimeUnit.MILLISECONDS);
+
         }
     }
 
@@ -157,8 +145,28 @@ public class Player {
         return cards;
     }
 
-    public void drawCards() {
+    public void beginDrawCards() {
         cards.draw();
+        RoboRally.getUiHandler().showDrawnCards();
+    }
+
+    public void endDrawCards() {
+
+        RoboRally.getUiHandler().hideDrawnCards();
+
+        if (cards.hasInvalidHand()) {
+            cards.randomizeHand();
+        }
+
+        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+            int id = i;
+
+            //this is a way to do player turns (ie wait some between each card is played)
+            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+                Card card = cards.getCard(SlotType.HAND, id);
+                getRobot().move(card.getAction());
+            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+        }
     }
 
     public int getLives() {

@@ -36,4 +36,18 @@ public class InputHandler extends InputAdapter {
         RoboRally.getCurrentMap().moveCamera(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
         return true;
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (Input.Keys.ENTER == keycode) {
+
+            Player player = RoboRally.getPlayerHandler().mainPlayer();
+
+            if (RoboRally.getUiHandler().isDrawnCardsVisible()) {
+                player.endDrawCards();
+            }
+            return true;
+        }
+        return false;
+    }
 }

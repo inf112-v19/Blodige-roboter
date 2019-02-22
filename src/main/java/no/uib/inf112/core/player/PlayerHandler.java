@@ -49,11 +49,14 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if player is out side of map
         deck.shuffle();
         for (Player player : players) {
+            if (player != mainPlayer()) {
+                continue;
+            }
             if (player.isPoweredDown()) {
                 //TODO Issue #24 check if is powered down (then heal)
                 continue;
             } else {
-                player.drawCards();
+                player.beginDrawCards();
             }
         }
 

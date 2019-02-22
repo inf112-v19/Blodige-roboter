@@ -156,30 +156,46 @@ public class UIHandler implements Disposable {
         cardsRow.space(DEFAULT_SPACING); //space between cards
         controlPanelTable.add(cardsRow);
         CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
-        System.out.println("container.getPlayer() = " + container.getPlayer());
+
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, container, dad, false);
+            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, container, dad, false);
+            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
 
-    public void drawNewCards(Player player) {
-        player.getCards().draw();
+    /**
+     * Show the drawn cards table of the main player.
+     * Do not use this at the start of a new round, use {@link Player#beginDrawCards()}
+     *
+     * @throws IllegalStateException If no drawn card slots have a card in them
+     */
+    public void showDrawnCards() {
+        Stream<CardSlot> drawnCard = Arrays.stream(RoboRally.getPlayerHandler().mainPlayer().getCards().drawnCard);
+        if (drawnCard.allMatch(Objects::isNull)) {
+            throw new IllegalStateException("At least one card must be present on the drawn cards to show them");
+        }
         cardDrawTable.setVisible(true);
     }
 
-    public void finishDrawCards() {
+    /**
+     * Hide the drawn cards table of the main player. After this the player is ready for the round
+     * Do not use this to end the player draw turn, use {@link Player#endDrawCards()}
+     */
+    public void hideDrawnCards() {
         cardDrawTable.setVisible(false);
     }
 
-    public boolean canMoveCards() {
+    /**
+     * @return If the player has finished choosing their cards
+     */
+    public boolean isDrawnCardsVisible() {
         return cardDrawTable.isVisible();
     }
 

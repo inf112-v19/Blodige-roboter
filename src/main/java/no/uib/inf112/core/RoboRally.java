@@ -53,9 +53,11 @@ public class RoboRally extends Game {
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
 
         playerHandler = new PlayerHandler(3);
-        playerHandler.generatePlayers(false); //Need this because of line 57 in player class
+        playerHandler.generatePlayers(false);
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
+
+        playerHandler.doTurn();
     }
 
     public static void round() {
