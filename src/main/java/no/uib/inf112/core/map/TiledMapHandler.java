@@ -3,7 +3,10 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import no.uib.inf112.core.player.Entity;
@@ -116,8 +119,9 @@ public class TiledMapHandler extends MapCamera {
 
     @NotNull
     @Override
-    public TiledMapTile getBoardLayerTile(int x, int y) {
-        return boardLayer.getCell(x, y).getTile();
+    public TileType getBoardLayerTile(int x, int y) {
+        int tileId = boardLayer.getCell(x, y).getTile().getId();
+        return TileType.fromTiledId(tileId);
     }
 
     @Override
@@ -190,13 +194,13 @@ public class TiledMapHandler extends MapCamera {
      * @param y      The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
-        if (entity.getTile() == null) {
+        if (entity.getTileType() == null) {
             return;
         }
         if (isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds");
         }
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTileType().getTile());
         entityLayer.setCell(x, y, cell);
 
         oldPos.x = x;

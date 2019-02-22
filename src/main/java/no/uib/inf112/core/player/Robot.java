@@ -3,11 +3,11 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.TileType;
 import org.jetbrains.annotations.NotNull;
 
 public class Robot implements Entity {
 
-    private final TiledMapTile tile;
     private Direction direction;
     private int x, y;
 
@@ -15,7 +15,7 @@ public class Robot implements Entity {
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
      * @param direction What direction the player is facing on start
-     * @param headless  true if you want player without graphics (e.g. for testing purposes), false otherwise
+     * @param headless  True if you want player without graphics (e.g. for testing purposes), false otherwise
      * @throws IllegalArgumentException If the given position is out of bounds
      * @throws IllegalArgumentException If direction is {@code null}
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
@@ -30,21 +30,13 @@ public class Robot implements Entity {
         }
         this.direction = direction;
 
-        if (!headless) {
-            //TODO #Issue 32: make this standardized (as parameters? as constants?)
-            tile = RoboRally.getCurrentMap().getMapTileSets().getTileSet("player_tileset").getTile(106);
-            if (tile == null) {
-                throw new IllegalStateException("Failed to find robot tile");
-            }
+        if (!headless)
             RoboRally.getCurrentMap().addEntity(this);
-        } else {
-            tile = null;
-        }
     }
 
     @Override
-    public TiledMapTile getTile() {
-        return tile;
+    public TileType getTileType() {
+        return TileType.ROBOT_TILE;
     }
 
     @NotNull
@@ -107,8 +99,8 @@ public class Robot implements Entity {
      * Move the robot with given delta to new coordinates
      */
     private void move(int deltaX, int deltaY) {
-        this.x = x + deltaX;
-        this.y = y + deltaY;
+        this.x += deltaX;
+        this.y += deltaY;
     }
 
     public void teleport(int x, int y) {
