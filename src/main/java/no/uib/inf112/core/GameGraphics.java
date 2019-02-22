@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class GameGraphics extends Game {
-    private RoboRally roboRally = new RoboRally();
+    private static RoboRally roboRally;
 
     private SpriteBatch batch;
     private BitmapFont font;
@@ -40,15 +40,14 @@ public class GameGraphics extends Game {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         cpEventHandler = new ControlPanelEventHandler();
-        roboRally.map = new TiledMapHandler(roboRally.FALLBACK_MAP_FILE_PATH);
 
-        roboRally.playerHandler = new PlayerHandler(3);
-        roboRally.playerHandler.generatePlayers(false);
-        roboRally.mapInteractOnUser = new MapInteractOnUser();
+        roboRally = new RoboRally();
+        roboRally.getPlayerHandler().generatePlayers(false);
+
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
-        roboRally.playerHandler.doTurn();
+        roboRally.getPlayerHandler().doTurn();
     }
 
     @Override
@@ -60,8 +59,8 @@ public class GameGraphics extends Game {
 
         batch.begin();
 
-        roboRally.map.update(Gdx.graphics.getDeltaTime());
-        roboRally.map.render(batch);
+        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
+        roboRally.getCurrentMap().render(batch);
 
         uiHandler.update();
 
@@ -80,7 +79,7 @@ public class GameGraphics extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        roboRally.map.resize();
+        roboRally.getCurrentMap().resize();
         uiHandler.resize();
     }
 
@@ -97,6 +96,10 @@ public class GameGraphics extends Game {
     @NotNull
     public static UIHandler getUiHandler() {
         return uiHandler;
+    }
+
+    public static RoboRally getRoboRally() {
+        return roboRally;
     }
 
 }

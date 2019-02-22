@@ -27,18 +27,19 @@ public class RoboRally  {
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
 
+    private TiledMapHandler map;
 
+    private PlayerHandler playerHandler;
+    public MapInteractOnUser mapInteractOnUser;
 
-    protected static TiledMapHandler map;
+    public RoboRally() {
+        map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
 
-    protected static PlayerHandler playerHandler;
-    public static MapInteractOnUser mapInteractOnUser;
+        playerHandler = new PlayerHandler(3);
+        mapInteractOnUser = new MapInteractOnUser();
+    }
 
-
-
-
-
-    public static void round() {
+    public void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             playerHandler.doTurn();
             // End of robot movement
@@ -61,14 +62,14 @@ public class RoboRally  {
      * @return The current map in play
      */
     @NotNull
-    public static MapHandler getCurrentMap() {
+    public MapHandler getCurrentMap() {
         return map;
     }
 
 
 
     @NotNull
-    public static PlayerHandler getPlayerHandler() {
+    public PlayerHandler getPlayerHandler() {
         return playerHandler;
     }
 }

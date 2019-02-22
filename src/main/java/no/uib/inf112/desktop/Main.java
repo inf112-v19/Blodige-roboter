@@ -8,6 +8,8 @@ import no.uib.inf112.core.RoboRally;
 
 public class Main {
 
+    public static final boolean HEADLESS = false;
+
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Robo Rally";

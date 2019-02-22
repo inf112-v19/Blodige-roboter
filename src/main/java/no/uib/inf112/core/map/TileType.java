@@ -1,6 +1,7 @@
 package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 
 import java.util.HashMap;
@@ -186,7 +187,7 @@ public enum TileType {
     }
 
     public TiledMapTile getTile() {
-        return RoboRally.getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
+        return GameGraphics.getRoboRally().getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
     }
 
     public Group getGroup() {

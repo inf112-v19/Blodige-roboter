@@ -66,7 +66,7 @@ public class Player {
 
         if (!headless) {
             robot = new Robot(x, y, direction, false);
-            cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
+            cards = new CardContainer(this, GameGraphics.getRoboRally().getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
 
             //TODO REMOVE
@@ -74,7 +74,7 @@ public class Player {
 //            lives = 1;
 
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-                if (this != RoboRally.getPlayerHandler().mainPlayer()) {
+                if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
                     return;
                 }
 
@@ -124,7 +124,7 @@ public class Player {
                 robot.teleport(backup.x, backup.y);
             }
         } else if (!headless) {
-            RoboRally.getCurrentMap().removeEntity(robot);
+            GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
         }
     }
 
