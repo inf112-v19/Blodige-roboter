@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui.cards;
+package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -15,22 +15,19 @@ public class SlotSource extends DragAndDrop.Source {
 
     private final CardSlot sourceSlot;
 
-    public SlotSource(final CardSlot actor) {
+    SlotSource(final CardSlot actor) {
         super(actor);
         sourceSlot = actor;
     }
 
     @Override
     public Payload dragStart(final InputEvent event, final float x, final float y, final int pointer) {
-        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().canMoveCards() || sourceSlot.isDisabled()) {
+        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().isDrawnCardsVisible() || sourceSlot.isDisabled()) {
             return null;
         }
-
-//        System.out.println("Starting to drag card " + sourceSlot.getSlotId() + " from " + sourceSlot.getSlotType());
-
         RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
-        final CardActor dragActor = new CardActor(true);
+        final CardActor dragActor = new CardActor(false);
         dragActor.setCard(sourceSlot.getCard());
 
         final Payload payload = new Payload();

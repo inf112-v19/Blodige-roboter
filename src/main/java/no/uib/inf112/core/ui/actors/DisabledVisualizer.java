@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui;
+package no.uib.inf112.core.ui.actors;
 
 import com.badlogic.gdx.graphics.Color;
 

@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui.cards;
+package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -15,7 +15,7 @@ public class CardActor extends ImageTextButton {
     private Card card;
     private boolean headless;
 
-    public CardActor(boolean headless) {
+    CardActor(boolean headless) {
         super("", createSkin());
         this.headless = headless;
     }
@@ -27,8 +27,13 @@ public class CardActor extends ImageTextButton {
         return style;
     }
 
+    /**
+     * Update the texture of the card
+     */
     public void updateCard() {
-        if (headless) return;
+        if (headless) {
+            return;
+        }
         if (card == null) {
             setText("");
             getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);

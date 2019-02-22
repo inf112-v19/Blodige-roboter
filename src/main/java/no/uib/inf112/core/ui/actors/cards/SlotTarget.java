@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui.cards;
+package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
  */
 public class SlotTarget extends DragAndDrop.Target {
 
-    public SlotTarget(final CardSlot actor) {
+    SlotTarget(final CardSlot actor) {
         super(actor);
     }
 

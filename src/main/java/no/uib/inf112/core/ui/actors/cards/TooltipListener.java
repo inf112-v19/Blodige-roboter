@@ -1,4 +1,4 @@
-package no.uib.inf112.core.ui.cards;
+package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,7 +15,7 @@ public class TooltipListener extends Tooltip<Label> {
     private final CardSlot parent;
     private Label label;
 
-    public TooltipListener(CardSlot parent) {
+    TooltipListener(CardSlot parent) {
         super(null);
         this.parent = parent;
 

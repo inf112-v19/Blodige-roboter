@@ -1,8 +1,9 @@
-package no.uib.inf112.core.ui.cards;
+package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.CardContainer;
-import no.uib.inf112.core.ui.DisabledVisualizer;
+import no.uib.inf112.core.ui.actors.DisabledVisualizer;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,13 +12,16 @@ import org.jetbrains.annotations.NotNull;
 public class CardSlot extends CardActor implements DisabledVisualizer {
 
     @NotNull
+    private final SlotType type;
+    @NotNull
     private final CardContainer container;
 
     private int slotId;
 
 
-    public CardSlot(int id, @NotNull CardContainer container, @NotNull DragAndDrop dad, boolean headless) {
+    public CardSlot(int id, @NotNull SlotType type, @NotNull CardContainer container, @NotNull DragAndDrop dad, boolean headless) {
         super(headless);
+        this.type = type;
         this.container = container;
         slotId = id;
 
@@ -26,10 +30,15 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         addListener(new TooltipListener(this));
     }
 
+    //TODO test if the card is disabled when it should be
     @Override
     public boolean isDisabled() {
         //noinspection ConstantConditions container must be checked to be not null as isDisabled is called in the super constructor
-        return container != null && container.getPlayer().getHealth() <= slotId;
+        if (container == null) {
+            return false;
+        }
+        int max = type == SlotType.HAND ? Player.MAX_PLAYER_CARDS : Player.MAX_DRAW_CARDS;
+        return max <= slotId && container.getPlayer().getDamageTokens() > max - slotId;
     }
 
     @Override
