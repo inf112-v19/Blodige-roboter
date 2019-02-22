@@ -3,13 +3,14 @@ package no.uib.inf112.core.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
 
 public class InputHandler extends InputAdapter {
 
     public InputHandler() {
-        RoboRally.getInputMultiplexer().addProcessor(this);
+        GameGraphics.getInputMultiplexer().addProcessor(this);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class InputHandler extends InputAdapter {
 
             Player player = RoboRally.getPlayerHandler().mainPlayer();
 
-            if (RoboRally.getUiHandler().isDrawnCardsVisible()) {
+            if (GameGraphics.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();
             }
             return true;

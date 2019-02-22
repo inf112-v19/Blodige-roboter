@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
@@ -80,7 +81,7 @@ public class UIHandler implements Disposable {
 
     public UIHandler() {
         stage = new Stage(new ScreenViewport());
-        RoboRally.getInputMultiplexer().addProcessor(stage);
+        GameGraphics.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));

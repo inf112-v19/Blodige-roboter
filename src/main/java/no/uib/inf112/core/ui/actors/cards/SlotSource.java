@@ -1,10 +1,12 @@
 package no.uib.inf112.core.ui.actors.cards;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Card;
 
@@ -22,10 +24,10 @@ public class SlotSource extends DragAndDrop.Source {
 
     @Override
     public Payload dragStart(final InputEvent event, final float x, final float y, final int pointer) {
-        if (sourceSlot == null || sourceSlot.getCard() == null || !RoboRally.getUiHandler().isDrawnCardsVisible() || sourceSlot.isDisabled()) {
+        if (sourceSlot == null || sourceSlot.getCard() == null || !GameGraphics.getUiHandler().isDrawnCardsVisible() || sourceSlot.isDisabled()) {
             return null;
         }
-        RoboRally.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
+        GameGraphics.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
         final CardActor dragActor = new CardActor(false);
         dragActor.setCard(sourceSlot.getCard());
@@ -67,7 +69,7 @@ public class SlotSource extends DragAndDrop.Source {
 
             //fire an enter event to display tooltip when dropping the card
             Vector2 tempCoords = new Vector2();
-            RoboRally.getUiHandler().getStage().screenToStageCoordinates(tempCoords.set(Gdx.input.getX(), Gdx.input.getY()));
+            GameGraphics.getUiHandler().getStage().screenToStageCoordinates(tempCoords.set(Gdx.input.getX(), Gdx.input.getY()));
             InputEvent inputEvent = new InputEvent();
             inputEvent.setType(InputEvent.Type.enter);
             inputEvent.setPointer(-1);

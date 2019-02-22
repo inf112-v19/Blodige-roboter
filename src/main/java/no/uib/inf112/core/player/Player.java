@@ -1,6 +1,7 @@
 package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -66,7 +67,7 @@ public class Player {
         if (!headless) {
             robot = new Robot(x, y, direction, false);
             cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
-            ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
+            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
 
             //TODO REMOVE
 //            health = 1;
@@ -147,12 +148,12 @@ public class Player {
 
     public void beginDrawCards() {
         cards.draw();
-        RoboRally.getUiHandler().showDrawnCards();
+        GameGraphics.getUiHandler().showDrawnCards();
     }
 
     public void endDrawCards() {
 
-        RoboRally.getUiHandler().hideDrawnCards();
+        GameGraphics.getUiHandler().hideDrawnCards();
 
         if (cards.hasInvalidHand()) {
             cards.randomizeHand();
@@ -162,7 +163,7 @@ public class Player {
             int id = i;
 
             //this is a way to do player turns (ie wait some between each card is played)
-            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+            GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                 Card card = cards.getCard(SlotType.HAND, id);
                 getRobot().move(card.getAction());
             }), 500 * (i + 1), TimeUnit.MILLISECONDS);
