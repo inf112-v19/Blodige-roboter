@@ -6,7 +6,6 @@ import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.cards.CardSlot;
 import no.uib.inf112.core.ui.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -22,9 +21,19 @@ public class CardContainer {
     private final Deck deck;
     private Random random;
 
-    CardSlot[] handCard;
-    CardSlot[] drawnCard;
+    final CardSlot[] handCard;
+    final CardSlot[] drawnCard;
 
+    /**
+     * Before using any of the methods in this class you need to initiate {@link #handCard} and {@link #drawnCard} with {@link CardSlot}s.
+     * <p>
+     * When running with Lwjgl (ie normally) this is done in {@link UIHandler#create()}, but when testing this must be done.
+     *
+     * @param holder The player whos cards these are
+     * @param deck   The deck used to draw new cards
+     * @see no.uib.inf112.core.ui.CardContainerTest#setUp()
+     */
+    @SuppressWarnings("JavadocReference")
     public CardContainer(@NotNull Player holder, Deck deck) {
         this.holder = holder;
         this.deck = deck;
@@ -91,31 +100,6 @@ public class CardContainer {
             }
             handCard[i].setCard(drawnCard[randomCard].getCard());
             drawnCard[randomCard].setCard(null);
-        }
-    }
-
-
-    /**
-     * TODO test if this updates cards correctly (and returns correctly)
-     *
-     * @param slotType The type of slot to put this cards in
-     * @param id       The id (index) of the card
-     * @param card     The card to be set, can be {@code null}
-     * @return If the card at given location was updated
-     */
-    public boolean setCard(@NotNull SlotType slotType, int id, @Nullable Card card) {
-        if (id >= holder.getHealth()) {
-            return false;
-        }
-        switch (slotType) {
-            case HAND:
-                handCard[id].setCard(card);
-                return true;
-            case DRAWN:
-                drawnCard[id].setCard(card);
-                return true;
-            default:
-                throw new IllegalArgumentException("Failed to find cards of type " + slotType);
         }
     }
 
