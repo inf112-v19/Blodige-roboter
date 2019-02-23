@@ -38,12 +38,15 @@ public class MapInteractOnUser {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         /**
          for (Entity entity : entitiesOnMap) {
-            int x = entity.getX();
-            int y = entity.getY();
-            TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
-            if (tileUnderRobot.isInGroup(TileType.Group.FLAG)) {
-                //DO STUFF
-            }
+             MapAction mapAction = getAction(entity);
+             if (mapAction != null) {//And mapaction is some special tile
+             queue.add(mapAction);
+         }
+
+         for (MapAction mapAction : queue) {
+         mapAction.doAction();
+         }
+
          */
         for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
             int x = player.getRobot().getX();
@@ -51,26 +54,17 @@ public class MapInteractOnUser {
             TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
             if (tileUnderRobot.isInGroup(TileType.Group.FLAG)) {
                 switch (tileUnderRobot) {
-                    case FLAG1: if (player.canGetFlag(1)) player.registerFlagVisit();
-                    case FLAG2: if (player.canGetFlag(2)) player.registerFlagVisit();
-                    case FLAG3: if (player.canGetFlag(3)) player.registerFlagVisit();
-                    case FLAG4: if (player.canGetFlag(4)) player.registerFlagVisit();
+                    case FLAG1:
+                        if (player.canGetFlag(1)) player.registerFlagVisit();
+                    case FLAG2:
+                        if (player.canGetFlag(2)) player.registerFlagVisit();
+                    case FLAG3:
+                        if (player.canGetFlag(3)) player.registerFlagVisit();
+                    case FLAG4:
+                        if (player.canGetFlag(4)) player.registerFlagVisit();
                 }
+                player.setBackup(x, y); //Setting backup even if player can't register flag
             }
-
-
-            MapAction mapAction = getAction(entity);
-            if (mapAction != null) {//And mapaction is some special tile
-                queue.add(mapAction);
-            }
-        }
-
-//Sjekk om mapAction er et flag
-//If ja, finn ut hvilken rang flagget har
-//Spør player om han kan registrere flagget
-//Set backup (alltid??) og evt. registrer flagget -> enten her eller fiks i Player.
-        for (MapAction mapAction : queue) {
-            mapAction.doAction();
         }
     }
 
