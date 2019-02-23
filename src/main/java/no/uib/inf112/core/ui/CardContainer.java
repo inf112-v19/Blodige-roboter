@@ -47,8 +47,6 @@ public class CardContainer {
      * Draw cards for the players drawn cards and removes any non-disabled cards from the players hand
      */
     public void draw() {
-//        System.out.println("handCard = " + Arrays.toString(handCard));
-//        System.out.println("drawnCard = " + Arrays.toString(drawnCard));
         for (CardSlot actor : handCard) {
             if (!actor.isDisabled()) {
                 actor.setCard(null);
@@ -114,8 +112,6 @@ public class CardContainer {
     }
 
     /**
-     * TODO test if this return the correct cards
-     *
      * @param slotType Where to put the card
      * @param id       The id(index) of the card
      * @return The card at the given id
@@ -132,8 +128,6 @@ public class CardContainer {
     }
 
     /**
-     * TODO use this combined to test if we should start/stop timer for randomizing players hand
-     *
      * @return If any of the player hand cards are {@code null}
      */
     public boolean hasInvalidHand() {

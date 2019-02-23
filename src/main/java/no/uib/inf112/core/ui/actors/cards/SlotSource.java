@@ -51,8 +51,6 @@ public class SlotSource extends DragAndDrop.Source {
                 return;
             }
 
-//            System.out.println("Dropping card on card " + targetSlot.getSlotId() + " from " + targetSlot.getSlotType());
-
             if (targetSlot.getCard() == null) {
                 //move the payload to the target slot
                 targetSlot.setCard(payloadSlot.getCard());

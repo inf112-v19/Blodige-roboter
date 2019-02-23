@@ -68,31 +68,13 @@ public class Player {
             cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
-            //TODO REMOVE
-//            health = 1;
-//            lives = 1;
-
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != RoboRally.getPlayerHandler().mainPlayer()) {
                     return;
                 }
-
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
-
-                //TODO REMOVE BEFORE PR
-                //Test drawing cards
-                if (!poweredDown) {
-                    damage(1);
-
-
-                } else {
-                }
-
             });
-
-//            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> RoboRally.getUiHandler().showDrawnCards(this)), 150, TimeUnit.MILLISECONDS);
-
         }
     }
 
