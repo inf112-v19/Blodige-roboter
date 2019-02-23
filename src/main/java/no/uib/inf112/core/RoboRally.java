@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.map.FlagHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
@@ -23,6 +22,7 @@ public class RoboRally extends Game {
 
     public static final String MAP_FOLDER = "maps";
     public static final int PHASES_PER_ROUND = 5;
+    public static final int FLAG_COUNT = 4;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
@@ -33,7 +33,6 @@ public class RoboRally extends Game {
     private static TiledMapHandler map;
 
     private static PlayerHandler playerHandler;
-    private static FlagHandler flagHandler;
     public static MapInteractOnUser mapInteractOnUser;
 
 
@@ -60,30 +59,11 @@ public class RoboRally extends Game {
         mapInteractOnUser = new MapInteractOnUser();
 
 
-        flagHandler = new FlagHandler(4);
-
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
             playerHandler.doTurn();
-
-            // Checking if a player can register a flag visit after turn is done.
-            for (Player player : playerHandler.getPlayers()) {
-                int x = player.getRobot().getX();
-                int y = player.getRobot().getY();
-
-                int possibleFlagRank = flagHandler.getRankOfFlag(x, y);
-                if (possibleFlagRank != -1 && player.canGetFlag(possibleFlagRank)) {
-                    player.registerFlagVisit();
-                    if (player.getFlags() == flagHandler.getFLagCount()) {
-                        //TODO here player has wun the game
-                        return;
-                    }
-                }
-
-            }
-
 
             // End of robot movement
 
@@ -92,6 +72,12 @@ public class RoboRally extends Game {
             // Move rotation gears
 
             // Move assembly lines
+
+            for (Player player : playerHandler.getPlayers()) {
+                if (player.getFlags() == FLAG_COUNT) {
+                    //TODO this player has wun! (Only one player can possibly get the last flag per phase)
+                }
+            }
 
             //Should wait some time
         }
