@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * @author Elg
  */
-public interface MapHandler extends Disposable {
+public interface MapHandler {
 
     //constants for
     float DEFAULT_ZOOM_SENSITIVITY = 1f;

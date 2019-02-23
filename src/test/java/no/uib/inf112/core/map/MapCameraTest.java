@@ -229,10 +229,6 @@ public class MapCameraTest {
                 return 0;
             }
 
-            @Override
-            public void dispose() {
-
-            }
 
             @Override
             public void resize() {
