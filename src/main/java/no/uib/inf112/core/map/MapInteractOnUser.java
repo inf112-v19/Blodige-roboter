@@ -47,6 +47,7 @@ public class MapInteractOnUser {
 
          */
         for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
+            //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
             TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
@@ -64,9 +65,9 @@ public class MapInteractOnUser {
                     }
                     player.setBackup(x, y); //Setting backup even if player can't register flag
                 case OPTION:
-                    break;
+                    break; //TODO add logic for wrench and hammer and wrench
                 default:
-                    break;
+                    break; //Case if the tile is not a special tile (flag or option)
             }
         }
     }
