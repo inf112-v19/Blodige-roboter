@@ -35,4 +35,6 @@ public interface IPlayerHandler {
      * @return deck
      */
     Deck getDeck();
+    //TODO write this
+    Player getCurrentPlayer();
 }

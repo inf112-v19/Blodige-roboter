@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Elg
  */
-public class Player {
+public class Player implements Comparable<Player> {
 
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
@@ -149,6 +149,7 @@ public class Player {
                 getRobot().move(card.getAction());
             }), 500 * (i + 1), TimeUnit.MILLISECONDS);
         }
+        RoboRally.getPlayerHandler().nextPlayer();
     }
 
     public int getLives() {
@@ -186,5 +187,10 @@ public class Player {
 
     public void setDock(int dock) {
         this.dock = dock;
+    }
+
+    @Override
+    public int compareTo(@NotNull Player player) {
+        return Integer.compare(getDock(), player.getDock());
     }
 }
