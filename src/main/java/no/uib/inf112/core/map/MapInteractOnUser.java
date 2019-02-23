@@ -1,9 +1,7 @@
 package no.uib.inf112.core.map;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.player.PlayerHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,18 +50,23 @@ public class MapInteractOnUser {
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
             TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
-            if (tileUnderRobot.isInGroup(TileType.Group.FLAG)) {
-                switch (tileUnderRobot) {
-                    case FLAG1:
-                        if (player.canGetFlag(1)) player.registerFlagVisit();
-                    case FLAG2:
-                        if (player.canGetFlag(2)) player.registerFlagVisit();
-                    case FLAG3:
-                        if (player.canGetFlag(3)) player.registerFlagVisit();
-                    case FLAG4:
-                        if (player.canGetFlag(4)) player.registerFlagVisit();
-                }
-                player.setBackup(x, y); //Setting backup even if player can't register flag
+            switch (tileUnderRobot.getGroup()) {
+                case FLAG:
+                    switch (tileUnderRobot) {
+                        case FLAG1:
+                            if (player.canGetFlag(1)) player.registerFlagVisit();
+                        case FLAG2:
+                            if (player.canGetFlag(2)) player.registerFlagVisit();
+                        case FLAG3:
+                            if (player.canGetFlag(3)) player.registerFlagVisit();
+                        case FLAG4:
+                            if (player.canGetFlag(4)) player.registerFlagVisit();
+                    }
+                    player.setBackup(x, y); //Setting backup even if player can't register flag
+                case OPTION:
+                    break;
+                default:
+                    break;
             }
         }
     }
