@@ -10,6 +10,7 @@ public class Robot implements Entity {
 
     private Direction direction;
     private int x, y;
+    boolean update;
 
     /**
      * @param x         The x position the player starts at
@@ -30,13 +31,25 @@ public class Robot implements Entity {
         }
         this.direction = direction;
 
-        if (!headless)
+        if (!headless) {
             RoboRally.getCurrentMap().addEntity(this);
+        }
     }
 
     @Override
     public TileType getTileType() {
-        return TileType.ROBOT_TILE;
+        switch (direction) {
+            case NORTH:
+                return TileType.ROBOT_TILE_NORTH;
+            case EAST:
+                return TileType.ROBOT_TILE_EAST;
+            case WEST:
+                return TileType.ROBOT_TILE_WEST;
+            case SOUTH:
+                return TileType.ROBOT_TILE_SOUTH;
+            default:
+                throw new IllegalStateException("No robot tile for direction " + direction);
+        }
     }
 
     @NotNull
@@ -49,6 +62,7 @@ public class Robot implements Entity {
     public void setDirection(@NotNull Direction direction) {
         //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
+        update();
     }
 
     @Override
@@ -99,12 +113,24 @@ public class Robot implements Entity {
      * Move the robot with given delta to new coordinates
      */
     private void move(int deltaX, int deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
+        x += deltaX;
+        y += deltaY;
+        update();
     }
 
     public void teleport(int x, int y) {
         this.x = x;
         this.y = y;
+        update();
+    }
+
+    @Override
+    public boolean shouldUpdate() {
+        return update;
+    }
+
+    @Override
+    public void update(boolean update) {
+        this.update = update;
     }
 }
