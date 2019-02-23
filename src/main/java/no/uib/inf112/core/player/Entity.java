@@ -38,4 +38,22 @@ public interface Entity {
      */
     void setDirection(@NotNull Direction direction);
 
+    /**
+     * @return If this entity has changed in some way
+     */
+    boolean shouldUpdate();
+
+
+    /**
+     * Set the update state to true
+     */
+    default void update() {
+        update(true);
+    }
+
+    /**
+     * @param update new update state
+     */
+    void update(boolean update);
+
 }

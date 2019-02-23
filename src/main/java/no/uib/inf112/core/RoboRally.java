@@ -16,6 +16,8 @@ import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class RoboRally extends Game {
 
@@ -34,28 +36,31 @@ public class RoboRally extends Game {
     public static MapInteractOnUser mapInteractOnUser;
 
     private static InputMultiplexer inputMultiplexer;
-    private UIHandler uiHandler;
-
-
+    private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
+    public static ScheduledExecutorService executorService;
 
     @Override
     public void create() {
+
+        executorService = Executors.newSingleThreadScheduledExecutor();
+
         batch = new SpriteBatch();
         font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        uiHandler = new UIHandler();
-        new InputHandler();
         cpEventHandler = new ControlPanelEventHandler();
         map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
+
         playerHandler = new PlayerHandler(3);
         playerHandler.generatePlayers(false);
         mapInteractOnUser = new MapInteractOnUser();
+        uiHandler = new UIHandler();
+        new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
-
+        playerHandler.doTurn();
     }
 
     public static void round() {
@@ -127,5 +132,10 @@ public class RoboRally extends Game {
     @NotNull
     public static PlayerHandler getPlayerHandler() {
         return playerHandler;
+    }
+
+    @NotNull
+    public static UIHandler getUiHandler() {
+        return uiHandler;
     }
 }

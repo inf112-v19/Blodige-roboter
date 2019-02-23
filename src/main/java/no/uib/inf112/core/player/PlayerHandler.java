@@ -1,6 +1,8 @@
 package no.uib.inf112.core.player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
 
 public class PlayerHandler implements IPlayerHandler {
 
@@ -21,7 +23,7 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-        deck = new ProgramDeck();
+        deck = new ProgramDeck(false);
     }
 
     @Override
@@ -47,11 +49,14 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if player is out side of map
         deck.shuffle();
         for (Player player : players) {
+            if (player != mainPlayer()) {
+                continue;
+            }
             if (player.isPoweredDown()) {
                 //TODO Issue #24 check if is powered down (then heal)
                 continue;
             } else {
-                player.drawCards();
+                player.beginDrawCards();
             }
         }
 

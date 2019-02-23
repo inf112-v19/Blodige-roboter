@@ -21,11 +21,11 @@ public class Vector2Int {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Vector2Int ) {
+        if (!(object instanceof Vector2Int)) {
             return false;
         }
         Vector2Int vector2Int = (Vector2Int) object;
-        return this.x==vector2Int.x && this.y == vector2Int.y;
+        return this.x == vector2Int.x && this.y == vector2Int.y;
     }
 }
 
