@@ -70,5 +70,13 @@ public class ProgramCard implements Card {
     public int hashCode() {
         return Objects.hash(action, priority);
     }
+
+    @Override
+    public String toString() {
+        return "ProgramCard{" +
+                "action=" + action +
+                ", priority=" + priority +
+                '}';
+    }
 }
 

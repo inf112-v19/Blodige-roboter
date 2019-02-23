@@ -10,17 +10,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
 public class CardContainerTest extends TestGraphics {
 
-    private ProgramDeck deck;
+    private ProgramDeck deck = new ProgramDeck(true);
     private CardContainer container;
 
     @Before
     public void setUp() {
-        deck = new ProgramDeck(true);
         container = new CardContainer(new Player(1, 1, Direction.NORTH, true), deck);
 
         DragAndDrop dad = new DragAndDrop();
@@ -79,7 +81,6 @@ public class CardContainerTest extends TestGraphics {
     public void randomizingHandOfPlayerShouldHaveAllCardsOnHand() {
         container.draw();
         container.randomizeHand();
-        Player player = container.getPlayer();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             assertNotNull(container.getCard(SlotType.HAND, i));
@@ -100,6 +101,71 @@ public class CardContainerTest extends TestGraphics {
         }
 
         assertFalse(container.hasInvalidHand());
+    }
+
+
+    @Test
+    public void randomizeHandOnlyDrawCardsFromDrawn() {
+        Movement action = Movement.MOVE_1;
+
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+            container.drawnCard[i].setCard(new ProgramCard(action, i, true));
+        }
+        //all hand cards should be null
+        assertTrue(Arrays.stream(container.handCard).map(CardActor::getCard).allMatch(Objects::isNull));
+        container.randomizeHand();
+
+        assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getPriority() < Player.MAX_DRAW_CARDS));
+        assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getAction() == action));
+
+        //no duplicates
+        Set<Integer> ids = new HashSet<>();
+        for (CardSlot cardSlot : container.handCard) {
+            assertFalse(ids.contains(cardSlot.getCard().getPriority()));
+            ids.add(cardSlot.getCard().getPriority());
+        }
+    }
+
+    @Test
+    public void randomizeHandPutsCardsBackToDrawn() {
+
+        //loop unrolled
+        container.handCard[0].setCard(new ProgramCard(Movement.LEFT_TURN, 0, true));
+        container.handCard[1].setCard(new ProgramCard(Movement.LEFT_TURN, 1, true));
+        container.handCard[2].setCard(new ProgramCard(Movement.LEFT_TURN, 2, true));
+        container.handCard[3].setCard(new ProgramCard(Movement.LEFT_TURN, 3, true));
+        container.handCard[4].setCard(null);
+
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+            if (i < Player.MAX_PLAYER_CARDS - 1) {
+                container.drawnCard[i].setCard(null);
+            } else {
+                container.drawnCard[i].setCard(new ProgramCard(Movement.RIGHT_TURN, i, true));
+            }
+        }
+
+        container.randomizeHand();
+
+        Set<Integer> ids = new HashSet<>();
+        for (CardSlot cardSlot : container.handCard) {
+            if (cardSlot.getCard() == null) {
+                continue;
+            }
+            assertFalse("duplicate card found! id=" + cardSlot.getCard().getPriority() + " known ids=" + ids, ids.contains(cardSlot.getCard().getPriority()));
+            ids.add(cardSlot.getCard().getPriority());
+        }
+
+        for (CardSlot cardSlot : container.drawnCard) {
+            if (cardSlot.getCard() == null) {
+                continue;
+            }
+            assertFalse("duplicate card found! id=" + cardSlot.getCard().getPriority() + " known ids=" + ids, ids.contains(cardSlot.getCard().getPriority()));
+            ids.add(cardSlot.getCard().getPriority());
+        }
+
+        assertEquals(new HashSet<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8)), ids);
+
+
     }
 
     @Test

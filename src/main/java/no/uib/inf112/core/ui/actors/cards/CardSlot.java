@@ -46,4 +46,12 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         super.act(delta);
         act();
     }
+
+    @Override
+    public String toString() {
+        return "CardSlot{" +
+                "type=" + type +
+                ", slotId=" + slotId + super.toString() +
+                "} ";
+    }
 }
