@@ -1,6 +1,9 @@
 package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.PlayerHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,13 +36,39 @@ public class MapInteractOnUser {
      */
     private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
-        for (Entity entity : entitiesOnMap) {
+        /**
+         for (Entity entity : entitiesOnMap) {
+            int x = entity.getX();
+            int y = entity.getY();
+            TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
+            if (tileUnderRobot.isInGroup(TileType.Group.FLAG)) {
+                //DO STUFF
+            }
+         */
+        for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
+            int x = player.getRobot().getX();
+            int y = player.getRobot().getY();
+            TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
+            if (tileUnderRobot.isInGroup(TileType.Group.FLAG)) {
+                switch (tileUnderRobot) {
+                    case FLAG1: if (player.canGetFlag(1)) player.registerFlagVisit();
+                    case FLAG2: if (player.canGetFlag(2)) player.registerFlagVisit();
+                    case FLAG3: if (player.canGetFlag(3)) player.registerFlagVisit();
+                    case FLAG4: if (player.canGetFlag(4)) player.registerFlagVisit();
+                }
+            }
+
+
             MapAction mapAction = getAction(entity);
             if (mapAction != null) {//And mapaction is some special tile
                 queue.add(mapAction);
             }
         }
 
+//Sjekk om mapAction er et flag
+//If ja, finn ut hvilken rang flagget har
+//Spør player om han kan registrere flagget
+//Set backup (alltid??) og evt. registrer flagget -> enten her eller fiks i Player.
         for (MapAction mapAction : queue) {
             mapAction.doAction();
         }
