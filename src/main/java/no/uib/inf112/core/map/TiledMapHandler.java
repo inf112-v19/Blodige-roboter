@@ -3,7 +3,10 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
@@ -166,10 +169,6 @@ public class TiledMapHandler extends MapCamera {
         return entities.keySet();
     }
 
-    @Override
-    public boolean isOutsideBoard(int x, int y) {
-        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
-    }
 
     @Override
     public int getMapWidth() {

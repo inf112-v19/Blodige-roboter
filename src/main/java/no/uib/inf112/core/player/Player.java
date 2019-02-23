@@ -101,10 +101,13 @@ public class Player {
         lives--;
         if (lives == 0) {
             if (!headless) {
-                robot.teleport(backup.x, backup.y);
+                RoboRally.getCurrentMap().removeEntity(robot);
             }
-        } else if (!headless) {
-            RoboRally.getCurrentMap().removeEntity(robot);
+            return;
+        }
+        health = MAX_HEALTH;
+        if (!headless) {
+            robot.teleport(backup.x, backup.y);
         }
     }
 

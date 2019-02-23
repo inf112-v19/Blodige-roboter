@@ -1,22 +1,47 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TileType;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(RoboRally.class)
 public class RobotTest {
 
     private Robot testBot;
     private int roboX;
     private int roboY;
 
+    public static final int HEIGHT = 20;
+    public static final int WIDTH = 20;
+
+
     @Before
     public void setup() {
         testBot = new Robot(5, 5, Direction.NORTH, true);
         roboX = testBot.getX();
         roboY = testBot.getY();
+
+        PowerMockito.mockStatic(RoboRally.class);
+
+        MapHandler map = mock(MapHandler.class);
+        PowerMockito.when(map.getMapHeight()).thenReturn(HEIGHT);
+        PowerMockito.when(map.getMapWidth()).thenReturn(WIDTH);
+        PowerMockito.when(RoboRally.getCurrentMap()).thenReturn(map);
+    }
+
+    @BeforeClass
+    public static void init() {
 
     }
 
