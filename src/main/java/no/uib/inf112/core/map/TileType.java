@@ -7,11 +7,15 @@ import java.util.HashMap;
 
 public enum TileType {
 
+
     /**
      * THE ROBOT
      * (Group ROBOT)
      */
-    ROBOT_TILE(106, Group.ROBOT, "player_tileset"),
+    ROBOT_TILE_NORTH(106, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_EAST(107, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_SOUTH(108, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_WEST(109, Group.ROBOT, "player-robot"),
 
     /**
      * THE TILES THAT ROBOTS CAN FALL THROUGH
@@ -162,7 +166,7 @@ public enum TileType {
     private static HashMap<Integer, TileType> TileIdMap = new HashMap<>();
 
     TileType(int id, Group group) {
-        this(id, group, "tiles_tileset");
+        this(id, group, "tiles");
     }
 
     TileType(int id, Group group, String tilesetName) {

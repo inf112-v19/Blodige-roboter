@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.TileType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,6 +111,19 @@ public class RobotTest {
             }
             testBot.move(Movement.MOVE_2);
             testBot.move(Movement.LEFT_TURN);
+        }
+    }
+
+    @Test
+    public void getTileType() {
+        for (Direction dir : Direction.values()) {
+            testBot.setDirection(dir);
+            assertNotNull(testBot.getTileType());
+
+            assertEquals(TileType.Group.ROBOT, testBot.getTileType().getGroup());
+
+            String[] name = testBot.getTileType().name().split("_");
+            assertEquals(dir.name(), name[name.length - 1]);
         }
     }
 }
