@@ -3,10 +3,7 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import no.uib.inf112.core.player.Entity;
@@ -100,11 +97,12 @@ public class TiledMapHandler extends MapCamera {
             if (lastPos == null) {
                 lastPos = new Vector2(x, y);
                 entry.setValue(lastPos);
-            } else if (x == lastPos.x && y == lastPos.y) {
+            } else if (!entry.getKey().shouldUpdate()) {
                 //do not update if there is no change
                 continue;
             }
 
+            entry.getKey().update(false);
             entityLayer.setCell((int) lastPos.x, (int) lastPos.y, null);
             setEntityOnBoard(entry.getKey(), lastPos, x, y);
 
