@@ -1,10 +1,13 @@
 package no.uib.inf112.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.*;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
+import no.uib.inf112.desktop.Main;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +23,14 @@ public class CardContainerTest extends TestGraphics {
 
     private ProgramDeck deck = new ProgramDeck(true);
     private CardContainer container;
+    private RoboRally roboRally;
 
     @Before
     public void setUp() {
-        container = new CardContainer(new Player(1, 1, Direction.NORTH, true), deck);
+        Main.HEADLESS = true;
+        roboRally = new RoboRally();
+        GameGraphics.SetRoboRally(roboRally);
+        container = new CardContainer(new Player(1, 1, Direction.NORTH, true));
 
         DragAndDrop dad = new DragAndDrop();
 
@@ -36,14 +43,12 @@ public class CardContainerTest extends TestGraphics {
             CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, true);
             container.drawnCard[i] = cardSlot;
         }
-
-        container.draw();
     }
 
     @Test
     public void drawingForFullHealthPlayerShouldReturn9Cards() {
         int nCards = 9;
-
+        container.draw();
         for (int i = 0; i < nCards; i++) {
             assertNotNull("Missing card on" + i + ", all drawn cards should be 0",
                     container.getCard(SlotType.DRAWN, i));
@@ -182,6 +187,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void overridingCardShouldReturnNewCard() {
+        container.draw();
         assertNotNull(container.getCard(SlotType.DRAWN, 1));
         Card card = new ProgramCard(Movement.LEFT_TURN, 100, true);
         container.drawnCard[1].setCard(card);
@@ -201,6 +207,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void havingNotNullOnAllHandSlotsShouldReturnFalseInvalidHand() {
+        container.draw();
         assertTrue(container.hasInvalidHand());
         container.randomizeHand();
         assertFalse(container.hasInvalidHand());

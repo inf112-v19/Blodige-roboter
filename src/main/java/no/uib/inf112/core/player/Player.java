@@ -64,9 +64,8 @@ public class Player {
         poweredDown = false;
         this.headless = headless;
         robot = new Robot(x, y, direction, headless);
+        cards = new CardContainer(this);
         if (!headless) {
-
-            cards = new CardContainer(this, GameGraphics.getRoboRally().getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {

@@ -28,11 +28,6 @@ public interface IPlayerHandler {
      * Do next turn in game
      */
     void doTurn();
-
-    /**
-     * Get deck which is currently in the game
-     *
-     * @return deck
-     */
-    Deck getDeck();
 }
+
+

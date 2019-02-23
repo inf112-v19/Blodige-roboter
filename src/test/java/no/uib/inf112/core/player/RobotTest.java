@@ -36,7 +36,6 @@ public class RobotTest extends TestGraphics {
         Main.HEADLESS = true;
         roboRally = new RoboRally();
         GameGraphics.SetRoboRally(roboRally);
-        roboRally.getPlayerHandler().generatePlayers(Main.HEADLESS);
         player = roboRally.getPlayerHandler().mainPlayer();
         testBot = player.getRobot();
         testBot.teleport(HEIGHT / 2, WIDTH / 2);

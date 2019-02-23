@@ -1,5 +1,8 @@
 package no.uib.inf112.core;
 
+import no.uib.inf112.core.player.Deck;
+import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.ProgramDeck;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
@@ -22,6 +25,7 @@ public class RoboRally  {
 
     private PlayerHandler playerHandler;
     public MapInteractOnUser mapInteractOnUser;
+    private Deck deck;
 
     public RoboRally() {
         if (Main.HEADLESS) {
@@ -30,8 +34,13 @@ public class RoboRally  {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         }
 
-        playerHandler = new PlayerHandler(3);
+
         mapInteractOnUser = new MapInteractOnUser();
+        deck = new ProgramDeck(Main.HEADLESS);
+        playerHandler = new PlayerHandler(3);
+        for (Player player:playerHandler.getPlayers()) {
+            map.addEntity(player.getRobot());
+        }
     }
 
     public void round() {
@@ -47,15 +56,24 @@ public class RoboRally  {
 
             //Should wait some time
         }
+        deck.shuffle();
         //User plans next round
     }
 
-
+    /**
+     * Get deck which is currently in the game
+     *
+     * @return deck
+     */
+    public Deck getDeck() {
+        return deck;
+    }
 
 
     /**
      * @return The current map in play
      */
+
     @NotNull
     public MapHandler getCurrentMap() {
         return map;

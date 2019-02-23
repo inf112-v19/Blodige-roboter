@@ -32,8 +32,8 @@ public class Robot implements Entity {
         }
         this.direction = direction;
 
-        if (!headless)
-            GameGraphics.getRoboRally().getCurrentMap().addEntity(this);
+        /*if (!headless)
+            GameGraphics.getRoboRally().getCurrentMap().addEntity(this);*/
     }
 
     @Override
