@@ -127,7 +127,7 @@ public class UIHandler implements Disposable {
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.getPlayerHandler().mainPlayer().getLives() <= id;
+                    return RoboRally.getPlayerHandler().getCurrentPlayer().getLives() <= id;
                 }
             });
         }
@@ -146,7 +146,7 @@ public class UIHandler implements Disposable {
             damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.getPlayerHandler().mainPlayer().getHealth() <= id;
+                    return RoboRally.getPlayerHandler().getCurrentPlayer().getHealth() <= id;
                 }
             });
         }
@@ -155,7 +155,7 @@ public class UIHandler implements Disposable {
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
         controlPanelTable.add(cardsRow);
-        CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
+        CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
@@ -177,7 +177,7 @@ public class UIHandler implements Disposable {
      * @throws IllegalStateException If no drawn card slots have a card in them
      */
     public void showDrawnCards() {
-        Stream<CardSlot> drawnCard = Arrays.stream(RoboRally.getPlayerHandler().mainPlayer().getCards().drawnCard);
+        Stream<CardSlot> drawnCard = Arrays.stream(RoboRally.getPlayerHandler().getCurrentPlayer().getCards().drawnCard);
         if (drawnCard.allMatch(Objects::isNull)) {
             throw new IllegalStateException("At least one card must be present on the drawn cards to show them");
         }

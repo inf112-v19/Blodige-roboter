@@ -41,7 +41,7 @@ public class InputHandler extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (Input.Keys.ENTER == keycode) {
 
-            Player player = RoboRally.getPlayerHandler().mainPlayer();
+            Player player = RoboRally.getPlayerHandler().getCurrentPlayer();
 
             if (RoboRally.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();

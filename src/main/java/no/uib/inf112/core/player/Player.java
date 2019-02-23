@@ -69,7 +69,7 @@ public class Player {
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-                if (this != RoboRally.getPlayerHandler().mainPlayer()) {
+                if (this != RoboRally.getPlayerHandler().getCurrentPlayer()) {
                     return;
                 }
                 poweredDown = !poweredDown;

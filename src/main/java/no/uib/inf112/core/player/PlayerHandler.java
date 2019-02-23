@@ -9,6 +9,7 @@ public class PlayerHandler implements IPlayerHandler {
     private Deck deck;
     private int playerCount;
     private ArrayList<Player> players;
+    private Player currentPlayer;
 
     /**
      * @param playerCount
@@ -40,7 +41,12 @@ public class PlayerHandler implements IPlayerHandler {
 
         for (Player player : players) {
             player.setDock(docks.pop());
+
+            if(player.getDock() == 1) {
+                currentPlayer = player;
+            }
         }
+
     }
 
     @Override
@@ -49,7 +55,7 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if player is out side of map
         deck.shuffle();
         for (Player player : players) {
-            if (player != mainPlayer()) {
+            if (player != getCurrentPlayer()) {
                 continue;
             }
             if (player.isPoweredDown()) {
@@ -77,12 +83,17 @@ public class PlayerHandler implements IPlayerHandler {
         return deck;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    //TODO Remove this
     /**
      * Temporary mainplayer
      *
      * @return player
      */
-    public Player mainPlayer() {
-        return players.get(0);
-    }
+//    public Player mainPlayer() {
+//        return players.get(0);
+//    }
 }
