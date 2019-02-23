@@ -99,11 +99,17 @@ public class Robot implements Entity {
      * Move the robot with given delta to new coordinates
      */
     private void move(int deltaX, int deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
+        x += deltaX;
+        y += deltaY;
+        if (RoboRally.getCurrentMap().isOutsideBoard(x, y)) {
+            RoboRally.getPlayerHandler().mainPlayer().kill();
+        }
     }
 
     public void teleport(int x, int y) {
+        if (RoboRally.getCurrentMap().isOutsideBoard(x, y)) {
+            throw new IllegalArgumentException("Cannot teleport outside the map bounds. Tried to teleport to (" + x + ", " + y + ")");
+        }
         this.x = x;
         this.y = y;
     }
