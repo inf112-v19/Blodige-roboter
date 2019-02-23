@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,14 +106,16 @@ public interface MapHandler {
      * @return A read-only set of known robots in the order they were added
      */
     @NotNull
-    Map<Entity, Vector2> getEntities();
+    Map<Entity, Vector2Int> getEntities();
 
     /**
      * @param x The x coordinate to test
      * @param y The y coordinate to test
      * @return If the given {@code x} and {@code y} is outside this map
      */
-    boolean isOutsideBoard(int x, int y);
+    default boolean isOutsideBoard(int x, int y) {
+        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
+    }
 
     /**
      * @return How many tiles there are in the maps width

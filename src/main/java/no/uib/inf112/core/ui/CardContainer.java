@@ -53,7 +53,7 @@ public class CardContainer {
             }
         }
 
-        int amount = holder.getHealth();
+        int amount = Player.MAX_HEALTH - holder.getDamageTokens() - 1;
         Card[] draw = deck.draw(amount);
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
@@ -64,29 +64,37 @@ public class CardContainer {
                 drawnCard[i].setCard(draw[i]);
             }
         }
+
     }
 
-
-    //FIXME probably broken
 
     /**
      * Set the players hand to a random selection of the drawn cards.
      * Any disabled cards should not be updated
      */
     public void randomizeHand() {
+
+        //hand already valid, do nothing
+        if (!hasInvalidHand()) {
+            return;
+        }
         //make sure all previously picked cards are back in the drawn cards array
         for (CardSlot handCard : handCard) {
             if (handCard.getCard() != null && !handCard.isDisabled()) {
 
                 for (CardSlot drawnCard : drawnCard) {
-                    if (drawnCard.getCard() == null) {
+                    if (drawnCard.getCard() == null && !drawnCard.isDisabled()) {
                         drawnCard.setCard(handCard.getCard());
+                        handCard.setCard(null);
+                        break;
                     }
                 }
             }
         }
 
-        //TODO assert handCards is empty/disabled
+        if (!Arrays.stream(handCard).allMatch(cardSlot -> cardSlot.isDisabled() || cardSlot.getCard() == null)) {
+            throw new IllegalStateException("handcards not properly cleared!");
+        }
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             int randomCard = random.nextInt(drawnCard.length);
@@ -104,8 +112,6 @@ public class CardContainer {
     }
 
     /**
-     * TODO test if this return the correct cards
-     *
      * @param slotType Where to put the card
      * @param id       The id(index) of the card
      * @return The card at the given id
@@ -122,8 +128,6 @@ public class CardContainer {
     }
 
     /**
-     * TODO use this combined to test if we should start/stop timer for randomizing players hand
-     *
      * @return If any of the player hand cards are {@code null}
      */
     public boolean hasInvalidHand() {

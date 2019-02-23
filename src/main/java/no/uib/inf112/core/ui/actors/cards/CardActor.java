@@ -53,4 +53,11 @@ public class CardActor extends ImageTextButton {
         this.card = card;
         updateCard();
     }
+
+    @Override
+    public String toString() {
+        return "CardActor{" +
+                "card=" + card +
+                '}';
+    }
 }

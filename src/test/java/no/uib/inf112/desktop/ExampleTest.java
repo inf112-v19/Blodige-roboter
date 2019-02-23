@@ -1,5 +1,6 @@
 package no.uib.inf112.desktop;
 
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Movement;
 import no.uib.inf112.core.player.Player;
@@ -18,6 +19,7 @@ public class ExampleTest extends TestGraphics{
     public void setUp() {
         Main.HEADLESS = true;
         roboRally = new RoboRally();
+        GameGraphics.SetRoboRally(roboRally);
         roboRally.getPlayerHandler().generatePlayers(Main.HEADLESS);
     }
 

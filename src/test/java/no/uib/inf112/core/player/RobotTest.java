@@ -1,22 +1,63 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.TileType;
+import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.desktop.Main;
+import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
-public class RobotTest {
+public class RobotTest extends TestGraphics {
 
     private Robot testBot;
     private int roboX;
     private int roboY;
+    private Player player;
+
+    public static final int HEIGHT = 20;
+    public static final int WIDTH = 20;
+    private RoboRally roboRally;
+
 
     @Before
     public void setup() {
-        testBot = new Robot(5, 5, Direction.NORTH, true);
+        Main.HEADLESS = true;
+        roboRally = new RoboRally();
+        GameGraphics.SetRoboRally(roboRally);
+        roboRally.getPlayerHandler().generatePlayers(Main.HEADLESS);
+        player = roboRally.getPlayerHandler().mainPlayer();
+        testBot = player.getRobot();
+        testBot.teleport(HEIGHT / 2, WIDTH / 2);
+        testBot.setDirection(Direction.NORTH);
+
         roboX = testBot.getX();
         roboY = testBot.getY();
+        /*
+        PowerMockito.mockStatic(RoboRally.class);
+        PowerMockito.mockStatic(PlayerHandler.class);
 
+        PlayerHandler ph = mock(PlayerHandler.class);
+        when(ph.mainPlayer()).thenReturn(player);
+
+        MapHandler map = Mockito.mock(TiledMapHandler.class);
+        when(map.getMapHeight()).thenReturn(RobotTest.HEIGHT);
+        when(map.getMapWidth()).thenReturn(RobotTest.WIDTH);
+        when(map.isOutsideBoard(Mockito.anyInt(), Mockito.anyInt())).thenCallRealMethod();
+
+        when(GameGraphics.getRoboRally().getPlayerHandler()).thenReturn(ph);
+        when(GameGraphics.getRoboRally().getCurrentMap()).thenReturn(map);*/
     }
 
     @Test
@@ -111,5 +152,44 @@ public class RobotTest {
             testBot.move(Movement.MOVE_2);
             testBot.move(Movement.LEFT_TURN);
         }
+    }
+
+    @Test
+    public void getTileType() {
+        for (Direction dir : Direction.values()) {
+            testBot.setDirection(dir);
+            assertNotNull(testBot.getTileType());
+
+            assertEquals(TileType.Group.ROBOT, testBot.getTileType().getGroup());
+
+            String[] name = testBot.getTileType().name().split("_");
+            assertEquals(dir.name(), name[name.length - 1]);
+        }
+    }
+
+    @Test
+    public void movingOutOfBoundTeleportToBackup() {
+        player.setBackup(testBot.getX(), testBot.getY());
+        testBot.teleport(0, 0);
+        testBot.setDirection(Direction.SOUTH);
+        testBot.move(Movement.MOVE_1);
+
+        assertEquals(roboX, testBot.getX());
+        assertEquals(roboY, testBot.getY());
+    }
+
+    @Test
+    public void movingOutOfBoundReduceLifeByOne() {
+        testBot.teleport(0, 0);
+        player.damage(1);
+
+        testBot.setDirection(Direction.SOUTH);
+        testBot.move(Movement.MOVE_1);
+
+        assertTrue(testBot.shouldUpdate());
+
+        assertEquals(Player.MAX_HEALTH, player.getHealth());
+        assertEquals(Player.MAX_LIVES - 1, player.getLives());
+
     }
 }

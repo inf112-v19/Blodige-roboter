@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Clipboard;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -210,13 +211,8 @@ public class MapCameraTest {
 
             @NotNull
             @Override
-            public Map<Entity, Vector2> getEntities() {
+            public Map<Entity, Vector2Int> getEntities() {
                 return null;
-            }
-
-            @Override
-            public boolean isOutsideBoard(int x, int y) {
-                return false;
             }
 
             @Override

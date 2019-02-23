@@ -30,7 +30,6 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         addListener(new TooltipListener(this));
     }
 
-    //TODO test if the card is disabled when it should be
     @Override
     public boolean isDisabled() {
         //noinspection ConstantConditions container must be checked to be not null as isDisabled is called in the super constructor
@@ -45,5 +44,13 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
     public void act(float delta) {
         super.act(delta);
         act();
+    }
+
+    @Override
+    public String toString() {
+        return "CardSlot{" +
+                "type=" + type +
+                ", slotId=" + slotId + super.toString() +
+                "} ";
     }
 }

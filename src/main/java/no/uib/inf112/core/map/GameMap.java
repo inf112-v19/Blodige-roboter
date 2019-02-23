@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +25,7 @@ public abstract class GameMap implements MapHandler{
 
 
     //A map of all know entities and their last know location
-    private Map<Entity, Vector2> entities;
+    private Map<Entity, Vector2Int> entities;
 
     private int mapWidth;
     private int mapHeight;
@@ -92,7 +93,7 @@ public abstract class GameMap implements MapHandler{
     @Nullable
     public Entity getEntity(int x, int y) {
         Vector2 v = new Vector2(x, y);
-        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
             if (v.equals(entry.getValue())) {
                 return entry.getKey();
             }
@@ -123,7 +124,7 @@ public abstract class GameMap implements MapHandler{
 
     @NotNull
     @Override
-    public Map<Entity, Vector2> getEntities() {
+    public Map<Entity, Vector2Int> getEntities() {
         return entities;
     }
 

@@ -11,6 +11,7 @@ public class Robot implements Entity {
 
     private Direction direction;
     private int x, y;
+    boolean update;
 
     /**
      * @param x         The x position the player starts at
@@ -37,7 +38,18 @@ public class Robot implements Entity {
 
     @Override
     public TileType getTileType() {
-        return TileType.ROBOT_TILE;
+        switch (direction) {
+            case NORTH:
+                return TileType.ROBOT_TILE_NORTH;
+            case EAST:
+                return TileType.ROBOT_TILE_EAST;
+            case WEST:
+                return TileType.ROBOT_TILE_WEST;
+            case SOUTH:
+                return TileType.ROBOT_TILE_SOUTH;
+            default:
+                throw new IllegalStateException("No robot tile for direction " + direction);
+        }
     }
 
     @NotNull
@@ -50,6 +62,7 @@ public class Robot implements Entity {
     public void setDirection(@NotNull Direction direction) {
         //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
+        update();
     }
 
     @Override
@@ -100,12 +113,31 @@ public class Robot implements Entity {
      * Move the robot with given delta to new coordinates
      */
     private void move(int deltaX, int deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
+        x += deltaX;
+        y += deltaY;
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
+            GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().kill();
+            return;
+        }
+        update();
     }
 
     public void teleport(int x, int y) {
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
+            throw new IllegalArgumentException("Cannot teleport outside the map bounds. Tried to teleport to (" + x + ", " + y + ")");
+        }
         this.x = x;
         this.y = y;
+        update();
+    }
+
+    @Override
+    public boolean shouldUpdate() {
+        return update;
+    }
+
+    @Override
+    public void update(boolean update) {
+        this.update = update;
     }
 }

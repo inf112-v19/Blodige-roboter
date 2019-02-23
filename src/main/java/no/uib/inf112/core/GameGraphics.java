@@ -12,6 +12,7 @@ import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
+import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Executors;
@@ -100,6 +101,14 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         return roboRally;
+    }
+
+    public static void SetRoboRally(RoboRally roboRally) {
+        if (Main.HEADLESS) {
+            GameGraphics.roboRally = roboRally;
+        } else {
+            throw new IllegalStateException("Roborally should only be set when running headless");
+        }
     }
 
 }

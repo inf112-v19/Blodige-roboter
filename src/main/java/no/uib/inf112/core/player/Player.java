@@ -68,32 +68,13 @@ public class Player {
 
             cards = new CardContainer(this, GameGraphics.getRoboRally().getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
-
-            //TODO REMOVE
-//            health = 1;
-//            lives = 1;
-
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
                     return;
                 }
-
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
-
-                //TODO REMOVE BEFORE PR
-                //Test drawing cards
-                if (!poweredDown) {
-                    damage(1);
-
-
-                } else {
-                }
-
             });
-
-//            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> RoboRally.getUiHandler().showDrawnCards(this)), 150, TimeUnit.MILLISECONDS);
-
         }
     }
 
@@ -118,14 +99,14 @@ public class Player {
      */
     public void kill() {
         lives--;
-        if (lives > 0) {
-            health = MAX_HEALTH;
+        if (lives == 0) {
             if (!headless) {
-                robot.teleport(backup.x, backup.y);
+                GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
             }
-        } else if (!headless) {
-            GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
+            return;
         }
+        health = MAX_HEALTH;
+        robot.teleport(backup.x, backup.y);
     }
 
     /**
@@ -139,6 +120,13 @@ public class Player {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
         health = Math.min(MAX_HEALTH, health + healAmount);
+    }
+
+    /**
+     * @return If the player is dead. A player is dead if their lives are 0 or less
+     */
+    public boolean isDestroyed() {
+        return lives <= 0;
     }
 
     @NotNull
