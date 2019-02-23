@@ -28,7 +28,6 @@ public class Player {
     private boolean poweredDown;
     private int health;
 
-    private boolean alive;
     private boolean headless;
 
     private Card[] cards;
@@ -47,7 +46,6 @@ public class Player {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        alive = true;
         this.headless = headless;
 
         if (!headless) {
@@ -91,7 +89,6 @@ public class Player {
     public void kill() {
         lives--;
         if (lives == 0) {
-            alive = false;
             if (!headless) {
                 RoboRally.getCurrentMap().removeEntity(robot);
             }
@@ -119,7 +116,7 @@ public class Player {
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
      */
-    public boolean isDead() {
+    public boolean isDestroyed() {
         return lives <= 0;
     }
 
@@ -138,10 +135,6 @@ public class Player {
 
     public int getHealth() {
         return health;
-    }
-
-    public boolean isAlive() {
-        return alive;
     }
 
     public boolean isPoweredDown() {
