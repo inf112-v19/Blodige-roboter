@@ -80,7 +80,7 @@ public class Robot implements Entity {
      *
      * @param movement how to move
      */
-    public void move(Movement movement) {
+    public void move(@NotNull Movement movement) {
         switch (movement) {
             case MOVE_1:
                 move(direction.getDx(), direction.getDy());

@@ -1,19 +1,21 @@
 package no.uib.inf112.core.map;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapInteractOnUser {
 
     /**
      * Scan the entitites and the tiles they are standing on and try to do the actions on the map
+     *
      * @param entitiesOnMap all the  entities on the map
      * @return true
      */
@@ -29,6 +31,7 @@ public class MapInteractOnUser {
 
     /**
      * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
+     *
      * @param entitiesOnMap
      */
     private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
@@ -47,6 +50,7 @@ public class MapInteractOnUser {
 
     /**
      * Finds all entities in line of a laser, (this should also shoot lasers from robots).
+     *
      * @param entitiesOnMap
      */
     private void shootLasers(Collection<Entity> entitiesOnMap) {
@@ -66,6 +70,7 @@ public class MapInteractOnUser {
 
     /**
      * finds all enitites standing on coneyors and does logic to move those that should move
+     *
      * @param entitiesOnMap
      */
     private void findAndDoMovement(Collection<Entity> entitiesOnMap) {
@@ -130,6 +135,7 @@ public class MapInteractOnUser {
 
     /**
      * Returns a mapAction object according to the tile the player is standing on
+     *
      * @param entity entity standing on a tile
      * @return a mapAction if standing on a tile that should have corresponding action, null otherwise
      */
