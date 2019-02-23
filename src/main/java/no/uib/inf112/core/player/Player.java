@@ -63,8 +63,8 @@ public class Player {
         poweredDown = false;
         this.headless = headless;
 
+        robot = new Robot(x, y, direction, headless);
         if (!headless) {
-            robot = new Robot(x, y, direction, false);
             cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
@@ -106,9 +106,7 @@ public class Player {
             return;
         }
         health = MAX_HEALTH;
-        if (!headless) {
-            robot.teleport(backup.x, backup.y);
-        }
+        robot.teleport(backup.x, backup.y);
     }
 
     /**
