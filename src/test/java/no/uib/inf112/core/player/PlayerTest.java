@@ -1,10 +1,22 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.TiledMapHandler;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(RoboRally.class)
 public class PlayerTest {
 
     private Player testPlayer;
@@ -16,6 +28,20 @@ public class PlayerTest {
         testPlayer = new Player(0, 0, Direction.NORTH, true);
         health = testPlayer.getHealth();
         lives = testPlayer.getLives();
+
+        PowerMockito.mockStatic(RoboRally.class);
+        PowerMockito.mockStatic(PlayerHandler.class);
+
+        PlayerHandler ph = mock(PlayerHandler.class);
+        when(ph.mainPlayer()).thenReturn(testPlayer);
+
+        MapHandler map = Mockito.mock(TiledMapHandler.class);
+        when(map.getMapHeight()).thenReturn(RobotTest.HEIGHT);
+        when(map.getMapWidth()).thenReturn(RobotTest.WIDTH);
+        when(map.isOutsideBoard(Mockito.anyInt(), Mockito.anyInt())).thenCallRealMethod();
+
+        when(RoboRally.getPlayerHandler()).thenReturn(ph);
+        when(RoboRally.getCurrentMap()).thenReturn(map);
     }
 
     @Test
@@ -52,6 +78,7 @@ public class PlayerTest {
         testPlayer.heal(-1);
     }
 
+
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
         testPlayer.heal(10);
@@ -65,6 +92,5 @@ public class PlayerTest {
         testPlayer.heal(1);
         assertEquals(health + 1, testPlayer.getHealth());
     }
-
 
 }

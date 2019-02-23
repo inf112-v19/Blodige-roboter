@@ -63,8 +63,8 @@ public class Player {
         poweredDown = false;
         this.headless = headless;
 
+        robot = new Robot(x, y, direction, headless);
         if (!headless) {
-            robot = new Robot(x, y, direction, false);
             cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
@@ -99,14 +99,14 @@ public class Player {
      */
     public void kill() {
         lives--;
-        if (lives > 0) {
-            health = MAX_HEALTH;
+        if (lives == 0) {
             if (!headless) {
-                robot.teleport(backup.x, backup.y);
+                RoboRally.getCurrentMap().removeEntity(robot);
             }
-        } else if (!headless) {
-            RoboRally.getCurrentMap().removeEntity(robot);
+            return;
         }
+        health = MAX_HEALTH;
+        robot.teleport(backup.x, backup.y);
     }
 
     /**
@@ -120,6 +120,13 @@ public class Player {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
         health = Math.min(MAX_HEALTH, health + healAmount);
+    }
+
+    /**
+     * @return If the player is dead. A player is dead if their lives are 0 or less
+     */
+    public boolean isDestroyed() {
+        return lives <= 0;
     }
 
     @NotNull

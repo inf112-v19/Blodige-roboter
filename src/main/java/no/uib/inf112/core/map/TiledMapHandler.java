@@ -3,10 +3,13 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +28,7 @@ public class TiledMapHandler extends MapCamera {
 
 
     //A map of all know entities and their last know location
-    private Map<Entity, Vector2> entities;
+    private Map<Entity, Vector2Int> entities;
 
     private int mapWidth;
     private int mapHeight;
@@ -87,15 +90,15 @@ public class TiledMapHandler extends MapCamera {
 
     @Override
     public void update(float delta) {
-        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
 
             //make sure the new x and y are always consistent
             int x = entry.getKey().getX();
             int y = entry.getKey().getY();
-            Vector2 lastPos = entry.getValue();
+            Vector2Int lastPos = entry.getValue();
 
             if (lastPos == null) {
-                lastPos = new Vector2(x, y);
+                lastPos = new Vector2Int(x, y);
                 entry.setValue(lastPos);
             } else if (!entry.getKey().shouldUpdate()) {
                 //do not update if there is no change
@@ -125,8 +128,8 @@ public class TiledMapHandler extends MapCamera {
     @Override
     @Nullable
     public Entity getEntity(int x, int y) {
-        Vector2 v = new Vector2(x, y);
-        for (Map.Entry<Entity, Vector2> entry : entities.entrySet()) {
+        Vector2Int v = new Vector2Int(x, y);
+        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
             if (v.equals(entry.getValue())) {
                 return entry.getKey();
             }
@@ -152,7 +155,12 @@ public class TiledMapHandler extends MapCamera {
 
     @Override
     public boolean removeEntity(Entity entity) {
-        return entities.remove(entity) == null;
+        Vector2Int pos = entities.remove(entity);
+        if (pos != null) {
+            entityLayer.setCell(pos.x, pos.y, null);
+            return true;
+        }
+        return false;
     }
 
     @NotNull
@@ -161,10 +169,6 @@ public class TiledMapHandler extends MapCamera {
         return entities.keySet();
     }
 
-    @Override
-    public boolean isOutsideBoard(int x, int y) {
-        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
-    }
 
     @Override
     public int getMapWidth() {
@@ -191,7 +195,7 @@ public class TiledMapHandler extends MapCamera {
      * @param x      The new x, provided as a parameter to make this thread safe
      * @param y      The new y, provided as a parameter to make this thread safe
      */
-    private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2 oldPos, int x, int y) {
+    private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2Int oldPos, int x, int y) {
         if (entity.getTileType() == null) {
             return;
         }

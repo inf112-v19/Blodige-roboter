@@ -210,11 +210,6 @@ public class MapCameraTest {
             }
 
             @Override
-            public boolean isOutsideBoard(int x, int y) {
-                return false;
-            }
-
-            @Override
             public int getMapWidth() {
                 return 0;
             }
