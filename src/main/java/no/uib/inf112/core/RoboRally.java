@@ -1,6 +1,6 @@
 package no.uib.inf112.core;
 
-import no.uib.inf112.core.map.HeadlessMapHandler;
+import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;

@@ -63,9 +63,9 @@ public class Player {
         health = MAX_HEALTH;
         poweredDown = false;
         this.headless = headless;
-
+        robot = new Robot(x, y, direction, headless);
         if (!headless) {
-            robot = new Robot(x, y, direction, false);
+
             cards = new CardContainer(this, GameGraphics.getRoboRally().getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
 

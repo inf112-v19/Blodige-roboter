@@ -1,8 +1,8 @@
-package no.uib.inf112.core.map;
+package no.uib.inf112.core.testUtils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.map.GameMap;
 import org.jetbrains.annotations.NotNull;
 
 public class HeadlessMapHandler extends GameMap {
