@@ -146,7 +146,7 @@ public class Player implements Comparable<Player> {
         if (cards.hasInvalidHand()) {
             cards.randomizeHand();
         }
-        RoboRally.getPlayerHandler().nexPlayer();
+        RoboRally.getPlayerHandler().nextPlayer();
     }
 
     public void executeMovements() {

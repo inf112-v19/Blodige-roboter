@@ -76,7 +76,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
     }
 
-    public void nexPlayer() {
+    public void nextPlayer() {
         if (queue.isEmpty()) {
             endTurn();
             return;
