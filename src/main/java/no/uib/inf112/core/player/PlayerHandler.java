@@ -1,7 +1,10 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.RoboRally;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class PlayerHandler implements IPlayerHandler {
@@ -10,6 +13,7 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private ArrayList<Player> players;
     private Player currentPlayer;
+    private PriorityQueue<Player> queue = new PriorityQueue<>();
 
     /**
      * @param playerCount
@@ -42,31 +46,55 @@ public class PlayerHandler implements IPlayerHandler {
         for (Player player : players) {
             player.setDock(docks.pop());
 
-            if(player.getDock() == 1) {
+            if (player.getDock() == 1) {
                 currentPlayer = player;
             }
         }
 
     }
 
-    @Override
-    public void doTurn() {
+    public void endTurn() {
+        for (Player p : players) {
+            p.executeMovements();
+        }
+    }
+
+    public void startTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
+        for (Player p : players) {
+            if (p == currentPlayer) continue;
+            queue.add(p);
+        }
         deck.shuffle();
-        for (Player player : players) {
-            if (player != getCurrentPlayer()) {
-                continue;
-            }
-            if (player.isPoweredDown()) {
-                //TODO Issue #24 check if is powered down (then heal)
-                continue;
-            } else {
-                player.beginDrawCards();
-            }
+        Player p = currentPlayer;
+        if (p.isPoweredDown()) {
+            //TODO Issue #24 check if is powered down (then heal)
+            return;
+        } else {
+            p.beginDrawCards();
+        }
+    }
+
+    public void nexPlayer() {
+        if (queue.isEmpty()) {
+            endTurn();
+            return;
         }
 
+        Player p = queue.poll();
+        currentPlayer = p;
+        if (p.isPoweredDown()) {
+            //TODO Issue #24 check if is powered down (then heal)
+            return;
+        } else {
+            RoboRally.getUiHandler().displayCards();
+            p.beginDrawCards();
+
+
+        }
     }
+
 
     @Override
     public ArrayList<Player> getPlayers() {
@@ -88,12 +116,15 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     //TODO Remove this
+
     /**
      * Temporary mainplayer
      *
      * @return player
      */
-//    public Player mainPlayer() {
-//        return players.get(0);
-//    }
+    public Player mainPlayer() {
+        return players.get(0);
+    }
+
+
 }

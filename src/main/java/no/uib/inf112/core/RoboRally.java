@@ -60,12 +60,12 @@ public class RoboRally extends Game {
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
-        playerHandler.doTurn();
+        playerHandler.startTurn();
     }
 
     public static void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            playerHandler.doTurn();
+            playerHandler.startTurn();
             // End of robot movement
 
             // Activate lasers
