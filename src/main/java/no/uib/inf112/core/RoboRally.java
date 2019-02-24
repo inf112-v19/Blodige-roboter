@@ -56,11 +56,11 @@ public class RoboRally extends Game {
 
         playerHandler = new PlayerHandler(3);
         playerHandler.generatePlayers(false);
-        playerHandler.doTurn();
         mapInteractOnUser = new MapInteractOnUser();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
+        playerHandler.doTurn();
     }
 
     public static void round() {

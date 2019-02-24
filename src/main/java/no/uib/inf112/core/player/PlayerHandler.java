@@ -2,7 +2,6 @@ package no.uib.inf112.core.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class PlayerHandler implements IPlayerHandler {
@@ -11,7 +10,6 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private ArrayList<Player> players;
     private Player currentPlayer;
-    private PriorityQueue<Player> turn;
 
     /**
      * @param playerCount
@@ -25,7 +23,6 @@ public class PlayerHandler implements IPlayerHandler {
         }
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
-        turn = new PriorityQueue<>(playerCount);
 
         deck = new ProgramDeck(false);
     }
@@ -44,32 +41,31 @@ public class PlayerHandler implements IPlayerHandler {
 
         for (Player player : players) {
             player.setDock(docks.pop());
+
+            if(player.getDock() == 1) {
+                currentPlayer = player;
+            }
         }
+
     }
 
     @Override
     public void doTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
-        for(Player p : players) turn.add(p);
-
         deck.shuffle();
-        nextPlayer();
-    }
-
-    public void nextPlayer() {
-        Player player = turn.poll();
-        currentPlayer = player;
-        System.out.println(currentPlayer.getDock());
-
-        if (player.isPoweredDown()) {
-            //TODO Issue #24 check if is powered down (then heal)
-        } else {
-            player.beginDrawCards();
+        for (Player player : players) {
+            if (player != getCurrentPlayer()) {
+                continue;
+            }
+            if (player.isPoweredDown()) {
+                //TODO Issue #24 check if is powered down (then heal)
+                continue;
+            } else {
+                player.beginDrawCards();
+            }
         }
-        if(turn.isEmpty()) {
-            //do round
-        }
+
     }
 
     @Override
@@ -87,7 +83,6 @@ public class PlayerHandler implements IPlayerHandler {
         return deck;
     }
 
-    @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
