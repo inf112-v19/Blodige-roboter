@@ -151,6 +151,11 @@ public class UIHandler implements Disposable {
             });
         }
 
+        displayCards();
+
+    }
+
+    public void displayCards() {
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
@@ -169,6 +174,7 @@ public class UIHandler implements Disposable {
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
+
 
     /**
      * Show the drawn cards table of the main player.
