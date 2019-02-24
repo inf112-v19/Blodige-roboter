@@ -149,16 +149,20 @@ public class Player implements Comparable<Player> {
         RoboRally.getPlayerHandler().nextPlayer();
     }
 
-    public void executeMovements() {
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            int id = i;
+//    public void executeMovements() {
+//        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+//            int id = i;
+//
+//            //this is a way to do player turns (ie wait some between each card is played)
+//            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+//                Card card = cards.getCard(SlotType.HAND, id);
+//                getRobot().move(card.getAction());
+//            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+//        }
+//    }
 
-            //this is a way to do player turns (ie wait some between each card is played)
-            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                Card card = cards.getCard(SlotType.HAND, id);
-                getRobot().move(card.getAction());
-            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
-        }
+    public PlayerCard getNextCard(int id) {
+       return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
     }
 
     public int getLives() {

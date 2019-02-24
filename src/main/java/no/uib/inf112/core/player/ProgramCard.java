@@ -78,5 +78,10 @@ public class ProgramCard implements Card {
                 ", priority=" + priority +
                 '}';
     }
+
+    @Override
+    public int compareTo(@NotNull Card card) {
+        return Integer.compare(getPriority(), card.getPriority());
+    }
 }
 

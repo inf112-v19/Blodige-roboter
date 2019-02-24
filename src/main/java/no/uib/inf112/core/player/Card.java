@@ -3,7 +3,7 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.jetbrains.annotations.NotNull;
 
-public interface Card {
+public interface Card extends Comparable<Card> {
 
 
     /**

@@ -1,11 +1,10 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.RoboRally;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerHandler implements IPlayerHandler {
 
@@ -54,9 +53,26 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     public void endTurn() {
-        for (Player p : players) {
-            p.executeMovements();
+//        for (Player p : players) {
+//            p.executeMovements();
+//        }
+
+        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+            List<PlayerCard> cards = new ArrayList<>();
+            for (Player p : players) {
+                cards.add(p.getNextCard(i));
+            }
+            Collections.sort(cards);
+            for (int j = 0; j < cards.size(); j++) {
+                PlayerCard card = cards.get(j);
+
+                RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+                    card.getPlayer().getRobot().move(card.getCard().getAction());
+                }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+            }
         }
+        //Activate lasers and so on
+        startTurn();
     }
 
     public void startTurn() {
