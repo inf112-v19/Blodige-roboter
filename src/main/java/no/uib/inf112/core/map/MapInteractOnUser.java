@@ -49,23 +49,19 @@ public class MapInteractOnUser {
                     switch (tileUnderRobot) {
                         case FLAG1:
                             if (player.canGetFlag(1)) {
-                                player.registerFlagVisit();
-                                player.setBackup(x, y);
+                                registerFlag(player, x, y);
                             }
                         case FLAG2:
                             if (player.canGetFlag(2)) {
-                                player.registerFlagVisit();
-                                player.setBackup(x, y);
+                                registerFlag(player, x, y);
                             }
                         case FLAG3:
                             if (player.canGetFlag(3)) {
-                                player.registerFlagVisit();
-                                player.setBackup(x, y);
+                                registerFlag(player, x, y);
                             }
                         case FLAG4:
                             if (player.canGetFlag(4)) {
-                                player.registerFlagVisit();
-                                player.setBackup(x, y);
+                                registerFlag(player, x, y);
                             }
                     }
                 case OPTION:
@@ -75,6 +71,20 @@ public class MapInteractOnUser {
             }
         }
     }
+
+
+    /**
+     * Method to register a flag visit for a player and set it's backup to the location of flag
+     *
+     * @param player The player that should register flag
+     * @param x      x coordinate of where the flag and player are standing
+     * @param y      y coordinate of where the flag and player are standing
+     */
+    private void registerFlag(Player player, int x, int y) {
+        player.registerFlagVisit();
+        player.setBackup(x, y);
+    }
+
 
     /**
      * Finds all entities in line of a laser, (this should also shoot lasers from robots).
