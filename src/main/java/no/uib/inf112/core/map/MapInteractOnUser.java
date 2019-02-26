@@ -1,20 +1,23 @@
 package no.uib.inf112.core.map;
 
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapAction.MapAction;
+import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import no.uib.inf112.core.map.MapAction.MapAction;
-import no.uib.inf112.core.player.Entity;
-import no.uib.inf112.core.util.Vector2Int;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapInteractOnUser {
 
     /**
      * Scan the entitites and the tiles they are standing on and try to do the actions on the map
+     *
      * @param entitiesOnMap all the  entities on the map
      * @return true
      */
@@ -30,22 +33,12 @@ public class MapInteractOnUser {
 
     /**
      * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
+     *
      * @param entitiesOnMap
      */
     private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
-        /**
-         for (Entity entity : entitiesOnMap) {
-             MapAction mapAction = getAction(entity);
-             if (mapAction != null) {//And mapaction is some special tile
-             queue.add(mapAction);
-         }
 
-         for (MapAction mapAction : queue) {
-         mapAction.doAction();
-         }
-
-         */
         for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
@@ -55,15 +48,26 @@ public class MapInteractOnUser {
                 case FLAG:
                     switch (tileUnderRobot) {
                         case FLAG1:
-                            if (player.canGetFlag(1)) player.registerFlagVisit();
+                            if (player.canGetFlag(1)) {
+                                player.registerFlagVisit();
+                                player.setBackup(x, y);
+                            }
                         case FLAG2:
-                            if (player.canGetFlag(2)) player.registerFlagVisit();
+                            if (player.canGetFlag(2)) {
+                                player.registerFlagVisit();
+                                player.setBackup(x, y);
+                            }
                         case FLAG3:
-                            if (player.canGetFlag(3)) player.registerFlagVisit();
+                            if (player.canGetFlag(3)) {
+                                player.registerFlagVisit();
+                                player.setBackup(x, y);
+                            }
                         case FLAG4:
-                            if (player.canGetFlag(4)) player.registerFlagVisit();
+                            if (player.canGetFlag(4)) {
+                                player.registerFlagVisit();
+                                player.setBackup(x, y);
+                            }
                     }
-                    player.setBackup(x, y); //Setting backup even if player can't register flag
                 case OPTION:
                     break; //TODO add logic for wrench and hammer and wrench
                 default:
@@ -74,6 +78,7 @@ public class MapInteractOnUser {
 
     /**
      * Finds all entities in line of a laser, (this should also shoot lasers from robots).
+     *
      * @param entitiesOnMap
      */
     private void shootLasers(Collection<Entity> entitiesOnMap) {
@@ -93,6 +98,7 @@ public class MapInteractOnUser {
 
     /**
      * finds all enitites standing on coneyors and does logic to move those that should move
+     *
      * @param entitiesOnMap
      */
     private void findAndDoMovement(Collection<Entity> entitiesOnMap) {
@@ -157,6 +163,7 @@ public class MapInteractOnUser {
 
     /**
      * Returns a mapAction object according to the tile the player is standing on
+     *
      * @param entity entity standing on a tile
      * @return a mapAction if standing on a tile that should have corresponding action, null otherwise
      */
