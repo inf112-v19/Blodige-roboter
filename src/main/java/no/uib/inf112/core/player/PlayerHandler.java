@@ -52,11 +52,8 @@ public class PlayerHandler implements IPlayerHandler {
 
     }
 
+    @Override
     public void endTurn() {
-//        for (Player p : players) {
-//            p.executeMovements();
-//        }
-
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             List<PlayerCard> cards = new ArrayList<>();
             for (Player p : players) {
@@ -75,11 +72,14 @@ public class PlayerHandler implements IPlayerHandler {
         startTurn();
     }
 
+    @Override
     public void startTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
         for (Player p : players) {
-            if (p == currentPlayer) continue;
+            if (p == currentPlayer) {
+                continue;
+            }
             queue.add(p);
         }
         deck.shuffle();
@@ -92,6 +92,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
     }
 
+    @Override
     public void nextPlayer() {
         if (queue.isEmpty()) {
             endTurn();
@@ -106,8 +107,6 @@ public class PlayerHandler implements IPlayerHandler {
         } else {
             RoboRally.getUiHandler().displayCards();
             p.beginDrawCards();
-
-
         }
     }
 
@@ -141,6 +140,4 @@ public class PlayerHandler implements IPlayerHandler {
     public Player mainPlayer() {
         return players.get(0);
     }
-
-
 }

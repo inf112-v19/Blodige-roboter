@@ -7,6 +7,22 @@ import java.util.List;
  */
 public interface IPlayerHandler {
     /**
+     * Add all player cards in a queue
+     * Execute movements for each player after priority
+     */
+    void endTurn();
+
+    /**
+     * Add All player to the round queue
+     */
+    void startTurn();
+
+    /**
+     *
+     */
+    void nextPlayer();
+
+    /**
      * @return currently playing players
      */
     List<Player> getPlayers();
@@ -23,11 +39,6 @@ public interface IPlayerHandler {
      * @param headless true if you want to generate players without graphics, false otherwise
      */
     void generatePlayers(boolean headless);
-
-    /**
-     * Do next turn in game
-     */
-//    void doTurn();
 
     /**
      * Get deck which is currently in the game

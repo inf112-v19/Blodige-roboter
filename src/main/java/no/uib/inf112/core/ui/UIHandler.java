@@ -151,15 +151,10 @@ public class UIHandler implements Disposable {
             });
         }
 
-        displayCards();
-
-    }
-
-    public void displayCards() {
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
-        controlPanelTable.add(cardsRow);
+         controlPanelTable.add(cardsRow);
         CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
@@ -172,6 +167,26 @@ public class UIHandler implements Disposable {
             CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
+        }
+    }
+
+    public void displayCards() {
+        //display cards
+        //HorizontalGroup cardsRow = new HorizontalGroup();
+        //cardsRow.space(DEFAULT_SPACING); //space between cards
+        // controlPanelTable.add(cardsRow);
+        CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
+
+        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
+            container.handCard[i] = cardSlot;
+            //cardsRow.addActor(cardSlot);
+        }
+
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
+            container.drawnCard[i] = cardSlot;
+            //cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
 
