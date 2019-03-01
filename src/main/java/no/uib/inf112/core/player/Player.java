@@ -1,6 +1,5 @@
 package no.uib.inf112.core.player;
 
-import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -9,8 +8,6 @@ import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Elg
@@ -149,20 +146,8 @@ public class Player implements Comparable<Player> {
         RoboRally.getPlayerHandler().nextPlayer();
     }
 
-//    public void executeMovements() {
-//        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-//            int id = i;
-//
-//            //this is a way to do player turns (ie wait some between each card is played)
-//            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-//                Card card = cards.getCard(SlotType.HAND, id);
-//                getRobot().move(card.getAction());
-//            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
-//        }
-//    }
-
     public PlayerCard getNextCard(int id) {
-       return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
+        return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
     }
 
     public int getLives() {
@@ -204,6 +189,6 @@ public class Player implements Comparable<Player> {
 
     @Override
     public int compareTo(@NotNull Player player) {
-        return Integer.compare(this.getDock(), player.getDock());
+        return Integer.compare(getDock(), player.getDock());
     }
 }
