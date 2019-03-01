@@ -42,4 +42,50 @@ public class FlagRegistrationTest {
         player.registerFlagVisit();
         assertEquals(4, player.getFlags());
     }
+
+    @Test
+    public void registerFlagVisitFor5Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(5, player.getFlags());
+    }
+
+    @Test
+    public void registerFlagVisitFor6Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(6, player.getFlags());
+    }
+
+    @Test
+    public void registerFlagVisitFor7Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(7, player.getFlags());
+    }
+
+    @Test
+    public void registerFlagVisitFor8Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(8, player.getFlags());
+    }
 }
