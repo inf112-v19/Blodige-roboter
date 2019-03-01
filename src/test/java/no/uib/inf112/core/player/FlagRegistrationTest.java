@@ -12,4 +12,17 @@ public class FlagRegistrationTest {
     public void playerHasNoFlags(){
         assertEquals(0, player.getFlags());
     }
+
+    @Test
+    public void registerFlagVisitFor1Flag(){
+        player.registerFlagVisit();
+        assertEquals(1, player.getFlags());
+    }
+
+    @Test
+    public void registerFlagVisitFor2Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(2, player.getFlags());
+    }
 }
