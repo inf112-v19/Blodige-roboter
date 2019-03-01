@@ -25,4 +25,21 @@ public class FlagRegistrationTest {
         player.registerFlagVisit();
         assertEquals(2, player.getFlags());
     }
+
+    @Test
+    public void registerFlagVisitFor3Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(3, player.getFlags());
+    }
+
+    @Test
+    public void registerFlagVisitFor4Flags(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertEquals(4, player.getFlags());
+    }
 }
