@@ -130,8 +130,6 @@ public class PlayerHandler implements IPlayerHandler {
         return currentPlayer;
     }
 
-    //TODO Remove this
-
     /**
      * Temporary mainplayer
      *
