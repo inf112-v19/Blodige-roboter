@@ -114,4 +114,42 @@ public class FlagRegistrationTest {
         player.registerFlagVisit();
         assertTrue(player.canGetFlag(4));
     }
+
+    @Test
+    public void cantGetFlag5Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertFalse(player.canGetFlag(5));
+    }
+
+    @Test
+    public void cantGetFlag6Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertFalse(player.canGetFlag(6));
+    }
+
+    @Test
+    public void cantGetFlag7Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertFalse(player.canGetFlag(7));
+    }
+
+    @Test
+    public void cantGetFlag8Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertFalse(player.canGetFlag(8));
+    }
 }
