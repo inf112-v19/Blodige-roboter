@@ -2,8 +2,6 @@ package no.uib.inf112.core.player;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-
 public class PlayerCard implements Comparable<PlayerCard> {
     private Card card;
     private Player player;
@@ -23,6 +21,6 @@ public class PlayerCard implements Comparable<PlayerCard> {
 
     @Override
     public int compareTo(@NotNull PlayerCard playerCard) {
-        return this.card.compareTo(playerCard.card);
+        return card.compareTo(playerCard.card);
     }
 }

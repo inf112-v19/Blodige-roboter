@@ -154,7 +154,7 @@ public class UIHandler implements Disposable {
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
-         controlPanelTable.add(cardsRow);
+        controlPanelTable.add(cardsRow);
         CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
