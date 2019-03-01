@@ -88,4 +88,30 @@ public class FlagRegistrationTest {
         player.registerFlagVisit();
         assertEquals(8, player.getFlags());
     }
+
+    @Test
+    public void canGetFlag1Test(){
+        assertTrue(player.canGetFlag(1));
+    }
+
+    @Test
+    public void canGetFlag2Test(){
+        player.registerFlagVisit();
+        assertTrue(player.canGetFlag(2));
+    }
+
+    @Test
+    public void canGetFlag3Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertTrue(player.canGetFlag(3));
+    }
+
+    @Test
+    public void canGetFlag4Test(){
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        player.registerFlagVisit();
+        assertTrue(player.canGetFlag(4));
+    }
 }
