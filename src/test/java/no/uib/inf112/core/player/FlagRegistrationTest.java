@@ -90,6 +90,12 @@ public class FlagRegistrationTest {
     }
 
     @Test
+    public void registerFlagVisitsDoesNotRegisterFlagIfNotCalled(){
+        player.registerFlagVisit();
+        assertFalse(player.getFlags() == 2);
+    }
+
+    @Test
     public void canGetFlag1Test(){
         assertTrue(player.canGetFlag(1));
     }
