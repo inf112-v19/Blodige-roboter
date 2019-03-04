@@ -220,6 +220,16 @@ public class MapCameraTest {
             }
 
             @Override
+            public int getTileWidth() {
+                return 0;
+            }
+
+            @Override
+            public int getTileHeight() {
+                return 0;
+            }
+
+            @Override
             public void dispose() {
 
             }

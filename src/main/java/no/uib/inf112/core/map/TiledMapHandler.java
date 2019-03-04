@@ -208,4 +208,14 @@ public class TiledMapHandler extends MapCamera {
         oldPos.x = x;
         oldPos.y = y;
     }
+
+    @Override
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    @Override
+    public int getTileWidth() {
+        return tileWidth;
+    }
 }

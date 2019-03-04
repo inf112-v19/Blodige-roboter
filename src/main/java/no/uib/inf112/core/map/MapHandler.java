@@ -57,10 +57,13 @@ public interface MapHandler extends Disposable {
     void moveCamera(float dx, float dy);
 
     /**
-     * @return The current position of the board camera
+     * @return The cameara that renderes the board
      */
     OrthographicCamera getCamera();
 
+    /**
+     * @return Properties of the current map
+     */
     MapProperties getProperties();
 
     /**
@@ -115,14 +118,24 @@ public interface MapHandler extends Disposable {
     }
 
     /**
-     * @return How many tiles there are in the maps width
+     * @return How many tiles there are horizontally in the map
      */
     int getMapWidth();
 
     /**
-     * @return How many tiles there are in the maps height
+     * @return How many tiles there are vertically in the map
      */
     int getMapHeight();
+
+    /**
+     * @return The width, in pixes, of each tile
+     */
+    int getTileWidth();
+
+    /**
+     * @return The height, in pixes, of each tile
+     */
+    int getTileHeight();
 
     /**
      * The application window has been resized

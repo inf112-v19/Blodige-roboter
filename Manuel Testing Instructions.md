@@ -19,13 +19,13 @@
 * Pressing enter should make the round start
 
 
-
 ### Camera Movement
 
 * Map should zoom when scrolling
 * Map should zoom in when pressing +
 * Map should zoom out when pressing -
 * Map should move around when pressing and dragging   
+* At least half the map should be shown at all times
 
 ### Visualizing current state
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)
