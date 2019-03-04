@@ -11,7 +11,17 @@ public abstract class MapCamera implements MapHandler {
 
     private OrthographicCamera camera;
 
+
+    private float defaultHeight;
+    private float defaultWidth;
+    private float currHeight;
+    private float currWidth;
+
     public MapCamera() {
+
+        defaultWidth = Gdx.graphics.getWidth();
+        defaultHeight = Gdx.graphics.getHeight();
+
         Gdx.app.postRunnable(() -> {
             camera = new OrthographicCamera();
             resize();
@@ -20,12 +30,14 @@ public abstract class MapCamera implements MapHandler {
             maxZoom = getProperties().get(MAX_ZOOM_PATH, DEFAULT_MAX_ZOOM, float.class);
             minZoom = getProperties().get(MIN_ZOOM_PATH, DEFAULT_MIN_ZOOM, float.class);
 
-            camera.zoom = minZoom;
-
             if (maxZoom < minZoom) {
                 throw new IllegalArgumentException(
                         "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
             }
+
+            camera.zoom = (minZoom + maxZoom) / 2;
+
+            ensureZoomBounds();
         });
     }
 
@@ -39,13 +51,21 @@ public abstract class MapCamera implements MapHandler {
         if (direction == 0) {
             return;
         }
-        float delta = Math.signum(direction) * zoomSensitivity;
+        float delta = Math.signum(direction) * getZoomSensitivity();
         camera.zoom += delta;
-        if (camera.zoom > maxZoom) {
-            camera.zoom = maxZoom;
-        } else if (camera.zoom < minZoom) {
-            camera.zoom = minZoom;
+        ensureZoomBounds();
+    }
+
+    private void ensureZoomBounds() {
+        if (camera.zoom > getMaxZoom()) {
+            camera.zoom = getMaxZoom();
+        } else if (camera.zoom < getMinZoom()) {
+            camera.zoom = getMinZoom();
         }
+    }
+
+    private float delta() {
+        return currHeight / defaultHeight;
     }
 
     @Override
@@ -60,6 +80,25 @@ public abstract class MapCamera implements MapHandler {
         if (camera == null) {
             return;
         }
+
+        currHeight = Gdx.graphics.getHeight();
+        currWidth = Gdx.graphics.getWidth();
+
+        ensureZoomBounds();
+
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+
+    public float getZoomSensitivity() {
+        return zoomSensitivity / delta();
+    }
+
+    public float getMaxZoom() {
+        return maxZoom / delta();
+    }
+
+    public float getMinZoom() {
+        return minZoom / delta();
     }
 }
