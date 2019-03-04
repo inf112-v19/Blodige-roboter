@@ -5,45 +5,51 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.Card;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.ui.event.ControlPanelEvent;
-import no.uib.inf112.core.ui.event.events.CardClickedEvent;
-import no.uib.inf112.core.ui.event.events.PowerDownEvent;
+import no.uib.inf112.core.ui.actors.ControlPanelElement;
+import no.uib.inf112.core.ui.actors.PowerButton;
+import no.uib.inf112.core.ui.actors.cards.CardSlot;
+import no.uib.inf112.core.ui.actors.cards.SlotType;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public class UIHandler implements Disposable {
-
-    private final Skin skin;
-    private final Table table;
-    private final Stage stage;
-
 
     public static final String SKIN_NAME = "neutralizer-ui-skin";
     public static final String SKIN_FOLDER = "skins" + File.separator + SKIN_NAME + File.separator;
     public static final String SKIN_JSON_FILE = SKIN_FOLDER + SKIN_NAME + ".json";
 
-    private static final TextureRegion UI_BACKGROUND_TEXTURE;
-    private static final TextureRegion CARDS_TEXTURE;
+    public static final TextureRegion UI_BACKGROUND_TEXTURE;
+    public static final TextureRegion CARDS_TEXTURE;
 
-    private static final TextureRegion POWER_DOWN_TEXTURE;
+    public static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
+
+    //How much space there should be between each element in the ui
+    public static final int DEFAULT_SPACING = 5;
+
+    private final Skin skin;
+    private final Table controlPanelTable;
+    private final Stage stage;
+
+    private final DragAndDrop dad;
+    private final Table cardDrawTable;
 
     static {
         //temp textures, to be replaced with real textures
@@ -72,119 +78,125 @@ public class UIHandler implements Disposable {
         return new TextureRegion(new Texture(pixmap));
     }
 
-
     public UIHandler() {
         stage = new Stage(new ScreenViewport());
         RoboRally.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
-
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
-        table = new Table(skin);
+        controlPanelTable = new Table(skin);
+
+        dad = new DragAndDrop();
+        dad.setDragTime(50);
+        dad.setDragActorPosition(CARDS_TEXTURE.getRegionWidth() / 2f, -CARDS_TEXTURE.getRegionHeight() / 2f);
+        cardDrawTable = new Table();
 
         create();
-        resize();
     }
 
     /**
      * Initiate ui
      */
     private void create() {
-        stage.addActor(table);
+        stage.addActor(cardDrawTable);
+        stage.addActor(controlPanelTable);
+
+        cardDrawTable.setTransform(false);
+        cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        cardDrawTable.getColor().a = 0.9f;
+        cardDrawTable.pad(DEFAULT_SPACING);
+        cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
-        table.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        table.padLeft(50);
-        table.padRight(50);
-        table.setTransform(false); //optimization
+        controlPanelTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        controlPanelTable.pad(DEFAULT_SPACING * 2, DEFAULT_SPACING * 4, DEFAULT_SPACING * 2, DEFAULT_SPACING * 4);
+        controlPanelTable.setTransform(false); //optimization
 
 
         //Top row is within a table to make the alignment work
         Table topRow = new Table();
-        table.add(topRow).fillX(); //let the top row be as wide as the widest part of the cp
-        table.row();
+        controlPanelTable.add(topRow).fillX(); //let the top row be as wide as the widest part of the cp
+        controlPanelTable.row();
 
         //display life tokens
         HorizontalGroup lifeTokens = new HorizontalGroup();
         topRow.add(lifeTokens).expandX().align(Align.left); //make sire the life tokens are to the left
-        lifeTokens.space(5);
+        lifeTokens.space(DEFAULT_SPACING);
         for (int i = 0; i < Player.MAX_LIVES; i++) {
-            lifeTokens.addActor(new ImageButton(new TextureRegionDrawable(LIFE_TOKEN_TEXTURE)));
+            int id = i;
+            lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
+                @Override
+                public boolean isDisabled() {
+                    return RoboRally.getPlayerHandler().mainPlayer().getLives() <= id;
+                }
+            });
         }
 
         //display power button, it will by default be to the right
-        topRow.add(createInteractButton(PowerDownEvent.class, 0, POWER_DOWN_TEXTURE));
+        topRow.add(new PowerButton());
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
-        damageRow.space(5); //space between tokens
-        table.add(damageRow).align(Align.left).padBottom(5);
-        table.row();
+        damageRow.space(DEFAULT_SPACING); //space between tokens
+        controlPanelTable.add(damageRow).align(Align.left).padBottom(DEFAULT_SPACING);
+        controlPanelTable.row();
 
         for (int i = 0; i < Player.MAX_HEALTH; i++) {
-            damageRow.addActor(new ImageButton(new TextureRegionDrawable(DAMAGE_TOKEN_TEXTURE)));
+            int id = i;
+            damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
+                @Override
+                public boolean isDisabled() {
+                    return RoboRally.getPlayerHandler().mainPlayer().getHealth() <= id;
+                }
+            });
         }
 
         //display cards
         HorizontalGroup cardsRow = new HorizontalGroup();
-        cardsRow.space(5); //space between cards
-        table.add(cardsRow);
+        cardsRow.space(DEFAULT_SPACING); //space between cards
+        controlPanelTable.add(cardsRow);
+        CardContainer container = RoboRally.getPlayerHandler().mainPlayer().getCards();
+
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            cardsRow.addActor(createInteractButton(CardClickedEvent.class, i, CARDS_TEXTURE));
+            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
+            container.handCard[i] = cardSlot;
+            cardsRow.addActor(cardSlot);
+        }
+
+        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
+            container.drawnCard[i] = cardSlot;
+            cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
 
-    private ImageTextButton createInteractButton(Class<? extends ControlPanelEvent> eventType, int id,
-                                                 TextureRegion textureRegion) {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.imageUp = new TextureRegionDrawable(textureRegion);
-        style.font = new BitmapFont();
+    /**
+     * Show the drawn cards table of the main player.
+     * Do not use this at the start of a new round, use {@link Player#beginDrawCards()}
+     *
+     * @throws IllegalStateException If no drawn card slots have a card in them
+     */
+    public void showDrawnCards() {
+        Stream<CardSlot> drawnCard = Arrays.stream(RoboRally.getPlayerHandler().mainPlayer().getCards().drawnCard);
+        if (drawnCard.allMatch(Objects::isNull)) {
+            throw new IllegalStateException("At least one card must be present on the drawn cards to show them");
+        }
+        cardDrawTable.setVisible(true);
+    }
 
-        //display what kind of card it is
-        ImageTextButton button = new ImageTextButton("", style);
-        button.addAction(new Action() {
-            @Override
-            public boolean act(float delta) {
-                if (eventType != CardClickedEvent.class) {
-                    return true;
-                }
-                Card card = RoboRally.getPlayerHandler().mainPlayer().getCards()[id];
-                button.setText("pri " + card.getPriority() + "\n" + card.getAction().name());
-                button.getLabelCell().padLeft(-textureRegion.getRegionWidth()); //make sure the tex is with in the card
-                return false;
-            }
-        });
+    /**
+     * Hide the drawn cards table of the main player. After this the player is ready for the round
+     * Do not use this to end the player draw turn, use {@link Player#endDrawCards()}
+     */
+    public void hideDrawnCards() {
+        cardDrawTable.setVisible(false);
+    }
 
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //this can be written better
-                ControlPanelEvent cpEvent;
-                if (eventType == CardClickedEvent.class) {
-                    cpEvent = new CardClickedEvent(id);
-                } else {
-                    cpEvent = new PowerDownEvent();
-                    float state = RoboRally.getPlayerHandler().mainPlayer().isPoweredDown() ? 0.5f : -0.5f;
-                    button.getColor().a += state;
-                }
-                RoboRally.getCPEventHandler().fireEvent(cpEvent);
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                //darken when hovering over to signal this object can be clicked
-                button.getColor().a -= 0.25f;
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                //reset color when leaving
-                button.getColor().a += 0.25;
-            }
-        });
-        return button;
+    /**
+     * @return If the player has finished choosing their cards
+     */
+    public boolean isDrawnCardsVisible() {
+        return cardDrawTable.isVisible();
     }
 
     public void update() {
@@ -195,18 +207,29 @@ public class UIHandler implements Disposable {
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        //make sure we have background around the whole control panel
-        table.setHeight(table.getPrefHeight() + 20);
+        controlPanelTable.pack();
+        cardDrawTable.pack();
 
-        table.setWidth(table.getPrefWidth()); //make sure the background image is drawn
-        table.setX(Gdx.graphics.getWidth() / 2f - table.getPrefWidth() / 2); //center the cp in the x axis
-        table.setY(5); //let there be a gap at the bottom of screen
+        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2f); //center the cp in the x axis
+        controlPanelTable.setY(DEFAULT_SPACING); //let there be a gap at the bottom of screen
+
+        cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
+        //place the draw ui just above the control panel
+        cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + DEFAULT_SPACING);
     }
 
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public DragAndDrop getDad() {
+        return dad;
     }
 }
 

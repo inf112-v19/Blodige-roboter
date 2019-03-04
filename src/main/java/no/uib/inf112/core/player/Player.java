@@ -1,12 +1,16 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.ui.CardContainer;
+import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
-import no.uib.inf112.core.ui.event.events.CardClickedEvent;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Elg
@@ -29,10 +33,20 @@ public class Player {
     private boolean poweredDown;
     private int health;
 
-    private boolean alive;
     private boolean headless;
 
-    private Card[] cards;
+    private CardContainer cards;
+
+    /**
+     * @param x         Start x position
+     * @param y         Start y position
+     * @param direction Start direction
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
+     */
+    public Player(int x, int y, @NotNull Direction direction) {
+        this(x, y, direction, false);
+    }
 
     /**
      * @param x         Start x position
@@ -49,24 +63,19 @@ public class Player {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        alive = true;
         this.headless = headless;
 
+        robot = new Robot(x, y, direction, headless);
         if (!headless) {
-            //TODO Issue 47 make player choose his cards
-            cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS);
-            robot = new Robot(x, y, direction, false);
-
+            cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
             ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
 
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
+                if (this != RoboRally.getPlayerHandler().mainPlayer()) {
+                    return;
+                }
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
-            });
-
-            eventHandler.registerListener(CardClickedEvent.class, (ControlPanelEventListener<CardClickedEvent>) event -> {
-                System.out.println("Clicked card nr " + event.getId() + " -> " + cards[event.getId()].getAction());
-                robot.move(cards[event.getId()].getAction());
             });
         }
     }
@@ -93,16 +102,13 @@ public class Player {
     public void kill() {
         lives--;
         if (lives == 0) {
-            alive = false;
             if (!headless) {
                 RoboRally.getCurrentMap().removeEntity(robot);
             }
             return;
         }
         health = MAX_HEALTH;
-        if (!headless) {
-            robot.teleport(backup.x, backup.y);
-        }
+        robot.teleport(backup.x, backup.y);
     }
 
     /**
@@ -121,16 +127,18 @@ public class Player {
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
      */
-    public boolean isDead() {
+    public boolean isDestroyed() {
         return lives <= 0;
     }
 
     @NotNull
-    public Card[] getCards() {
+    public CardContainer getCards() {
         return cards;
     }
 
-    public int getFlags() { return flags; }
+    public int getFlags() {
+        return flags;
+    }
 
     public boolean canGetFlag(int flagRank) {
         return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
@@ -140,8 +148,28 @@ public class Player {
         flags += 1;
     }
 
-    public void drawCards() {
-        cards = RoboRally.getPlayerHandler().getDeck().draw(MAX_DRAW_CARDS - getDamageTokens());
+    public void beginDrawCards() {
+        cards.draw();
+        RoboRally.getUiHandler().showDrawnCards();
+    }
+
+    public void endDrawCards() {
+
+        RoboRally.getUiHandler().hideDrawnCards();
+
+        if (cards.hasInvalidHand()) {
+            cards.randomizeHand();
+        }
+
+        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+            int id = i;
+
+            //this is a way to do player turns (ie wait some between each card is played)
+            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+                Card card = cards.getCard(SlotType.HAND, id);
+                getRobot().move(card.getAction());
+            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+        }
     }
 
     public int getLives() {
@@ -150,10 +178,6 @@ public class Player {
 
     public int getHealth() {
         return health;
-    }
-
-    public boolean isAlive() {
-        return alive;
     }
 
     public boolean isPoweredDown() {

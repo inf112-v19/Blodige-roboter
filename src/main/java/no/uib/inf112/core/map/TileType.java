@@ -7,15 +7,19 @@ import java.util.HashMap;
 
 public enum TileType {
 
-    /**
-     *  THE ROBOT
-     *  (Group ROBOT)
-     */
-    ROBOT_TILE(106, Group.ROBOT, "player_tileset"),
 
     /**
-     *  THE TILES THAT ROBOTS CAN FALL THROUGH
-     *  (Group Void)
+     * THE ROBOT
+     * (Group ROBOT)
+     */
+    ROBOT_TILE_NORTH(106, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_EAST(107, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_SOUTH(108, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_WEST(109, Group.ROBOT, "player-robot"),
+
+    /**
+     * THE TILES THAT ROBOTS CAN FALL THROUGH
+     * (Group Void)
      */
     VOID_TILE(81, Group.VOID),
     VOID_WITH_WARNING_ALL_AROUND(80, Group.VOID),
@@ -33,8 +37,8 @@ public enum TileType {
     DEFAULT_TILE(5, Group.DEFAULT),
 
     /**
-     *  FLAG TILES
-     *  (Group Flag)
+     * FLAG TILES
+     * (Group Flag)
      */
     FLAG1(49, Group.FLAG),
     FLAG2(56, Group.FLAG),
@@ -52,8 +56,8 @@ public enum TileType {
     SPAWN4(88, Group.SPAWN),
 
     /**
-     *  WALL TILES
-     *  (Group Wall)
+     * WALL TILES
+     * (Group Wall)
      */
     WALL_TOP(28, Group.WALL),
     WALL_TOP_WITH_LASER(40, Group.WALL),
@@ -78,8 +82,8 @@ public enum TileType {
 
 
     /**
-     *  STANDALONE LASERS
-     *  (Group Laser)
+     * STANDALONE LASERS
+     * (Group Laser)
      */
     LASER_VERTICAL(42, Group.LASER),
     LASER_HORIZONTAL(35, Group.LASER),
@@ -162,7 +166,7 @@ public enum TileType {
     private static HashMap<Integer, TileType> TileIdMap = new HashMap<>();
 
     TileType(int id, Group group) {
-        this(id, group, "tiles_tileset");
+        this(id, group, "tiles");
     }
 
     TileType(int id, Group group, String tilesetName) {
@@ -189,15 +193,15 @@ public enum TileType {
         return RoboRally.getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
     }
 
-    public Group getGroup(){
+    public Group getGroup() {
         return this.group;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    public enum Group{
+    public enum Group {
         CONVEYOR,
         OPTION,
         WALL,
