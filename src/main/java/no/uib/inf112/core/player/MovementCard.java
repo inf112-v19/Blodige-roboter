@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ProgramCard implements Card {
+public class MovementCard implements Card {
 
     private final Movement action;
     private final int priority;
@@ -17,7 +17,7 @@ public class ProgramCard implements Card {
      * @param action   The movement the card will impose
      * @param priority The unique priority of the card
      */
-    public ProgramCard(@NotNull Movement action, int priority) {
+    public MovementCard(@NotNull Movement action, int priority) {
         this.action = action;
         this.priority = priority;
         if (!Main.HEADLESS) {
@@ -62,7 +62,7 @@ public class ProgramCard implements Card {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ProgramCard that = (ProgramCard) o;
+        MovementCard that = (MovementCard) o;
         return priority == that.priority &&
                 action == that.action;
     }
@@ -74,7 +74,7 @@ public class ProgramCard implements Card {
 
     @Override
     public String toString() {
-        return "ProgramCard{" +
+        return "MovementCard{" +
                 "action=" + action +
                 ", priority=" + priority +
                 '}';

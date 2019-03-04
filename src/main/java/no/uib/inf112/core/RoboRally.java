@@ -2,7 +2,7 @@ package no.uib.inf112.core;
 
 import no.uib.inf112.core.player.Deck;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.player.ProgramDeck;
+import no.uib.inf112.core.player.MovementDeck;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
@@ -36,7 +36,7 @@ public class RoboRally  {
 
 
         mapInteractOnUser = new MapInteractOnUser();
-        deck = new ProgramDeck();
+        deck = new MovementDeck();
         playerHandler = new PlayerHandler(3);
         for (Player player:playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
