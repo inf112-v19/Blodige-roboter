@@ -2,7 +2,7 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -70,8 +70,9 @@ public class Player {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
+                    //This is not optimal, references both ways but since its a get i have not tried to change it
                     return;
-                    //TODO do a choice here, refereing both ways this one time to connect player too gameGraphics, could this be done another way?
+
                 }
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
@@ -153,8 +154,17 @@ public class Player {
             //this is a way to do player turns (ie wait some between each card is played)
             GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                 Card card = cards.getCard(SlotType.HAND, id);
-                getRobot().move(card.getAction());
+                moveRobot(card);
+
             }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+        }
+    }
+
+    public void moveRobot(Card card) {
+        try {
+            getRobot().move(card.getAction());
+        } catch (OutSideBoardException outSideBoardException) {
+            kill();
         }
     }
 

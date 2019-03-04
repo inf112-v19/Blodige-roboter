@@ -54,7 +54,6 @@ public class CardContainer {
 
         int amount = Player.MAX_HEALTH - holder.getDamageTokens() - 1;
         Card[] draw = GameGraphics.getRoboRally().getDeck().draw(amount);
-        //TODO handle deck another way?
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             if (i >= amount) {

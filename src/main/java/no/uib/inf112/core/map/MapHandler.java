@@ -113,9 +113,7 @@ public interface MapHandler {
      * @param y The y coordinate to test
      * @return If the given {@code x} and {@code y} is outside this map
      */
-    default boolean isOutsideBoard(int x, int y) {
-        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
-    }
+    boolean isOutsideBoard(int x, int y);
 
     /**
      * @return How many tiles there are in the maps width

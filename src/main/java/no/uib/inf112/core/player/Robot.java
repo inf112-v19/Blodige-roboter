@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,8 +80,9 @@ public class Robot implements Entity {
      * Move the robot by the given movement card
      *
      * @param movement how to move
+     * @Throws OutSideBoardException if the robot moves outside the board
      */
-    public void move(@NotNull Movement movement) {
+    public void move(@NotNull Movement movement) throws OutSideBoardException {
         switch (movement) {
             case MOVE_1:
                 move(direction.getDx(), direction.getDy());
@@ -112,13 +114,11 @@ public class Robot implements Entity {
     /**
      * Move the robot with given delta to new coordinates
      */
-    private void move(int deltaX, int deltaY) {
+    private void move(int deltaX, int deltaY) throws OutSideBoardException {
         x += deltaX;
         y += deltaY;
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
-            GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().kill();
-            //TODO make the board handle this?
-            return;
+            throw new OutSideBoardException();
         }
         update();
     }

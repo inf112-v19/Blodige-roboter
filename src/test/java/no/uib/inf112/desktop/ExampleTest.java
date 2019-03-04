@@ -2,6 +2,7 @@ package no.uib.inf112.desktop;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
 import no.uib.inf112.core.player.Movement;
 import no.uib.inf112.core.player.Player;
@@ -11,9 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ExampleTest extends TestGraphics{
     private static RoboRally roboRally;
@@ -32,8 +31,12 @@ public class ExampleTest extends TestGraphics{
     public void MoveShouldMovePlayer() {
         Robot robot = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
+        try {
+            robot.move(Movement.MOVE_1);
+        } catch (OutSideBoardException outSideBoardException) {
+            fail("Robot should not move of the map using fall back map");
+        }
 
-        robot.move(Movement.MOVE_1);
         assertNotEquals(pos, new Vector2Int(robot.getX(), robot.getY()));
     }
 
