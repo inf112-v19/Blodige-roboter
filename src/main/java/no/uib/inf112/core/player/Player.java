@@ -3,6 +3,7 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.OutSideBoardException;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;

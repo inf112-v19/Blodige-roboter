@@ -1,5 +1,8 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.cards;
 
+import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.map.cards.MovementCard;
+import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.desktop.Main;
 import org.junit.Before;
 import org.junit.Test;

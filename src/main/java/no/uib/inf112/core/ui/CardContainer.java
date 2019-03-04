@@ -1,7 +1,7 @@
 package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.Card;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -29,7 +29,7 @@ public class CardContainer {
      * When running with Lwjgl (ie normally) this is done in {@link UIHandler#create()}, but when testing this must be done.
      *
      * @param holder The player whos cards these are
-     * @param deck   The deck used to draw new cards
+     * @param deck   The cards used to draw new cards
      * @see no.uib.inf112.core.ui.CardContainerTest#setUp()
      */
     @SuppressWarnings("JavadocReference")

@@ -1,4 +1,4 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.map.cards;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import no.uib.inf112.core.ui.UIHandler;

@@ -4,7 +4,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
-import no.uib.inf112.core.player.Movement;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Before;

@@ -5,6 +5,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
+import no.uib.inf112.core.map.cards.Movement;
 import org.jetbrains.annotations.NotNull;
 
 public class Robot implements Entity {

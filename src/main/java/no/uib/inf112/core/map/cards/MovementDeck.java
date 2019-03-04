@@ -1,4 +1,4 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.map.cards;
 
 
 import java.util.Random;
@@ -7,12 +7,12 @@ public class MovementDeck implements Deck {
 
     private MovementCard[] cards;
     private int nextCard = 0;
-    private final int DECK_SIZE = 84; //Standard deck size from rulebook
+    private final int DECK_SIZE = 84; //Standard cards size from rulebook
     private int shufflereps = 5; //Default repetitions for shuffle-method.
 
 
     /**
-     * Create new standard deck.
+     * Create new standard cards.
      * MovementDeck structure (differt card types and priovrities etc) explicit in initialize-method
      */
     public MovementDeck() {
@@ -54,7 +54,7 @@ public class MovementDeck implements Deck {
 
 
     /**
-     * Initializes the deck with standard cards from rulebook
+     * Initializes the cards with standard cards from rulebook
      */
     private void initialize() {
         for (int i = 0; i < 18; i++) {

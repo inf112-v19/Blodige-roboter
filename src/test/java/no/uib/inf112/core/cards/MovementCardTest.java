@@ -1,11 +1,21 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.cards;
 
+import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.map.cards.MovementCard;
+import no.uib.inf112.desktop.Main;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 
 public class MovementCardTest {
+
+    @BeforeClass
+    public static void setUp() {
+        Main.HEADLESS = true;
+    }
+
     @Test
     public void makeCardTest() {
         MovementCard card = new MovementCard(Movement.LEFT_TURN, 3);

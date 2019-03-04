@@ -1,19 +1,19 @@
 package no.uib.inf112.core;
 
-import no.uib.inf112.core.player.Deck;
-import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.player.MovementDeck;
-import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.map.cards.Deck;
+import no.uib.inf112.core.map.cards.MovementDeck;
+import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.player.PlayerHandler;
+import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-public class RoboRally  {
+public class RoboRally {
 
     public static final String MAP_FOLDER = "maps";
     public static final int PHASES_PER_ROUND = 5;
@@ -38,7 +38,7 @@ public class RoboRally  {
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(3);
-        for (Player player:playerHandler.getPlayers()) {
+        for (Player player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
     }
@@ -61,9 +61,9 @@ public class RoboRally  {
     }
 
     /**
-     * Get deck which is currently in the game
+     * Get cards which is currently in the game
      *
-     * @return deck
+     * @return cards
      */
     public Deck getDeck() {
         return deck;
@@ -78,7 +78,6 @@ public class RoboRally  {
     public MapHandler getCurrentMap() {
         return map;
     }
-
 
 
     @NotNull

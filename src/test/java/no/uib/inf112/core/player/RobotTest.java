@@ -3,6 +3,8 @@ package no.uib.inf112.core.player;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.TileType;
+import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;

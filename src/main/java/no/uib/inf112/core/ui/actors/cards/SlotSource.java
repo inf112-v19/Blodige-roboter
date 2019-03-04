@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.Card;
+import no.uib.inf112.core.map.cards.Card;
 
 /**
  * @author Elg
