@@ -36,7 +36,7 @@ public class RoboRally  {
 
 
         mapInteractOnUser = new MapInteractOnUser();
-        deck = new ProgramDeck(Main.HEADLESS);
+        deck = new ProgramDeck();
         playerHandler = new PlayerHandler(3);
         for (Player player:playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());

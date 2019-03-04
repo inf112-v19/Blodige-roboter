@@ -19,8 +19,8 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
     private int slotId;
 
 
-    public CardSlot(int id, @NotNull SlotType type, @NotNull CardContainer container, @NotNull DragAndDrop dad, boolean headless) {
-        super(headless);
+    public CardSlot(int id, @NotNull SlotType type, @NotNull CardContainer container, @NotNull DragAndDrop dad ) {
+        super();
         this.type = type;
         this.container = container;
         slotId = id;

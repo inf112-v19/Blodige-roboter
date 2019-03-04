@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class ProgramCardTest {
     @Test
     public void makeCardTest() {
-        ProgramCard card = new ProgramCard(Movement.LEFT_TURN, 3, true);
+        ProgramCard card = new ProgramCard(Movement.LEFT_TURN, 3);
         assertEquals(3, card.getPriority());
         assertEquals(Movement.LEFT_TURN, card.getAction());
     }
@@ -16,7 +16,7 @@ public class ProgramCardTest {
     @Test
     public void cardPriorityTest() {
         for (int i = 0; i < 100; i++) {
-            ProgramCard card = new ProgramCard(Movement.BACK_UP, i, true);
+            ProgramCard card = new ProgramCard(Movement.BACK_UP, i);
             assertEquals(i, card.getPriority());
         }
 

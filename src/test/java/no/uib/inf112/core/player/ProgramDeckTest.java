@@ -12,7 +12,7 @@ public class ProgramDeckTest {
 
     @Before
     public void init() {
-        deck = new ProgramDeck(true);
+        deck = new ProgramDeck();
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ProgramDeckTest {
     @Test
     public void shuffleTest() {
         for (int i = 0; i < N; i++) {
-            ProgramDeck d = new ProgramDeck(true);
+            ProgramDeck d = new ProgramDeck();
             ProgramCard[] cards = d.getCards().clone();
             d.shuffle();
             ProgramCard[] cards1 = d.getCards().clone();

@@ -2,6 +2,7 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import no.uib.inf112.core.ui.UIHandler;
+import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -16,10 +17,10 @@ public class ProgramCard implements Card {
      * @param action   The movement the card will impose
      * @param priority The unique priority of the card
      */
-    public ProgramCard(@NotNull Movement action, int priority, boolean headless) {
+    public ProgramCard(@NotNull Movement action, int priority) {
         this.action = action;
         this.priority = priority;
-        if (!headless) {
+        if (!Main.HEADLESS) {
             this.textureRegion = UIHandler.CARDS_TEXTURE;
         }
     }

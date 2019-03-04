@@ -18,13 +18,12 @@ public class Robot implements Entity {
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
      * @param direction What direction the player is facing on start
-     * @param headless  True if you want player without graphics (e.g. for testing purposes), false otherwise
      * @throws IllegalArgumentException If the given position is out of bounds
      * @throws IllegalArgumentException If direction is {@code null}
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(int x, int y, Direction direction, boolean headless) {
+    public Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
 

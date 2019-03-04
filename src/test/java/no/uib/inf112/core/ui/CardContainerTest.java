@@ -21,23 +21,23 @@ import static org.junit.Assert.*;
 
 public class CardContainerTest extends TestGraphics {
 
-    private ProgramDeck deck = new ProgramDeck(Main.HEADLESS);
+    private ProgramDeck deck = new ProgramDeck();
     private CardContainer container;
     private RoboRally roboRally;
 
     @Before
     public void setUp() {
-        container = new CardContainer(new Player(1, 1, Direction.NORTH, true));
+        container = new CardContainer(new Player(1, 1, Direction.NORTH));
 
         DragAndDrop dad = new DragAndDrop();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, true);
+            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
             container.handCard[i] = cardSlot;
         }
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, true);
+            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad);
             container.drawnCard[i] = cardSlot;
         }
     }
@@ -95,7 +95,7 @@ public class CardContainerTest extends TestGraphics {
     public void randomizingAlreadyFullHandShouldMakeHandStayFull() {
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            container.handCard[i].setCard(new ProgramCard(Movement.MOVE_1, 1, true));
+            container.handCard[i].setCard(new ProgramCard(Movement.MOVE_1, 1));
         }
         container.randomizeHand();
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
@@ -111,7 +111,7 @@ public class CardContainerTest extends TestGraphics {
         Movement action = Movement.MOVE_1;
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            container.drawnCard[i].setCard(new ProgramCard(action, i, true));
+            container.drawnCard[i].setCard(new ProgramCard(action, i));
         }
         //all hand cards should be null
         assertTrue(Arrays.stream(container.handCard).map(CardActor::getCard).allMatch(Objects::isNull));
@@ -132,17 +132,17 @@ public class CardContainerTest extends TestGraphics {
     public void randomizeHandPutsCardsBackToDrawn() {
 
         //loop unrolled
-        container.handCard[0].setCard(new ProgramCard(Movement.LEFT_TURN, 0, true));
-        container.handCard[1].setCard(new ProgramCard(Movement.LEFT_TURN, 1, true));
-        container.handCard[2].setCard(new ProgramCard(Movement.LEFT_TURN, 2, true));
-        container.handCard[3].setCard(new ProgramCard(Movement.LEFT_TURN, 3, true));
+        container.handCard[0].setCard(new ProgramCard(Movement.LEFT_TURN, 0));
+        container.handCard[1].setCard(new ProgramCard(Movement.LEFT_TURN, 1));
+        container.handCard[2].setCard(new ProgramCard(Movement.LEFT_TURN, 2));
+        container.handCard[3].setCard(new ProgramCard(Movement.LEFT_TURN, 3));
         container.handCard[4].setCard(null);
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             if (i < Player.MAX_PLAYER_CARDS - 1) {
                 container.drawnCard[i].setCard(null);
             } else {
-                container.drawnCard[i].setCard(new ProgramCard(Movement.RIGHT_TURN, i, true));
+                container.drawnCard[i].setCard(new ProgramCard(Movement.RIGHT_TURN, i));
             }
         }
 
@@ -177,7 +177,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void settingThenGettingCardAtId1ShouldReturnSameCard() {
-        Card card = new ProgramCard(Movement.LEFT_TURN, 100, true);
+        Card card = new ProgramCard(Movement.LEFT_TURN, 100);
         container.handCard[0].setCard(card);
         assertEquals(card, container.getCard(SlotType.HAND, 0));
     }
@@ -186,7 +186,7 @@ public class CardContainerTest extends TestGraphics {
     public void overridingCardShouldReturnNewCard() {
         container.draw();
         assertNotNull(container.getCard(SlotType.DRAWN, 1));
-        Card card = new ProgramCard(Movement.LEFT_TURN, 100, true);
+        Card card = new ProgramCard(Movement.LEFT_TURN, 100);
         container.drawnCard[1].setCard(card);
 
         assertEquals(card, container.getCard(SlotType.DRAWN, 1));
@@ -212,7 +212,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void lockedSlotsShouldBeDisabled() {
-        Card card = new ProgramCard(Movement.LEFT_TURN, 100, true);
+        Card card = new ProgramCard(Movement.LEFT_TURN, 100);
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             container.handCard[i].setCard(card);

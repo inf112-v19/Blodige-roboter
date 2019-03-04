@@ -29,7 +29,7 @@ public class SlotSource extends DragAndDrop.Source {
         }
         GameGraphics.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
-        final CardActor dragActor = new CardActor(false);
+        final CardActor dragActor = new CardActor();
         dragActor.setCard(sourceSlot.getCard());
 
         final Payload payload = new Payload();

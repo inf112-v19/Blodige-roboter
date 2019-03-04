@@ -34,37 +34,22 @@ public class Player {
     private boolean poweredDown;
     private int health;
 
-    private boolean headless;
-
     private CardContainer cards;
 
     /**
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction) {
-        this(x, y, direction, false);
-    }
-
-    /**
-     * @param x         Start x position
-     * @param y         Start y position
-     * @param direction Start direction
-     * @param headless  true if you want player without graphics, false otherwise
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
-     */
-    public Player(int x, int y, @NotNull Direction direction, boolean headless) {
         backup = new Vector2Int(x, y);
 
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        this.headless = headless;
-        robot = new Robot(x, y, direction, headless);
+        robot = new Robot(x, y, direction);
         cards = new CardContainer(this);
         if (!Main.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();

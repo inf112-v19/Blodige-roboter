@@ -25,7 +25,7 @@ public class PlayerHandler implements IPlayerHandler {
         players = new ArrayList<>(playerCount);
 
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH, Main.HEADLESS));
+            players.add(new Player(5 + i, 2, Direction.NORTH));
         }
 
         Stack<Integer> docks = new Stack<>();
@@ -47,7 +47,7 @@ public class PlayerHandler implements IPlayerHandler {
             players = new ArrayList<>(playerCount);
 
             for (int i = 0; i < playerCount; i++) {
-                players.add(new Player(5 + i, 2, Direction.NORTH, Main.HEADLESS));
+                players.add(new Player(5 + i, 2, Direction.NORTH));
             }
 
             Stack<Integer> docks = new Stack<>();
