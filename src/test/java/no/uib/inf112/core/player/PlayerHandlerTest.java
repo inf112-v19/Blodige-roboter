@@ -14,13 +14,9 @@ import static org.junit.Assert.*;
 public class PlayerHandlerTest extends TestGraphics {
 
     private PlayerHandler testHandler;
-    private RoboRally roboRally;
 
     @Before
     public void setUp() {
-        Main.HEADLESS = true;
-        roboRally = new RoboRally();
-        GameGraphics.SetRoboRally(roboRally);
     }
 
     @Test

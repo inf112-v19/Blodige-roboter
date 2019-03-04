@@ -117,6 +117,7 @@ public class Robot implements Entity {
         y += deltaY;
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
             GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().kill();
+            //TODO make the board handle this?
             return;
         }
         update();

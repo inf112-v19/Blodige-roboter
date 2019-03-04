@@ -8,6 +8,7 @@ import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,18 +16,21 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ExampleTest extends TestGraphics{
-    private RoboRally roboRally;
+    private static RoboRally roboRally;
+
+    @BeforeClass
+    public static void before() {
+        roboRally = GameGraphics.getRoboRally();
+    }
 
     @Before
     public void setUp() {
-        Main.HEADLESS = true;
-        roboRally = new RoboRally();
-        GameGraphics.SetRoboRally(roboRally);
+        roboRally.getPlayerHandler().generatePlayers();
     }
 
     @Test
     public void MoveShouldMovePlayer() {
-        Robot robot = roboRally.getPlayerHandler().mainPlayer().getRobot();
+        Robot robot = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
 
         robot.move(Movement.MOVE_1);
@@ -35,7 +39,7 @@ public class ExampleTest extends TestGraphics{
 
     @Test
     public void MapShouldGetLoaded() {
-        Robot robot = roboRally.getPlayerHandler().mainPlayer().getRobot();
+        Robot robot = roboRally .getPlayerHandler().mainPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         assertEquals(TileType.DEFAULT_TILE,roboRally.getCurrentMap().getBoardLayerTile(pos.x, pos.y));
     }

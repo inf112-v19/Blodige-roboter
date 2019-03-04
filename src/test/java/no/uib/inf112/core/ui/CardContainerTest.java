@@ -21,15 +21,12 @@ import static org.junit.Assert.*;
 
 public class CardContainerTest extends TestGraphics {
 
-    private ProgramDeck deck = new ProgramDeck(true);
+    private ProgramDeck deck = new ProgramDeck(Main.HEADLESS);
     private CardContainer container;
     private RoboRally roboRally;
 
     @Before
     public void setUp() {
-        Main.HEADLESS = true;
-        roboRally = new RoboRally();
-        GameGraphics.SetRoboRally(roboRally);
         container = new CardContainer(new Player(1, 1, Direction.NORTH, true));
 
         DragAndDrop dad = new DragAndDrop();

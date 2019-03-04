@@ -21,6 +21,7 @@ public class TestGraphics {
     @BeforeClass
     public static void init() {
         // Note that we don't need to implement any of the listener's methods
+        Main.HEADLESS = true;
         application = new HeadlessApplication(new ApplicationListener() {
             @Override
             public void create() {

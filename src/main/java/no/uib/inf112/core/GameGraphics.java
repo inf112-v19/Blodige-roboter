@@ -42,7 +42,7 @@ public class GameGraphics extends Game {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-        roboRally = new RoboRally();
+        getRoboRally();
 
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
@@ -99,15 +99,15 @@ public class GameGraphics extends Game {
     }
 
     public static RoboRally getRoboRally() {
+        if (null == roboRally) {
+            createRoboRally();
+        }
         return roboRally;
     }
 
-    public static void SetRoboRally(RoboRally roboRally) {
-        if (Main.HEADLESS) {
-            GameGraphics.roboRally = roboRally;
-        } else {
-            throw new IllegalStateException("Roborally should only be set when running headless");
-        }
+    private synchronized static RoboRally createRoboRally() {
+        roboRally = new RoboRally();
+        return roboRally;
     }
 
 }

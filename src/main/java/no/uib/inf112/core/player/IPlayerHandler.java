@@ -20,9 +20,8 @@ public interface IPlayerHandler {
      * Add all players to game
      * Pick a unique dock for each player
      *
-     * @param headless true if you want to generate players without graphics, false otherwise
      */
-    void generatePlayers(boolean headless);
+    void generatePlayers();
 
     /**
      * Do next turn in game

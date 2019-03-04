@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.Game;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
@@ -8,6 +9,7 @@ import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.desktop.Main;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -33,9 +35,8 @@ public class RobotTest extends TestGraphics {
 
     @Before
     public void setup() {
-        Main.HEADLESS = true;
-        roboRally = new RoboRally();
-        GameGraphics.SetRoboRally(roboRally);
+        roboRally = GameGraphics.getRoboRally();
+        roboRally.getPlayerHandler().generatePlayers();
         player = roboRally.getPlayerHandler().mainPlayer();
         testBot = player.getRobot();
         testBot.teleport(HEIGHT / 2, WIDTH / 2);
@@ -179,6 +180,7 @@ public class RobotTest extends TestGraphics {
 
     @Test
     public void movingOutOfBoundReduceLifeByOne() {
+        player.getLives();
         testBot.teleport(0, 0);
         player.damage(1);
 

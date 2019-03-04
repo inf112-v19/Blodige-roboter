@@ -9,6 +9,7 @@ import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
+import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
@@ -65,11 +66,12 @@ public class Player {
         this.headless = headless;
         robot = new Robot(x, y, direction, headless);
         cards = new CardContainer(this);
-        if (!headless) {
+        if (!Main.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
                     return;
+                    //TODO do a choice here, refereing both ways this one time to connect player too gameGraphics, could this be done another way?
                 }
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
@@ -94,14 +96,13 @@ public class Player {
     }
 
     /**
-     * Kill the player, decreasing their lives and might permanently remove from map if there are not lives left
+     * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
+     * not lives left
      */
     public void kill() {
         lives--;
         if (lives == 0) {
-            if (!headless) {
-                GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
-            }
+            GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
             return;
         }
         health = MAX_HEALTH;

@@ -41,22 +41,26 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public void generatePlayers(boolean headless) {
-        //Keeping this in case we want to generate new players
-        throw new IllegalArgumentException("Temprary exception");
-        /*for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH, Main.HEADLESS));
+    public void generatePlayers() {
+        //Keeping this in case we want to generate new players, currently only used for testing
+        if (Main.HEADLESS) {
+            players = new ArrayList<>(playerCount);
+
+            for (int i = 0; i < playerCount; i++) {
+                players.add(new Player(5 + i, 2, Direction.NORTH, Main.HEADLESS));
+            }
+
+            Stack<Integer> docks = new Stack<>();
+            for (int i = 1; i <= playerCount; i++) {
+                docks.push(i);
+            }
+            Collections.shuffle(docks);
+
+            for (Player player : players) {
+                player.setDock(docks.pop());
+            }
         }
 
-        Stack<Integer> docks = new Stack<>();
-        for (int i = 1; i <= playerCount; i++) {
-            docks.push(i);
-        }
-        Collections.shuffle(docks);
-
-        for (Player player : players) {
-            player.setDock(docks.pop());
-        }*/
     }
 
     @Override
