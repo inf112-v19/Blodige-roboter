@@ -42,7 +42,8 @@ public abstract class GameMap implements MapHandler{
             params.textureMinFilter = Texture.TextureFilter.Linear;
             tiledMap = new TmxMapLoader().load(map, params);
         } catch (final Exception e) {
-            throw new IllegalArgumentException("Failed to load map at '" + map + "'");
+            System.err.println("Failed to load map at '" + map + "'");
+            throw e;
         }
 
 
