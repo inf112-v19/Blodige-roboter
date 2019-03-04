@@ -22,6 +22,10 @@ public interface MapHandler extends Disposable {
     float DEFAULT_MAX_ZOOM = 10f;
     float DEFAULT_MIN_ZOOM = 2f;
 
+    int ZOOM_IN = -1;
+    int ZOOM_OUT = 1;
+
+
     String ZOOM_SENSITIVITY_PATH = "zoomsensitivity";
     String MAX_ZOOM_PATH = "maxzoom";
     String MIN_ZOOM_PATH = "minzoom";

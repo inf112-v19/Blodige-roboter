@@ -19,11 +19,11 @@ public abstract class MapCamera implements MapHandler {
     private float currWidth;
 
     public MapCamera() {
-
-        defaultWidth = Gdx.graphics.getWidth();
-        defaultHeight = Gdx.graphics.getHeight();
-
         Gdx.app.postRunnable(() -> {
+
+            defaultWidth = Gdx.graphics.getWidth();
+            defaultHeight = Gdx.graphics.getHeight();
+
             camera = new OrthographicCamera();
 
             zoomSensitivity = getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
@@ -36,8 +36,8 @@ public abstract class MapCamera implements MapHandler {
             }
 
             resize();
-
         });
+
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class MapCamera implements MapHandler {
     /*
      * Calculate how much larger the current screen is than the default size
      */
-    private float deltaSize() {
+    float deltaSize() {
         return ((currWidth / defaultWidth) + (currHeight / defaultHeight)) / 2;
     }
 
@@ -116,7 +116,7 @@ public abstract class MapCamera implements MapHandler {
 
     @Override
     public void resize() {
-        if (camera == null) {
+        if (camera == null || Gdx.graphics == null) {
             return;
         }
 

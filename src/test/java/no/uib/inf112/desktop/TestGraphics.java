@@ -4,6 +4,7 @@ package no.uib.inf112.desktop;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import org.junit.AfterClass;
@@ -12,6 +13,9 @@ import org.junit.BeforeClass;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class TestGraphics {
     // This is our "test" application
@@ -860,6 +864,18 @@ public class TestGraphics {
             }
         };
         Gdx.gl = Gdx.gl20;
+
+        //run postRunnable at once
+        Gdx.app = mock(Application.class);
+        doAnswer(invocation -> {
+            invocation.getArgumentAt(0, Runnable.class).run();
+            return null;
+        }).when(Gdx.app).postRunnable(any(Runnable.class));
+
+
+        Gdx.graphics = mock(Graphics.class);
+        when(Gdx.graphics.getWidth()).thenReturn(1);
+        when(Gdx.graphics.getHeight()).thenReturn(1);
     }
 
     // After we are done, clean up the application
