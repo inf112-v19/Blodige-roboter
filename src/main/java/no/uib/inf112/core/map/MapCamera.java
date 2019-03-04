@@ -15,8 +15,10 @@ public abstract class MapCamera implements MapHandler {
 
     private float defaultHeight;
     private float defaultWidth;
-    private float currHeight;
-    private float currWidth;
+    float currHeight;
+    float currWidth;
+
+    private Vector2 tilesShown = new Vector2();
 
     public MapCamera() {
         Gdx.app.postRunnable(() -> {
@@ -35,7 +37,7 @@ public abstract class MapCamera implements MapHandler {
                         "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
             }
 
-            resize();
+            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         });
 
     }
@@ -66,8 +68,10 @@ public abstract class MapCamera implements MapHandler {
     /**
      * @return How many tiles are shown in the x any y direction
      */
-    private Vector2 tilesShown() {
-        return new Vector2((currWidth * camera.zoom) / getTileWidth(), (currHeight * camera.zoom) / getTileHeight());
+    Vector2 tilesShown() {
+        tilesShown.x = (currWidth * camera.zoom) / getTileWidth();
+        tilesShown.y = (currHeight * camera.zoom) / getTileHeight();
+        return tilesShown;
     }
 
 
@@ -115,15 +119,15 @@ public abstract class MapCamera implements MapHandler {
 
 
     @Override
-    public void resize() {
-        if (camera == null || Gdx.graphics == null) {
+    public void resize(int width, int height) {
+        if (camera == null) {
             return;
         }
 
-        currHeight = Gdx.graphics.getHeight();
-        currWidth = Gdx.graphics.getWidth();
+        currWidth = width;
+        currHeight = height;
 
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, width, Gdx.graphics.getHeight());
 
         //center the camera and zoom
         camera.zoom = getMaxZoom();

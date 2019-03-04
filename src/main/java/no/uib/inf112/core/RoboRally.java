@@ -107,7 +107,7 @@ public class RoboRally extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        map.resize();
+        map.resize(width, height);
         uiHandler.resize();
     }
 

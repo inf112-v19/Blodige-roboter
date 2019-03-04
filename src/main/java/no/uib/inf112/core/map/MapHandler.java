@@ -144,5 +144,5 @@ public interface MapHandler extends Disposable {
     /**
      * The application window has been resized
      */
-    void resize();
+    void resize(int width, int height);
 }

@@ -3,6 +3,7 @@ package no.uib.inf112.core.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.desktop.TestGraphics;
@@ -101,6 +102,22 @@ public class MapCameraTest extends TestGraphics {
             c.zoomCamera(ZOOM_IN);
             assertEquals(DEFAULT_MIN_ZOOM, c.getCamera().zoom);
         }
+    }
+
+
+    @Test
+    public void zoomingScalesCorrectlyWithTilesShown() {
+        for (float i = DEFAULT_MAX_ZOOM; i >= DEFAULT_MIN_ZOOM; i--) {
+            assertEquals(new Vector2(i, i), c.tilesShown());
+            c.zoomCamera(ZOOM_IN);
+        }
+    }
+
+    @Test
+    public void perfectResizingDoesNotAffectTilesShown() {
+        Vector2 old = c.tilesShown().cpy();
+        c.resize(2, 2);
+        assertEquals(old, c.tilesShown());
     }
 
     private class MapCameraTestImpl extends MapCamera {
