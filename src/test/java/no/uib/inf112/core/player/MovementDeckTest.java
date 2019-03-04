@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.desktop.Main;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ public class MovementDeckTest {
 
     @Before
     public void init() {
+        Main.HEADLESS = true;
         deck = new MovementDeck();
     }
 

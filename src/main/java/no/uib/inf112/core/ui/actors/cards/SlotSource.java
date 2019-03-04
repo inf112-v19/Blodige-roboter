@@ -1,13 +1,11 @@
 package no.uib.inf112.core.ui.actors.cards;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Card;
 
 /**

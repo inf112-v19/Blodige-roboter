@@ -2,7 +2,6 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
@@ -31,9 +30,6 @@ public class Robot implements Entity {
             throw new IllegalArgumentException("Given direction can not be null");
         }
         this.direction = direction;
-
-        /*if (!headless)
-            GameGraphics.getRoboRally().getCurrentMap().addEntity(this);*/
     }
 
     @Override

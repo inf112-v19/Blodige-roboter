@@ -7,19 +7,18 @@ public class MovementDeck implements Deck {
 
     private MovementCard[] cards;
     private int nextCard = 0;
-    private int size = 84; //Standard deck size from rulebook
+    private final int DECK_SIZE = 84; //Standard deck size from rulebook
     private int shufflereps = 5; //Default repetitions for shuffle-method.
 
 
     /**
      * Create new standard deck.
      * MovementDeck structure (differt card types and priovrities etc) explicit in initialize-method
-     *
      */
     public MovementDeck() {
-        this.cards = new MovementCard[size];
-        this.initialize();
-        this.shuffle();
+        cards = new MovementCard[DECK_SIZE];
+        initialize();
+        shuffle();
     }
 
 
@@ -37,8 +36,8 @@ public class MovementDeck implements Deck {
     public void shuffle() {
         Random rnd = new Random();
         for (int i = 0; i < shufflereps; i++) {
-            for (int j = 0; j < size; j++) {
-                int randIndex = rnd.nextInt(84);
+            for (int j = 0; j < DECK_SIZE; j++) {
+                int randIndex = rnd.nextInt(DECK_SIZE);
                 MovementCard temp = cards[j];
                 cards[j] = cards[randIndex];
                 cards[randIndex] = temp;

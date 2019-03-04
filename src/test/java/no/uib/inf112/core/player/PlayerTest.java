@@ -2,22 +2,12 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.desktop.Main;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 
 public class PlayerTest extends TestGraphics {
@@ -29,6 +19,7 @@ public class PlayerTest extends TestGraphics {
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
     }
+
     @Before
     public void setup() {
         testPlayer = roboRally.getPlayerHandler().mainPlayer();
@@ -82,8 +73,8 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
-        testPlayer.damage( testPlayer.getHealth() + 1);
-        assertEquals( Player.MAX_HEALTH, testPlayer.getHealth());
+        testPlayer.damage(testPlayer.getHealth() + 1);
+        assertEquals(Player.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)

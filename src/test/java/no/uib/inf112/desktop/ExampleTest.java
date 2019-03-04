@@ -5,7 +5,6 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.TileType;
 import no.uib.inf112.core.player.Movement;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Before;
@@ -14,7 +13,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ExampleTest extends TestGraphics{
+public class ExampleTest extends TestGraphics {
     private static RoboRally roboRally;
 
     @BeforeClass
@@ -42,8 +41,8 @@ public class ExampleTest extends TestGraphics{
 
     @Test
     public void MapShouldGetLoaded() {
-        Robot robot = roboRally .getPlayerHandler().mainPlayer().getRobot();
+        Robot robot = roboRally.getPlayerHandler().mainPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
-        assertEquals(TileType.DEFAULT_TILE,roboRally.getCurrentMap().getBoardLayerTile(pos.x, pos.y));
+        assertEquals(TileType.DEFAULT_TILE, roboRally.getCurrentMap().getBoardLayerTile(pos.x, pos.y));
     }
 }

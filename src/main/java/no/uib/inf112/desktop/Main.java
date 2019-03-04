@@ -3,7 +3,6 @@ package no.uib.inf112.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 
 
 public class Main {

@@ -19,7 +19,6 @@ public interface IPlayerHandler {
     /**
      * Add all players to game
      * Pick a unique dock for each player
-     *
      */
     void generatePlayers();
 

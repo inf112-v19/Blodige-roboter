@@ -2,7 +2,6 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Card;
-import no.uib.inf112.core.player.Deck;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;

@@ -16,7 +16,7 @@ public abstract class MapCamera extends GameMap {
         setupCamera();
     }
 
-    public MapCamera(){
+    public MapCamera() {
         setupCamera();
     }
 

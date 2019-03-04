@@ -27,5 +27,6 @@ public enum Movement {
     @Override
     public String toString() {
         return name().replace("_", " ");
-    }}
+    }
+}
 

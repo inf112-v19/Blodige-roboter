@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class GameMap implements MapHandler{
+public abstract class GameMap implements MapHandler {
 
     private TiledMap tiledMap;
 
@@ -35,7 +35,7 @@ public abstract class GameMap implements MapHandler{
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
 
-    public GameMap(String map){
+    public GameMap(String map) {
         try {
             TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
             params.textureMagFilter = Texture.TextureFilter.Linear;
@@ -72,6 +72,9 @@ public abstract class GameMap implements MapHandler{
 
     }
 
+    /**
+     * Used to create a skeleton maphandler for testing. Should be used as little as possible
+     */
     public GameMap() {
         if (!Main.HEADLESS) {
             throw new IllegalStateException("Headless must be true when using this constructor");
@@ -144,11 +147,11 @@ public abstract class GameMap implements MapHandler{
         return mapHeight;
     }
 
-    protected  TiledMapTileLayer getEntityLayer(){
+    protected TiledMapTileLayer getEntityLayer() {
         return entityLayer;
     }
 
-    protected  TiledMap getTiledMap(){
+    protected TiledMap getTiledMap() {
         return tiledMap;
     }
 }

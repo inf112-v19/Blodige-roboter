@@ -7,12 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.map.MapInteractOnUser;
-import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Executors;

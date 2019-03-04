@@ -4,9 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Clipboard;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.Main;
@@ -17,7 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Map;
-import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 

@@ -1,23 +1,16 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.desktop.Main;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class PlayerHandlerTest extends TestGraphics {
 
     private PlayerHandler testHandler;
-
-    @Before
-    public void setUp() {
-    }
 
     @Test
     public void creatingHandlerWith2PlayersShouldResultInPlayerCount2() {
@@ -45,6 +38,7 @@ public class PlayerHandlerTest extends TestGraphics {
     public void creatingHandlerShouldInitializeProgramDeck() {
         testHandler = new PlayerHandler(2);
         assertNotNull(testHandler.getDeck());
+        This is not uncommented because i want daniel and rikke to accept removing it
     }*/
 
     @Test

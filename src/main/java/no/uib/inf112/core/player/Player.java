@@ -55,7 +55,8 @@ public class Player {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
-                    //This is not optimal, references both ways but since its a get i have not tried to change it
+                    //This is not optimal, references both ways but since its a get i have not given a lot of thought
+                    // trying to change it
                     return;
 
                 }
@@ -83,7 +84,7 @@ public class Player {
 
     /**
      * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
-     * not lives left
+     * no lives left
      */
     public void kill() {
         lives--;

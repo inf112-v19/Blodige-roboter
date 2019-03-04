@@ -21,7 +21,7 @@ public class MovementCard implements Card {
         this.action = action;
         this.priority = priority;
         if (!Main.HEADLESS) {
-            this.textureRegion = UIHandler.CARDS_TEXTURE;
+            textureRegion = UIHandler.CARDS_TEXTURE;
         }
     }
 
@@ -31,7 +31,7 @@ public class MovementCard implements Card {
     @NotNull
     @Override
     public Movement getAction() {
-        return this.action;
+        return action;
     }
 
     /**
@@ -39,7 +39,7 @@ public class MovementCard implements Card {
      */
     @Override
     public int getPriority() {
-        return this.priority;
+        return priority;
     }
 
     @NotNull

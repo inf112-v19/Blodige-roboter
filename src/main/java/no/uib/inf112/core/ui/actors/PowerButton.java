@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 

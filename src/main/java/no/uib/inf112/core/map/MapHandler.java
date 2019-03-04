@@ -5,15 +5,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Disposable;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Elg

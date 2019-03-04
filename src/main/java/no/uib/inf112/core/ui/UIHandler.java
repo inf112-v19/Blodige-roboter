@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;

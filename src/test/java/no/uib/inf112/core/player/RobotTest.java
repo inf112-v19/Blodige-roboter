@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class RobotTest extends TestGraphics {
 
@@ -76,27 +74,27 @@ public class RobotTest extends TestGraphics {
     }
 
     @Test
-    public void movingTwoFacingEastShouldIncreaseXWithTwo(){
+    public void movingTwoFacingEastShouldIncreaseXWithTwo() {
         testBot.setDirection(Direction.EAST);
         player.moveRobot(new MovementCard(Movement.MOVE_2, 10));
         assertEquals(roboX + 2, testBot.getX());
     }
 
     @Test
-    public void backingUpWhileFacingNorthShouldDecrementY(){
+    public void backingUpWhileFacingNorthShouldDecrementY() {
         player.moveRobot(new MovementCard(Movement.BACK_UP, 10));
         assertEquals(roboY - 1, testBot.getY());
     }
 
     @Test
-    public void backingUpShouldNotAffectDirectionOfRobot(){
+    public void backingUpShouldNotAffectDirectionOfRobot() {
         Direction facing = testBot.getDirection();
         player.moveRobot(new MovementCard(Movement.BACK_UP, 10));
         assertEquals(facing, testBot.getDirection());
     }
 
     @Test
-    public void movingForwardShouldNotAffectDirectionOfRobot(){
+    public void movingForwardShouldNotAffectDirectionOfRobot() {
         Direction facing = testBot.getDirection();
         player.moveRobot(new MovementCard(Movement.MOVE_2, 10));
         player.moveRobot(new MovementCard(Movement.MOVE_1, 10));
@@ -105,21 +103,21 @@ public class RobotTest extends TestGraphics {
     }
 
     @Test
-    public void turningLeftWhileFacingNorthShouldResultInWest(){
+    public void turningLeftWhileFacingNorthShouldResultInWest() {
         testBot.setDirection(Direction.NORTH); //Just in case setup is changed
         player.moveRobot(new MovementCard(Movement.LEFT_TURN, 10));
         assertEquals(Direction.WEST, testBot.getDirection());
     }
 
     @Test
-    public void turningLeftShouldNotChangeXOrY(){
+    public void turningLeftShouldNotChangeXOrY() {
         player.moveRobot(new MovementCard(Movement.LEFT_TURN, 10));
         assertEquals(roboX, testBot.getX());
         assertEquals(roboY, testBot.getY());
     }
 
     @Test
-    public void turningRightTwiceShouldHaveTheSameResultAsAUTurn(){
+    public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
         Robot testBot2 = new Robot(5, 5, testBot.getDirection());
         player.moveRobot(new MovementCard(Movement.RIGHT_TURN, 10));
         player.moveRobot(new MovementCard(Movement.RIGHT_TURN, 10));
@@ -128,7 +126,7 @@ public class RobotTest extends TestGraphics {
     }
 
     @Test
-    public void movingRobotInASquareShouldResultInRobotBeingBackAtStartingPosition(){
+    public void movingRobotInASquareShouldResultInRobotBeingBackAtStartingPosition() {
         Direction facing = testBot.getDirection();
         for (int i = 0; i < 100; i++) {
             if (i % 4 == 0) {

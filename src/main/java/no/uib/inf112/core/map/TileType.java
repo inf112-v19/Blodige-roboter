@@ -2,7 +2,6 @@ package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 
 import java.util.HashMap;
 
@@ -195,11 +194,11 @@ public enum TileType {
     }
 
     public Group getGroup() {
-        return this.group;
+        return group;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public enum Group {
