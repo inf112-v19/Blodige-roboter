@@ -65,7 +65,7 @@ public class MapInteractOnUser {
                             }
                     }
                 case OPTION:
-                    break; //TODO add logic for wrench and hammer and wrench
+                    break; //TODO issue #20, add logic for wrench and hammer and wrench
                 default:
                     break; //Case if the tile is not a special tile (flag or option)
             }

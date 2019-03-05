@@ -80,7 +80,7 @@ public class RoboRally extends Game {
 
             for (Player player : playerHandler.getPlayers()) {
                 if (player.getFlags() == FLAG_COUNT) {
-                    //TODO this player has wun! (Only one player can possibly get the last flag per phase)
+                    //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
                 }
             }
 
