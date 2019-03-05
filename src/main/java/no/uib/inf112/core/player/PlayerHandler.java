@@ -14,9 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class PlayerHandler implements IPlayerHandler {
 
     private int playerCount;
-    private ArrayList<Player> players;
-    private Player currentPlayer;
-//    private PriorityQueue<Player> queue = new PriorityQueue<>();
+    private ArrayList<IPlayer> players;
+    private IPlayer user;
 
     /**
      * @param playerCount
@@ -31,8 +30,10 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-        for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH));
+        user = new UserPlayer(5, 2, Direction.NORTH);
+        players.add(user);
+        for (int i = 1; i < playerCount; i++) {
+            players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
         }
 
         Stack<Integer> docks = new Stack<>();
@@ -41,7 +42,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
         Collections.shuffle(docks);
 
-        for (Player player : players) {
+        for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
 
@@ -54,7 +55,7 @@ public class PlayerHandler implements IPlayerHandler {
             players = new ArrayList<>(playerCount);
 
             for (int i = 0; i < playerCount; i++) {
-                players.add(new Player(5 + i, 2, Direction.NORTH));
+                players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
             }
 
             Stack<Integer> docks = new Stack<>();
@@ -63,7 +64,7 @@ public class PlayerHandler implements IPlayerHandler {
             }
             Collections.shuffle(docks);
 
-            for (Player player : players) {
+            for (IPlayer player : players) {
                 player.setDock(docks.pop());
             }
         }
@@ -74,7 +75,7 @@ public class PlayerHandler implements IPlayerHandler {
     public void endTurn() {
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
             List<PlayerCard> cards = new ArrayList<>();
-            for (Player p : players) {
+            for (IPlayer p : players) {
                 cards.add(p.getNextCard(i));
             }
             Collections.sort(cards);
@@ -100,7 +101,7 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if player is out side of map
 
 //        GameGraphics.getRoboRally().getDeck().shuffle();
-        Player p = mainPlayer();
+        UserPlayer p = mainPlayer();
         if (p.isPoweredDown()) {
             //TODO Issue #24 check if is powered down (then heal)
             return;
@@ -116,9 +117,9 @@ public class PlayerHandler implements IPlayerHandler {
 //            return;
 //        }
 
-//        for (int i = 1; i < players.size(); i++) {
-
-//        }
+        for (int i = 1; i < players.size(); i++) {
+            //TODO Choose cards for each non player
+        }
 //        Player p = queue.poll();
 //        currentPlayer = p;
 //        if (p.isPoweredDown()) {
@@ -132,7 +133,7 @@ public class PlayerHandler implements IPlayerHandler {
 
 
     @Override
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<IPlayer> getPlayers() {
         return players;
     }
 
@@ -141,17 +142,7 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
-//    public Player getCurrentPlayer() {
-//        return currentPlayer;
-//    }
-
-
-    /**
-     * Temporary mainplayer
-     *
-     * @return player
-     */
-    public Player mainPlayer() {
+    public IPlayer mainPlayer() {
         return players.get(0);
     }
 }

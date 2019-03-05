@@ -37,11 +37,10 @@ public class RoboRally {
 
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(3);
+        playerHandler = new PlayerHandler(2);
         for (Player player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
-        playerHandler.startTurn();
     }
 
     public void round() {

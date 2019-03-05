@@ -38,10 +38,12 @@ public class GameGraphics extends Game {
 
         cpEventHandler = new ControlPanelEventHandler();
 
+
         getRoboRally();
 
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
+        roboRally.round();
     }
 
     @Override

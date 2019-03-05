@@ -5,17 +5,13 @@ import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
-import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
-import no.uib.inf112.core.ui.event.ControlPanelEventListener;
-import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Elg
  */
-public class Player implements Comparable<Player> {
+public abstract class Player implements IPlayer {
 
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
@@ -26,13 +22,13 @@ public class Player implements Comparable<Player> {
 
     private Vector2Int backup;
 
-    private int dock;
+    protected int dock;
 
-    private int lives;
-    private boolean poweredDown;
-    private int health;
+    protected int lives;
+    protected boolean poweredDown;
+    protected int health;
 
-    private CardContainer cards;
+    protected CardContainer cards;
 
     /**
      * @param x         Start x position
@@ -49,20 +45,7 @@ public class Player implements Comparable<Player> {
         poweredDown = false;
         robot = new Robot(x, y, direction);
         cards = new CardContainer(this);
-        if (!Main.HEADLESS) {
-            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
-            eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
 
-                if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
-                    //This is not optimal, references both ways but since its a get i have not given a lot of thought
-                    // trying to change it
-                    return;
-
-                }
-                poweredDown = !poweredDown;
-                System.out.println("Powered down? " + isPoweredDown());
-            });
-        }
     }
 
     /**
@@ -108,9 +91,8 @@ public class Player implements Comparable<Player> {
         health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
-    /**
-     * @return If the player is dead. A player is dead if their lives are 0 or less
-     */
+
+    @Override
     public boolean isDestroyed() {
         return lives <= 0;
     }
@@ -120,25 +102,12 @@ public class Player implements Comparable<Player> {
         return cards;
     }
 
-    public void beginDrawCards() {
-        cards.draw();
-        GameGraphics.getUiHandler().showDrawnCards();
-    }
-
-    public void endDrawCards() {
-
-        GameGraphics.getUiHandler().hideDrawnCards();
-
-        if (cards.hasInvalidHand()) {
-            cards.randomizeHand();
-        }
-//        GameGraphics.getRoboRally().getPlayerHandler().nextPlayer();
-    }
 
     public PlayerCard getNextCard(int id) {
         return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
     }
 
+    @Override
     public void moveRobot(Card card) {
         try {
             getRobot().move(card.getAction());
@@ -147,45 +116,55 @@ public class Player implements Comparable<Player> {
         }
     }
 
+    @Override
     public int getLives() {
         return lives;
     }
 
+    @Override
     public int getHealth() {
         return health;
     }
 
+    @Override
     public boolean isPoweredDown() {
         return poweredDown;
     }
 
+    @Override
     public int getDamageTokens() {
         return MAX_HEALTH - health;
     }
 
+    @Override
     public Vector2Int getBackup() {
         return backup;
     }
 
+    @Override
     public void setBackup(int x, int y) {
         backup.x = x;
         backup.y = y;
     }
 
+    @Override
     public Robot getRobot() {
         return robot;
     }
 
+    @Override
     public int getDock() {
         return dock;
     }
 
+    @Override
     public void setDock(int dock) {
         this.dock = dock;
     }
 
+
     @Override
-    public int compareTo(@NotNull Player player) {
-        return Integer.compare(getDock(), player.getDock());
+    public int compareTo(@NotNull IPlayer iPlayer) {
+        return Integer.compare(getDock(), iPlayer.getDock());
     }
 }

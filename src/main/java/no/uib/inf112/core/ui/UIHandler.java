@@ -170,7 +170,6 @@ public class UIHandler implements Disposable {
         }
     }
 
-
     /**
      * Show the drawn cards table of the main player.
      * Do not use this at the start of a new round, use {@link Player#beginDrawCards()}
@@ -233,4 +232,3 @@ public class UIHandler implements Disposable {
         return dad;
     }
 }
-

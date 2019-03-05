@@ -27,7 +27,7 @@ public interface IPlayerHandler {
     /**
      * @return currently playing players
      */
-    List<Player> getPlayers();
+    List<IPlayer> getPlayers();
 
     /**
      * @return the number of players playing
