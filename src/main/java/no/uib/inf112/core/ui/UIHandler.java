@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;
@@ -80,7 +80,7 @@ public class UIHandler implements Disposable {
 
     public UIHandler() {
         stage = new Stage(new ScreenViewport());
-        RoboRally.getInputMultiplexer().addProcessor(stage);
+        GameGraphics.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
         skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
@@ -127,7 +127,7 @@ public class UIHandler implements Disposable {
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.getPlayerHandler().getCurrentPlayer().getLives() <= id;
+                    return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getLives() <= id;
                 }
             });
         }
@@ -146,7 +146,7 @@ public class UIHandler implements Disposable {
             damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
-                    return RoboRally.getPlayerHandler().getCurrentPlayer().getHealth() <= id;
+                    return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getHealth() <= id;
                 }
             });
         }
@@ -155,38 +155,18 @@ public class UIHandler implements Disposable {
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
         controlPanelTable.add(cardsRow);
-        CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
+        CardContainer container = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getCards();
 
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
+            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
+            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
-        }
-    }
-
-    public void displayCards() {
-        //display cards
-        //HorizontalGroup cardsRow = new HorizontalGroup();
-        //cardsRow.space(DEFAULT_SPACING); //space between cards
-        // controlPanelTable.add(cardsRow);
-        CardContainer container = RoboRally.getPlayerHandler().getCurrentPlayer().getCards();
-
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad, false);
-            container.handCard[i] = cardSlot;
-            //cardsRow.addActor(cardSlot);
-        }
-
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad, false);
-            container.drawnCard[i] = cardSlot;
-            //cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
         }
     }
 
@@ -198,7 +178,7 @@ public class UIHandler implements Disposable {
      * @throws IllegalStateException If no drawn card slots have a card in them
      */
     public void showDrawnCards() {
-        Stream<CardSlot> drawnCard = Arrays.stream(RoboRally.getPlayerHandler().getCurrentPlayer().getCards().drawnCard);
+        Stream<CardSlot> drawnCard = Arrays.stream(GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getCards().drawnCard);
         if (drawnCard.allMatch(Objects::isNull)) {
             throw new IllegalStateException("At least one card must be present on the drawn cards to show them");
         }

@@ -14,10 +14,11 @@ public class Conveyor implements MapAction {
 
     /**
      * Create new Conveyor object
-     * @param tile the tile that caused the creation of this conveyor object
+     *
+     * @param tile   the tile that caused the creation of this conveyor object
      * @param entity the entity standing on the tile
      */
-    public Conveyor(TiledMapTile tile, Robot entity){
+    public Conveyor(TiledMapTile tile, Robot entity) {
         this.tile = tile;
         this.entity = entity;
     }
@@ -27,7 +28,7 @@ public class Conveyor implements MapAction {
         switch (direction) {
             case NORTH:
                 entity.teleport(1, 0); //Should be move
-            //Maybe just set x and y to getResultOfMovement()? Make wall handling and other factors implementet in getResultOfMovement?
+                //Maybe just set x and y to getResultOfMovement()? Make wall handling and other factors implementet in getResultOfMovement?
             default:
                 throw new UnsupportedOperationException();
         }

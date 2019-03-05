@@ -1,18 +1,22 @@
 package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.OutSideBoardException;
+import no.uib.inf112.desktop.Main;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerHandler implements IPlayerHandler {
 
-    private Deck deck;
     private int playerCount;
     private ArrayList<Player> players;
     private Player currentPlayer;
-    private PriorityQueue<Player> queue = new PriorityQueue<>();
+//    private PriorityQueue<Player> queue = new PriorityQueue<>();
 
     /**
      * @param playerCount
@@ -27,13 +31,8 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-        deck = new ProgramDeck(false);
-    }
-
-    @Override
-    public void generatePlayers(boolean headless) {
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH, headless));
+            players.add(new Player(5 + i, 2, Direction.NORTH));
         }
 
         Stack<Integer> docks = new Stack<>();
@@ -44,9 +43,28 @@ public class PlayerHandler implements IPlayerHandler {
 
         for (Player player : players) {
             player.setDock(docks.pop());
+        }
 
-            if (player.getDock() == 1) {
-                currentPlayer = player;
+    }
+
+    @Override
+    public void generatePlayers() {
+        //Keeping this in case we want to generate new players, currently only used for testing
+        if (Main.HEADLESS) {
+            players = new ArrayList<>(playerCount);
+
+            for (int i = 0; i < playerCount; i++) {
+                players.add(new Player(5 + i, 2, Direction.NORTH));
+            }
+
+            Stack<Integer> docks = new Stack<>();
+            for (int i = 1; i <= playerCount; i++) {
+                docks.push(i);
+            }
+            Collections.shuffle(docks);
+
+            for (Player player : players) {
+                player.setDock(docks.pop());
             }
         }
 
@@ -63,8 +81,12 @@ public class PlayerHandler implements IPlayerHandler {
             for (int j = 0; j < cards.size(); j++) {
                 PlayerCard card = cards.get(j);
 
-                RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                    card.getPlayer().getRobot().move(card.getCard().getAction());
+                GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+                    try {
+                        card.getPlayer().getRobot().move(card.getCard().getAction());
+                    } catch (OutSideBoardException e) {
+                        System.out.println("Outside board");
+                    }
                 }), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
@@ -76,14 +98,9 @@ public class PlayerHandler implements IPlayerHandler {
     public void startTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
-        for (Player p : players) {
-            if (p == currentPlayer) {
-                continue;
-            }
-            queue.add(p);
-        }
-        deck.shuffle();
-        Player p = currentPlayer;
+
+//        GameGraphics.getRoboRally().getDeck().shuffle();
+        Player p = mainPlayer();
         if (p.isPoweredDown()) {
             //TODO Issue #24 check if is powered down (then heal)
             return;
@@ -94,20 +111,23 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void nextPlayer() {
-        if (queue.isEmpty()) {
-            endTurn();
-            return;
-        }
+//        if (queue.isEmpty()) {
+        endTurn();
+//            return;
+//        }
 
-        Player p = queue.poll();
-        currentPlayer = p;
-        if (p.isPoweredDown()) {
-            //TODO Issue #24 check if is powered down (then heal)
-            return;
-        } else {
-            RoboRally.getUiHandler().displayCards();
-            p.beginDrawCards();
-        }
+//        for (int i = 1; i < players.size(); i++) {
+
+//        }
+//        Player p = queue.poll();
+//        currentPlayer = p;
+//        if (p.isPoweredDown()) {
+//            TODO Issue #24 check if is powered down (then heal)
+//            return;
+//        } else {
+//            GameGraphics.getUiHandler().displayCards();
+//            p.beginDrawCards();
+//        }
     }
 
 
@@ -121,14 +141,10 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
-    @Override
-    public Deck getDeck() {
-        return deck;
-    }
+//    public Player getCurrentPlayer() {
+//        return currentPlayer;
+//    }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     /**
      * Temporary mainplayer

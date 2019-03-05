@@ -5,17 +5,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import com.badlogic.gdx.utils.Disposable;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author Elg
  */
-public interface MapHandler extends Disposable {
+public interface MapHandler {
 
     //constants for
     float DEFAULT_ZOOM_SENSITIVITY = 1f;
@@ -103,16 +103,14 @@ public interface MapHandler extends Disposable {
      * @return A read-only set of known robots in the order they were added
      */
     @NotNull
-    Set<Entity> getEntities();
+    Map<Entity, Vector2Int> getEntities();
 
     /**
      * @param x The x coordinate to test
      * @param y The y coordinate to test
      * @return If the given {@code x} and {@code y} is outside this map
      */
-    default boolean isOutsideBoard(int x, int y) {
-        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
-    }
+    boolean isOutsideBoard(int x, int y);
 
     /**
      * @return How many tiles there are in the maps width

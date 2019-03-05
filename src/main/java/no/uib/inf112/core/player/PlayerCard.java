@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.cards.Card;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerCard implements Comparable<PlayerCard> {

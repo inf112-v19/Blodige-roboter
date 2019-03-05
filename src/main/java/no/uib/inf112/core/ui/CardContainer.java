@@ -1,7 +1,7 @@
 package no.uib.inf112.core.ui;
 
-import no.uib.inf112.core.player.Card;
-import no.uib.inf112.core.player.Deck;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -18,7 +18,6 @@ public class CardContainer {
 
     @NotNull
     private final Player holder;
-    private final Deck deck;
     private Random random;
 
     final CardSlot[] handCard;
@@ -30,13 +29,12 @@ public class CardContainer {
      * When running with Lwjgl (ie normally) this is done in {@link UIHandler#create()}, but when testing this must be done.
      *
      * @param holder The player whos cards these are
-     * @param deck   The deck used to draw new cards
+     * @param deck   The cards used to draw new cards
      * @see no.uib.inf112.core.ui.CardContainerTest#setUp()
      */
     @SuppressWarnings("JavadocReference")
-    public CardContainer(@NotNull Player holder, Deck deck) {
+    public CardContainer(@NotNull Player holder) {
         this.holder = holder;
-        this.deck = deck;
         random = new Random();
 
         handCard = new CardSlot[Player.MAX_PLAYER_CARDS];
@@ -54,7 +52,7 @@ public class CardContainer {
         }
 
         int amount = Player.MAX_HEALTH - holder.getDamageTokens() - 1;
-        Card[] draw = deck.draw(amount);
+        Card[] draw = GameGraphics.getRoboRally().getDeck().draw(amount);
 
         for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
             if (i >= amount) {

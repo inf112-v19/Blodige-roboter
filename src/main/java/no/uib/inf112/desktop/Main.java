@@ -2,10 +2,12 @@ package no.uib.inf112.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
 
 
 public class Main {
+
+    public static boolean HEADLESS = false;
 
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
@@ -14,6 +16,6 @@ public class Main {
         cfg.height = 720;
         cfg.samples = 16; //max out the samples as this isn't a very heavy game.
 
-        new LwjglApplication(new RoboRally(), cfg);
+        new LwjglApplication(new GameGraphics(), cfg);
     }
 }
