@@ -65,7 +65,10 @@ public class MapInteractOnUser {
                             }
                     }
                 case OPTION:
-                    break; //TODO issue #20, add logic for wrench and hammer and wrench
+                    switch (tileUnderRobot){
+                        case WRENCH:
+                            player.setBackup(x, y);
+                    }
                 default:
                     break; //Case if the tile is not a special tile (flag or option)
             }
