@@ -25,20 +25,6 @@ public class PlayerTest extends TestGraphics {
         testPlayer = roboRally.getPlayerHandler().mainPlayer();
         testPlayer.getRobot().teleport(0, 0);
         testPlayer.getRobot().setDirection(Direction.NORTH);
-        /* Old cool but advanced testing
-        PowerMockito.mockStatic(RoboRally.class);
-        PowerMockito.mockStatic(PlayerHandler.class);
-
-        PlayerHandler ph = mock(PlayerHandler.class);
-        when(ph.mainPlayer()).thenReturn(testPlayer);
-
-        MapHandler map = Mockito.mock(TiledMapHandler.class);
-        when(map.getMapHeight()).thenReturn(RobotTest.HEIGHT);
-        when(map.getMapWidth()).thenReturn(RobotTest.WIDTH);
-        when(map.isOutsideBoard(Mockito.anyInt(), Mockito.anyInt())).thenCallRealMethod();
-
-        when(GameGraphics.getRoboRally().getPlayerHandler()).thenReturn(ph);
-        when(GameGraphics.getRoboRally().getCurrentMap()).thenReturn(map);*/
     }
 
     @Test

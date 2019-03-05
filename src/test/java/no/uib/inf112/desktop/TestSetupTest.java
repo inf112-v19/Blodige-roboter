@@ -2,7 +2,7 @@ package no.uib.inf112.desktop;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.map.OutSideBoardException;
+import no.uib.inf112.core.map.OutsideBoardException;
 import no.uib.inf112.core.map.TileType;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.player.Robot;
@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ExampleTest extends TestGraphics {
+public class TestSetupTest extends TestGraphics {
     private static RoboRally roboRally;
 
     @BeforeClass
@@ -32,7 +32,7 @@ public class ExampleTest extends TestGraphics {
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         try {
             robot.move(Movement.MOVE_1);
-        } catch (OutSideBoardException outSideBoardException) {
+        } catch (OutsideBoardException outSideBoardException) {
             fail("Robot should not move of the map using fall back map");
         }
 

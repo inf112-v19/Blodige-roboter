@@ -2,8 +2,9 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.OutSideBoardException;
+import no.uib.inf112.core.map.OutsideBoardException;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -140,16 +141,16 @@ public class Player {
             //this is a way to do player turns (ie wait some between each card is played)
             GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                 Card card = cards.getCard(SlotType.HAND, id);
-                moveRobot(card);
+                moveRobot(card.getAction());
 
             }), 500 * (i + 1), TimeUnit.MILLISECONDS);
         }
     }
 
-    public void moveRobot(Card card) {
+    public void moveRobot(Movement cardAction) {
         try {
-            getRobot().move(card.getAction());
-        } catch (OutSideBoardException outSideBoardException) {
+            getRobot().move(cardAction);
+        } catch (OutsideBoardException outSideBoardException) {
             kill();
         }
     }
