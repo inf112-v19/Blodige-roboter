@@ -6,6 +6,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
+import no.uib.inf112.core.GameGraphics;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -21,7 +22,7 @@ public class TestGraphics {
     @BeforeClass
     public static void init() {
         // Note that we don't need to implement any of the listener's methods
-        Main.HEADLESS = true;
+        GameGraphics.HEADLESS = true;
         application = new HeadlessApplication(new ApplicationListener() {
             @Override
             public void create() {

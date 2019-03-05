@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Clipboard;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
@@ -160,7 +160,7 @@ public class MapCameraTest {
 
     @Before
     public void init() {
-        Main.HEADLESS = true;
+        GameGraphics.HEADLESS = true;
         c = new MapCamera() {
 
             @Override

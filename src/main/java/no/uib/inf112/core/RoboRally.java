@@ -8,7 +8,6 @@ import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -28,7 +27,7 @@ public class RoboRally {
     private Deck deck;
 
     public RoboRally() {
-        if (Main.HEADLESS) {
+        if (GameGraphics.HEADLESS) {
             map = new HeadlessMapHandler(FALLBACK_MAP_FILE_PATH);
         } else {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);

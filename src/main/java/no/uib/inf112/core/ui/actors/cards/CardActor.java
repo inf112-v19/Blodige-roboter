@@ -3,9 +3,9 @@ package no.uib.inf112.core.ui.actors.cards;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.UIHandler;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -30,7 +30,7 @@ public class CardActor extends ImageTextButton {
      * Update the texture of the card
      */
     public void updateCard() {
-        if (Main.HEADLESS) {
+        if (GameGraphics.HEADLESS) {
             return;
         }
         if (card == null) {

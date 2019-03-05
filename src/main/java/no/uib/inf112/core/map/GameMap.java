@@ -7,9 +7,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,7 +76,7 @@ public abstract class GameMap implements MapHandler {
      * Used to create a skeleton maphandler for testing. Should be used as little as possible
      */
     public GameMap() {
-        if (!Main.HEADLESS) {
+        if (!GameGraphics.HEADLESS) {
             throw new IllegalStateException("Headless must be true when using this constructor");
         }
     }

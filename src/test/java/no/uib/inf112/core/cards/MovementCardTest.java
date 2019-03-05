@@ -1,8 +1,8 @@
 package no.uib.inf112.core.cards;
 
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
-import no.uib.inf112.desktop.Main;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class MovementCardTest {
 
     @BeforeClass
     public static void setUp() {
-        Main.HEADLESS = true;
+        GameGraphics.HEADLESS = true;
     }
 
     @Test

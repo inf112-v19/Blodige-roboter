@@ -28,4 +28,3 @@
 * Map should move around when pressing and dragging   
 
 ### Visualizing current state
-* Robot should always face its direction and movement should be in that direction (remember backing up is legal)

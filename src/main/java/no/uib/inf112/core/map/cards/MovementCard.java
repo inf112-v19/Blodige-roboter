@@ -1,8 +1,8 @@
 package no.uib.inf112.core.map.cards;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.ui.UIHandler;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ public class MovementCard implements Card {
     public MovementCard(@NotNull Movement action, int priority) {
         this.action = action;
         this.priority = priority;
-        if (!Main.HEADLESS) {
+        if (!GameGraphics.HEADLESS) {
             textureRegion = UIHandler.CARDS_TEXTURE;
         }
     }

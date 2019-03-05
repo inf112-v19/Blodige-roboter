@@ -7,8 +7,6 @@ import no.uib.inf112.core.GameGraphics;
 
 public class Main {
 
-    public static boolean HEADLESS = false;
-
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Robo Rally";

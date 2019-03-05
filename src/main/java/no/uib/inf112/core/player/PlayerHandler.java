@@ -1,6 +1,6 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.desktop.Main;
+import no.uib.inf112.core.GameGraphics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +43,7 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public void generatePlayers() {
         //Keeping this in case we want to generate new players, currently only used for testing
-        if (Main.HEADLESS) {
+        if (GameGraphics.HEADLESS) {
             players = new ArrayList<>(playerCount);
 
             for (int i = 0; i < playerCount; i++) {

@@ -16,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class GameGraphics extends Game {
     private static RoboRally roboRally;
+    public static boolean HEADLESS = false;
 
     private SpriteBatch batch;
     private BitmapFont font;

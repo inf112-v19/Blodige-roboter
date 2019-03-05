@@ -10,7 +10,6 @@ import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
@@ -52,7 +51,7 @@ public class Player {
         poweredDown = false;
         robot = new Robot(x, y, direction);
         cards = new CardContainer(this);
-        if (!Main.HEADLESS) {
+        if (!GameGraphics.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
