@@ -179,9 +179,8 @@ public class MapInteractOnUser {
      */
     @Nullable
     private MapAction getAction(@NotNull Entity entity) {
-        TileType tile = entity.getTileType();
         //Switch on tile
+        //TODO check for holes, issue #72
         return null;
     }
-
 }
