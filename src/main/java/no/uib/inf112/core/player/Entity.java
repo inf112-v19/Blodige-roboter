@@ -36,7 +36,7 @@ public interface Entity {
     /**
      * Sets the direction the entity is facing
      */
-    void setDirection(@NotNull Direction direction);
+    boolean setDirection(@NotNull Direction direction);
 
     /**
      * @return If this entity has changed in some way

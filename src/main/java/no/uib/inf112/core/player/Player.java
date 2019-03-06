@@ -2,7 +2,6 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.OutsideBoardException;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.ui.CardContainer;
@@ -147,10 +146,15 @@ public class Player {
         }
     }
 
+    /**
+     * Moves the robot with the movement corresponding to the cardAction
+     * <p>
+     * If the robot moves outside the map, {@link Player#kill()} method is called
+     *
+     * @param cardAction movement to do with the robot
+     */
     public void moveRobot(Movement cardAction) {
-        try {
-            getRobot().move(cardAction);
-        } catch (OutsideBoardException outSideBoardException) {
+        if (!getRobot().move(cardAction)) {
             kill();
         }
     }

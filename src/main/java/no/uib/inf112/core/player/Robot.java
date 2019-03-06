@@ -3,7 +3,6 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.OutsideBoardException;
 import no.uib.inf112.core.map.TileType;
 import no.uib.inf112.core.map.cards.Movement;
 import org.jetbrains.annotations.NotNull;
@@ -56,10 +55,11 @@ public class Robot implements Entity {
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
         update();
+        return true;
     }
 
     @Override
@@ -76,31 +76,24 @@ public class Robot implements Entity {
      * Move the robot by the given movement card
      *
      * @param movement how to move
-     * @Throws OutsideBoardException if the robot moves outside the board
+     * @return false if the robot moved out of the map
      */
-    public void move(@NotNull Movement movement) throws OutsideBoardException {
+    public boolean move(@NotNull Movement movement) {
         switch (movement) {
             case MOVE_1:
-                move(direction.getDx(), direction.getDy());
-                break;
+                return move(direction.getDx(), direction.getDy());
             case MOVE_2:
-                move(2 * direction.getDx(), 2 * direction.getDy());
-                break;
+                return move(2 * direction.getDx(), 2 * direction.getDy());
             case MOVE_3:
-                move(3 * direction.getDx(), 3 * direction.getDy());
-                break;
+                return move(3 * direction.getDx(), 3 * direction.getDy());
             case BACK_UP:
-                move(-1 * direction.getDx(), -1 * direction.getDy());
-                break;
+                return move(-1 * direction.getDx(), -1 * direction.getDy());
             case LEFT_TURN:
-                setDirection(direction.turnLeft());
-                break;
+                return setDirection(direction.turnLeft());
             case RIGHT_TURN:
-                setDirection(direction.turnRight());
-                break;
+                return setDirection(direction.turnRight());
             case U_TURN:
-                setDirection(direction.inverse());
-                break;
+                return setDirection(direction.inverse());
             default:
                 throw new IllegalArgumentException("Unknown movement " + movement.name());
         }
@@ -109,14 +102,17 @@ public class Robot implements Entity {
 
     /**
      * Move the robot with given delta to new coordinates
+     *
+     * @return false if the robot moved out of the map
      */
-    private void move(int deltaX, int deltaY) throws OutsideBoardException {
+    private boolean move(int deltaX, int deltaY) {
         x += deltaX;
         y += deltaY;
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
-            throw new OutsideBoardException();
+            return false;
         }
         update();
+        return true;
     }
 
     public void teleport(int x, int y) {

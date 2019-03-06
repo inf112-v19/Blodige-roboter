@@ -7,14 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Clipboard;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
-import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Map;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -208,7 +207,7 @@ public class MapCameraTest {
 
             @NotNull
             @Override
-            public Map<Entity, Vector2Int> getEntities() {
+            public Set<Entity> getEntities() {
                 return null;
             }
 
