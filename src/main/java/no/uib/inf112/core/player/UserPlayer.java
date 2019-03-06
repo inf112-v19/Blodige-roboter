@@ -33,11 +33,18 @@ public class UserPlayer extends Player {
         }
     }
 
+    /**
+     * Show which cards can be picked
+     */
     public void beginDrawCards() {
         cards.draw();
         GameGraphics.getUiHandler().showDrawnCards();
     }
 
+    /**
+     * End drawing cards, if invalid do random cards.
+     * End turn
+     */
     public void endDrawCards() {
         GameGraphics.getUiHandler().hideDrawnCards();
 
