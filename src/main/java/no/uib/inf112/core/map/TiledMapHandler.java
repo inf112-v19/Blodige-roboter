@@ -35,8 +35,7 @@ public class TiledMapHandler extends MapCamera implements Disposable {
 
     @Override
     public void update(float delta) {
-        for (Map.Entry<Entity, Vector2Int> entry : getEntities().entrySet()) {
-
+        for (Map.Entry<Entity, Vector2Int> entry : super.entities.entrySet()) {
 
             //make sure the new x and y are always consistent
             int x = entry.getKey().getX();

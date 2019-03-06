@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class GameMap implements MapHandler {
 
@@ -25,7 +26,7 @@ public abstract class GameMap implements MapHandler {
 
 
     //A map of all know entities and their last know location
-    private Map<Entity, Vector2Int> entities;
+    protected Map<Entity, Vector2Int> entities;
 
     private int mapWidth;
     private int mapHeight;
@@ -113,7 +114,7 @@ public abstract class GameMap implements MapHandler {
 
     @Override
     public void addEntity(@NotNull Entity entity) {
-        for (Entity knownRobot : getEntities().keySet()) {
+        for (Entity knownRobot : getEntities()) {
             if (entity.getX() == knownRobot.getX() && entity.getY() == knownRobot.getY()) {
                 throw new IllegalStateException("Cannot add an entity on top of another entity");
             }
@@ -128,8 +129,8 @@ public abstract class GameMap implements MapHandler {
 
     @NotNull
     @Override
-    public Map<Entity, Vector2Int> getEntities() {
-        return entities;
+    public Set<Entity> getEntities() {
+        return entities.keySet();
     }
 
     @Override
