@@ -101,7 +101,7 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
 
-//        GameGraphics.getRoboRally().getDeck().shuffle();
+        GameGraphics.getRoboRally().getDeck().shuffle();
         UserPlayer p = mainPlayer();
         if (p.isPoweredDown()) {
             //TODO Issue #24 check if is powered down (then heal)
@@ -110,28 +110,6 @@ public class PlayerHandler implements IPlayerHandler {
             p.beginDrawCards();
         }
     }
-
-    @Override
-    public void nextPlayer() {
-//        if (queue.isEmpty()) {
-        endTurn();
-//            return;
-//        }
-
-        for (int i = 1; i < players.size(); i++) {
-            //TODO Choose cards for each non player
-        }
-//        Player p = queue.poll();
-//        currentPlayer = p;
-//        if (p.isPoweredDown()) {
-//            TODO Issue #24 check if is powered down (then heal)
-//            return;
-//        } else {
-//            GameGraphics.getUiHandler().displayCards();
-//            p.beginDrawCards();
-//        }
-    }
-
 
     @Override
     public ArrayList<IPlayer> getPlayers() {

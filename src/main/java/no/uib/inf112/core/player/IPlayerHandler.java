@@ -19,12 +19,6 @@ public interface IPlayerHandler {
     void startTurn();
 
     /**
-     * If no more players, return
-     * else do turn for next player in queue
-     */
-    void nextPlayer();
-
-    /**
      * @return currently playing players
      */
     List<IPlayer> getPlayers();

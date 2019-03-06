@@ -45,7 +45,7 @@ public class UserPlayer extends Player {
         if (cards.hasInvalidHand()) {
             cards.randomizeHand();
         }
-        GameGraphics.getRoboRally().getPlayerHandler().nextPlayer();
+        GameGraphics.getRoboRally().getPlayerHandler().endTurn();
     }
 
 
