@@ -142,7 +142,7 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
-    public IPlayer mainPlayer() {
-        return players.get(0);
+    public UserPlayer mainPlayer() {
+        return (UserPlayer) players.get(0);
     }
 }

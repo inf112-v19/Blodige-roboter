@@ -52,7 +52,7 @@ public class PlayerHandlerTest extends TestGraphics {
         testHandler = new PlayerHandler(8);
 
         ArrayList<Integer> playerDocks = new ArrayList<>();
-        for (Player player : testHandler.getPlayers()) {
+        for (IPlayer player : testHandler.getPlayers()) {
             assertFalse(playerDocks.contains(player.getDock()));
             playerDocks.add(player.getDock());
         }

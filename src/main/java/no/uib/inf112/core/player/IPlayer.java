@@ -9,6 +9,12 @@ public interface IPlayer extends Comparable<IPlayer> {
      */
     boolean isDestroyed();
 
+    /**
+     * @param id
+     * @return
+     */
+    PlayerCard getNextCard(int id);
+
     void moveRobot(Card card);
 
     int getLives();

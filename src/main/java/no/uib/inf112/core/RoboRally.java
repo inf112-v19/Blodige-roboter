@@ -5,7 +5,7 @@ import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
 import no.uib.inf112.core.map.cards.MovementDeck;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import no.uib.inf112.desktop.Main;
@@ -34,11 +34,10 @@ public class RoboRally {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         }
 
-
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(2);
-        for (Player player : playerHandler.getPlayers()) {
+        playerHandler = new PlayerHandler(4);
+        for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
     }

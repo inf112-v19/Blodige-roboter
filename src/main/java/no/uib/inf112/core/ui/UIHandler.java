@@ -170,9 +170,10 @@ public class UIHandler implements Disposable {
         }
     }
 
+
     /**
      * Show the drawn cards table of the main player.
-     * Do not use this at the start of a new round, use {@link Player#beginDrawCards()}
+     * Do not use this at the start of a new round, use {@link no.uib.inf112.core.player.UserPlayer#beginDrawCards()}
      *
      * @throws IllegalStateException If no drawn card slots have a card in them
      */
@@ -186,7 +187,7 @@ public class UIHandler implements Disposable {
 
     /**
      * Hide the drawn cards table of the main player. After this the player is ready for the round
-     * Do not use this to end the player draw turn, use {@link Player#endDrawCards()}
+     * Do not use this to end the player draw turn, use {@link no.uib.inf112.core.player.UserPlayer#endDrawCards()}
      */
     public void hideDrawnCards() {
         cardDrawTable.setVisible(false);
@@ -232,3 +233,4 @@ public class UIHandler implements Disposable {
         return dad;
     }
 }
+

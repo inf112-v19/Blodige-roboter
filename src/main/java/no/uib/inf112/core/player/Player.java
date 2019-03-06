@@ -3,8 +3,6 @@ package no.uib.inf112.core.player;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.OutSideBoardException;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.ui.CardContainer;
-import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +26,6 @@ public abstract class Player implements IPlayer {
     protected boolean poweredDown;
     protected int health;
 
-    protected CardContainer cards;
 
     /**
      * @param x         Start x position
@@ -44,7 +41,6 @@ public abstract class Player implements IPlayer {
         health = MAX_HEALTH;
         poweredDown = false;
         robot = new Robot(x, y, direction);
-        cards = new CardContainer(this);
 
     }
 
@@ -97,15 +93,6 @@ public abstract class Player implements IPlayer {
         return lives <= 0;
     }
 
-    @NotNull
-    public CardContainer getCards() {
-        return cards;
-    }
-
-
-    public PlayerCard getNextCard(int id) {
-        return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
-    }
 
     @Override
     public void moveRobot(Card card) {
