@@ -53,8 +53,9 @@ public class PlayerHandler implements IPlayerHandler {
         //Keeping this in case we want to generate new players, currently only used for testing
         if (Main.HEADLESS) {
             players = new ArrayList<>(playerCount);
-
-            for (int i = 0; i < playerCount; i++) {
+            user = new UserPlayer(5, 2, Direction.NORTH);
+            players.add(user);
+            for (int i = 1; i < playerCount; i++) {
                 players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
             }
 
