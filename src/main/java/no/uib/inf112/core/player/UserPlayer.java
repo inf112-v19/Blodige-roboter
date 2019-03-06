@@ -39,7 +39,6 @@ public class UserPlayer extends Player {
     }
 
     public void endDrawCards() {
-
         GameGraphics.getUiHandler().hideDrawnCards();
 
         if (cards.hasInvalidHand()) {

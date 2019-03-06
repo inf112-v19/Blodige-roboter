@@ -44,12 +44,7 @@ public abstract class Player implements IPlayer {
 
     }
 
-    /**
-     * damage the player by the given amount and handles death if health is less than or equal to 0
-     *
-     * @param damageAmount How much to damage the player
-     * @throws IllegalArgumentException If the damage amount is not positive
-     */
+    @Override
     public void damage(int damageAmount) {
         if (damageAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
@@ -60,10 +55,7 @@ public abstract class Player implements IPlayer {
         }
     }
 
-    /**
-     * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
-     * no lives left
-     */
+    @Override
     public void kill() {
         lives--;
         if (lives == 0) {
@@ -74,12 +66,7 @@ public abstract class Player implements IPlayer {
         robot.teleport(backup.x, backup.y);
     }
 
-    /**
-     * Heal the player by the given amount up to {@link #MAX_HEALTH}
-     *
-     * @param healAmount How much to heal
-     * @throws IllegalArgumentException If the heal amount is not positive
-     */
+    @Override
     public void heal(int healAmount) {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");

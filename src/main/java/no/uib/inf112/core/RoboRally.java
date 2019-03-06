@@ -44,6 +44,7 @@ public class RoboRally {
 
     public void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
+            deck = new MovementDeck();
             playerHandler.startTurn();
             // End of robot movement
 
