@@ -1,6 +1,6 @@
 package no.uib.inf112.core.player;
 
-import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
 
 public interface IPlayer extends Comparable<IPlayer> {
@@ -38,11 +38,19 @@ public interface IPlayer extends Comparable<IPlayer> {
     PlayerCard getNextCard(int id);
 
     /**
-     * Move robot with given card
+     * Moves the robot with the movement corresponding to the cardAction
+     * <p>
+     * If the robot moves outside the map, {@link Player#kill()} method is called
      *
-     * @param card
+     * @param cardAction movement to do with the robot
      */
-    void moveRobot(Card card);
+    void moveRobot(Movement cardAction);
+
+    int getFlags();
+
+    boolean canGetFlag(int flagRank);
+
+    void registerFlagVisit();
 
     /**
      * @return lives

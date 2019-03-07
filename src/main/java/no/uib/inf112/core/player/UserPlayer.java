@@ -6,7 +6,6 @@ import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 public class UserPlayer extends Player {
@@ -17,7 +16,7 @@ public class UserPlayer extends Player {
         super(x, y, direction);
 
         cards = new CardContainer(this);
-        if (!Main.HEADLESS) {
+        if (!GameGraphics.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
 

@@ -8,7 +8,6 @@ import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -17,6 +16,7 @@ public class RoboRally {
 
     public static final String MAP_FOLDER = "maps";
     public static final int PHASES_PER_ROUND = 5;
+    public static final int FLAG_COUNT = 4;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
@@ -28,7 +28,7 @@ public class RoboRally {
     private Deck deck;
 
     public RoboRally() {
-        if (Main.HEADLESS) {
+        if (GameGraphics.HEADLESS) {
             map = new HeadlessMapHandler(FALLBACK_MAP_FILE_PATH);
         } else {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
@@ -54,6 +54,12 @@ public class RoboRally {
 
             // Move assembly lines
 
+            for (IPlayer player : playerHandler.getPlayers()) {
+                if (player.getFlags() == FLAG_COUNT) {
+                    //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
+                }
+            }
+
             //Should wait some time
         }
         deck.shuffle();
@@ -73,7 +79,6 @@ public class RoboRally {
     /**
      * @return The current map in play
      */
-
     @NotNull
     public MapHandler getCurrentMap() {
         return map;

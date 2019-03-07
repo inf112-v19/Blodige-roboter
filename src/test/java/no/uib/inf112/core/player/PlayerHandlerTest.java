@@ -33,14 +33,7 @@ public class PlayerHandlerTest extends TestGraphics {
         testHandler = new PlayerHandler(2);
         assertEquals(2, testHandler.getPlayers().size());
     }
-
-    /*@Test
-    public void creatingHandlerShouldInitializeProgramDeck() {
-        testHandler = new PlayerHandler(2);
-        assertNotNull(testHandler.getDeck());
-        This is not uncommented because i want daniel and rikke to accept removing it
-    }*/
-
+    
     @Test
     public void generating5PlayersShouldResultInListOfPlayersOfSize5() {
         testHandler = new PlayerHandler(5);

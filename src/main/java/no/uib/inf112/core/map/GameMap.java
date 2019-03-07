@@ -7,14 +7,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
-import no.uib.inf112.desktop.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class GameMap implements MapHandler {
 
@@ -25,15 +26,12 @@ public abstract class GameMap implements MapHandler {
 
 
     //A map of all know entities and their last know location
-    private Map<Entity, Vector2Int> entities;
+    Map<Entity, Vector2Int> entities;
 
     private int mapWidth;
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
-
-    //The layer name of the board it self, this layer should never be modified
-    String BOARD_LAYER_NAME = "board";
 
     public GameMap(String map) {
         try {
@@ -59,7 +57,8 @@ public abstract class GameMap implements MapHandler {
         } catch (ClassCastException ignore) {
         }
         if (baseLayer == null) {
-            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+            throw new IllegalStateException(
+                "Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
         boardLayer = baseLayer;
 
@@ -76,7 +75,7 @@ public abstract class GameMap implements MapHandler {
      * Used to create a skeleton maphandler for testing. Should be used as little as possible
      */
     public GameMap() {
-        if (!Main.HEADLESS) {
+        if (!GameGraphics.HEADLESS) {
             throw new IllegalStateException("Headless must be true when using this constructor");
         }
     }
@@ -93,6 +92,23 @@ public abstract class GameMap implements MapHandler {
         return TileType.fromTiledId(tileId);
     }
 
+    @NotNull
+    @Override
+    public TiledMapTileSets getMapTileSets() {
+        return tiledMap.getTileSets();
+    }
+
+    @Override
+    public void addEntity(@NotNull Entity entity) {
+        for (Entity knownRobot : getEntities()) {
+            if (entity.getX() == knownRobot.getX() && entity.getY() == knownRobot.getY()) {
+                throw new IllegalStateException("Cannot add an entity on top of another entity");
+            }
+        }
+        entities.put(entity, null);
+    }
+
+
     @Override
     @Nullable
     public Entity getEntity(int x, int y) {
@@ -105,22 +121,6 @@ public abstract class GameMap implements MapHandler {
         return null;
     }
 
-    @NotNull
-    @Override
-    public TiledMapTileSets getMapTileSets() {
-        return tiledMap.getTileSets();
-    }
-
-    @Override
-    public void addEntity(@NotNull Entity entity) {
-        for (Entity knownRobot : getEntities().keySet()) {
-            if (entity.getX() == knownRobot.getX() && entity.getY() == knownRobot.getY()) {
-                throw new IllegalStateException("Cannot add an entity on top of another entity");
-            }
-        }
-        entities.put(entity, null);
-    }
-
     @Override
     public boolean removeEntity(Entity entity) {
         return entities.remove(entity) == null;
@@ -128,8 +128,8 @@ public abstract class GameMap implements MapHandler {
 
     @NotNull
     @Override
-    public Map<Entity, Vector2Int> getEntities() {
-        return entities;
+    public Set<Entity> getEntities() {
+        return entities.keySet();
     }
 
     @Override
@@ -153,5 +153,16 @@ public abstract class GameMap implements MapHandler {
 
     protected TiledMap getTiledMap() {
         return tiledMap;
+    }
+
+
+    @Override
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    @Override
+    public int getTileWidth() {
+        return tileWidth;
     }
 }

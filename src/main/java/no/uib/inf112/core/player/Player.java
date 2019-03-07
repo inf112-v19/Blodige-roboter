@@ -1,8 +1,7 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.OutSideBoardException;
-import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +21,7 @@ public abstract class Player implements IPlayer {
 
     protected int dock;
 
+    protected int flags;
     protected int lives;
     protected boolean poweredDown;
     protected int health;
@@ -37,11 +37,11 @@ public abstract class Player implements IPlayer {
     public Player(int x, int y, @NotNull Direction direction) {
         backup = new Vector2Int(x, y);
 
+        flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
         robot = new Robot(x, y, direction);
-
     }
 
     @Override
@@ -82,12 +82,25 @@ public abstract class Player implements IPlayer {
 
 
     @Override
-    public void moveRobot(Card card) {
-        try {
-            getRobot().move(card.getAction());
-        } catch (OutSideBoardException outSideBoardException) {
+    public void moveRobot(Movement cardAction) {
+        if (!getRobot().move(cardAction)) {
             kill();
         }
+    }
+
+    @Override
+    public int getFlags() {
+        return flags;
+    }
+
+    @Override
+    public boolean canGetFlag(int flagRank) {
+        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    }
+
+    @Override
+    public void registerFlagVisit() {
+        flags += 1;
     }
 
     @Override

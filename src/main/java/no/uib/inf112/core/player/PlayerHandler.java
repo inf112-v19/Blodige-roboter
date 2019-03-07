@@ -2,8 +2,6 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.OutSideBoardException;
-import no.uib.inf112.desktop.Main;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +49,7 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public void generatePlayers() {
         //Keeping this in case we want to generate new players, currently only used for testing
-        if (Main.HEADLESS) {
+        if (GameGraphics.HEADLESS) {
             players = new ArrayList<>(playerCount);
             user = new UserPlayer(5, 2, Direction.NORTH);
             players.add(user);
@@ -84,11 +82,7 @@ public class PlayerHandler implements IPlayerHandler {
                 PlayerCard card = cards.get(j);
 
                 GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                    try {
-                        card.getPlayer().getRobot().move(card.getCard().getAction());
-                    } catch (OutSideBoardException e) {
-                        System.out.println("Outside board");
-                    }
+                    card.getPlayer().getRobot().move(card.getCard().getAction());
                 }), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
