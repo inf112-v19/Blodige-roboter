@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class PlayerTest extends TestGraphics {
@@ -97,6 +98,19 @@ public class PlayerTest extends TestGraphics {
         int health = testPlayer.getHealth();
         testPlayer.heal(1);
         assertEquals(health + 1, testPlayer.getHealth());
+    }
+
+    @Test
+    public void getFiveCardsFromNonPlayerShouldBePossible() {
+        testPlayer = (NonPlayer) roboRally.getPlayerHandler().getPlayers().get(1);
+        PlayerCard[] cards = new PlayerCard[5];
+        for (int i = 0; i < cards.length; i++) {
+            cards[i] = testPlayer.getNextCard(i);
+        }
+        for (int i = 0; i < cards.length; i++) {
+            assertTrue("Could not get 5 player cards", cards[i] instanceof PlayerCard);
+        }
+
     }
 
 }
