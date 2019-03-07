@@ -79,5 +79,10 @@ public class MovementCard implements Card {
                 ", priority=" + priority +
                 '}';
     }
+
+    @Override
+    public int compareTo(@NotNull Card card) {
+        return Integer.compare(getPriority(), card.getPriority());
+    }
 }
 

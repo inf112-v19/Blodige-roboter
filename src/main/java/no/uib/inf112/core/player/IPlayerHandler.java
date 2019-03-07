@@ -7,9 +7,21 @@ import java.util.List;
  */
 public interface IPlayerHandler {
     /**
+     * Add all player cards in a queue
+     * Execute cards for each player after priority
+     */
+    void endTurn();
+
+    /**
+     * Add All player to the round queue
+     * Do turn for first player
+     */
+    void startTurn();
+
+    /**
      * @return currently playing players
      */
-    List<Player> getPlayers();
+    List<IPlayer> getPlayers();
 
     /**
      * @return the number of players playing
@@ -22,10 +34,6 @@ public interface IPlayerHandler {
      */
     void generatePlayers();
 
-    /**
-     * Do next turn in game
-     */
-    void doTurn();
 }
 
 

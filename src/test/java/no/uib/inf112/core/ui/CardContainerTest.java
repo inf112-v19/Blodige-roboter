@@ -7,6 +7,7 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.Direction;
+import no.uib.inf112.core.player.NonPlayer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
@@ -30,7 +31,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        container = new CardContainer(new Player(1, 1, Direction.NORTH));
+        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH));
 
         DragAndDrop dad = new DragAndDrop();
 

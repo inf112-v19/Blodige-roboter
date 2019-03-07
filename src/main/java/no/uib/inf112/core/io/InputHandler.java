@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.UserPlayer;
 
 public class InputHandler extends InputAdapter {
 
@@ -41,7 +41,7 @@ public class InputHandler extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (Input.Keys.ENTER == keycode) {
 
-            Player player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
+            UserPlayer player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
 
             if (GameGraphics.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();

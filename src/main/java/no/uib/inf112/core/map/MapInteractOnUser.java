@@ -3,7 +3,7 @@ package no.uib.inf112.core.map;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ public class MapInteractOnUser {
      * @return true
      */
     public boolean scan(Collection<Entity> entitiesOnMap) {
-        ArrayList<Player> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        ArrayList<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
 
         findAndDoMovement(entitiesOnMap);
 
@@ -37,8 +37,8 @@ public class MapInteractOnUser {
      *
      * @param players A list of all the players
      */
-    private void registerSpecialTiles(@NotNull ArrayList<Player> players) {
-        for (Player player : players) {
+    private void registerSpecialTiles(@NotNull ArrayList<IPlayer> players) {
+        for (IPlayer player : players) {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
@@ -86,7 +86,7 @@ public class MapInteractOnUser {
      * @param x      x coordinate of where the flag and player are standing
      * @param y      y coordinate of where the flag and player are standing
      */
-    private void registerFlag(Player player, int x, int y) {
+    private void registerFlag(IPlayer player, int x, int y) {
         player.registerFlagVisit();
         player.setBackup(x, y);
     }

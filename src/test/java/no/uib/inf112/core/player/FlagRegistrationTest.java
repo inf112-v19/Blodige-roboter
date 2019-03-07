@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest {
 
-    Player player = new Player(0, 0, Direction.NORTH);
+    Player player = new NonPlayer(0, 0, Direction.NORTH);
 
     //TODO #77 this should be tested way more.
 

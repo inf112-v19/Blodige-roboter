@@ -1,23 +1,14 @@
 package no.uib.inf112.core.player;
 
-import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.ui.CardContainer;
-import no.uib.inf112.core.ui.actors.cards.SlotType;
-import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
-import no.uib.inf112.core.ui.event.ControlPanelEventListener;
-import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Elg
  */
-public class Player {
+public abstract class Player implements IPlayer {
 
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;
@@ -28,14 +19,13 @@ public class Player {
 
     private Vector2Int backup;
 
-    private int dock;
+    protected int dock;
 
-    private int flags;
-    private int lives;
-    private boolean poweredDown;
-    private int health;
+    protected int flags;
+    protected int lives;
+    protected boolean poweredDown;
+    protected int health;
 
-    private CardContainer cards;
 
     /**
      * @param x         Start x position
@@ -52,28 +42,9 @@ public class Player {
         health = MAX_HEALTH;
         poweredDown = false;
         robot = new Robot(x, y, direction);
-        cards = new CardContainer(this);
-        if (!GameGraphics.HEADLESS) {
-            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
-            eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-                if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
-                    //This is not optimal, references both ways but since its a get i have not given a lot of thought
-                    // trying to change it
-                    return;
-
-                }
-                poweredDown = !poweredDown;
-                System.out.println("Powered down? " + isPoweredDown());
-            });
-        }
     }
 
-    /**
-     * damage the player by the given amount and handles death if health is less than or equal to 0
-     *
-     * @param damageAmount How much to damage the player
-     * @throws IllegalArgumentException If the damage amount is not positive
-     */
+    @Override
     public void damage(int damageAmount) {
         if (damageAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
@@ -84,10 +55,7 @@ public class Player {
         }
     }
 
-    /**
-     * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
-     * no lives left
-     */
+    @Override
     public void kill() {
         lives--;
         if (lives == 0) {
@@ -98,12 +66,7 @@ public class Player {
         robot.teleport(backup.x, backup.y);
     }
 
-    /**
-     * Heal the player by the given amount up to {@link #MAX_HEALTH}
-     *
-     * @param healAmount How much to heal
-     * @throws IllegalArgumentException If the heal amount is not positive
-     */
+    @Override
     public void heal(int healAmount) {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
@@ -111,102 +74,84 @@ public class Player {
         health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
-    /**
-     * @return If the player is dead. A player is dead if their lives are 0 or less
-     */
+
+    @Override
     public boolean isDestroyed() {
         return lives <= 0;
     }
 
-    @NotNull
-    public CardContainer getCards() {
-        return cards;
-    }
 
-    public int getFlags() {
-        return flags;
-    }
-
-    public boolean canGetFlag(int flagRank) {
-        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
-    }
-
-    public void registerFlagVisit() {
-        flags += 1;
-    }
-
-    public void beginDrawCards() {
-        cards.draw();
-        GameGraphics.getUiHandler().showDrawnCards();
-    }
-
-    public void endDrawCards() {
-
-        GameGraphics.getUiHandler().hideDrawnCards();
-
-        if (cards.hasInvalidHand()) {
-            cards.randomizeHand();
-        }
-
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            int id = i;
-
-            //this is a way to do player turns (ie wait some between each card is played)
-            GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                Card card = cards.getCard(SlotType.HAND, id);
-                moveRobot(card.getAction());
-
-            }), 500 * (i + 1), TimeUnit.MILLISECONDS);
-        }
-    }
-
-    /**
-     * Moves the robot with the movement corresponding to the cardAction
-     * <p>
-     * If the robot moves outside the map, {@link Player#kill()} method is called
-     *
-     * @param cardAction movement to do with the robot
-     */
+    @Override
     public void moveRobot(Movement cardAction) {
         if (!getRobot().move(cardAction)) {
             kill();
         }
     }
 
+    @Override
+    public int getFlags() {
+        return flags;
+    }
+
+    @Override
+    public boolean canGetFlag(int flagRank) {
+        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    }
+
+    @Override
+    public void registerFlagVisit() {
+        flags++;
+    }
+
+    @Override
     public int getLives() {
         return lives;
     }
 
+    @Override
     public int getHealth() {
         return health;
     }
 
+    @Override
     public boolean isPoweredDown() {
         return poweredDown;
     }
 
+    @Override
     public int getDamageTokens() {
         return MAX_HEALTH - health;
     }
 
+    @Override
     public Vector2Int getBackup() {
         return backup;
     }
 
+    @Override
     public void setBackup(int x, int y) {
         backup.x = x;
         backup.y = y;
     }
 
+    @Override
     public Robot getRobot() {
         return robot;
     }
 
+    @Override
     public int getDock() {
         return dock;
     }
 
+    @Override
     public void setDock(int dock) {
         this.dock = dock;
+    }
+
+
+    @Override
+    public int compareTo(@NotNull IPlayer iPlayer) {
+        return Integer.compare(getDock(), iPlayer.getDock());
     }
 }

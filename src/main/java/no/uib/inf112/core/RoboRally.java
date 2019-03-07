@@ -5,7 +5,7 @@ import no.uib.inf112.core.map.MapInteractOnUser;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
 import no.uib.inf112.core.map.cards.MovementDeck;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import org.jetbrains.annotations.NotNull;
@@ -34,18 +34,18 @@ public class RoboRally {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         }
 
-
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(3);
-        for (Player player : playerHandler.getPlayers()) {
+        playerHandler = new PlayerHandler(4);
+        for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
     }
 
     public void round() {
         for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            playerHandler.doTurn();
+            deck = new MovementDeck();
+            playerHandler.startTurn();
             // End of robot movement
 
             // Activate lasers
@@ -54,7 +54,7 @@ public class RoboRally {
 
             // Move assembly lines
 
-            for (Player player : playerHandler.getPlayers()) {
+            for (IPlayer player : playerHandler.getPlayers()) {
                 if (player.getFlags() == FLAG_COUNT) {
                     //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
                 }
