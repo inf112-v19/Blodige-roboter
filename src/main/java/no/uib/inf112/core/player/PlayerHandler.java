@@ -88,7 +88,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
 
         GameGraphics.executorService.schedule(() ->
-                Gdx.app.postRunnable(this::startTurn), 500 * (Player.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
+                Gdx.app.postRunnable(() -> GameGraphics.getRoboRally().round()), 500 * (Player.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
     }
 
     @Override
