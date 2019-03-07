@@ -1,24 +1,16 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TileType;
-import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(RoboRally.class)
-public class RobotTest {
+public class RobotTest extends TestGraphics {
 
     private Robot testBot;
     private int roboX;
@@ -27,104 +19,96 @@ public class RobotTest {
 
     public static final int HEIGHT = 20;
     public static final int WIDTH = 20;
+    private RoboRally roboRally;
 
 
     @Before
     public void setup() {
-        player = new Player(HEIGHT / 2, WIDTH / 2, Direction.NORTH, true);
+        roboRally = GameGraphics.getRoboRally();
+        roboRally.getPlayerHandler().generatePlayers();
+        player = roboRally.getPlayerHandler().mainPlayer();
         testBot = player.getRobot();
+        testBot.teleport(HEIGHT / 2, WIDTH / 2);
+        testBot.setDirection(Direction.NORTH);
+
         roboX = testBot.getX();
         roboY = testBot.getY();
-
-        PowerMockito.mockStatic(RoboRally.class);
-        PowerMockito.mockStatic(PlayerHandler.class);
-
-        PlayerHandler ph = mock(PlayerHandler.class);
-        when(ph.mainPlayer()).thenReturn(player);
-
-        MapHandler map = Mockito.mock(TiledMapHandler.class);
-        when(map.getMapHeight()).thenReturn(RobotTest.HEIGHT);
-        when(map.getMapWidth()).thenReturn(RobotTest.WIDTH);
-        when(map.isOutsideBoard(Mockito.anyInt(), Mockito.anyInt())).thenCallRealMethod();
-
-        when(RoboRally.getPlayerHandler()).thenReturn(ph);
-        when(RoboRally.getCurrentMap()).thenReturn(map);
     }
 
     @Test
     public void movingOneFacingNorthShouldNotChangeX() {
-        testBot.move(Movement.MOVE_1);
+        player.moveRobot(Movement.MOVE_1);
         assertEquals(roboX, testBot.getX());
     }
 
     @Test
     public void movingOneFacingNorthShouldIncrementY() {
-        testBot.move(Movement.MOVE_1);
+        player.moveRobot(Movement.MOVE_1);
         assertEquals(roboY + 1, testBot.getY());
     }
 
     @Test
     public void movingThreeFacingNorthShouldIncreaseYWithThree() {
-        testBot.move(Movement.MOVE_3);
+        player.moveRobot(Movement.MOVE_3);
         assertEquals(roboY + 3, testBot.getY());
     }
 
     @Test
     public void movingTwoFacingEastShouldNotChangeY() {
         testBot.setDirection(Direction.EAST);
-        testBot.move(Movement.MOVE_2);
+        player.moveRobot(Movement.MOVE_2);
         assertEquals(roboY, testBot.getY());
     }
 
     @Test
     public void movingTwoFacingEastShouldIncreaseXWithTwo() {
         testBot.setDirection(Direction.EAST);
-        testBot.move(Movement.MOVE_2);
+        player.moveRobot(Movement.MOVE_2);
         assertEquals(roboX + 2, testBot.getX());
     }
 
     @Test
     public void backingUpWhileFacingNorthShouldDecrementY() {
-        testBot.move(Movement.BACK_UP);
+        player.moveRobot(Movement.BACK_UP);
         assertEquals(roboY - 1, testBot.getY());
     }
 
     @Test
     public void backingUpShouldNotAffectDirectionOfRobot() {
         Direction facing = testBot.getDirection();
-        testBot.move(Movement.BACK_UP);
+        player.moveRobot(Movement.BACK_UP);
         assertEquals(facing, testBot.getDirection());
     }
 
     @Test
     public void movingForwardShouldNotAffectDirectionOfRobot() {
         Direction facing = testBot.getDirection();
-        testBot.move(Movement.MOVE_2);
-        testBot.move(Movement.MOVE_1);
-        testBot.move(Movement.MOVE_3);
+        player.moveRobot(Movement.MOVE_2);
+        player.moveRobot(Movement.MOVE_1);
+        player.moveRobot(Movement.MOVE_3);
         assertEquals(facing, testBot.getDirection());
     }
 
     @Test
     public void turningLeftWhileFacingNorthShouldResultInWest() {
         testBot.setDirection(Direction.NORTH); //Just in case setup is changed
-        testBot.move(Movement.LEFT_TURN);
+        player.moveRobot(Movement.LEFT_TURN);
         assertEquals(Direction.WEST, testBot.getDirection());
     }
 
     @Test
     public void turningLeftShouldNotChangeXOrY() {
-        testBot.move(Movement.LEFT_TURN);
+        player.moveRobot(Movement.LEFT_TURN);
         assertEquals(roboX, testBot.getX());
         assertEquals(roboY, testBot.getY());
     }
 
     @Test
     public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
-        Robot testBot2 = new Robot(5, 5, testBot.getDirection(), true);
-        testBot.move(Movement.RIGHT_TURN);
-        testBot.move(Movement.RIGHT_TURN);
-        testBot2.move(Movement.U_TURN);
+        Robot testBot2 = new Robot(5, 5, testBot.getDirection());
+        player.moveRobot(Movement.RIGHT_TURN);
+        player.moveRobot(Movement.RIGHT_TURN);
+        player.moveRobot(Movement.U_TURN);
         assertEquals(testBot.getDirection(), testBot2.getDirection());
     }
 
@@ -140,8 +124,8 @@ public class RobotTest {
                 assertFalse(roboX == testBot.getX() && roboY == testBot.getY());
                 assertNotEquals(facing, testBot.getDirection());
             }
-            testBot.move(Movement.MOVE_2);
-            testBot.move(Movement.LEFT_TURN);
+            player.moveRobot(Movement.MOVE_2);
+            player.moveRobot(Movement.LEFT_TURN);
         }
     }
 
@@ -160,9 +144,10 @@ public class RobotTest {
 
     @Test
     public void movingOutOfBoundTeleportToBackup() {
+        player.setBackup(testBot.getX(), testBot.getY());
         testBot.teleport(0, 0);
         testBot.setDirection(Direction.SOUTH);
-        testBot.move(Movement.MOVE_1);
+        player.moveRobot(Movement.MOVE_1);
 
         assertEquals(roboX, testBot.getX());
         assertEquals(roboY, testBot.getY());
@@ -170,11 +155,12 @@ public class RobotTest {
 
     @Test
     public void movingOutOfBoundReduceLifeByOne() {
+        player.getLives();
         testBot.teleport(0, 0);
         player.damage(1);
 
         testBot.setDirection(Direction.SOUTH);
-        testBot.move(Movement.MOVE_1);
+        player.moveRobot(Movement.MOVE_1);
 
         assertTrue(testBot.shouldUpdate());
 

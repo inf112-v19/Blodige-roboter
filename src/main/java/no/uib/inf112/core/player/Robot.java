@@ -1,9 +1,10 @@
 package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TileType;
+import no.uib.inf112.core.map.cards.Movement;
 import org.jetbrains.annotations.NotNull;
 
 public class Robot implements Entity {
@@ -16,13 +17,12 @@ public class Robot implements Entity {
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
      * @param direction What direction the player is facing on start
-     * @param headless  True if you want player without graphics (e.g. for testing purposes), false otherwise
      * @throws IllegalArgumentException If the given position is out of bounds
      * @throws IllegalArgumentException If direction is {@code null}
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(int x, int y, Direction direction, boolean headless) {
+    public Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
 
@@ -30,10 +30,6 @@ public class Robot implements Entity {
             throw new IllegalArgumentException("Given direction can not be null");
         }
         this.direction = direction;
-
-        if (!headless) {
-            RoboRally.getCurrentMap().addEntity(this);
-        }
     }
 
     @Override
@@ -59,10 +55,11 @@ public class Robot implements Entity {
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
         update();
+        return true;
     }
 
     @Override
@@ -79,30 +76,24 @@ public class Robot implements Entity {
      * Move the robot by the given movement card
      *
      * @param movement how to move
+     * @return false if the robot moved out of the map
      */
-    public void move(@NotNull Movement movement) {
+    public boolean move(@NotNull Movement movement) {
         switch (movement) {
             case MOVE_1:
-                move(direction.getDx(), direction.getDy());
-                break;
+                return move(direction.getDx(), direction.getDy());
             case MOVE_2:
-                move(2 * direction.getDx(), 2 * direction.getDy());
-                break;
+                return move(2 * direction.getDx(), 2 * direction.getDy());
             case MOVE_3:
-                move(3 * direction.getDx(), 3 * direction.getDy());
-                break;
+                return move(3 * direction.getDx(), 3 * direction.getDy());
             case BACK_UP:
-                move(-1 * direction.getDx(), -1 * direction.getDy());
-                break;
+                return move(-1 * direction.getDx(), -1 * direction.getDy());
             case LEFT_TURN:
-                setDirection(direction.turnLeft());
-                break;
+                return setDirection(direction.turnLeft());
             case RIGHT_TURN:
-                setDirection(direction.turnRight());
-                break;
+                return setDirection(direction.turnRight());
             case U_TURN:
-                setDirection(direction.inverse());
-                break;
+                return setDirection(direction.inverse());
             default:
                 throw new IllegalArgumentException("Unknown movement " + movement.name());
         }
@@ -111,19 +102,21 @@ public class Robot implements Entity {
 
     /**
      * Move the robot with given delta to new coordinates
+     *
+     * @return false if the robot moved out of the map
      */
-    private void move(int deltaX, int deltaY) {
+    private boolean move(int deltaX, int deltaY) {
         x += deltaX;
         y += deltaY;
-        if (RoboRally.getCurrentMap().isOutsideBoard(x, y)) {
-            RoboRally.getPlayerHandler().mainPlayer().kill();
-            return;
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
+            return false;
         }
         update();
+        return true;
     }
 
     public void teleport(int x, int y) {
-        if (RoboRally.getCurrentMap().isOutsideBoard(x, y)) {
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Cannot teleport outside the map bounds. Tried to teleport to (" + x + ", " + y + ")");
         }
         this.x = x;

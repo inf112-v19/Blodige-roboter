@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.utils.Clipboard;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -158,6 +159,7 @@ public class MapCameraTest {
 
     @Before
     public void init() {
+        GameGraphics.HEADLESS = true;
         c = new MapCamera() {
 
             @Override
@@ -219,10 +221,6 @@ public class MapCameraTest {
                 return 0;
             }
 
-            @Override
-            public void dispose() {
-
-            }
 
             @Override
             public void resize() {

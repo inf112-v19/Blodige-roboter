@@ -1,6 +1,6 @@
 package no.uib.inf112.core.map;
 
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Player;
@@ -22,7 +22,7 @@ public class MapInteractOnUser {
      * @return true
      */
     public boolean scan(Collection<Entity> entitiesOnMap) {
-        ArrayList<Player> players = RoboRally.getPlayerHandler().getPlayers();
+        ArrayList<Player> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
 
         findAndDoMovement(entitiesOnMap);
 
@@ -42,7 +42,7 @@ public class MapInteractOnUser {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
-            TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
+            TileType tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getBoardLayerTile(x, y);
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {

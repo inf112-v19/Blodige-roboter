@@ -68,6 +68,7 @@ Kristian lager Klassediagram
 
 I fra forrige uke var vi "heldige" på det vi valgte å fokusere på. Derfor var mye gjort i forrige iterasjon mot denne uken. For eksempel #5, #47, #14, #20. 
 
+
 ## Akseptkriterier
 
 * Kunne få alle typene bevegelseskort
