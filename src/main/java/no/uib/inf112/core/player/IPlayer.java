@@ -58,9 +58,8 @@ public interface IPlayer extends Comparable<IPlayer> {
     boolean canGetFlag(int flagRank);
 
     /**
-     * Add flags visited by 1
+     * Add flags visited by one
      */
-
     void registerFlagVisit();
 
     /**
