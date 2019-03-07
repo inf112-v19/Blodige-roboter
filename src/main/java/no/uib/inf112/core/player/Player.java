@@ -28,6 +28,7 @@ public class Player {
 
     private int dock;
 
+    private int flags;
     private int lives;
     private boolean poweredDown;
     private int health;
@@ -58,6 +59,7 @@ public class Player {
     public Player(int x, int y, @NotNull Direction direction, boolean headless) {
         backup = new Vector2Int(x, y);
 
+        flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
@@ -132,6 +134,18 @@ public class Player {
     @NotNull
     public CardContainer getCards() {
         return cards;
+    }
+
+    public int getFlags() {
+        return flags;
+    }
+
+    public boolean canGetFlag(int flagRank) {
+        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    }
+
+    public void registerFlagVisit() {
+        flags += 1;
     }
 
     public void beginDrawCards() {
