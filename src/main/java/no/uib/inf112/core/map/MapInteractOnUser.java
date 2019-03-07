@@ -65,13 +65,13 @@ public class MapInteractOnUser {
                             }
                     }
                 case OPTION:
-                    switch (tileUnderRobot){
+                    switch (tileUnderRobot) {
                         case WRENCH:
                             player.setBackup(x, y);
 
                         case HAMMER_AND_WRENCH:
                             player.setBackup(x, y);
-                            //TODO get option card? (Should do mare than what happens on normal wrench)
+                            //TODO #25 get option card? (Should do more than what happens on normal wrench)
                     }
                 default:
                     break; //Case if the tile is not a special tile (flag or option)
