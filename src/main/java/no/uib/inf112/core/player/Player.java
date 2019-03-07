@@ -100,7 +100,7 @@ public abstract class Player implements IPlayer {
 
     @Override
     public void registerFlagVisit() {
-        flags += 1;
+        flags++;
     }
 
     @Override

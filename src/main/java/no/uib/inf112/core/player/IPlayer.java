@@ -46,9 +46,20 @@ public interface IPlayer extends Comparable<IPlayer> {
      */
     void moveRobot(Movement cardAction);
 
+    /**
+     * @return amount of flags visited
+     */
     int getFlags();
 
+    /**
+     * @param flagRank
+     * @return if player can get given flag or nor
+     */
     boolean canGetFlag(int flagRank);
+
+    /**
+     * Add flags visited by 1
+     */
 
     void registerFlagVisit();
 
