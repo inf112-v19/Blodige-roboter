@@ -16,6 +16,7 @@ public class RoboRally {
 
     public static final String MAP_FOLDER = "maps";
     public static final int PHASES_PER_ROUND = 5;
+    public static final int FLAG_COUNT = 4;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
@@ -53,6 +54,12 @@ public class RoboRally {
 
             // Move assembly lines
 
+            for (Player player : playerHandler.getPlayers()) {
+                if (player.getFlags() == FLAG_COUNT) {
+                    //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
+                }
+            }
+
             //Should wait some time
         }
         deck.shuffle();
@@ -72,7 +79,6 @@ public class RoboRally {
     /**
      * @return The current map in play
      */
-
     @NotNull
     public MapHandler getCurrentMap() {
         return map;

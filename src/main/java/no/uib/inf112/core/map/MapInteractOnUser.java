@@ -1,7 +1,9 @@
 package no.uib.inf112.core.map;
 
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapAction.MapAction;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,33 +22,68 @@ public class MapInteractOnUser {
      * @return true
      */
     public boolean scan(Collection<Entity> entitiesOnMap) {
+        ArrayList<Player> players = RoboRally.getPlayerHandler().getPlayers();
 
         findAndDoMovement(entitiesOnMap);
 
         shootLasers(entitiesOnMap);
 
-        registerSpecialTiles(entitiesOnMap);
+        registerSpecialTiles(players);
         return true;
     }
 
     /**
      * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
      *
-     * @param entitiesOnMap
+     * @param players A list of all the players
      */
-    private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
-        ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
-        for (Entity entity : entitiesOnMap) {
-            MapAction mapAction = getAction(entity);
-            if (mapAction != null) {//And mapaction is some special tile
-                queue.add(mapAction);
+    private void registerSpecialTiles(@NotNull ArrayList<Player> players) {
+        for (Player player : players) {
+            //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
+            int x = player.getRobot().getX();
+            int y = player.getRobot().getY();
+            TileType tileUnderRobot = RoboRally.getCurrentMap().getBoardLayerTile(x, y);
+            switch (tileUnderRobot.getGroup()) {
+                case FLAG:
+                    switch (tileUnderRobot) {
+                        case FLAG1:
+                            if (player.canGetFlag(1)) {
+                                registerFlag(player, x, y);
+                            }
+                        case FLAG2:
+                            if (player.canGetFlag(2)) {
+                                registerFlag(player, x, y);
+                            }
+                        case FLAG3:
+                            if (player.canGetFlag(3)) {
+                                registerFlag(player, x, y);
+                            }
+                        case FLAG4:
+                            if (player.canGetFlag(4)) {
+                                registerFlag(player, x, y);
+                            }
+                    }
+                case OPTION:
+                    break; //TODO issue #20, add logic for wrench and hammer and wrench
+                default:
+                    break; //Case if the tile is not a special tile (flag or option)
             }
         }
-
-        for (MapAction mapAction : queue) {
-            mapAction.doAction();
-        }
     }
+
+
+    /**
+     * Method to register a flag visit for a player and set it's backup to the location of flag
+     *
+     * @param player The player that should register flag
+     * @param x      x coordinate of where the flag and player are standing
+     * @param y      y coordinate of where the flag and player are standing
+     */
+    private void registerFlag(Player player, int x, int y) {
+        player.registerFlagVisit();
+        player.setBackup(x, y);
+    }
+
 
     /**
      * Finds all entities in line of a laser, (this should also shoot lasers from robots).
@@ -141,9 +178,8 @@ public class MapInteractOnUser {
      */
     @Nullable
     private MapAction getAction(@NotNull Entity entity) {
-        TileType tile = entity.getTileType();
         //Switch on tile
+        //TODO check for holes, issue #72
         return null;
     }
-
 }
