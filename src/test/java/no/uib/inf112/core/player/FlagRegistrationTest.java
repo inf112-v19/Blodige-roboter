@@ -6,28 +6,28 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest {
 
-    Player player = new Player(0,0, Direction.NORTH, true);
+    Player player = new Player(0, 0, Direction.NORTH);
 
     @Test
-    public void playerHasNoFlags(){
+    public void playerHasNoFlags() {
         assertEquals(0, player.getFlags());
     }
 
     @Test
-    public void registerFlagVisitFor1Flag(){
+    public void registerFlagVisitFor1Flag() {
         player.registerFlagVisit();
         assertEquals(1, player.getFlags());
     }
 
     @Test
-    public void registerFlagVisitFor2Flags(){
+    public void registerFlagVisitFor2Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         assertEquals(2, player.getFlags());
     }
 
     @Test
-    public void registerFlagVisitFor3Flags(){
+    public void registerFlagVisitFor3Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -35,7 +35,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitFor4Flags(){
+    public void registerFlagVisitFor4Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -44,7 +44,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitFor5Flags(){
+    public void registerFlagVisitFor5Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -54,7 +54,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitFor6Flags(){
+    public void registerFlagVisitFor6Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -65,7 +65,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitFor7Flags(){
+    public void registerFlagVisitFor7Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -77,7 +77,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitFor8Flags(){
+    public void registerFlagVisitFor8Flags() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -90,31 +90,31 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void registerFlagVisitsDoesNotRegisterFlagIfNotCalled(){
+    public void registerFlagVisitsDoesNotRegisterFlagIfNotCalled() {
         player.registerFlagVisit();
         assertFalse(player.getFlags() == 2);
     }
 
     @Test
-    public void canGetFlag1Test(){
+    public void canGetFlag1Test() {
         assertTrue(player.canGetFlag(1));
     }
 
     @Test
-    public void canGetFlag2Test(){
+    public void canGetFlag2Test() {
         player.registerFlagVisit();
         assertTrue(player.canGetFlag(2));
     }
 
     @Test
-    public void canGetFlag3Test(){
+    public void canGetFlag3Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         assertTrue(player.canGetFlag(3));
     }
 
     @Test
-    public void canGetFlag4Test(){
+    public void canGetFlag4Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -122,7 +122,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void cantGetFlag5Test(){
+    public void cantGetFlag5Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -130,7 +130,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void cantGetFlag6Test(){
+    public void cantGetFlag6Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -139,7 +139,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void cantGetFlag7Test(){
+    public void cantGetFlag7Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
@@ -149,7 +149,7 @@ public class FlagRegistrationTest {
     }
 
     @Test
-    public void cantGetFlag8Test(){
+    public void cantGetFlag8Test() {
         player.registerFlagVisit();
         player.registerFlagVisit();
         player.registerFlagVisit();
