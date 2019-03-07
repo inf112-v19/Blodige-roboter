@@ -6,6 +6,7 @@ import no.uib.inf112.core.map.GameMap;
 import org.jetbrains.annotations.NotNull;
 
 public class HeadlessMapHandler extends GameMap {
+
     public HeadlessMapHandler(String map) {
         super(map);
     }
@@ -36,7 +37,18 @@ public class HeadlessMapHandler extends GameMap {
     }
 
     @Override
-    public void resize() {
+    public int getTileWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getTileHeight() {
+        return 0;
+    }
+
+    @Override
+    public void resize(int width, int height) {
 
     }
+
 }

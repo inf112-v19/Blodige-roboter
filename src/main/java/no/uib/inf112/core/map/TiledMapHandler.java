@@ -16,8 +16,11 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     private OrthogonalTiledMapRenderer renderer;
 
     /**
-     * @param map The relative path from assets folder to the Tiled map file
-     * @throws IllegalArgumentException if max zoom is less than min zoom
+     * @param map
+     *     The relative path from assets folder to the Tiled map file
+     *
+     * @throws IllegalArgumentException
+     *     if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
         super(map);
@@ -45,12 +48,13 @@ public class TiledMapHandler extends MapCamera implements Disposable {
             if (lastPos == null) {
                 lastPos = new Vector2Int(x, y);
                 entry.setValue(lastPos);
-            } else if (!entry.getKey().shouldUpdate()) {
+            }
+            else if (!entry.getKey().shouldUpdate()) {
                 //do not update if there is no change
                 continue;
             }
 
-            getEntityLayer().setCell((int) lastPos.x, (int) lastPos.y, null);
+            getEntityLayer().setCell(lastPos.x, lastPos.y, null);
             entry.getKey().update(false);
             setEntityOnBoard(entry.getKey(), lastPos, x, y);
 
@@ -68,10 +72,14 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     /**
      * Draw an entity on the entity layer
      *
-     * @param entity The entity to draw
-     * @param oldPos The last known position
-     * @param x      The new x, provided as a parameter to make this thread safe
-     * @param y      The new y, provided as a parameter to make this thread safe
+     * @param entity
+     *     The entity to draw
+     * @param oldPos
+     *     The last known position
+     * @param x
+     *     The new x, provided as a parameter to make this thread safe
+     * @param y
+     *     The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2Int oldPos, int x, int y) {
         if (entity.getTileType() == null) {
@@ -86,4 +94,5 @@ public class TiledMapHandler extends MapCamera implements Disposable {
         oldPos.x = x;
         oldPos.y = y;
     }
+
 }

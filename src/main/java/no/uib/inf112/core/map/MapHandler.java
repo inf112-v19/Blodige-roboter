@@ -19,7 +19,11 @@ public interface MapHandler {
     //constants for
     float DEFAULT_ZOOM_SENSITIVITY = 1f;
     float DEFAULT_MAX_ZOOM = 10f;
-    float DEFAULT_MIN_ZOOM = 1f;
+    float DEFAULT_MIN_ZOOM = 2f;
+
+    int ZOOM_IN = -1;
+    int ZOOM_OUT = 1;
+
 
     String ZOOM_SENSITIVITY_PATH = "zoomsensitivity";
     String MAX_ZOOM_PATH = "maxzoom";
@@ -56,10 +60,13 @@ public interface MapHandler {
     void moveCamera(float dx, float dy);
 
     /**
-     * @return The current position of the board camera
+     * @return The cameara that renderes the board
      */
     OrthographicCamera getCamera();
 
+    /**
+     * @return Properties of the current map
+     */
     MapProperties getProperties();
 
     /**
@@ -112,17 +119,27 @@ public interface MapHandler {
     boolean isOutsideBoard(int x, int y);
 
     /**
-     * @return How many tiles there are in the maps width
+     * @return How many tiles there are horizontally in the map
      */
     int getMapWidth();
 
     /**
-     * @return How many tiles there are in the maps height
+     * @return How many tiles there are vertically in the map
      */
     int getMapHeight();
 
     /**
+     * @return The width, in pixes, of each tile
+     */
+    int getTileWidth();
+
+    /**
+     * @return The height, in pixes, of each tile
+     */
+    int getTileHeight();
+
+    /**
      * The application window has been resized
      */
-    void resize();
+    void resize(int width, int height);
 }

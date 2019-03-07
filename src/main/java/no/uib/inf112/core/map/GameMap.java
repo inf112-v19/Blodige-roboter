@@ -26,15 +26,12 @@ public abstract class GameMap implements MapHandler {
 
 
     //A map of all know entities and their last know location
-    protected Map<Entity, Vector2Int> entities;
+    Map<Entity, Vector2Int> entities;
 
     private int mapWidth;
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
-
-    //The layer name of the board it self, this layer should never be modified
-    String BOARD_LAYER_NAME = "board";
 
     public GameMap(String map) {
         try {
@@ -60,7 +57,8 @@ public abstract class GameMap implements MapHandler {
         } catch (ClassCastException ignore) {
         }
         if (baseLayer == null) {
-            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+            throw new IllegalStateException(
+                "Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
         boardLayer = baseLayer;
 
@@ -94,18 +92,6 @@ public abstract class GameMap implements MapHandler {
         return TileType.fromTiledId(tileId);
     }
 
-    @Override
-    @Nullable
-    public Entity getEntity(int x, int y) {
-        Vector2 v = new Vector2(x, y);
-        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
-            if (v.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
     @NotNull
     @Override
     public TiledMapTileSets getMapTileSets() {
@@ -120,6 +106,19 @@ public abstract class GameMap implements MapHandler {
             }
         }
         entities.put(entity, null);
+    }
+
+
+    @Override
+    @Nullable
+    public Entity getEntity(int x, int y) {
+        Vector2 v = new Vector2(x, y);
+        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
+            if (v.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -154,5 +153,16 @@ public abstract class GameMap implements MapHandler {
 
     protected TiledMap getTiledMap() {
         return tiledMap;
+    }
+
+
+    @Override
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    @Override
+    public int getTileWidth() {
+        return tileWidth;
     }
 }

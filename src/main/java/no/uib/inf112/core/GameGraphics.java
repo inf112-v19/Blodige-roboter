@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class GameGraphics extends Game {
+
     private static RoboRally roboRally;
     public static boolean HEADLESS = false;
 
@@ -50,7 +51,7 @@ public class GameGraphics extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+                       (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
         super.render();
 
@@ -76,7 +77,7 @@ public class GameGraphics extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        roboRally.getCurrentMap().resize();
+        roboRally.getCurrentMap().resize(width, height);
         uiHandler.resize();
     }
 

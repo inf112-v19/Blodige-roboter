@@ -19,13 +19,16 @@
 * Pressing enter should make the round start
 
 
-
 ### Camera Movement
 
 * Map should zoom when scrolling
 * Map should zoom in when pressing +
 * Map should zoom out when pressing -
 * Map should move around when pressing and dragging   
+* At least half the screen should should be of the map at all times
+* Resizing should not affect how many tiles shown vertically and horizontally when on a zoom level.
+    * Best way to test is zooming all the way in, then count the number of tiles vertically and horizontally.
+    * *Note: It will change a tiny bit if the aspect ratio is way different, as the average between the height and width is used*
 
 ### Visualizing current state
 

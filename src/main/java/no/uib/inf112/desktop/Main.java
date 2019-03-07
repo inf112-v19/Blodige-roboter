@@ -13,6 +13,7 @@ public class Main {
         cfg.width = 1280;
         cfg.height = 720;
         cfg.samples = 16; //max out the samples as this isn't a very heavy game.
+        cfg.backgroundFPS = 1;
 
         new LwjglApplication(new GameGraphics(), cfg);
     }
