@@ -81,13 +81,14 @@ public class PlayerHandler implements IPlayerHandler {
             for (int j = 0; j < cards.size(); j++) {
                 PlayerCard card = cards.get(j);
 
-                GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                    card.getPlayer().moveRobot(card.getCard().getAction());
-                }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+                GameGraphics.executorService.schedule(() ->
+                        Gdx.app.postRunnable(() ->
+                                card.getPlayer().moveRobot(card.getCard().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
-        //Activate lasers and so on
-        startTurn();
+
+        GameGraphics.executorService.schedule(() ->
+                Gdx.app.postRunnable(this::startTurn), 500 * (Player.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
     }
 
     @Override
