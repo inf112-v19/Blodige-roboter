@@ -35,12 +35,10 @@ public class MapInteractOnUser {
     /**
      * Finds all entites standing on tiles with no mapmovement(e.g. flags, wrenches)
      *
-     * @param entitiesOnMap
+     * @param players A list of all the players
      */
     private void registerSpecialTiles(@NotNull ArrayList<Player> players) {
-        ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
-
-        for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
+        for (Player player : players) {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
