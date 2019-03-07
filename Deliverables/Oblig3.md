@@ -9,7 +9,8 @@
 * Ingen andre roller, passer at alle gjør litt av alt
 * Vi bruker ikke boardet kanskje vi skal gjøre det om til per iterasjon.
 * Vi er alle involverte takket være test/utvikler delegasjon og pullreviews.
-* Forskjellige tider vi arbeider på, noen av oss liker å gjøre alt på en gang mens andre foretrekker å trekke det litt ut over tiden.
+* Vi arbeider til litt forskjellige tider, noen av oss liker å gjøre alt på en gang mens andre foretrekker å trekke det litt ut over tiden.
+* Dette skaper litt ubalanse spesielt i forhol til pr og testing
 * Gått ned til ett møte i uken, vi diskuterer litt på slack, og tar det mer formelle på github.
 * Vi fortsetter med bruk av et kanban board uten begrensninger her legger vi også inn arbeidsoppgaver som ikke omhandler koding. 
 * Vi ser at dette kan bli rotete og velger derfor å lage et ekstra board som følger iterasjonene hvor kun "kode" relaterte oppgaver skrives.
@@ -17,9 +18,10 @@
 * Når vi ser hva de andre har gjort, tenker vi at vi ikke har all funksjonalitet på plass. Men vi er veldig fornøyde med grunnleggende struktur og tror vi vil bli belønnet for dette i de kommende ukene.
 * Vi er fleksible og har ikke for rigide regler, vi ser hver oppgave ann men beholder grunnleggende prinsipper.
 * Problemer med å registrere rikke i github da hennes arbeid ikke kobles til githubkontoen hennes. Dette har vi fått fikset, problemet var at hennes git credentials email var en mail som ikke eksisterer.
-* Elg har mye involvering, vi ser at han commiter "mindre" blokker enn oss andre. I tillegg har han hatt mye grafikk, som han kjenner fra før, som betyr at tid per kodelinje er mindre.
+* Elg har mye mer commits enn oss andre, vi ser at han commiter "mindre" blokker enn oss andre. I tillegg har han hatt mye grafikk, som han kjenner fra før, som betyr at tid per kodelinje er mindre.
 * Men vi ser at dette kan forbedres og jobber mot dette.
-
+* Vi er veldig fornøyde med utvilker/tester fordelingen vår, når vi i denne iterasjonen har gjort refaktorering har det hjulpet å kunne passe på at man er grønn etter å ha gjort endringer.
+* 
 ## Kunnskapsoverføring
 
 * Vi jobber med noe parprogrammering, spesielt i situasjoner hvor en skal gjøre mye i noe en annen har laget. Dette gjøres for å slippe at en annen må sette seg inn i andres kode
@@ -30,7 +32,7 @@
 
 1. Jobbe mot bedre commit fordeling.
 2. Sette opp nytt board som følger Iterasjonen og se hvordan dette går
-3. Øke code coverage ved testing, vi håper at en refaktoreringsjobb skal gjøre det lettere å teste ref (#50)
+3. Øke code coverage ved testing, vi håper at en refaktoreringsjobb skal gjøre det lettere å teste ref (#50) og for å kunne teste kartet har vi fremover lyst til å gjøre #77
    * Vi ligger foreløpig på 60% som vi synes er litt lavt for automatiske tester, sammen med manuelle er vi oppe i 85% som er bra, men om vi egentlig tester alle 85% av linjene ved de manuelle testene er diskutabelt.
 4. Populere wiki'en enda mer.
 5. At alle har god sinnstemning
@@ -38,8 +40,9 @@
 * [Møtenotater](https://github.com/inf112-v19/Blodige-roboter/wiki)
 * Se [Workflow](https://github.com/inf112-v19/Blodige-roboter/wiki/Workflow) for mer beskrivende arbeidsmetoder
 * Se [Run with IntelliJ](https://github.com/inf112-v19/Blodige-roboter/wiki/Other_Run-with-IntelliJ) for hvordan kjøre spillet og kjøre tester
-
-Kristian lager Klassediagram
+* Milestones i issues representerer de forskjellige iterasjonene vi har hatt.
+[KlasseDiagram](Oblig3-KlasseDiagram.PNG)
+![klassediagram](Oblig3-KlasseDiagram.PNG)
 
 ## Presisering av krav
 
