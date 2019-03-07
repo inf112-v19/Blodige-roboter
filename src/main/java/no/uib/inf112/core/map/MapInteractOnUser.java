@@ -22,12 +22,13 @@ public class MapInteractOnUser {
      * @return true
      */
     public boolean scan(Collection<Entity> entitiesOnMap) {
+        ArrayList<Player> players = RoboRally.getPlayerHandler().getPlayers();
 
         findAndDoMovement(entitiesOnMap);
 
         shootLasers(entitiesOnMap);
 
-        registerSpecialTiles(entitiesOnMap);
+        registerSpecialTiles(players);
         return true;
     }
 
@@ -36,7 +37,7 @@ public class MapInteractOnUser {
      *
      * @param entitiesOnMap
      */
-    private void registerSpecialTiles(@NotNull Collection<Entity> entitiesOnMap) {
+    private void registerSpecialTiles(@NotNull ArrayList<Player> players) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
 
         for (Player player : RoboRally.getPlayerHandler().getPlayers()) {
