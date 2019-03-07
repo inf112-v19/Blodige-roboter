@@ -2,6 +2,7 @@
 
 * Alt går fint
   * Kundekontakt:
+    * Min rolle innebærer å finne ut av regler og spillogikk hvis det er noe vi lurer på, dette utøfres ved å lese manualen nøye hvis det er noe som er uklart. Rollen fungerer fint og jeg finner svaret på det gruppen lurer på.
   * Teamlead:
     * Har en god dialog med resten av teamet, folk velger oppgaver selv eller får kommentere på tildelte oppgaver. Jeg tar ansvar for at møtene holder en noenlunde struktur og at vi ikke bruker tiden på diskutere uvesentlige ting.
     * Jeg tar ansvar for at project board, wiki og annet materiale utenom kode er i avtalt struktur.
