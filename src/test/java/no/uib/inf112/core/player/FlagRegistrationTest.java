@@ -8,6 +8,8 @@ public class FlagRegistrationTest {
 
     Player player = new Player(0, 0, Direction.NORTH);
 
+    //TODO #77 this should be tested way more.
+
     @Test
     public void playerHasNoFlags() {
         assertEquals(0, player.getFlags());
