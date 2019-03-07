@@ -82,7 +82,7 @@ public class PlayerHandler implements IPlayerHandler {
                 PlayerCard card = cards.get(j);
 
                 GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
-                    card.getPlayer().getRobot().move(card.getCard().getAction());
+                    card.getPlayer().moveRobot(card.getCard().getAction());
                 }), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
