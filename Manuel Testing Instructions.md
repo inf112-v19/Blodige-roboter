@@ -31,4 +31,5 @@
     * *Note: It will change a tiny bit if the aspect ratio is way different, as the average between the height and width is used*
 
 ### Visualizing current state
+
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)

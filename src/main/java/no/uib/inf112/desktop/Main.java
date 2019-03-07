@@ -2,7 +2,7 @@ package no.uib.inf112.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
 
 
 public class Main {
@@ -15,6 +15,6 @@ public class Main {
         cfg.samples = 16; //max out the samples as this isn't a very heavy game.
         cfg.backgroundFPS = 1;
 
-        new LwjglApplication(new RoboRally(), cfg);
+        new LwjglApplication(new GameGraphics(), cfg);
     }
 }

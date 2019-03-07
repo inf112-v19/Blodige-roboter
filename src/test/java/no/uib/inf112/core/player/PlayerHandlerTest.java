@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class PlayerHandlerTest extends TestGraphics {
 
@@ -30,27 +31,18 @@ public class PlayerHandlerTest extends TestGraphics {
     @Test
     public void creatingHandlerWith2PlayersShouldResultInPlayerListOfCapacity2() {
         testHandler = new PlayerHandler(2);
-        testHandler.generatePlayers(true);
         assertEquals(2, testHandler.getPlayers().size());
     }
-
-    @Test
-    public void creatingHandlerShouldInitializeProgramDeck() {
-        testHandler = new PlayerHandler(2);
-        assertNotNull(testHandler.getDeck());
-    }
-
+    
     @Test
     public void generating5PlayersShouldResultInListOfPlayersOfSize5() {
         testHandler = new PlayerHandler(5);
-        testHandler.generatePlayers(true);
         assertEquals(5, testHandler.getPlayers().size());
     }
 
     @Test
     public void whenGeneratedEachPlayerShouldHaveAUniqueDock() {
         testHandler = new PlayerHandler(8);
-        testHandler.generatePlayers(true);
 
         ArrayList<Integer> playerDocks = new ArrayList<>();
         for (Player player : testHandler.getPlayers()) {

@@ -1,12 +1,13 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.map.cards;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ProgramCard implements Card {
+public class MovementCard implements Card {
 
     private final Movement action;
     private final int priority;
@@ -16,11 +17,11 @@ public class ProgramCard implements Card {
      * @param action   The movement the card will impose
      * @param priority The unique priority of the card
      */
-    public ProgramCard(@NotNull Movement action, int priority, boolean headless) {
+    public MovementCard(@NotNull Movement action, int priority) {
         this.action = action;
         this.priority = priority;
-        if (!headless) {
-            this.textureRegion = UIHandler.CARDS_TEXTURE;
+        if (!GameGraphics.HEADLESS) {
+            textureRegion = UIHandler.CARDS_TEXTURE;
         }
     }
 
@@ -30,7 +31,7 @@ public class ProgramCard implements Card {
     @NotNull
     @Override
     public Movement getAction() {
-        return this.action;
+        return action;
     }
 
     /**
@@ -38,7 +39,7 @@ public class ProgramCard implements Card {
      */
     @Override
     public int getPriority() {
-        return this.priority;
+        return priority;
     }
 
     @NotNull
@@ -61,7 +62,7 @@ public class ProgramCard implements Card {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ProgramCard that = (ProgramCard) o;
+        MovementCard that = (MovementCard) o;
         return priority == that.priority &&
                 action == that.action;
     }
@@ -73,7 +74,7 @@ public class ProgramCard implements Card {
 
     @Override
     public String toString() {
-        return "ProgramCard{" +
+        return "MovementCard{" +
                 "action=" + action +
                 ", priority=" + priority +
                 '}';

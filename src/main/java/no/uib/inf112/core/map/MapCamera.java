@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class MapCamera implements MapHandler {
+public abstract class MapCamera extends GameMap {
 
     private float zoomSensitivity;
     private float maxZoom;
@@ -15,12 +15,21 @@ public abstract class MapCamera implements MapHandler {
 
     private float defaultHeight;
     private float defaultWidth;
-    float currHeight;
-    float currWidth;
+    private float currHeight;
+    private float currWidth;
 
     private Vector2 tilesShown = new Vector2();
 
-    public MapCamera() {
+    MapCamera(String map) {
+        super(map);
+        setupCamera();
+    }
+
+    MapCamera() {
+        setupCamera();
+    }
+
+    private void setupCamera() {
         Gdx.app.postRunnable(() -> {
 
             defaultWidth = Gdx.graphics.getWidth();
@@ -34,7 +43,7 @@ public abstract class MapCamera implements MapHandler {
 
             if (maxZoom < minZoom) {
                 throw new IllegalArgumentException(
-                        "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
             }
 
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -60,7 +69,8 @@ public abstract class MapCamera implements MapHandler {
     private void ensureZoomBounds() {
         if (camera.zoom > getMaxZoom()) {
             camera.zoom = getMaxZoom();
-        } else if (camera.zoom < getMinZoom()) {
+        }
+        else if (camera.zoom < getMinZoom()) {
             camera.zoom = getMinZoom();
         }
     }
@@ -106,13 +116,15 @@ public abstract class MapCamera implements MapHandler {
 
         if (camera.position.x < minX) {
             camera.position.x = minX;
-        } else if (camera.position.x > maxX) {
+        }
+        else if (camera.position.x > maxX) {
             camera.position.x = maxX;
         }
 
         if (camera.position.y < minY) {
             camera.position.y = minY;
-        } else if (camera.position.y > maxY) {
+        }
+        else if (camera.position.y > maxY) {
             camera.position.y = maxY;
         }
     }
@@ -139,15 +151,15 @@ public abstract class MapCamera implements MapHandler {
     }
 
 
-    public float getZoomSensitivity() {
+    private float getZoomSensitivity() {
         return zoomSensitivity / deltaSize();
     }
 
-    public float getMaxZoom() {
+    private float getMaxZoom() {
         return maxZoom / deltaSize();
     }
 
-    public float getMinZoom() {
+    private float getMinZoom() {
         return minZoom / deltaSize();
     }
 }

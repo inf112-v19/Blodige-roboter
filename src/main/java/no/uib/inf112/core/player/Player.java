@@ -1,7 +1,9 @@
 package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.Gdx;
-import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -28,11 +30,10 @@ public class Player {
 
     private int dock;
 
+    private int flags;
     private int lives;
     private boolean poweredDown;
     private int health;
-
-    private boolean headless;
 
     private CardContainer cards;
 
@@ -40,37 +41,26 @@ public class Player {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
+     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
+     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction) {
-        this(x, y, direction, false);
-    }
-
-    /**
-     * @param x         Start x position
-     * @param y         Start y position
-     * @param direction Start direction
-     * @param headless  true if you want player without graphics, false otherwise
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction, boolean)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction, boolean)}
-     */
-    public Player(int x, int y, @NotNull Direction direction, boolean headless) {
         backup = new Vector2Int(x, y);
 
+        flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        this.headless = headless;
-
-        robot = new Robot(x, y, direction, headless);
-        if (!headless) {
-            cards = new CardContainer(this, RoboRally.getPlayerHandler().getDeck());
-            ControlPanelEventHandler eventHandler = RoboRally.getCPEventHandler();
-
+        robot = new Robot(x, y, direction);
+        cards = new CardContainer(this);
+        if (!GameGraphics.HEADLESS) {
+            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
-                if (this != RoboRally.getPlayerHandler().mainPlayer()) {
+                if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
+                    //This is not optimal, references both ways but since its a get i have not given a lot of thought
+                    // trying to change it
                     return;
+
                 }
                 poweredDown = !poweredDown;
                 System.out.println("Powered down? " + isPoweredDown());
@@ -95,14 +85,13 @@ public class Player {
     }
 
     /**
-     * Kill the player, decreasing their lives and might permanently remove from map if there are not lives left
+     * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
+     * no lives left
      */
     public void kill() {
         lives--;
         if (lives == 0) {
-            if (!headless) {
-                RoboRally.getCurrentMap().removeEntity(robot);
-            }
+            GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
             return;
         }
         health = MAX_HEALTH;
@@ -134,14 +123,26 @@ public class Player {
         return cards;
     }
 
+    public int getFlags() {
+        return flags;
+    }
+
+    public boolean canGetFlag(int flagRank) {
+        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    }
+
+    public void registerFlagVisit() {
+        flags += 1;
+    }
+
     public void beginDrawCards() {
         cards.draw();
-        RoboRally.getUiHandler().showDrawnCards();
+        GameGraphics.getUiHandler().showDrawnCards();
     }
 
     public void endDrawCards() {
 
-        RoboRally.getUiHandler().hideDrawnCards();
+        GameGraphics.getUiHandler().hideDrawnCards();
 
         if (cards.hasInvalidHand()) {
             cards.randomizeHand();
@@ -151,10 +152,24 @@ public class Player {
             int id = i;
 
             //this is a way to do player turns (ie wait some between each card is played)
-            RoboRally.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
+            GameGraphics.executorService.schedule(() -> Gdx.app.postRunnable(() -> {
                 Card card = cards.getCard(SlotType.HAND, id);
-                getRobot().move(card.getAction());
+                moveRobot(card.getAction());
+
             }), 500 * (i + 1), TimeUnit.MILLISECONDS);
+        }
+    }
+
+    /**
+     * Moves the robot with the movement corresponding to the cardAction
+     * <p>
+     * If the robot moves outside the map, {@link Player#kill()} method is called
+     *
+     * @param cardAction movement to do with the robot
+     */
+    public void moveRobot(Movement cardAction) {
+        if (!getRobot().move(cardAction)) {
+            kill();
         }
     }
 

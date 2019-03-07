@@ -1,12 +1,13 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.GameGraphics;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
 public class PlayerHandler implements IPlayerHandler {
 
-    private Deck deck;
     private int playerCount;
     private ArrayList<Player> players;
 
@@ -23,13 +24,8 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-        deck = new ProgramDeck(false);
-    }
-
-    @Override
-    public void generatePlayers(boolean headless) {
         for (int i = 0; i < playerCount; i++) {
-            players.add(new Player(5 + i, 2, Direction.NORTH, headless));
+            players.add(new Player(5 + i, 2, Direction.NORTH));
         }
 
         Stack<Integer> docks = new Stack<>();
@@ -41,13 +37,37 @@ public class PlayerHandler implements IPlayerHandler {
         for (Player player : players) {
             player.setDock(docks.pop());
         }
+
+    }
+
+    @Override
+    public void generatePlayers() {
+        //Keeping this in case we want to generate new players, currently only used for testing
+        if (GameGraphics.HEADLESS) {
+            players = new ArrayList<>(playerCount);
+
+            for (int i = 0; i < playerCount; i++) {
+                players.add(new Player(5 + i, 2, Direction.NORTH));
+            }
+
+            Stack<Integer> docks = new Stack<>();
+            for (int i = 1; i <= playerCount; i++) {
+                docks.push(i);
+            }
+            Collections.shuffle(docks);
+
+            for (Player player : players) {
+                player.setDock(docks.pop());
+            }
+        }
+
     }
 
     @Override
     public void doTurn() {
         //TODO Issue #44 check if dead
         //TODO Issue #44 check if player is out side of map
-        deck.shuffle();
+
         for (Player player : players) {
             if (player != mainPlayer()) {
                 continue;
@@ -70,11 +90,6 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public int getPlayerCount() {
         return playerCount;
-    }
-
-    @Override
-    public Deck getDeck() {
-        return deck;
     }
 
     /**

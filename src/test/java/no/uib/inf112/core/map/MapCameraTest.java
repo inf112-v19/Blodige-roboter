@@ -18,6 +18,7 @@ import static junit.framework.TestCase.assertEquals;
 import static no.uib.inf112.core.map.MapHandler.*;
 
 public class MapCameraTest extends TestGraphics {
+
     private MapCamera c;
 
 
@@ -124,11 +125,6 @@ public class MapCameraTest extends TestGraphics {
 
         MapCameraTestImpl() {
             super();
-        }
-
-        @Override
-        public void dispose() {
-
         }
 
         @Override

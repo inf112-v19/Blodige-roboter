@@ -3,7 +3,8 @@ package no.uib.inf112.core.ui.actors.cards;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import no.uib.inf112.core.player.Card;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.UIHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,11 +14,9 @@ import org.jetbrains.annotations.Nullable;
 public class CardActor extends ImageTextButton {
 
     private Card card;
-    private boolean headless;
 
-    CardActor(boolean headless) {
+    CardActor() {
         super("", createSkin());
-        this.headless = headless;
     }
 
     private static ImageTextButtonStyle createSkin() {
@@ -31,7 +30,7 @@ public class CardActor extends ImageTextButton {
      * Update the texture of the card
      */
     public void updateCard() {
-        if (headless) {
+        if (GameGraphics.HEADLESS) {
             return;
         }
         if (card == null) {

@@ -1,53 +1,39 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(RoboRally.class)
-public class PlayerTest {
+
+public class PlayerTest extends TestGraphics {
 
     private Player testPlayer;
-    private int health;
-    private int lives;
+    private static RoboRally roboRally;
+
+    @BeforeClass
+    public static void beforeClass() {
+        roboRally = GameGraphics.getRoboRally();
+    }
 
     @Before
     public void setup() {
-        testPlayer = new Player(0, 0, Direction.NORTH, true);
-        health = testPlayer.getHealth();
-        lives = testPlayer.getLives();
-
-        PowerMockito.mockStatic(RoboRally.class);
-        PowerMockito.mockStatic(PlayerHandler.class);
-
-        PlayerHandler ph = mock(PlayerHandler.class);
-        when(ph.mainPlayer()).thenReturn(testPlayer);
-
-        MapHandler map = Mockito.mock(TiledMapHandler.class);
-        when(map.getMapHeight()).thenReturn(RobotTest.HEIGHT);
-        when(map.getMapWidth()).thenReturn(RobotTest.WIDTH);
-        when(map.isOutsideBoard(Mockito.anyInt(), Mockito.anyInt())).thenCallRealMethod();
-
-        when(RoboRally.getPlayerHandler()).thenReturn(ph);
-        when(RoboRally.getCurrentMap()).thenReturn(map);
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
+        testPlayer.getRobot().teleport(0, 0);
+        testPlayer.getRobot().setDirection(Direction.NORTH);
     }
 
     @Test
     public void dealingOneDamageShouldDecreaseHealthByOne() {
-        testPlayer.damage(1);
-        assertEquals(health - 1, testPlayer.getHealth());
+        testPlayer.heal(1);
+        int health = testPlayer.getHealth();
+        int damage = 1;
+        testPlayer.damage(damage);
+        assertEquals(health - damage, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -57,20 +43,24 @@ public class PlayerTest {
 
     @Test
     public void dealingMoreDamageThanHealthShouldDecreaseLivesByOne() {
+        int health = testPlayer.getHealth();
+        int lives = testPlayer.getLives();
         testPlayer.damage(health + 1);
         assertEquals(lives - 1, testPlayer.getLives());
     }
 
     @Test
     public void dealingLessDamageThanHealthShouldNotAffectLives() {
+        int health = testPlayer.getHealth();
+        int lives = testPlayer.getLives();
         testPlayer.damage(health - 1);
         assertEquals(lives, testPlayer.getLives());
     }
 
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
-        testPlayer.damage(health + 1);
-        assertEquals(health, testPlayer.getHealth());
+        testPlayer.damage(testPlayer.getHealth() + 1);
+        assertEquals(Player.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -81,14 +71,16 @@ public class PlayerTest {
 
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
+        testPlayer.heal(Player.MAX_HEALTH);
+        int health = testPlayer.getHealth();
         testPlayer.heal(10);
         assertEquals(health, testPlayer.getHealth());
     }
 
     @Test
     public void healingOneToDamagedPlayerShouldIncreaseHealthByOne() {
-        testPlayer.damage(health - 1);
-        health = testPlayer.getHealth();
+        testPlayer.damage(testPlayer.getHealth() - 1);
+        int health = testPlayer.getHealth();
         testPlayer.heal(1);
         assertEquals(health + 1, testPlayer.getHealth());
     }
