@@ -98,6 +98,16 @@ public class MapInteractOnUser {
      * @param entitiesOnMap
      */
     private void shootLasers(Collection<Entity> entitiesOnMap) {
+        //Need additional logic since only robot closest to laser start is hit, also shoot lasers from robots
+
+        ArrayList<MapAction> queue = getMapActions(entitiesOnMap);
+        for (MapAction mapAction : queue) {
+            mapAction.doAction();
+        }
+    }
+
+
+    private ArrayList<MapAction> getMapActions(Collection<Entity> entitiesOnMap) {
         ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
         for (Entity entity : entitiesOnMap) {
             MapAction mapAction = getAction(entity);
@@ -105,11 +115,7 @@ public class MapInteractOnUser {
                 queue.add(mapAction); // Add every action thats needed
             }
         }
-        //Need additional logic since only robot closest to laser start is hit, also shoot lasers from robots
-
-        for (MapAction mapAction : queue) {
-            mapAction.doAction();
-        }
+        return queue;
     }
 
     /**
@@ -123,13 +129,7 @@ public class MapInteractOnUser {
             posRobotMap.put(new Vector2Int(entity.getX(), entity.getY()), entity);
         } //Keep track of old positions
 
-        ArrayList<MapAction> queue = new ArrayList<>(); //Not a queue but using it as a queue
-        for (Entity entity : entitiesOnMap) {
-            MapAction mapAction = getAction(entity);
-            if (mapAction != null) {//And mapaction is conveyor/gear
-                queue.add(mapAction); // Add every action thats needed
-            }
-        }
+        ArrayList<MapAction> queue = getMapActions(entitiesOnMap);
 
         Map<Entity, Entity> entityConflictWithEntity = new HashMap<>(); //Currently not used just stores information
         ArrayList<MapAction> conflictActions = new ArrayList<>();
