@@ -38,6 +38,7 @@
 * [Møtenotater](https://github.com/inf112-v19/Blodige-roboter/wiki)
 * Se [Workflow](https://github.com/inf112-v19/Blodige-roboter/wiki/Workflow) for mer beskrivende arbeidsmetoder
 * Se [Run with IntelliJ](https://github.com/inf112-v19/Blodige-roboter/wiki/Other_Run-with-IntelliJ) for hvordan kjøre spillet og kjøre tester
+* Se hvordan man spiller spillet [Instructions](https://github.com/inf112-v19/Blodige-roboter/wiki/Specification_Instructions)
 * Milestones i issues representerer de forskjellige iterasjonene vi har hatt.
 [KlasseDiagram](Oblig3-KlasseDiagram.PNG)
 ![klassediagram](Oblig3-KlasseDiagram.PNG)
