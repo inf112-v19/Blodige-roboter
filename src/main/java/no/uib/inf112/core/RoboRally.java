@@ -47,7 +47,7 @@ public class RoboRally {
             deck = new MovementDeck();
             playerHandler.startTurn();
             // End of robot movement
-
+            mapInteractOnUser.scan(map.getEntities());
             // Activate lasers
 
             // Move rotation gears
