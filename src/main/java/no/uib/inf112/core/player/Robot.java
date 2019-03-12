@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
@@ -13,6 +14,8 @@ public class Robot implements Entity {
     private int x, y;
     boolean update;
 
+    Color color;
+
     /**
      * @param x         The x position the player starts at
      * @param y         The y position the player starts at
@@ -22,9 +25,10 @@ public class Robot implements Entity {
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(int x, int y, Direction direction) {
+    public Robot(int x, int y, Direction direction, Color color) {
         this.x = x;
         this.y = y;
+        this.color = color;
 
         if (direction == null) {
             throw new IllegalArgumentException("Given direction can not be null");
@@ -132,5 +136,9 @@ public class Robot implements Entity {
     @Override
     public void update(boolean update) {
         this.update = update;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

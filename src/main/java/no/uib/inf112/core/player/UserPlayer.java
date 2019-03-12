@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -13,7 +14,7 @@ public class UserPlayer extends Player {
     private CardContainer cards;
 
     public UserPlayer(int x, int y, @NotNull Direction direction) {
-        super(x, y, direction);
+        super(x, y, direction, Color.RED);
 
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {

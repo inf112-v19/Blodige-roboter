@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.TileType;
@@ -105,7 +106,7 @@ public class RobotTest extends TestGraphics {
 
     @Test
     public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
-        Robot testBot2 = new Robot(5, 5, testBot.getDirection());
+        Robot testBot2 = new Robot(5, 5, testBot.getDirection(), Color.BLUE);
         player.moveRobot(Movement.RIGHT_TURN);
         player.moveRobot(Movement.RIGHT_TURN);
         player.moveRobot(Movement.U_TURN);

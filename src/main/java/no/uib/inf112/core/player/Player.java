@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
@@ -34,14 +35,14 @@ public abstract class Player implements IPlayer {
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
-    public Player(int x, int y, @NotNull Direction direction) {
+    public Player(int x, int y, @NotNull Direction direction, Color color) {
         backup = new Vector2Int(x, y);
 
         flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        robot = new Robot(x, y, direction);
+        robot = new Robot(x, y, direction, color);
     }
 
     @Override
