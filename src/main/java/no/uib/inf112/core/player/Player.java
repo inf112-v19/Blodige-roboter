@@ -1,6 +1,8 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -130,8 +132,15 @@ public abstract class Player implements IPlayer {
 
     @Override
     public void setBackup(int x, int y) {
-        backup.x = x;
-        backup.y = y;
+        RoboRally roboRally = GameGraphics.getRoboRally();
+        MapHandler map = roboRally.getCurrentMap();
+
+        if (map.isOutsideBoard(x, y) == false) {
+            backup.x = x;
+            backup.y = y;
+        }
+
+
     }
 
     @Override
