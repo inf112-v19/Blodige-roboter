@@ -19,7 +19,7 @@ public class RoboRally {
     public static final int FLAG_COUNT = 4;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 
     private MapHandler map;
 
