@@ -138,9 +138,9 @@ public abstract class Player implements IPlayer {
         if (map.isOutsideBoard(x, y) == false) {
             backup.x = x;
             backup.y = y;
+        } else {
+            new IllegalArgumentException();
         }
-
-
     }
 
     @Override
