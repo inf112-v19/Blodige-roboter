@@ -111,6 +111,9 @@ public class Robot implements Entity {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
             return false;
         }
+        if (GameGraphics.getRoboRally().getCurrentMap().getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) {
+            return false;
+        }
         update();
         return true;
     }
