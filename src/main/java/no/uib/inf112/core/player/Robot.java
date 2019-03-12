@@ -12,9 +12,8 @@ public class Robot implements Entity {
 
     private Direction direction;
     private int x, y;
-    boolean update;
-
-    Color color;
+    private boolean update;
+    private Color color;
 
     /**
      * @param x         The x position the player starts at

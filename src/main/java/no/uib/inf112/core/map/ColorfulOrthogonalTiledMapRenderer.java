@@ -14,7 +14,7 @@ import static com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell.*;
 
 public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
-    public ColorfulOrthogonalTiledMapRenderer(TiledMap map) {
+    ColorfulOrthogonalTiledMapRenderer(TiledMap map) {
         super(map);
     }
 
@@ -126,7 +126,6 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                     if (rotations != 0) {
                         switch (rotations) {
                             case ROTATE_90: {
-                                float tempV = vertices[V1];
                                 vertices[V1] = vertices[V2];
                                 vertices[V3] = vertices[V4];
 
@@ -159,6 +158,8 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                                 vertices[U3] = vertices[U2];
                                 break;
                             }
+                            default:
+                                throw new IllegalStateException("Unknown rotation " + rotations);
                         }
                     }
                     batch.draw(region.getTexture(), vertices, 0, NUM_VERTICES);
