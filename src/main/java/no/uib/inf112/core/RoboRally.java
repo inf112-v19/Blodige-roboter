@@ -83,4 +83,8 @@ public class RoboRally {
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
     }
+
+    public void changeMap(String mapPath) {
+        map = new HeadlessMapHandler(mapPath);
+    }
 }

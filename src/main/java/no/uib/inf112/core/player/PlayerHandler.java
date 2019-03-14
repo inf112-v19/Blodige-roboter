@@ -51,9 +51,7 @@ public class PlayerHandler implements IPlayerHandler {
         //Keeping this in case we want to generate new players, currently only used for testing
         if (GameGraphics.HEADLESS) {
             players = new ArrayList<>(playerCount);
-            user = new UserPlayer(5, 2, Direction.NORTH);
-            players.add(user);
-            for (int i = 1; i < playerCount; i++) {
+            for (int i = 0; i < playerCount; i++) {
                 players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
             }
 
@@ -68,6 +66,13 @@ public class PlayerHandler implements IPlayerHandler {
             }
         }
 
+    }
+
+    @Override
+    public void generatePlayer() {
+        players = new ArrayList<>(playerCount);
+        players.add(new NonPlayer(0, 0, Direction.NORTH));
+        players.get(0).setDock(1);
     }
 
     @Override

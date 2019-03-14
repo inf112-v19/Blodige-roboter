@@ -23,6 +23,7 @@ public abstract class GameMap implements MapHandler {
 
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer entityLayer;
+    private TiledMapTileLayer flagLayer;
 
 
     //A map of all know entities and their last know location
@@ -58,13 +59,24 @@ public abstract class GameMap implements MapHandler {
         }
         if (baseLayer == null) {
             throw new IllegalStateException(
-                "Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+                    "Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
         boardLayer = baseLayer;
+
+        TiledMapTileLayer flags = null;
+        try {
+            flags = (TiledMapTileLayer) tiledMap.getLayers().get(FLAG_LAYER_NAME);
+        } catch (ClassCastException ignore) {}
+        if (flags == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + FLAG_LAYER_NAME + "'");
+        }
+        flagLayer = flags;
 
         //create a new empty layer for all the robots to play on :)
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         tiledMap.getLayers().add(entityLayer);
+
+
 
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
@@ -164,5 +176,11 @@ public abstract class GameMap implements MapHandler {
     @Override
     public int getTileWidth() {
         return tileWidth;
+    }
+
+    @Override
+    public TileType getFlagLayerTile(int x, int y) {
+        int tileId = flagLayer.getCell(x, y).getTile().getId();
+        return TileType.fromTiledId(tileId);
     }
 }

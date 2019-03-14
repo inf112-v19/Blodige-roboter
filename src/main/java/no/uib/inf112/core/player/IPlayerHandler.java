@@ -6,6 +6,8 @@ import java.util.List;
  * @author Daniel
  */
 public interface IPlayerHandler {
+    void generatePlayer();
+
     /**
      * Add all player cards in a queue
      * Execute cards for each player after priority
