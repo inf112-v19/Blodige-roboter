@@ -145,5 +145,15 @@ public interface MapHandler {
      */
     void resize(int width, int height);
 
+    /**
+     * @return The flag tile at the given {@code (x, y)} coordinate
+     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     */
     TileType getFlagLayerTile(int x, int y);
+
+    /**
+     * @return The collidable tile at the given {@code (x, y)} coordinate
+     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     */
+    TileType getCollidablesLayerTile(int x, int y);
 }

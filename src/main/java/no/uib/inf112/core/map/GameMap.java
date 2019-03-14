@@ -24,6 +24,7 @@ public abstract class GameMap implements MapHandler {
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer entityLayer;
     private TiledMapTileLayer flagLayer;
+    private TiledMapTileLayer collidablesLayer;
 
 
     //A map of all know entities and their last know location
@@ -66,16 +67,26 @@ public abstract class GameMap implements MapHandler {
         TiledMapTileLayer flags = null;
         try {
             flags = (TiledMapTileLayer) tiledMap.getLayers().get(FLAG_LAYER_NAME);
-        } catch (ClassCastException ignore) {}
+        } catch (ClassCastException ignore) {
+        }
         if (flags == null) {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + FLAG_LAYER_NAME + "'");
         }
         flagLayer = flags;
 
+        TiledMapTileLayer collidables = null;
+        try {
+            collidables = (TiledMapTileLayer) tiledMap.getLayers().get(COLLIDABLES_LAYER_NAME);
+        } catch (ClassCastException ignore) {
+        }
+        if (flags == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
+        }
+        collidablesLayer = collidables;
+
         //create a new empty layer for all the robots to play on :)
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         tiledMap.getLayers().add(entityLayer);
-
 
 
         //use a linked hashmap to make sure the iteration is consistent
@@ -178,8 +189,16 @@ public abstract class GameMap implements MapHandler {
         return tileWidth;
     }
 
+    @NotNull
     @Override
     public TileType getFlagLayerTile(int x, int y) {
+        int tileId = flagLayer.getCell(x, y).getTile().getId();
+        return TileType.fromTiledId(tileId);
+    }
+
+    @NotNull
+    @Override
+    public TileType getCollidablesLayerTile(int x, int y) {
         int tileId = flagLayer.getCell(x, y).getTile().getId();
         return TileType.fromTiledId(tileId);
     }
