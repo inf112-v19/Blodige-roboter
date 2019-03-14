@@ -7,23 +7,27 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
+
+import static no.uib.inf112.core.GameGraphics.MAP_FOLDER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
 public class PlayerTest extends TestGraphics {
 
-    private Player testPlayer;
+    private IPlayer testPlayer;
     private static RoboRally roboRally;
 
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
+        roboRally.changeMap(MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
     }
 
     @Before
     public void setup() {
-        testPlayer = roboRally.getPlayerHandler().mainPlayer();
+        testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.getRobot().teleport(0, 0);
         testPlayer.getRobot().setDirection(Direction.NORTH);
     }
