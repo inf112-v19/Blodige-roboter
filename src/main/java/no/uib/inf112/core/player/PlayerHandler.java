@@ -69,7 +69,7 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public void generatePlayer() {
+    public void generateOnePlayer() {
         players = new ArrayList<>(playerCount);
         players.add(new NonPlayer(0, 0, Direction.NORTH));
         players.get(0).setDock(1);

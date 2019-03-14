@@ -79,7 +79,7 @@ public abstract class GameMap implements MapHandler {
             collidables = (TiledMapTileLayer) tiledMap.getLayers().get(COLLIDABLES_LAYER_NAME);
         } catch (ClassCastException ignore) {
         }
-        if (flags == null) {
+        if (collidables == null) {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
         }
         collidablesLayer = collidables;

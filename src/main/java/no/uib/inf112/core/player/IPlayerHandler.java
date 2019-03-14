@@ -6,7 +6,11 @@ import java.util.List;
  * @author Daniel
  */
 public interface IPlayerHandler {
-    void generatePlayer();
+
+    /**
+     * Generate one test player, used for testing
+     */
+    void generateOnePlayer();
 
     /**
      * Add all player cards in a queue
