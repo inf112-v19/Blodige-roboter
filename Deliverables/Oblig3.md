@@ -7,12 +7,12 @@
   * Teamlead:
     * Har en god dialog med resten av teamet, folk velger oppgaver selv eller får kommentere på tildelte oppgaver. Jeg tar ansvar for at møtene holder en noenlunde struktur og at vi ikke bruker tiden på diskutere uvesentlige ting.
     * Jeg tar ansvar for at project board, wiki og annet materiale utenom kode er i avtalt struktur.
-  * Vi har ingen andre roller, men passer at alle gjør litt av alt.
+  * Vi har ingen andre roller, men passer på at alle gjør litt av alt.
 * Erfaringer mtp prosjektmetodikk:
   * Vi bruker ikke project boardet aktivt, kanskje vi skal gjøre det om til per iterasjon.
 * Gruppedynamikk og kommunikasjon:
   * Vi er alle involverte i gruppearbeidet takket være test/utvikler delegering og pull reviews.
-  * Vi arbeider til litt forskjellige tider, i tillegg er det noen av oss liker å gjøre alt på en gang mens andre foretrekker å spre det litt ut over tiden. Dette skaper litt ubalanse spesielt i forhol til testing og reviews.
+  * Vi arbeider til litt forskjellige tider, i tillegg er det noen av oss liker å gjøre alt på en gang mens andre foretrekker å spre det litt ut over tiden. Dette skaper litt ubalanse spesielt i forhold til testing og reviews.
   * Vi har gått ned til ett møte i uken, vi diskuterer litt på slack, og tar det mer formelle på github.
 * Retrospektiv:
   * Vi fortsetter med bruk av et kanban board uten begrensninger på kolonnene. Her legger vi også inn arbeidsoppgaver som ikke omhandler koding. 
@@ -40,7 +40,9 @@
 * Se [Run with IntelliJ](https://github.com/inf112-v19/Blodige-roboter/wiki/Other_Run-with-IntelliJ) for hvordan kjøre spillet og kjøre tester
 * Se hvordan man spiller spillet [Instructions](https://github.com/inf112-v19/Blodige-roboter/wiki/Specification_Instructions)
 * Milestones i issues representerer de forskjellige iterasjonene vi har hatt.
+
 [KlasseDiagram](Oblig3-KlasseDiagram.PNG)
+
 ![klassediagram](Oblig3-KlasseDiagram.PNG)
 
 ## Deloppgave 2: Krav
