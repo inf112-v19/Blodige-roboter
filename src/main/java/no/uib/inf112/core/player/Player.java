@@ -149,6 +149,17 @@ public abstract class Player implements IPlayer {
         this.dock = dock;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "backup= " + backup +
+                ", flags= " + flags +
+                ", lives= " + lives +
+                ", health= " + health +
+                ", poweredDown= " + poweredDown +
+                ", dock= " + dock +
+                "}";
+    }
 
     @Override
     public int compareTo(@NotNull IPlayer iPlayer) {

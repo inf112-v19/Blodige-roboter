@@ -24,7 +24,7 @@ public class PlayerCard implements Comparable<PlayerCard> {
         return "PlayerCard{" +
                 "player= " + player +
                 ", card= " + card +
-                '}';
+                "}";
     }
 
     @Override
