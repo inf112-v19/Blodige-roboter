@@ -81,11 +81,6 @@ public class SoundPlayer {
 }
 
 /*
-TODO lyder
-
-
- - Få powerCard
-
 TODO wiki
 - Hvordan legge inn ny sound
 - samme feltnavn som filnavn
