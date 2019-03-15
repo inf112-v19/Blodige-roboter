@@ -108,10 +108,11 @@ public class Robot implements Entity {
     private boolean move(int deltaX, int deltaY) {
         x += deltaX;
         y += deltaY;
-        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+        if (map.isOutsideBoard(x, y)) {
             return false;
         }
-        if (GameGraphics.getRoboRally().getCurrentMap().getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) {
+        if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) {
             return false;
         }
         update();
