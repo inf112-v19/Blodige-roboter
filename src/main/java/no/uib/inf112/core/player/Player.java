@@ -133,11 +133,11 @@ public abstract class Player implements IPlayer {
     public void setBackup(int x, int y) {
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
-        if (!map.isOutsideBoard(x, y)) {
+        if (map.isOutsideBoard(x, y)) {
+            throw new IllegalArgumentException();
+        } else {
             backup.x = x;
             backup.y = y;
-        } else {
-            new IllegalArgumentException();
         }
     }
 
