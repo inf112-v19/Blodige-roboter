@@ -12,6 +12,12 @@ import no.uib.inf112.core.player.Robot;
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 import static com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell.*;
 
+/**
+ * Class implemented to be able to render robots with different color. Only line 73-79 is our own logic rest is the
+ * same implementation from OrthogonalTiledMapRenderer
+ *
+ * @Author Elg and Kristian
+ */
 public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
     ColorfulOrthogonalTiledMapRenderer(TiledMap map) {
@@ -57,10 +63,6 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                 final TiledMapTile tile = cell.getTile();
 
                 if (tile != null) {
-                    final boolean flipX = cell.getFlipHorizontally();
-                    final boolean flipY = cell.getFlipVertically();
-                    final int rotations = cell.getRotation();
-
                     TextureRegion region = tile.getTextureRegion();
 
                     float x1 = x + tile.getOffsetX() * unitScale;
@@ -68,14 +70,8 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                     float x2 = x1 + region.getRegionWidth() * unitScale;
                     float y2 = y1 + region.getRegionHeight() * unitScale;
 
-                    float u1 = region.getU();
-                    float v1 = region.getV2();
-                    float u2 = region.getU2();
-                    float v2 = region.getV();
-
                     float color1 = color;
-                    TileType tt = TileType.fromTiledId(tile.getId());
-                    if (tt.getGroup() == TileType.Group.ROBOT) {
+                    if (TileType.fromTiledId(tile.getId()).getGroup() == TileType.Group.ROBOT) {
                         Robot robot = (Robot) GameGraphics.getRoboRally().getCurrentMap().getEntity(col, row);
                         if (robot != null) {
                             Color c = robot.getColor();
@@ -83,79 +79,34 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                         }
                     }
 
-                    vertices[X1] = x1;
-                    vertices[Y1] = y1;
-                    vertices[C1] = color1;
-                    vertices[U1] = u1;
-                    vertices[V1] = v1;
+                    // Logic breaks for V getV2 is paired with y1 and getV is with y2
+                    assignVerticeValues(x1, y1, region.getU(), region.getV2(), color1, X1, Y1, C1, U1, V1);
+                    assignVerticeValues(x1, y2, region.getU(), region.getV(), color1, X2, Y2, C2, U2, V2);
+                    assignVerticeValues(x2, y2, region.getU2(), region.getV(), color1, X3, Y3, C3, U3, V3);
+                    assignVerticeValues(x2, y1, region.getU2(), region.getV2(), color1, X4, Y4, C4, U4, V4);
 
-                    vertices[X2] = x1;
-                    vertices[Y2] = y2;
-                    vertices[C2] = color1;
-                    vertices[U2] = u1;
-                    vertices[V2] = v2;
-
-                    vertices[X3] = x2;
-                    vertices[Y3] = y2;
-                    vertices[C3] = color1;
-                    vertices[U3] = u2;
-                    vertices[V3] = v2;
-
-                    vertices[X4] = x2;
-                    vertices[Y4] = y1;
-                    vertices[C4] = color1;
-                    vertices[U4] = u2;
-                    vertices[V4] = v1;
-
-                    if (flipX) {
-                        float temp = vertices[U1];
-                        vertices[U1] = vertices[U3];
-                        vertices[U3] = temp;
-                        temp = vertices[U2];
-                        vertices[U2] = vertices[U4];
-                        vertices[U4] = temp;
+                    if (cell.getFlipHorizontally()) {
+                        flipVerticeValues(U1, U3);
+                        flipVerticeValues(U2, U4);
                     }
-                    if (flipY) {
-                        float temp = vertices[V1];
-                        vertices[V1] = vertices[V3];
-                        vertices[V3] = temp;
-                        temp = vertices[V2];
-                        vertices[V2] = vertices[V4];
-                        vertices[V4] = temp;
+                    if (cell.getFlipVertically()) {
+                        flipVerticeValues(V1, V3);
+                        flipVerticeValues(V2, V4);
                     }
+
+                    final int rotations = cell.getRotation();
                     if (rotations != 0) {
                         switch (rotations) {
                             case ROTATE_90: {
-                                vertices[V1] = vertices[V2];
-                                vertices[V3] = vertices[V4];
-
-                                float tempU = vertices[U1];
-                                vertices[U2] = vertices[U3];
-                                vertices[U4] = tempU;
+                                rotate90();
                                 break;
                             }
                             case ROTATE_180: {
-                                float tempU = vertices[U1];
-                                vertices[U1] = vertices[U3];
-                                vertices[U3] = tempU;
-                                tempU = vertices[U2];
-                                vertices[U2] = vertices[U4];
-                                vertices[U4] = tempU;
-                                float tempV = vertices[V1];
-                                vertices[V1] = vertices[V3];
-                                vertices[V3] = tempV;
-                                tempV = vertices[V2];
-                                vertices[V2] = vertices[V4];
-                                vertices[V4] = tempV;
+                                rotate180();
                                 break;
                             }
                             case ROTATE_270: {
-                                float tempV = vertices[V1];
-                                vertices[V4] = vertices[V3];
-                                vertices[V2] = tempV;
-
-                                vertices[U1] = vertices[U4];
-                                vertices[U3] = vertices[U2];
+                                rotate270();
                                 break;
                             }
                             default:
@@ -168,5 +119,66 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
             }
             y -= layerTileHeight;
         }
+    }
+
+    /**
+     * Changes the vertice values to rotate the tile 270 degrees
+     */
+    private void rotate270() {
+        flipVerticeValues(V1, V3);
+
+        vertices[U1] = vertices[U4];
+        vertices[U3] = vertices[U2];
+    }
+
+    /**
+     * Changes the vertice values to rotate the tile 180 degrees
+     */
+    private void rotate180() {
+        flipVerticeValues(U1, U3);
+        flipVerticeValues(U2, U4);
+        flipVerticeValues(V1, V3);
+        flipVerticeValues(V2, V4);
+    }
+
+    /**
+     * Changes the vertice values to rotate the tile 90 degrees
+     */
+    private void rotate90() {
+        vertices[V1] = vertices[V2];
+        vertices[V3] = vertices[V4];
+        flipVerticeValues(U1, U3);
+    }
+
+    /**
+     * Exchanges values at first and second
+     */
+    private void flipVerticeValues(int firstIndex, int secondIndex) {
+        float temp = vertices[firstIndex];
+        vertices[firstIndex] = vertices[secondIndex];
+        vertices[secondIndex] = temp;
+    }
+
+    /**
+     * Assigns the values to the vertice
+     *
+     * @param xValue
+     * @param yValue
+     * @param uValue
+     * @param vValue
+     * @param value
+     * @param xIndex
+     * @param yIndex
+     * @param colorIndex
+     * @param uIndex
+     * @param vIndex
+     */
+    private void assignVerticeValues(float xValue, float yValue, float uValue, float vValue,
+                                     float value, int xIndex, int yIndex, int colorIndex, int uIndex, int vIndex) {
+        vertices[xIndex] = xValue;
+        vertices[yIndex] = yValue;
+        vertices[colorIndex] = value;
+        vertices[uIndex] = uValue;
+        vertices[vIndex] = vValue;
     }
 }
