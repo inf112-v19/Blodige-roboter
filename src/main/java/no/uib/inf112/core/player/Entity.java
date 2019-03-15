@@ -1,8 +1,10 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.map.TileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 
 /**
  * An entity in on the board
@@ -55,5 +57,15 @@ public interface Entity {
      * @param update new update state
      */
     void update(boolean update);
+
+    /**
+     * @return The color of the entity
+     */
+    Color getColor();
+
+    /**
+     * @param color The new color when rendered
+     */
+    void setColor(@NotNull Color color);
 
 }

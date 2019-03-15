@@ -137,7 +137,13 @@ public class Robot implements Entity {
         this.update = update;
     }
 
+    @Override
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public void setColor(@NotNull Color color) {
+        this.color = color;
     }
 }
