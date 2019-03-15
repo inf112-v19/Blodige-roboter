@@ -132,8 +132,7 @@ public abstract class Player implements IPlayer {
 
     @Override
     public void setBackup(int x, int y) {
-        RoboRally roboRally = GameGraphics.getRoboRally();
-        MapHandler map = roboRally.getCurrentMap();
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
         if (map.isOutsideBoard(x, y) == false) {
             backup.x = x;
