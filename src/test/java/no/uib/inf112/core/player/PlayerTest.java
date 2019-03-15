@@ -99,4 +99,83 @@ public class PlayerTest extends TestGraphics {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenXIsNegativeOne() {
+        testPlayer.setBackup(-1, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenYIsNegativeOne() {
+        testPlayer.setBackup(0, -1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenXIsMapWidth() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        testPlayer.setBackup(width, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenYIsMapHeight() {
+        int height = roboRally.getCurrentMap().getMapHeight();
+        testPlayer.setBackup(0, height);
+    }
+
+    @Test
+    public void backupSucceedForAllValidPos() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        int height = roboRally.getCurrentMap().getMapHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                testPlayer.setBackup(x, y);
+            }
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenXIsNegativeOne() {
+        new PlayerImpl(-1, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenYIsNegativeOne() {
+        new PlayerImpl(0, -1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenXIsMapWidth() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        new PlayerImpl(width, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenYIsMapHeight() {
+        int height = roboRally.getCurrentMap().getMapHeight();
+        new PlayerImpl(0, height);
+    }
+
+    @Test
+    public void playerConstructorSucceedForAllValidPos() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        int height = roboRally.getCurrentMap().getMapHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                new PlayerImpl(x, y);
+            }
+        }
+    }
+
+    private class PlayerImpl extends Player {
+
+        PlayerImpl(int x, int y) {
+            super(x, y, Direction.NORTH);
+        }
+
+        @Override
+        public PlayerCard getNextCard(int id) {
+            return null;
+        }
+    }
 }
