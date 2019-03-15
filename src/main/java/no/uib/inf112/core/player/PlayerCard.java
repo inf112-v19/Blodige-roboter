@@ -19,8 +19,7 @@ public class PlayerCard implements Comparable<PlayerCard> {
     public Player getPlayer() {
         return player;
     }
-
-    @Override
+    
     public String toString() {
         return "PlayerCard{" +
                 "player= " + player +
