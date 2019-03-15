@@ -28,10 +28,10 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
-        user = new UserPlayer(5, 2, Direction.NORTH);
+        user = new UserPlayer(0, 0, Direction.NORTH);
         players.add(user);
         for (int i = 1; i < playerCount; i++) {
-            players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
+            players.add(new NonPlayer(i, 0, Direction.NORTH));
         }
 
         Stack<Integer> docks = new Stack<>();

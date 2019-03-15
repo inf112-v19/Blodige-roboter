@@ -42,7 +42,12 @@ public class MapInteractOnUser {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
-            TileType tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
+            TileType tileUnderRobot;
+            try {
+                 tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
+            } catch (NullPointerException e) {
+                return;
+            }
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {
