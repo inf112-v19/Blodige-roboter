@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
+import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,7 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS = false;
+    private static SoundPlayer soundPlayer;
 
     private SpriteBatch batch;
     private BitmapFont font;
@@ -42,7 +44,7 @@ public class GameGraphics extends Game {
 
 
         getRoboRally();
-
+        soundPlayer = new SoundPlayer();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
         roboRally.round();
@@ -51,7 +53,7 @@ public class GameGraphics extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-                       (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
         super.render();
 
@@ -96,6 +98,10 @@ public class GameGraphics extends Game {
         return uiHandler;
     }
 
+    public static SoundPlayer getSoundPlayer() {
+        return soundPlayer;
+    }
+
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
             createRoboRally();
@@ -107,5 +113,6 @@ public class GameGraphics extends Game {
         roboRally = new RoboRally();
         return roboRally;
     }
+
 
 }

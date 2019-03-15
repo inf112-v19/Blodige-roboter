@@ -111,6 +111,7 @@ public class Robot implements Entity {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
             return false;
         }
+        GameGraphics.getSoundPlayer().playRobotMoving();
         update();
         return true;
     }
