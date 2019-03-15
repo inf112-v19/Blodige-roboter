@@ -24,7 +24,7 @@ public class GameGraphics extends Game {
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "NOT_COMPLETE_island_hop.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 
     private SpriteBatch batch;
     private BitmapFont font;
