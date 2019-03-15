@@ -1,7 +1,6 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
@@ -134,7 +133,7 @@ public abstract class Player implements IPlayer {
     public void setBackup(int x, int y) {
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
-        if (map.isOutsideBoard(x, y) == false) {
+        if (!map.isOutsideBoard(x, y)) {
             backup.x = x;
             backup.y = y;
         } else {
