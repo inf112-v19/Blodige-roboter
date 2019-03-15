@@ -49,27 +49,37 @@ public class MapInteractOnUser {
                         case FLAG1:
                             if (player.canGetFlag(1)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
+                                System.out.println("flag 1");
                             }
                         case FLAG2:
                             if (player.canGetFlag(2)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
+                                System.out.println("flag 1");
                             }
                         case FLAG3:
                             if (player.canGetFlag(3)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
+                                System.out.println("flag 1");
                             }
                         case FLAG4:
                             if (player.canGetFlag(4)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
+                                System.out.println("flag 1");
                             }
                     }
                 case OPTION:
                     switch (tileUnderRobot) {
                         case WRENCH:
                             player.setBackup(x, y);
+                            GameGraphics.getSoundPlayer().playRobotUpdatesBackup();
 
                         case HAMMER_AND_WRENCH:
                             player.setBackup(x, y);
+                            GameGraphics.getSoundPlayer().playGetOptionCard();
                             //TODO #25 get option card? (Should do more than what happens on normal wrench)
                     }
                 default:

@@ -37,6 +37,7 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -44,7 +45,6 @@ public class GameGraphics extends Game {
 
 
         getRoboRally();
-        soundPlayer = new SoundPlayer();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
         roboRally.round();
@@ -99,6 +99,14 @@ public class GameGraphics extends Game {
     }
 
     public static SoundPlayer getSoundPlayer() {
+        if (null == soundPlayer) {
+            createSoundPlayer();
+        }
+        return soundPlayer;
+    }
+
+    private synchronized static SoundPlayer createSoundPlayer() {
+        soundPlayer = new SoundPlayer();
         return soundPlayer;
     }
 

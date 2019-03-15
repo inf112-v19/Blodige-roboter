@@ -34,6 +34,7 @@ public class RoboRally {
             map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
         }
 
+        GameGraphics.getSoundPlayer();
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(4);
