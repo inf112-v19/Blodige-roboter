@@ -33,3 +33,4 @@
 ### Visualizing current state
 
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)
+* Main player robot should be distinguishable by color
