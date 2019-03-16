@@ -133,4 +133,13 @@ public class Robot implements Entity {
     public void update(boolean update) {
         this.update = update;
     }
+
+    @Override
+    public String toString(){
+        return "Robot{" +
+                "direction= " + direction +
+                ", coordinates= (" + getX() +", " + getY() + ")" +
+                ", shouldUpdate= " + update +
+                "}";
+    }
 }
