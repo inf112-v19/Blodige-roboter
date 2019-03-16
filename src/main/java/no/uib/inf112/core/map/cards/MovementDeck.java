@@ -1,6 +1,7 @@
 package no.uib.inf112.core.map.cards;
 
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class MovementDeck implements Deck {
@@ -84,5 +85,15 @@ public class MovementDeck implements Deck {
     @Override
     public MovementCard[] getCards() {
         return cards;
+    }
+
+    @Override
+    public String toString() {
+        return "MovementDeck{" +
+                "cards= " + Arrays.toString(cards) +
+                ", nextCard= " + nextCard +
+                ", DECK_SIZE= " + DECK_SIZE +
+                ", shufflereps" + shufflereps +
+                "}";
     }
 }
