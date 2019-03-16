@@ -134,7 +134,7 @@ public abstract class Player implements IPlayer {
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
         if (map.isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Cant set backup outside of the map");
         } else {
             backup.x = x;
             backup.y = y;
