@@ -63,6 +63,10 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                 final TiledMapTile tile = cell.getTile();
 
                 if (tile != null) {
+                    final boolean flipX = cell.getFlipHorizontally();
+                    final boolean flipY = cell.getFlipVertically();
+                    final int rotations = cell.getRotation();
+
                     TextureRegion region = tile.getTextureRegion();
 
                     final float x1 = x + tile.getOffsetX() * unitScale;
@@ -70,7 +74,13 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                     final float x2 = x1 + region.getRegionWidth() * unitScale;
                     final float y2 = y1 + region.getRegionHeight() * unitScale;
 
-                    if (TileType.fromTiledId(tile.getId()).getGroup() == TileType.Group.ROBOT) {
+                    float u1 = region.getU();
+                    float v1 = region.getV2();
+                    float u2 = region.getU2();
+                    float v2 = region.getV();
+
+                    TileType tt = TileType.fromTiledId(tile.getId());
+                    if (tt.getGroup() == TileType.Group.ROBOT) {
                         Entity entity = GameGraphics.getRoboRally().getCurrentMap().getEntity(col, row);
                         if (entity != null) {
                             Color rc = entity.getColor();
@@ -78,34 +88,69 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                         }
                     }
 
-                    // Logic breaks for V getV2 is paired with y1 and getV is with y2
-                    assignVerticesValues(x1, y1, region.getU(), region.getV2(), realColor, X1, Y1, C1, U1, V1);
-                    assignVerticesValues(x1, y2, region.getU(), region.getV(), realColor, X2, Y2, C2, U2, V2);
-                    assignVerticesValues(x2, y2, region.getU2(), region.getV(), realColor, X3, Y3, C3, U3, V3);
-                    assignVerticesValues(x2, y1, region.getU2(), region.getV2(), realColor, X4, Y4, C4, U4, V4);
+                    vertices[X1] = x1;
+                    vertices[Y1] = y1;
+                    vertices[C1] = realColor;
+                    vertices[U1] = u1;
+                    vertices[V1] = v1;
 
-                    if (cell.getFlipHorizontally()) {
+                    vertices[X2] = x1;
+                    vertices[Y2] = y2;
+                    vertices[C2] = realColor;
+                    vertices[U2] = u1;
+                    vertices[V2] = v2;
+
+                    vertices[X3] = x2;
+                    vertices[Y3] = y2;
+                    vertices[C3] = realColor;
+                    vertices[U3] = u2;
+                    vertices[V3] = v2;
+
+                    vertices[X4] = x2;
+                    vertices[Y4] = y1;
+                    vertices[C4] = realColor;
+                    vertices[U4] = u2;
+                    vertices[V4] = v1;
+
+                    if (flipX) {
                         flipVerticesValues(U1, U3);
                         flipVerticesValues(U2, U4);
                     }
-                    if (cell.getFlipVertically()) {
+                    if (flipY) {
                         flipVerticesValues(V1, V3);
                         flipVerticesValues(V2, V4);
                     }
-
-                    final int rotations = cell.getRotation();
                     if (rotations != 0) {
                         switch (rotations) {
                             case ROTATE_90: {
-                                rotate90();
+                                vertices[V1] = vertices[V2];
+                                vertices[V3] = vertices[V4];
+
+                                float tempU = vertices[U1];
+                                vertices[U2] = vertices[U3];
+                                vertices[U4] = tempU;
                                 break;
                             }
                             case ROTATE_180: {
-                                rotate180();
+                                flipVerticesValues(U1, U3);
+                                float tempU;
+                                tempU = vertices[U2];
+                                vertices[U2] = vertices[U4];
+                                vertices[U4] = tempU;
+                                flipVerticesValues(V1, V3);
+                                float tempV;
+                                tempV = vertices[V2];
+                                vertices[V2] = vertices[V4];
+                                vertices[V4] = tempV;
                                 break;
                             }
                             case ROTATE_270: {
-                                rotate270();
+                                float tempV = vertices[V1];
+                                vertices[V4] = vertices[V3];
+                                vertices[V2] = tempV;
+
+                                vertices[U1] = vertices[U4];
+                                vertices[U3] = vertices[U2];
                                 break;
                             }
                             default:
@@ -120,34 +165,6 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
         }
     }
 
-    /**
-     * Changes the vertices values to rotate the tile 270 degrees
-     */
-    private void rotate270() {
-        flipVerticesValues(V1, V3);
-
-        vertices[U1] = vertices[U4];
-        vertices[U3] = vertices[U2];
-    }
-
-    /**
-     * Changes the vertices values to rotate the tile 180 degrees
-     */
-    private void rotate180() {
-        flipVerticesValues(U1, U3);
-        flipVerticesValues(U2, U4);
-        flipVerticesValues(V1, V3);
-        flipVerticesValues(V2, V4);
-    }
-
-    /**
-     * Changes the vertices values to rotate the tile 90 degrees
-     */
-    private void rotate90() {
-        vertices[V1] = vertices[V2];
-        vertices[V3] = vertices[V4];
-        flipVerticesValues(U1, U3);
-    }
 
     /**
      * Exchanges values at first and second
@@ -156,17 +173,5 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
         float temp = vertices[firstIndex];
         vertices[firstIndex] = vertices[secondIndex];
         vertices[secondIndex] = temp;
-    }
-
-    /**
-     * Assigns the values to the vertices
-     */
-    private void assignVerticesValues(float x, float y, float u, float v,
-                                      float color, int xIndex, int yIndex, int colorIndex, int uIndex, int vIndex) {
-        vertices[xIndex] = x;
-        vertices[yIndex] = y;
-        vertices[colorIndex] = color;
-        vertices[uIndex] = u;
-        vertices[vIndex] = v;
     }
 }
