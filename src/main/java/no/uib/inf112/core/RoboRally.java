@@ -15,7 +15,6 @@ import java.io.File;
 public class RoboRally {
 
     public static final String MAP_FOLDER = "maps";
-    public static final int PHASES_PER_ROUND = 5;
     public static final int FLAG_COUNT = 4;
     //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
     //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
@@ -43,25 +42,24 @@ public class RoboRally {
     }
 
     public void round() {
-        for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            deck = new MovementDeck();
-            playerHandler.startTurn();
-            // End of robot movement
-            mapInteractOnUser.scan(map.getEntities());
-            // Activate lasers
+        deck = new MovementDeck();
+        playerHandler.startTurn();
+        // End of robot movement
+        mapInteractOnUser.scan(map.getEntities());
+        // Activate lasers
 
-            // Move rotation gears
+        // Move rotation gears
 
-            // Move assembly lines
+        // Move assembly lines
 
-            for (IPlayer player : playerHandler.getPlayers()) {
-                if (player.getFlags() == FLAG_COUNT) {
-                    //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
-                }
+        for (IPlayer player : playerHandler.getPlayers()) {
+            if (player.getFlags() == FLAG_COUNT) {
+                //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
             }
-
-            //Should wait some time
         }
+
+        //Should wait some time
+
         deck.shuffle();
         //User plans next round
     }
