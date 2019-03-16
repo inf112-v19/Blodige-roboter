@@ -2,6 +2,7 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -15,6 +16,7 @@ public class PlayerTest extends TestGraphics {
 
     private Player testPlayer;
     private static RoboRally roboRally;
+    private MapHandler map = roboRally.getCurrentMap();
 
     @BeforeClass
     public static void beforeClass() {
@@ -170,7 +172,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends Player {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH);
+            super(x, y, Direction.NORTH, map);
         }
 
         @Override
