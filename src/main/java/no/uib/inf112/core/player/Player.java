@@ -152,6 +152,7 @@ public abstract class Player implements IPlayer {
     @Override
     public String toString() {
         return "Player{" +
+                "robot= " + robot +
                 "backup= " + backup +
                 ", flags= " + flags +
                 ", lives= " + lives +
