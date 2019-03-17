@@ -8,19 +8,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class PlayerTest extends TestGraphics {
 
     private Player testPlayer;
     private static RoboRally roboRally;
-    private MapHandler map = roboRally.getCurrentMap();
+    private static MapHandler map;
 
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
+        map = roboRally.getCurrentMap();
     }
 
     @Before
@@ -130,7 +130,11 @@ public class PlayerTest extends TestGraphics {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                testPlayer.setBackup(x, y);
+                try {
+                    testPlayer.setBackup(x, y);
+                } catch (IllegalArgumentException e) {
+                    fail("Player backup threw exception when not expected, x=" + x + ", y=" + y);
+                }
             }
         }
     }
@@ -164,7 +168,11 @@ public class PlayerTest extends TestGraphics {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                new PlayerImpl(x, y);
+                try {
+                    new PlayerImpl(x, y);
+                } catch (IllegalArgumentException e) {
+                    fail("Player constructor threw exception when not expected x=" + x + ", y=" + y);
+                }
             }
         }
     }

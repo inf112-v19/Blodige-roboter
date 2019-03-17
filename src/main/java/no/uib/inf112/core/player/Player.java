@@ -36,10 +36,10 @@ public abstract class Player implements IPlayer {
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
     public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
-        if(map.isOutsideBoard(x, y)){
+        if (map.isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Cant set backup outside of the map");
         }
-        backup = new Vector2Int(0, 0);
+        backup = new Vector2Int(x, y);
 
         flags = 0;
         lives = MAX_LIVES;

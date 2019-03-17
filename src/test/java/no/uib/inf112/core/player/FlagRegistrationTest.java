@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class FlagRegistrationTest {
 
     private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-    Player player = new NonPlayer(0, 0, Direction.NORTH, map);
+    private Player player = new NonPlayer(0, 0, Direction.NORTH, map);
 
     //TODO #77 this should be tested way more.
 
