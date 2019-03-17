@@ -32,6 +32,7 @@ public abstract class Player implements IPlayer {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
+     * @param map       Current map
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
