@@ -19,4 +19,6 @@ public interface MapAction {
      * @return the parent that triggered this Action
      */
     Entity getParent();
+
+    String toString();
 }
