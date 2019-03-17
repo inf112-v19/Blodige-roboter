@@ -105,11 +105,9 @@ public class TiledMapHandler extends MapCamera implements Disposable {
         String result = "";
         try {
             for (String line: Files.readAllLines(Paths.get(mapFilePath))) {
-                if(!Character.toString(line.charAt(0)).equals("<") &&
-                        !Character.toString(line.charAt(1)).equals("<") &&
-                        !Character.toString(line.charAt(2)).equals("<") &&
-                        !Character.toString(line.charAt(3)).equals("<")){
+                int index = line.indexOf(line.trim());
 
+                if(!Character.toString(line.charAt(index)).equals("<")){
                     result += line + "\n";
                 }
             }
