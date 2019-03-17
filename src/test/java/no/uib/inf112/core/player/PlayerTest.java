@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static no.uib.inf112.core.GameGraphics.MAP_FOLDER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

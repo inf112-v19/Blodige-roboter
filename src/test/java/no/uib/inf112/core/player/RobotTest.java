@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static no.uib.inf112.core.GameGraphics.MAP_FOLDER;
 import static org.junit.Assert.*;
 
 public class RobotTest extends TestGraphics {
@@ -42,7 +41,7 @@ public class RobotTest extends TestGraphics {
         roboX = testBot.getX();
         roboY = testBot.getY();
     }
- 
+
     @Test
     public void movingOneFacingNorthShouldNotChangeX() {
         player.moveRobot(Movement.MOVE_1);
