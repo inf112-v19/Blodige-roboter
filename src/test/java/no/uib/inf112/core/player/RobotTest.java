@@ -28,7 +28,7 @@ public class RobotTest extends TestGraphics {
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
-        roboRally.changeMap(MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
+        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
     }
 
     @Before
@@ -42,7 +42,7 @@ public class RobotTest extends TestGraphics {
         roboX = testBot.getX();
         roboY = testBot.getY();
     }
-
+ 
     @Test
     public void movingOneFacingNorthShouldNotChangeX() {
         player.moveRobot(Movement.MOVE_1);

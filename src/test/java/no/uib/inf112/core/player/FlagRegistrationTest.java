@@ -20,7 +20,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @BeforeClass
     public static void beforeClass() {
         roborally = GameGraphics.getRoboRally();
-        roborally.changeMap(MAP_FOLDER + File.separatorChar + "flag_test_map.tmx");
+        roborally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx");
     }
 
     @Test

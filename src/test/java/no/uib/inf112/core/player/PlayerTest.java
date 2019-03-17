@@ -22,7 +22,7 @@ public class PlayerTest extends TestGraphics {
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
-        roboRally.changeMap(MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
+        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
     }
 
     @Before
