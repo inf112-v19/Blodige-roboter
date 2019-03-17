@@ -92,7 +92,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        testPlayer = (NonPlayer) roboRally.getPlayerHandler().getPlayers().get(1);
+        testPlayer = roboRally.getPlayerHandler().getPlayers().get(1);
         PlayerCard[] cards = new PlayerCard[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
