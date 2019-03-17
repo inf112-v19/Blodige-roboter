@@ -12,10 +12,10 @@ public enum TileType {
      * THE ROBOT
      * (Group ROBOT)
      */
-    ROBOT_TILE_NORTH(106, Group.ROBOT, "player-robot"),
-    ROBOT_TILE_EAST(107, Group.ROBOT, "player-robot"),
-    ROBOT_TILE_SOUTH(108, Group.ROBOT, "player-robot"),
-    ROBOT_TILE_WEST(109, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_NORTH(137, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_EAST(138, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_SOUTH(139, Group.ROBOT, "player-robot"),
+    ROBOT_TILE_WEST(140, Group.ROBOT, "player-robot"),
 
     /**
      * THE TILES THAT ROBOTS CAN FALL THROUGH
