@@ -27,11 +27,12 @@ public class RobotTest extends TestGraphics {
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
-        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
+
     }
 
     @Before
     public void setup() {
+        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
         roboRally.getPlayerHandler().generatePlayers();
         player = roboRally.getPlayerHandler().testPlayer();
         testBot = player.getRobot();
