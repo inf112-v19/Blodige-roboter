@@ -57,5 +57,14 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
         assertEquals(roboY, testBot.getY());
     }
 
+    @Test
+    public void singleStepRightConveyorShouldMoveRobotOneLeft() {
+        moveTestBotTo(2, 0);
+        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
+
+        assertEquals(roboX + 1, testBot.getX());
+        assertEquals(roboY, testBot.getY());
+    }
+
 
 }
