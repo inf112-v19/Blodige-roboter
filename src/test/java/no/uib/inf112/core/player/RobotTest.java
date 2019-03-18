@@ -178,8 +178,7 @@ public class RobotTest extends TestGraphics {
 
     @Test
     public void movingOntoHoleShouldTeleportRobotToBackup() {
-        assertTrue(true);
-        //TODO test that moving onto hole teleports robot to backup
+
     }
 
     @Test
