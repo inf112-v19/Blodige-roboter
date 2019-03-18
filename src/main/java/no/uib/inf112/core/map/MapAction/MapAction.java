@@ -20,5 +20,9 @@ public interface MapAction {
      */
     Entity getParent();
 
+    /**
+     * @return entities coordinates at previous and current location
+     */
+    @Override
     String toString();
 }
