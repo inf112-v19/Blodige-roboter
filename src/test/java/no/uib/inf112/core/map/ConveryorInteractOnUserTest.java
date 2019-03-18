@@ -33,13 +33,29 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
         testBot = player.getRobot();
     }
 
+    public void moveTestBotTo(int x, int y) {
+        roboX = x;
+        roboY = y;
+        testBot.teleport(x, y);
+    }
+
     @Test
     public void singleStepUpConveyorShouldMoveRobotOneUp() {
-        testBot.teleport(0, 0);
+        moveTestBotTo(0, 0);
         roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
 
-        assertEquals(0, testBot.getX());
-        assertEquals(1, testBot.getY());
+        assertEquals(roboX, testBot.getX());
+        assertEquals(roboY + 1, testBot.getY());
     }
-    
+
+    @Test
+    public void singleStepLeftConveyorShouldMoveRobotOneLeft() {
+        moveTestBotTo(1, 0);
+        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
+
+        assertEquals(roboX - 1, testBot.getX());
+        assertEquals(roboY, testBot.getY());
+    }
+
+
 }
