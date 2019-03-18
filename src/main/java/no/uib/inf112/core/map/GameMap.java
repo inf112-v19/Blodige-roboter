@@ -177,15 +177,24 @@ public abstract class GameMap implements MapHandler {
         return tileWidth;
     }
 
+    @Nullable
     @Override
-    public TileType getFlagLayerTile(int x, int y) throws NullPointerException {
-        int tileId = flagLayer.getCell(x, y).getTile().getId();
-        return TileType.fromTiledId(tileId);
+    public TileType getFlagLayerTile(int x, int y) {
+        TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
+        return getCellId(cell);
     }
 
     @Override
     public TileType getCollidablesLayerTile(int x, int y) {
-        int tileId = collidablesLayer.getCell(x, y).getTile().getId();
+        TiledMapTileLayer.Cell cell = collidablesLayer.getCell(x, y);
+        return getCellId(cell);
+    }
+
+    private TileType getCellId(TiledMapTileLayer.Cell cell) {
+        if (cell == null) return null;
+        int tileId = cell.getTile().getId();
         return TileType.fromTiledId(tileId);
     }
+
+
 }

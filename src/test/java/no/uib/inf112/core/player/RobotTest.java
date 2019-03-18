@@ -32,7 +32,7 @@ public class RobotTest extends TestGraphics {
 
     @Before
     public void setup() {
-        roboRally.getPlayerHandler().generatePlayers();
+        roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
         testBot = player.getRobot();
         testBot.teleport(HEIGHT / 2, WIDTH / 2);

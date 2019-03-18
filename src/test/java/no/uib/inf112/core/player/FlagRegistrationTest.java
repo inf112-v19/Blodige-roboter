@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    Player player = new NonPlayer(0, 0, Direction.NORTH);
+    private Player player = new NonPlayer(0, 0, Direction.NORTH);
     private static RoboRally roborally;
 
     @BeforeClass
