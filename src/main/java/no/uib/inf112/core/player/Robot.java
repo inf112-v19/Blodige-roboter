@@ -112,7 +112,7 @@ public class Robot implements Entity {
         if (map.isOutsideBoard(x, y)) {
             return false;
         }
-        if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) {
+        if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) { //The robot moved onto a hole
             return false;
         }
         update();

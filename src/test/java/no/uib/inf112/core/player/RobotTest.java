@@ -168,4 +168,16 @@ public class RobotTest extends TestGraphics {
         assertEquals(Player.MAX_LIVES - 1, player.getLives());
 
     }
+
+    @Test
+    public void movingOntoHoleShouldTeleportRobotToBackup() {
+        assertTrue(true);
+        //TODO test that moving onto hole teleports robot to backup
+    }
+
+    @Test
+    public void movingOntoHoleShouldReduceLifeByOne() {
+        assertTrue(true);
+        //TODO test that moving onto hole reduces life of the robot by one
+    }
 }
