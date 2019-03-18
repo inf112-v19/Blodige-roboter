@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest extends TestGraphics {
 
-    private IPlayer testPlayer;
+    private static IPlayer testPlayer;
     private static RoboRally roboRally;
 
     @BeforeClass
@@ -26,6 +26,7 @@ public class PlayerTest extends TestGraphics {
 
     @Before
     public void setup() {
+        roboRally.getPlayerHandler().generateOnePlayer();
         testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.getRobot().teleport(0, 0);
         testPlayer.getRobot().setDirection(Direction.NORTH);
@@ -91,7 +92,6 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        testPlayer = roboRally.getPlayerHandler().getPlayers().get(1);
         PlayerCard[] cards = new PlayerCard[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
