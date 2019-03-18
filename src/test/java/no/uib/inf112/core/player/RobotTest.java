@@ -27,13 +27,12 @@ public class RobotTest extends TestGraphics {
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.getRoboRally();
-
+        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
     }
 
     @Before
     public void setup() {
-        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx");
-        roboRally.getPlayerHandler().generatePlayers();
+        roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
         testBot = player.getRobot();
         testBot.teleport(HEIGHT / 2, WIDTH / 2);
@@ -177,21 +176,4 @@ public class RobotTest extends TestGraphics {
 
     }
 
-    @Test
-    public void movingOntoHoleShouldTeleportRobotToBackup() {
-        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_hole_test_map.tmx");
-        player.setBackup(0, 0);
-        testBot.teleport(0, 0);
-        testBot.setDirection(Direction.EAST);
-
-        player.moveRobot(Movement.MOVE_1);
-        assertEquals(0, testBot.getX());
-        assertEquals(0, testBot.getY());
-    }
-
-    @Test
-    public void movingOntoHoleShouldReduceLifeByOne() {
-        assertTrue(true);
-        //TODO test that moving onto hole reduces life of the robot by one
-    }
 }
