@@ -164,8 +164,6 @@ public class RobotTest extends TestGraphics {
     public void movingOutOfBoundReduceLifeByOne() {
         player.getLives();
         testBot.teleport(0, 0);
-        player.damage(1);
-
         testBot.setDirection(Direction.SOUTH);
         player.moveRobot(Movement.MOVE_1);
 
