@@ -41,5 +41,13 @@ public class RobotWallTest extends TestGraphics {
         assertEquals(1, testBot.getY());
     }
 
-    
+    @Test
+    public void movingToWalltileWhereWallIsOnClosestEdgeShouldNotWork() {
+        testBot.setDirection(Direction.EAST);
+        player.moveRobot(Movement.MOVE_1);
+        assertEquals(0, testBot.getX());
+        assertEquals(0, testBot.getY());
+
+    }
+
 }
