@@ -2,11 +2,15 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 public class RobotWallTest extends TestGraphics {
 
@@ -29,4 +33,13 @@ public class RobotWallTest extends TestGraphics {
         player.setBackup(0, 0);
     }
 
+    @Test
+    public void movingToWalltileWhereWallIsOnOppositeEdgeShouldWork() {
+        testBot.setDirection(Direction.NORTH);
+        player.moveRobot(Movement.MOVE_1);
+        assertEquals(0, testBot.getX());
+        assertEquals(1, testBot.getY());
+    }
+
+    
 }
