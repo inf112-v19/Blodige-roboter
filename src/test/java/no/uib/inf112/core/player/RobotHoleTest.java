@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class RobotHoleTest extends TestGraphics {
 
@@ -50,7 +49,8 @@ public class RobotHoleTest extends TestGraphics {
 
     @Test
     public void movingOntoHoleShouldReduceLifeByOne() {
-        assertTrue(true);
-        //TODO test that moving onto hole reduces life of the robot by one
+        int livesBefore = player.getLives();
+        player.moveRobot(Movement.MOVE_1);
+        assertEquals(livesBefore - 1, player.getLives());
     }
 }
