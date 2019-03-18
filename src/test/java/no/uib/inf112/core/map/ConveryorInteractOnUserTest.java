@@ -7,8 +7,11 @@ import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 public class ConveryorInteractOnUserTest extends TestGraphics {
 
@@ -30,4 +33,13 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
         testBot = player.getRobot();
     }
 
+    @Test
+    public void singleStepUpConveyorShouldMoveRobotOneUp() {
+        testBot.teleport(0, 0);
+        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
+
+        assertEquals(0, testBot.getX());
+        assertEquals(1, testBot.getY());
+    }
+    
 }
