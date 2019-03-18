@@ -50,4 +50,11 @@ public class RobotWallTest extends TestGraphics {
 
     }
 
+    @Test
+    public void movingTwoStepsWithWallBetweenShouldMakeRobotStopAfterOneStep() {
+        testBot.setDirection(Direction.NORTH);
+        player.moveRobot(Movement.MOVE_2);
+        assertEquals(0, testBot.getX());
+        assertEquals(1, testBot.getY()); //Only moved one step
+    }
 }
