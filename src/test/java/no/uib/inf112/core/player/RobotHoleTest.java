@@ -15,10 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 public class RobotHoleTest extends TestGraphics {
 
-
     private Robot testBot;
     private Player player;
-
     private static RoboRally roboRally;
 
 
