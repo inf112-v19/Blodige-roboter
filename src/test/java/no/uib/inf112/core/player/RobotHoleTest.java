@@ -34,7 +34,7 @@ public class RobotHoleTest extends TestGraphics {
         player = roboRally.getPlayerHandler().testPlayer();
         testBot = player.getRobot();
         testBot.teleport(0, 0);
-        testBot.setDirection(Direction.EAST);
+        testBot.setDirection(Direction.NORTH);
         player.setBackup(0, 0);
     }
 
@@ -52,5 +52,14 @@ public class RobotHoleTest extends TestGraphics {
         int livesBefore = player.getLives();
         player.moveRobot(Movement.MOVE_1);
         assertEquals(livesBefore - 1, player.getLives());
+    }
+
+    @Test
+    public void movingOverAHoleShouldTeleportRobotToBackup() {
+        //Hole is one step from robot, default tile is two tiles from robot
+        player.moveRobot(Movement.MOVE_2);
+        Vector2Int backup = player.getBackup();
+        assertEquals(backup.x, testBot.getX());
+        assertEquals(backup.y, testBot.getY());
     }
 }
