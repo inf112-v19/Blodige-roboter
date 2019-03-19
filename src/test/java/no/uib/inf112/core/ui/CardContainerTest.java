@@ -1,7 +1,9 @@
 package no.uib.inf112.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
@@ -28,10 +30,11 @@ public class CardContainerTest extends TestGraphics {
     private MovementDeck deck = new MovementDeck();
     private CardContainer container;
     private RoboRally roboRally;
+    private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
     @Before
     public void setUp() {
-        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH));
+        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH, map));
 
         DragAndDrop dad = new DragAndDrop();
 
