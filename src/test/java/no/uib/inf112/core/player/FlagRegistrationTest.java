@@ -5,6 +5,7 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.BeforeClass;
+import no.uib.inf112.core.map.MapHandler;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,7 +14,8 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    private Player player = new NonPlayer(0, 0, Direction.NORTH);
+    private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+    private Player player = new NonPlayer(0, 0, Direction.NORTH, map);
     private static RoboRally roborally;
 
     @BeforeClass

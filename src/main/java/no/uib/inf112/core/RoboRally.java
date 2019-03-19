@@ -30,7 +30,7 @@ public class RoboRally {
 
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(4);
+        playerHandler = new PlayerHandler(4, map);
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
