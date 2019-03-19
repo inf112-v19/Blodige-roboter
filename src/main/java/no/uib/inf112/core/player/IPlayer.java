@@ -91,7 +91,11 @@ public interface IPlayer extends Comparable<IPlayer> {
      * Sets the backup for the player
      *
      * @param x
+     *      The new x coordinate of the backup
      * @param y
+     *      The new y coordinate of the backup
+     *
+     * @throws IllegalArgumentException if {@code x} or {@code y} is outside the current map
      */
     void setBackup(int x, int y);
 

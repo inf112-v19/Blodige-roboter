@@ -1,12 +1,15 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.MapHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class FlagRegistrationTest {
 
-    Player player = new NonPlayer(0, 0, Direction.NORTH);
+    private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+    private Player player = new NonPlayer(0, 0, Direction.NORTH, map);
 
     //TODO #77 this should be tested way more.
 
