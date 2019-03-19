@@ -32,6 +32,8 @@ public interface MapHandler {
 
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
+    String COLLIDABLES_LAYER_NAME = "collidables";
+    String FLAG_LAYER_NAME = "flags";
 
     /**
      * Render the map and it's content
@@ -142,4 +144,18 @@ public interface MapHandler {
      * The application window has been resized
      */
     void resize(int width, int height);
+
+    /**
+     * @return The flag tile at the given {@code (x, y)} coordinate
+     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     */
+    @Nullable
+    TileType getFlagLayerTile(int x, int y);
+
+    /**
+     * @return The collidable tile at the given {@code (x, y)} coordinate
+     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     */
+    @Nullable
+    TileType getCollidablesLayerTile(int x, int y);
 }

@@ -65,7 +65,6 @@ public class CardContainerTest extends TestGraphics {
         int damageAmount = 3;
         container.getPlayer().damage(damageAmount);
         container.draw();
-        System.out.println("container = " + Arrays.toString(Arrays.stream(container.drawnCard).map(CardActor::getCard).toArray()));
         for (int i = 0; i < nCards - damageAmount; i++) {
             assertNotNull("Found null card (nr " + i + "), all drawn cards below " + (nCards - damageAmount) + " should not be null",
                     container.getCard(SlotType.DRAWN, i));

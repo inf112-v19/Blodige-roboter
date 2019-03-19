@@ -23,7 +23,8 @@ public abstract class GameMap implements MapHandler {
 
     private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer entityLayer;
-
+    private TiledMapTileLayer flagLayer;
+    private TiledMapTileLayer collidablesLayer;
 
     //A map of all know entities and their last know location
     Map<Entity, Vector2Int> entities;
@@ -44,22 +45,32 @@ public abstract class GameMap implements MapHandler {
             throw e;
         }
 
-
         mapWidth = tiledMap.getProperties().get("width", int.class);
         mapHeight = tiledMap.getProperties().get("height", int.class);
         tileWidth = tiledMap.getProperties().get("tilewidth", int.class);
         tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
-
         TiledMapTileLayer baseLayer = null;
+        TiledMapTileLayer collidables = null;
+        TiledMapTileLayer flags = null;
         try {
             baseLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
+            collidables = (TiledMapTileLayer) tiledMap.getLayers().get(COLLIDABLES_LAYER_NAME);
+            flags = (TiledMapTileLayer) tiledMap.getLayers().get(FLAG_LAYER_NAME);
         } catch (ClassCastException ignore) {
         }
         if (baseLayer == null) {
-            throw new IllegalStateException(
-                "Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
+        if (flags == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + FLAG_LAYER_NAME + "'");
+        }
+        if (collidables == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
+        }
+
+        collidablesLayer = collidables;
+        flagLayer = flags;
         boardLayer = baseLayer;
 
         //create a new empty layer for all the robots to play on :)
@@ -165,4 +176,25 @@ public abstract class GameMap implements MapHandler {
     public int getTileWidth() {
         return tileWidth;
     }
+
+    @Nullable
+    @Override
+    public TileType getFlagLayerTile(int x, int y) {
+        TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
+        return getCellId(cell);
+    }
+
+    @Override
+    public TileType getCollidablesLayerTile(int x, int y) {
+        TiledMapTileLayer.Cell cell = collidablesLayer.getCell(x, y);
+        return getCellId(cell);
+    }
+
+    private TileType getCellId(TiledMapTileLayer.Cell cell) {
+        if (cell == null) return null;
+        int tileId = cell.getTile().getId();
+        return TileType.fromTiledId(tileId);
+    }
+
+
 }
