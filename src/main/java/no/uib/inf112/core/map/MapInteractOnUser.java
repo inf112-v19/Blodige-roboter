@@ -42,7 +42,9 @@ public class MapInteractOnUser {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
-            TileType tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getBoardLayerTile(x, y);
+            TileType tileUnderRobot;
+            tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
+            if(tileUnderRobot == null) return;
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {
@@ -52,24 +54,28 @@ public class MapInteractOnUser {
                                 GameGraphics.getSoundPlayer().playFlag();
                                 System.out.println("flag 1");
                             }
+                            break;
                         case FLAG2:
                             if (player.canGetFlag(2)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
                                 System.out.println("flag 1");
                             }
+                            break;
                         case FLAG3:
                             if (player.canGetFlag(3)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
                                 System.out.println("flag 1");
                             }
+                            break;
                         case FLAG4:
                             if (player.canGetFlag(4)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
                                 System.out.println("flag 1");
                             }
+                            break;
                     }
                 case OPTION:
                     switch (tileUnderRobot) {

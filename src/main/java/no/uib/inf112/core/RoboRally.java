@@ -10,16 +10,10 @@ import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.testUtils.HeadlessMapHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 public class RoboRally {
 
-    public static final String MAP_FOLDER = "maps";
     public static final int PHASES_PER_ROUND = 5;
     public static final int FLAG_COUNT = 4;
-    //DO NOT PUT ASSET HERE!!! only this directory should be specified in the in the working directory
-    //see https://github.com/inf112-v19/Blodtorstige-robotet/wiki/Run-with-IntelliJ
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "test.tmx";
 
     private MapHandler map;
 
@@ -27,17 +21,17 @@ public class RoboRally {
     public MapInteractOnUser mapInteractOnUser;
     private Deck deck;
 
-    public RoboRally() {
+    public RoboRally(String mapPath, int playerCount) {
         if (GameGraphics.HEADLESS) {
-            map = new HeadlessMapHandler(FALLBACK_MAP_FILE_PATH);
+            map = new HeadlessMapHandler(mapPath);
         } else {
-            map = new TiledMapHandler(FALLBACK_MAP_FILE_PATH);
+            map = new TiledMapHandler(mapPath);
         }
 
         GameGraphics.getSoundPlayer();
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(4);
+        playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }

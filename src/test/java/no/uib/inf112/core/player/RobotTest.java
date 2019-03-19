@@ -6,7 +6,10 @@ import no.uib.inf112.core.map.TileType;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -19,14 +22,17 @@ public class RobotTest extends TestGraphics {
 
     public static final int HEIGHT = 20;
     public static final int WIDTH = 20;
-    private RoboRally roboRally;
+    private static RoboRally roboRally;
 
+    @BeforeClass
+    public static void beforeClass() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
+    }
 
     @Before
     public void setup() {
-        roboRally = GameGraphics.getRoboRally();
-        roboRally.getPlayerHandler().generatePlayers();
-        player = roboRally.getPlayerHandler().mainPlayer();
+        roboRally.getPlayerHandler().generateOnePlayer();
+        player = roboRally.getPlayerHandler().testPlayer();
         testBot = player.getRobot();
         testBot.teleport(HEIGHT / 2, WIDTH / 2);
         testBot.setDirection(Direction.NORTH);
