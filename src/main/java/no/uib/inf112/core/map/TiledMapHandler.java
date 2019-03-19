@@ -20,11 +20,8 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     private OrthogonalTiledMapRenderer renderer;
 
     /**
-     * @param map
-     *     The relative path from assets folder to the Tiled map file
-     *
-     * @throws IllegalArgumentException
-     *     if max zoom is less than min zoom
+     * @param map The relative path from assets folder to the Tiled map file
+     * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
         super(map);
@@ -52,8 +49,7 @@ public class TiledMapHandler extends MapCamera implements Disposable {
             if (lastPos == null) {
                 lastPos = new Vector2Int(x, y);
                 entry.setValue(lastPos);
-            }
-            else if (!entry.getKey().shouldUpdate()) {
+            } else if (!entry.getKey().shouldUpdate()) {
                 //do not update if there is no change
                 continue;
             }
@@ -76,14 +72,10 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     /**
      * Draw an entity on the entity layer
      *
-     * @param entity
-     *     The entity to draw
-     * @param oldPos
-     *     The last known position
-     * @param x
-     *     The new x, provided as a parameter to make this thread safe
-     * @param y
-     *     The new y, provided as a parameter to make this thread safe
+     * @param entity The entity to draw
+     * @param oldPos The last known position
+     * @param x      The new x, provided as a parameter to make this thread safe
+     * @param y      The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2Int oldPos, int x, int y) {
         if (entity.getTileType() == null) {
@@ -100,21 +92,21 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String mapFilePath = RoboRally.FALLBACK_MAP_FILE_PATH;
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
-            for (String line: Files.readAllLines(Paths.get(mapFilePath))) {
+            for (String line : Files.readAllLines(Paths.get(mapFilePath))) {
                 int index = line.indexOf(line.trim());
 
-                if(!Character.toString(line.charAt(index)).equals("<")){
-                    result += line + "\n";
+                if (!Character.toString(line.charAt(index)).equals("<")) {
+                    result.append(line).append("\n");
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return result.toString();
     }
 }
