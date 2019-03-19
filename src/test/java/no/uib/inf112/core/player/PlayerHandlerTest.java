@@ -22,10 +22,6 @@ public class PlayerHandlerTest extends TestGraphics {
         assertEquals(2, testHandler.getPlayerCount());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void creatingHandlerWith1PlayerShouldThrowException() {
-        testHandler = new PlayerHandler(1, map);
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void creatingHandlerWith9PlayersShouldThrowException() {
@@ -37,7 +33,7 @@ public class PlayerHandlerTest extends TestGraphics {
         testHandler = new PlayerHandler(2, map);
         assertEquals(2, testHandler.getPlayers().size());
     }
-    
+
     @Test
     public void generating5PlayersShouldResultInListOfPlayersOfSize5() {
         testHandler = new PlayerHandler(5, map);

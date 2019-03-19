@@ -25,14 +25,15 @@ public class PlayerHandler implements IPlayerHandler {
      */
     public PlayerHandler(int playerCount, MapHandler map) {
         if (playerCount < 2) {
-            throw new IllegalArgumentException("Not enough players");
+            if (!HEADLESS) {
+                throw new IllegalArgumentException("Not enough players");
+            }
         } else if (playerCount > 8) {
             throw new IllegalArgumentException("Too many players");
         }
         this.map = map;
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
-
         user = new UserPlayer(0, 0, Direction.NORTH, map);
         players.add(user);
         for (int i = 1; i < playerCount; i++) {
