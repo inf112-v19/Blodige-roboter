@@ -36,7 +36,7 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
         testBot.teleport(x, y);
     }
 
-    //TODO all these tests will fail until we support conveyor belts
+    //TODO issue 100, all these tests will fail until we support conveyor belts
 
 //    @Test
 //    public void singleStepUpConveyorShouldMoveRobotOneUp() {
