@@ -18,3 +18,4 @@ public class Main {
         new LwjglApplication(new GameGraphics(), cfg);
     }
 }
+

@@ -11,6 +11,7 @@ import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -18,6 +19,13 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS = false;
+
+    public static final String MAP_FOLDER = "maps";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     private SpriteBatch batch;
     private BitmapFont font;
@@ -98,13 +106,13 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally();
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 4);
         }
         return roboRally;
     }
 
-    private synchronized static RoboRally createRoboRally() {
-        roboRally = new RoboRally();
+    public synchronized static RoboRally createRoboRally(String map, int playerCount) {
+        roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
 

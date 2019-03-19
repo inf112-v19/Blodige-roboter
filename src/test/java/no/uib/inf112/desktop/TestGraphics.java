@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 public class TestGraphics {
     // This is our "test" application
     private static Application application;
+    public static final String TEST_MAP_FOLDER = "testmaps";
 
     // Before running any tests, initialize the application with the headless backend
     @BeforeClass
