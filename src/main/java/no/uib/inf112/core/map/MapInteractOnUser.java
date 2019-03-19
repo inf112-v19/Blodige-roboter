@@ -54,7 +54,6 @@ public class MapInteractOnUser {
                             if (player.canGetFlag(1)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
-                                System.out.println("flag 1");
                             }
                             break;
                         case FLAG2:
