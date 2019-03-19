@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
+import static no.uib.inf112.core.GameGraphics.HEADLESS;
+
 public class PlayerHandler implements IPlayerHandler {
 
     private int playerCount;
@@ -49,7 +51,7 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public void generatePlayers() {
         //Keeping this in case we want to generate new players, currently only used for testing
-        if (GameGraphics.HEADLESS) {
+        if (HEADLESS) {
             players = new ArrayList<>(playerCount);
             for (int i = 0; i < playerCount; i++) {
                 players.add(new NonPlayer(5 + i, 2, Direction.NORTH));
@@ -122,10 +124,17 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     public NonPlayer testPlayer() {
+        if(!HEADLESS) {
+            throw new IllegalStateException("Game is not headless");
+        }
         return (NonPlayer) players.get(0);
     }
 
+
     public UserPlayer mainPlayer() {
+        if(HEADLESS) {
+            throw new IllegalStateException("Game is headless");
+        }
         return (UserPlayer) players.get(0);
     }
 }
