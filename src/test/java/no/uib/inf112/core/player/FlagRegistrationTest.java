@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    private MapHandler map;
     private Player player;
     private static RoboRally roborally;
 
@@ -26,9 +25,9 @@ public class FlagRegistrationTest extends TestGraphics {
     }
 
     @Before
-    public void setup() {
+    public void setUp() {
         GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
-        map = GameGraphics.getRoboRally().getCurrentMap();
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         player = new NonPlayer(0, 0, Direction.NORTH, map);
     }
 
