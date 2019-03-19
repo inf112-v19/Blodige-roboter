@@ -44,7 +44,9 @@ public class MapInteractOnUser {
             int y = player.getRobot().getY();
             TileType tileUnderRobot;
             tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
-            if(tileUnderRobot == null) return;
+            if (tileUnderRobot == null) {
+                return;
+            }
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {
@@ -59,21 +61,18 @@ public class MapInteractOnUser {
                             if (player.canGetFlag(2)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
-                                System.out.println("flag 1");
                             }
                             break;
                         case FLAG3:
                             if (player.canGetFlag(3)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
-                                System.out.println("flag 1");
                             }
                             break;
                         case FLAG4:
                             if (player.canGetFlag(4)) {
                                 registerFlag(player, x, y);
                                 GameGraphics.getSoundPlayer().playFlag();
-                                System.out.println("flag 1");
                             }
                             break;
                     }
