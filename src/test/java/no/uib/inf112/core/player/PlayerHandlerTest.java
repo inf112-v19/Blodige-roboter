@@ -1,10 +1,13 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.desktop.TestGraphics;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -12,9 +15,15 @@ import static org.junit.Assert.assertFalse;
 
 public class PlayerHandlerTest extends TestGraphics {
 
+    private static RoboRally roboRally;
     private PlayerHandler testHandler;
-    private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+    public static MapHandler map;
 
+    @BeforeClass
+    public static void beforeClass() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
+        map = roboRally.getCurrentMap();
+    }
 
     @Test
     public void creatingHandlerWith2PlayersShouldResultInPlayerCount2() {
