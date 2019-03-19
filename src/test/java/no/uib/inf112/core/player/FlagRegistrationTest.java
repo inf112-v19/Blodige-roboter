@@ -4,7 +4,9 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.desktop.TestGraphics;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import no.uib.inf112.core.map.MapHandler;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,13 +15,20 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    Player player = new NonPlayer(0, 0, Direction.NORTH);
+    private Player player;
     private static RoboRally roborally;
 
     @BeforeClass
     public static void beforeClass() {
-        roborally = GameGraphics.getRoboRally();
-        roborally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx");
+        roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
+
+    }
+
+    @Before
+    public void setUp() {
+        GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+        player = new NonPlayer(0, 0, Direction.NORTH, map);
     }
 
     @Test

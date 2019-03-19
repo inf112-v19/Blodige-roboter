@@ -106,13 +106,13 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally();
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 4);
         }
         return roboRally;
     }
 
-    private synchronized static RoboRally createRoboRally() {
-        roboRally = new RoboRally(FALLBACK_MAP_FILE_PATH);
+    public synchronized static RoboRally createRoboRally(String map, int playerCount) {
+        roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
 

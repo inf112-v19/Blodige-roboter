@@ -43,11 +43,8 @@ public class MapInteractOnUser {
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
             TileType tileUnderRobot;
-            try {
-                 tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
-            } catch (NullPointerException e) {
-                return;
-            }
+            tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
+            if(tileUnderRobot == null) return;
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {

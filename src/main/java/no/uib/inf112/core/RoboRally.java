@@ -21,7 +21,7 @@ public class RoboRally {
     public MapInteractOnUser mapInteractOnUser;
     private Deck deck;
 
-    public RoboRally(String mapPath) {
+    public RoboRally(String mapPath, int playerCount) {
         if (GameGraphics.HEADLESS) {
             map = new HeadlessMapHandler(mapPath);
         } else {
@@ -30,7 +30,7 @@ public class RoboRally {
 
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(4);
+        playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player.getRobot());
         }
@@ -82,9 +82,5 @@ public class RoboRally {
     @NotNull
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
-    }
-
-    public void changeMap(String mapPath) {
-        map = new HeadlessMapHandler(mapPath);
     }
 }

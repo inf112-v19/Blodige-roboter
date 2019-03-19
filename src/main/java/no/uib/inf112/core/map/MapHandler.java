@@ -149,11 +149,13 @@ public interface MapHandler {
      * @return The flag tile at the given {@code (x, y)} coordinate
      * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
      */
+    @Nullable
     TileType getFlagLayerTile(int x, int y);
 
     /**
      * @return The collidable tile at the given {@code (x, y)} coordinate
      * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
      */
+    @Nullable
     TileType getCollidablesLayerTile(int x, int y);
 }
