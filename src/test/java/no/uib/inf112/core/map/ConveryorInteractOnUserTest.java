@@ -19,8 +19,7 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
 
     @BeforeClass
     public static void beforeClass() {
-        roboRally = GameGraphics.getRoboRally();
-        roboRally.changeMap(TEST_MAP_FOLDER + File.separatorChar + "player_wall_test_map.tmx");
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_interaction_test_map.tmx", 1);
     }
 
     @Before
