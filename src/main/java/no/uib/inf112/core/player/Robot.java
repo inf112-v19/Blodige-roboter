@@ -56,8 +56,8 @@ public class Robot implements Entity {
 
     @Override
     public boolean setDirection(@NotNull Direction direction) {
-        //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
+        GameGraphics.getSoundPlayer().playRobotMoving();
         update();
         return true;
     }
@@ -115,6 +115,7 @@ public class Robot implements Entity {
         if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) { //The robot moved onto a hole
             return false;
         }
+        GameGraphics.getSoundPlayer().playRobotMoving();
         update();
         return true;
     }

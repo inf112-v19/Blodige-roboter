@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
+import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,7 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS = false;
+    private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
@@ -43,6 +45,7 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -50,7 +53,6 @@ public class GameGraphics extends Game {
 
 
         getRoboRally();
-
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
         roboRally.round();
@@ -104,6 +106,18 @@ public class GameGraphics extends Game {
         return uiHandler;
     }
 
+    public static SoundPlayer getSoundPlayer() {
+        if (null == soundPlayer) {
+            createSoundPlayer();
+        }
+        return soundPlayer;
+    }
+
+    private synchronized static SoundPlayer createSoundPlayer() {
+        soundPlayer = new SoundPlayer();
+        return soundPlayer;
+    }
+
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
             createRoboRally(FALLBACK_MAP_FILE_PATH, 4);
@@ -115,5 +129,6 @@ public class GameGraphics extends Game {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
+
 
 }
