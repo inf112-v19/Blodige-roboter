@@ -110,9 +110,11 @@ public class Robot implements Entity {
         y += deltaY;
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         if (map.isOutsideBoard(x, y)) {
+            GameGraphics.getSoundPlayer().playRobotFalling();
             return false;
         }
         if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) { //The robot moved onto a hole
+            GameGraphics.getSoundPlayer().playRobotFalling();
             return false;
         }
         GameGraphics.getSoundPlayer().playRobotMoving();
