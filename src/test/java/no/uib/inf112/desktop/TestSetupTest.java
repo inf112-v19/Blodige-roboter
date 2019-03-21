@@ -27,7 +27,7 @@ public class TestSetupTest extends TestGraphics {
 
     @Test
     public void MoveShouldMovePlayer() {
-        Robot robot = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getRobot();
+        Robot robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         assertTrue(robot.move(Movement.MOVE_1));
 
@@ -36,7 +36,7 @@ public class TestSetupTest extends TestGraphics {
 
     @Test
     public void MapShouldGetLoaded() {
-        Robot robot = roboRally.getPlayerHandler().mainPlayer().getRobot();
+        Robot robot = roboRally.getPlayerHandler().testPlayer().getRobot();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         assertEquals(TileType.DEFAULT_TILE, roboRally.getCurrentMap().getBoardLayerTile(pos.x, pos.y));
     }

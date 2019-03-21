@@ -42,34 +42,48 @@ public class MapInteractOnUser {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
             int y = player.getRobot().getY();
-            TileType tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getBoardLayerTile(x, y);
+            TileType tileUnderRobot;
+            tileUnderRobot = GameGraphics.getRoboRally().getCurrentMap().getFlagLayerTile(x, y);
+            if (tileUnderRobot == null) {
+                return;
+            }
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
                     switch (tileUnderRobot) {
                         case FLAG1:
                             if (player.canGetFlag(1)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
                             }
+                            break;
                         case FLAG2:
                             if (player.canGetFlag(2)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
                             }
+                            break;
                         case FLAG3:
                             if (player.canGetFlag(3)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
                             }
+                            break;
                         case FLAG4:
                             if (player.canGetFlag(4)) {
                                 registerFlag(player, x, y);
+                                GameGraphics.getSoundPlayer().playFlag();
                             }
+                            break;
                     }
                 case OPTION:
                     switch (tileUnderRobot) {
                         case WRENCH:
                             player.setBackup(x, y);
+                            GameGraphics.getSoundPlayer().playRobotUpdatesBackup();
 
                         case HAMMER_AND_WRENCH:
                             player.setBackup(x, y);
+                            GameGraphics.getSoundPlayer().playGetOptionCard();
                             //TODO #25 get option card? (Should do more than what happens on normal wrench)
                     }
                 default:

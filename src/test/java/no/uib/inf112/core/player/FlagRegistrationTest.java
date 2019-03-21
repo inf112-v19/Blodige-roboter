@@ -1,22 +1,108 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.desktop.TestGraphics;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import no.uib.inf112.core.map.MapHandler;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
-public class FlagRegistrationTest {
+public class FlagRegistrationTest extends TestGraphics {
 
-    private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-    private Player player = new NonPlayer(0, 0, Direction.NORTH, map);
+    private Player player;
+    private static RoboRally roborally;
 
-    //TODO #77 this should be tested way more.
+    @BeforeClass
+    public static void beforeClass() {
+        roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
+
+    }
+
+    @Before
+    public void setUp() {
+        GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+        player = new NonPlayer(0, 0, Direction.NORTH, map);
+    }
 
     @Test
     public void playerHasNoFlags() {
         assertEquals(0, player.getFlags());
     }
+
+    @Test
+    public void checkIfLandOnFlag1RegistersFlag() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(1, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
+
+    @Test
+    public void checkIfLandOnFlag1and2RegistersFlag() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(2, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
+    @Test
+    public void checkIfLandOnFlag1and2and3RegistersFlag() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(3, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
+    @Test
+    public void checkIfLandOnFlag1and2and3and4RegistersFlag() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_1);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(4, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
+    @Test
+    public void checkIfLandOnFlag2Before1DoesNotRegister() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_2);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(0, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
+    @Test
+    public void checkIfLandOnFlag3Before1DoesNotRegister() {
+        roborally.getPlayerHandler().generateOnePlayer();
+        roborally.getPlayerHandler().getPlayers().get(0).getRobot().move(Movement.MOVE_3);
+        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
+
+        assertEquals(0, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    }
+
 
     @Test
     public void registerFlagVisitFor1Flag() {

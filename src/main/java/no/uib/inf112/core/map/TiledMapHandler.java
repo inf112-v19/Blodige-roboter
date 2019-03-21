@@ -25,7 +25,7 @@ public class TiledMapHandler extends MapCamera implements Disposable {
      */
     public TiledMapHandler(String map) {
         super(map);
-        renderer = new OrthogonalTiledMapRenderer(getTiledMap());
+        renderer = new ColorfulOrthogonalTiledMapRenderer(getTiledMap());
     }
 
 

@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
@@ -8,24 +9,27 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 
 public class PlayerTest extends TestGraphics {
 
-    private Player testPlayer;
+    private static IPlayer testPlayer;
     private static RoboRally roboRally;
     private static MapHandler map;
 
     @BeforeClass
     public static void beforeClass() {
-        roboRally = GameGraphics.getRoboRally();
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
     }
 
     @Before
     public void setup() {
-        testPlayer = roboRally.getPlayerHandler().mainPlayer();
+        roboRally.getPlayerHandler().generateOnePlayer();
+        testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.getRobot().teleport(0, 0);
         testPlayer.getRobot().setDirection(Direction.NORTH);
     }
@@ -90,7 +94,6 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        testPlayer = (NonPlayer) roboRally.getPlayerHandler().getPlayers().get(1);
         PlayerCard[] cards = new PlayerCard[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
@@ -180,7 +183,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends Player {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map);
+            super(x, y, Direction.NORTH, map, Color.ORANGE);
         }
 
         @Override

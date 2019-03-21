@@ -6,7 +6,7 @@ import no.uib.inf112.core.util.Vector2Int;
 public interface MapAction {
 
     /**
-     * Does the action on the entity parent
+     * Does the action on the entity parent and plays the corresponding sound
      */
     void doAction();
 

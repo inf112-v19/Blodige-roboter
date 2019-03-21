@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
@@ -36,7 +37,7 @@ public abstract class Player implements IPlayer {
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
-    public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
+    public Player(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull Color color) {
         if (map.isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Cant set backup outside of the map");
         }
@@ -46,7 +47,7 @@ public abstract class Player implements IPlayer {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        robot = new Robot(x, y, direction);
+        robot = new Robot(x, y, direction, color);
     }
 
     @Override
