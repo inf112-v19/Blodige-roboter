@@ -7,8 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import java.io.File;
 
 public class SoundPlayer {
-    final private String SOUND_FOLDER = "sound" + File.separatorChar;
-    final private String WAV = ".WAV";
+    private static final String SOUND_FOLDER = "sound";
 
     private Sound robotMoving;
     private Sound flag;
@@ -23,16 +22,16 @@ public class SoundPlayer {
 
 
     public SoundPlayer() {
-        robotMoving = Gdx.audio.newSound(getFile("robotMoving"));
-        flag = Gdx.audio.newSound(getFile("flag"));
-        robotShutdown = Gdx.audio.newSound(getFile("robotShutdown"));
-        conveyor = Gdx.audio.newSound(getFile("conveyor"));
-        shootLaser = Gdx.audio.newSound(getFile("shootLaser"));
-        robotFalling = Gdx.audio.newSound(getFile("robotFalling"));
-        winner = Gdx.audio.newSound(getFile("winner"));
-        pusher = Gdx.audio.newSound(getFile("pusher"));
-        getOptionCard = Gdx.audio.newSound(getFile("getOptionCard"));
-        robotUpdatesBackup = Gdx.audio.newSound(getFile("robotUpdatesBackup"));
+        robotMoving = Gdx.audio.newSound(getFile("robotMoving.wav"));
+        flag = Gdx.audio.newSound(getFile("flag.wav"));
+        robotShutdown = Gdx.audio.newSound(getFile("robotShutdown.wav"));
+        conveyor = Gdx.audio.newSound(getFile("conveyor.wav"));
+        shootLaser = Gdx.audio.newSound(getFile("shootLaser.wav"));
+        robotFalling = Gdx.audio.newSound(getFile("robotFalling.wav"));
+        winner = Gdx.audio.newSound(getFile("winner.wav"));
+        pusher = Gdx.audio.newSound(getFile("pusher.wav"));
+        getOptionCard = Gdx.audio.newSound(getFile("getOptionCard.wav"));
+        robotUpdatesBackup = Gdx.audio.newSound(getFile("robotUpdatesBackup.wav"));
     }
 
     public void playRobotMoving() {
@@ -76,7 +75,7 @@ public class SoundPlayer {
     }
 
     private FileHandle getFile(String filename) {
-        return Gdx.files.internal(SOUND_FOLDER + filename + WAV);
+        return Gdx.files.internal(SOUND_FOLDER + File.separatorChar + filename);
     }
 }
 
