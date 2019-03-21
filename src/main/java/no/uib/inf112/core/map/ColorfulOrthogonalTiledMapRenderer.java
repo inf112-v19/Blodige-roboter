@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 
+import java.util.Random;
+
 import static com.badlogic.gdx.graphics.g2d.Batch.*;
 import static com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell.*;
 
@@ -23,6 +25,10 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
         super(map);
     }
 
+    public static boolean PARTY = false;
+    private final Random r = new Random();
+
+    @SuppressWarnings("Duplicates")
     @Override
     public void renderTileLayer(TiledMapTileLayer layer) {
         final Color batchColor = batch.getColor();
@@ -86,6 +92,8 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                             Color rc = entity.getColor();
                             realColor = Color.toFloatBits(rc.r, rc.g, rc.b, rc.a * layer.getOpacity());
                         }
+                    } else if (PARTY) {
+                        realColor = Color.toFloatBits(r.nextFloat(), r.nextFloat(), r.nextFloat(), layer.getOpacity());
                     }
 
                     vertices[X1] = x1;

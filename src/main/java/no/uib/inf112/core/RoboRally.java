@@ -28,6 +28,7 @@ public class RoboRally {
             map = new TiledMapHandler(mapPath);
         }
 
+        GameGraphics.getSoundPlayer();
         mapInteractOnUser = new MapInteractOnUser();
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);
