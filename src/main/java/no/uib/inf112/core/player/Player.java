@@ -1,6 +1,8 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -31,17 +33,21 @@ public abstract class Player implements IPlayer {
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
+     * @param map       Current map
      * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
      * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
      */
-    public Player(int x, int y, @NotNull Direction direction) {
+    public Player(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull Color color) {
+        if (map.isOutsideBoard(x, y)) {
+            throw new IllegalArgumentException("Cant set backup outside of the map");
+        }
         backup = new Vector2Int(x, y);
 
         flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
-        robot = new Robot(x, y, direction);
+        robot = new Robot(x, y, direction, color);
     }
 
     @Override
@@ -130,8 +136,14 @@ public abstract class Player implements IPlayer {
 
     @Override
     public void setBackup(int x, int y) {
-        backup.x = x;
-        backup.y = y;
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+
+        if (map.isOutsideBoard(x, y)) {
+            throw new IllegalArgumentException("Cant set backup outside of the map");
+        } else {
+            backup.x = x;
+            backup.y = y;
+        }
     }
 
     @Override

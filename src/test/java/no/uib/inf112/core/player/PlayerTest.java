@@ -1,29 +1,35 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.io.File;
+
+import static org.junit.Assert.*;
 
 
 public class PlayerTest extends TestGraphics {
 
-    private Player testPlayer;
+    private static IPlayer testPlayer;
     private static RoboRally roboRally;
+    private static MapHandler map;
 
     @BeforeClass
     public static void beforeClass() {
-        roboRally = GameGraphics.getRoboRally();
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
+        map = roboRally.getCurrentMap();
     }
 
     @Before
     public void setup() {
-        testPlayer = roboRally.getPlayerHandler().mainPlayer();
+        roboRally.getPlayerHandler().generateOnePlayer();
+        testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.getRobot().teleport(0, 0);
         testPlayer.getRobot().setDirection(Direction.NORTH);
     }
@@ -88,7 +94,6 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        testPlayer = (NonPlayer) roboRally.getPlayerHandler().getPlayers().get(1);
         PlayerCard[] cards = new PlayerCard[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
@@ -99,4 +104,91 @@ public class PlayerTest extends TestGraphics {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenXIsNegativeOne() {
+        testPlayer.setBackup(-1, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenYIsNegativeOne() {
+        testPlayer.setBackup(0, -1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenXIsMapWidth() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        testPlayer.setBackup(width, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void backupThrowsWhenYIsMapHeight() {
+        int height = roboRally.getCurrentMap().getMapHeight();
+        testPlayer.setBackup(0, height);
+    }
+
+    @Test
+    public void backupSucceedForAllValidPos() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        int height = roboRally.getCurrentMap().getMapHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                try {
+                    testPlayer.setBackup(x, y);
+                } catch (IllegalArgumentException e) {
+                    fail("Player backup threw exception when not expected, x=" + x + ", y=" + y);
+                }
+            }
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenXIsNegativeOne() {
+        new PlayerImpl(-1, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenYIsNegativeOne() {
+        new PlayerImpl(0, -1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenXIsMapWidth() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        new PlayerImpl(width, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerConstructorThrowsWhenYIsMapHeight() {
+        int height = roboRally.getCurrentMap().getMapHeight();
+        new PlayerImpl(0, height);
+    }
+
+    @Test
+    public void playerConstructorSucceedForAllValidPos() {
+        int width = roboRally.getCurrentMap().getMapWidth();
+        int height = roboRally.getCurrentMap().getMapHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                try {
+                    new PlayerImpl(x, y);
+                } catch (IllegalArgumentException e) {
+                    fail("Player constructor threw exception when not expected x=" + x + ", y=" + y);
+                }
+            }
+        }
+    }
+
+    private class PlayerImpl extends Player {
+
+        PlayerImpl(int x, int y) {
+            super(x, y, Direction.NORTH, map, Color.ORANGE);
+        }
+
+        @Override
+        public PlayerCard getNextCard(int id) {
+            return null;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
@@ -11,7 +12,8 @@ public class Robot implements Entity {
 
     private Direction direction;
     private int x, y;
-    boolean update;
+    private boolean update;
+    private Color color;
 
     /**
      * @param x         The x position the player starts at
@@ -22,9 +24,10 @@ public class Robot implements Entity {
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(int x, int y, Direction direction) {
+    public Robot(int x, int y, Direction direction, Color color) {
         this.x = x;
         this.y = y;
+        this.color = color;
 
         if (direction == null) {
             throw new IllegalArgumentException("Given direction can not be null");
@@ -56,8 +59,8 @@ public class Robot implements Entity {
 
     @Override
     public boolean setDirection(@NotNull Direction direction) {
-        //TODO Issue #46 rotate texture of robot ie visually show it
         this.direction = direction;
+        GameGraphics.getSoundPlayer().playRobotMoving();
         update();
         return true;
     }
@@ -111,6 +114,7 @@ public class Robot implements Entity {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
             return false;
         }
+        GameGraphics.getSoundPlayer().playRobotMoving();
         update();
         return true;
     }
@@ -132,5 +136,15 @@ public class Robot implements Entity {
     @Override
     public void update(boolean update) {
         this.update = update;
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public void setColor(@NotNull Color color) {
+        this.color = color;
     }
 }
