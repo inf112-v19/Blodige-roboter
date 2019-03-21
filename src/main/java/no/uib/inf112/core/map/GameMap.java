@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
@@ -123,7 +122,7 @@ public abstract class GameMap implements MapHandler {
     @Override
     @Nullable
     public Entity getEntity(int x, int y) {
-        Vector2 v = new Vector2(x, y);
+        Vector2Int v = new Vector2Int(x, y);
         for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
             if (v.equals(entry.getValue())) {
                 return entry.getKey();

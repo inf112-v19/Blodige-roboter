@@ -33,9 +33,4 @@
 ### Visualizing current state
 
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)
-
-### Sound
-
-* Sound should be played when a robot is moving
-* Sound should be played when robot is rotating
-* Sound should be played when robot gets a new flag
+* Main player robot should be distinguishable by color

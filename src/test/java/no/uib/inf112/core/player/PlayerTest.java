@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
@@ -10,8 +11,6 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 
@@ -184,7 +183,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends Player {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map);
+            super(x, y, Direction.NORTH, map, Color.ORANGE);
         }
 
         @Override
