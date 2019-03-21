@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -21,12 +22,12 @@ import static com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell.*;
  */
 public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
-    ColorfulOrthogonalTiledMapRenderer(TiledMap map) {
+    public static boolean PARTY;
+    private final Random r = new Random();
+
+    ColorfulOrthogonalTiledMapRenderer(@NotNull TiledMap map) {
         super(map);
     }
-
-    public static boolean PARTY = false;
-    private final Random r = new Random();
 
     @SuppressWarnings("Duplicates")
     @Override

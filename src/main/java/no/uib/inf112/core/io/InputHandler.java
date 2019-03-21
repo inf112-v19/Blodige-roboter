@@ -11,6 +11,8 @@ import java.util.Stack;
 
 public class InputHandler extends InputAdapter {
 
+    private Stack<Integer> logger = new Stack<>();
+
     public InputHandler() {
         GameGraphics.getInputMultiplexer().addProcessor(this);
     }
@@ -39,9 +41,6 @@ public class InputHandler extends InputAdapter {
         GameGraphics.getRoboRally().getCurrentMap().moveCamera(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
         return true;
     }
-
-
-    Stack<Integer> logger = new Stack<>();
 
 
     @Override
