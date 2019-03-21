@@ -4,14 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 
 
@@ -89,24 +85,5 @@ public class TiledMapHandler extends MapCamera implements Disposable {
 
         oldPos.x = x;
         oldPos.y = y;
-    }
-
-    @Override
-    public String toString() {
-        String mapFilePath = RoboRally.FALLBACK_MAP_FILE_PATH;
-        StringBuilder result = new StringBuilder();
-        try {
-            for (String line : Files.readAllLines(Paths.get(mapFilePath))) {
-                int index = line.indexOf(line.trim());
-
-                if (!Character.toString(line.charAt(index)).equals("<")) {
-                    result.append(line).append("\n");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
     }
 }
