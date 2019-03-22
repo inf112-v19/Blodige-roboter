@@ -1,5 +1,6 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
 
@@ -35,7 +36,7 @@ public interface IPlayer extends Comparable<IPlayer> {
      * @param id
      * @return the next player card in queue
      */
-    PlayerCard getNextCard(int id);
+    Card getNextCard(int id);
 
     /**
      * Moves the robot with the movement corresponding to the cardAction

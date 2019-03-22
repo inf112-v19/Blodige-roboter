@@ -3,11 +3,9 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
@@ -84,21 +82,20 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
+        TreeMap<Card, IPlayer> playerCards = new TreeMap<>();
+
         for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
-            List<PlayerCard> cards = new ArrayList<>();
             for (IPlayer p : players) {
-                cards.add(p.getNextCard(i));
+                playerCards.put(p.getNextCard(i), p);
             }
-            Collections.sort(cards);
-            for (int j = 0; j < cards.size(); j++) {
-                PlayerCard card = cards.get(j);
+            for (int j = 0; j < playerCards.size(); j++) {
+                Map.Entry<Card, IPlayer> cardIPlayerEntry = playerCards.pollFirstEntry();
 
                 GameGraphics.executorService.schedule(() ->
                         Gdx.app.postRunnable(() ->
-                                card.getPlayer().moveRobot(card.getCard().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
+                                cardIPlayerEntry.getValue().moveRobot(cardIPlayerEntry.getKey().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
-
         GameGraphics.executorService.schedule(() ->
                 Gdx.app.postRunnable(() -> GameGraphics.getRoboRally().round()), 500 * (Player.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
     }

@@ -3,6 +3,7 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -57,8 +58,8 @@ public class UserPlayer extends Player {
 
 
     @Override
-    public PlayerCard getNextCard(int id) {
-        return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
+    public Card getNextCard(int id) {
+        return cards.getCard(SlotType.HAND, id);
     }
 
     @NotNull

@@ -17,10 +17,10 @@ public class NonPlayer extends Player {
 
 
     @Override
-    public PlayerCard getNextCard(int id) {
+    public Card getNextCard(int id) {
         if (deck == null) {
             deck = GameGraphics.getRoboRally().getDeck().draw(MAX_PLAYER_CARDS);
         }
-        return new PlayerCard(deck[id], this);
+        return deck[id];
     }
 }

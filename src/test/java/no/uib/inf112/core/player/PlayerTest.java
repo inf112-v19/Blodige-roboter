@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -94,12 +95,12 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        PlayerCard[] cards = new PlayerCard[5];
+        Card[] cards = new Card[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
         }
         for (int i = 0; i < cards.length; i++) {
-            assertTrue("Could not get 5 player cards", cards[i] instanceof PlayerCard);
+            assertTrue("Could not get 5 player cards", cards[i] instanceof Card);
         }
 
     }
@@ -187,7 +188,7 @@ public class PlayerTest extends TestGraphics {
         }
 
         @Override
-        public PlayerCard getNextCard(int id) {
+        public Card getNextCard(int id) {
             return null;
         }
     }
