@@ -67,4 +67,9 @@ public class ConveyorTile extends AbstractTile<Vector2Int> implements MultiDirec
     public Set<Direction> getDirections() {
         return dirs;
     }
+
+    @Override
+    public String toString() {
+        return "ConveyorTile{" + "dirs=" + dirs + "}";
+    }
 }

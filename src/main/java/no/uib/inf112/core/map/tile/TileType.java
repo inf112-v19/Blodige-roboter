@@ -32,7 +32,7 @@ public enum TileType {
     WALL,
     WRENCH(WrenchTile.class);
 
-    private final Class<? extends Tile> implClass;
+    private final Class<? extends Tile<?>> implClass;
     private final Set<Attribute> attributes;
 
     //FIXME this should be removed when all types have an implantation
@@ -40,7 +40,7 @@ public enum TileType {
         this(null);
     }
 
-    TileType(Class<? extends Tile> implClass, Attribute... attributes) {
+    TileType(Class<? extends Tile<?>> implClass, Attribute... attributes) {
 
         this.implClass = implClass;
 
@@ -52,5 +52,9 @@ public enum TileType {
     @NotNull
     public Set<Attribute> getAttributes() {
         return attributes;
+    }
+
+    public Class<? extends Tile<?>> getImplClass() {
+        return implClass;
     }
 }

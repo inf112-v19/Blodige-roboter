@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -137,18 +136,18 @@ public class RobotTest extends TestGraphics {
         }
     }
 
-    @Test
-    public void getTileType() {
-        for (Direction dir : Direction.values()) {
-            testBot.setDirection(dir);
-            assertNotNull(testBot.getTileType());
-
-            assertEquals(TileType.ROBOT, testBot.getTileType());
-
-            String[] name = testBot.get().name().split("_");
-            assertEquals(dir.name(), name[name.length - 1]);
-        }
-    }
+//    @Test
+//    public void getTileType() {
+//        for (Direction dir : Direction.values()) {
+//            testBot.setDirection(dir);
+//            assertNotNull(testBot.getTileType());
+//
+//            assertEquals(TileType.ROBOT, testBot.getTileType());
+//
+//            String[] name = testBot.get().name().split("_");
+//            assertEquals(dir.name(), name[name.length - 1]);
+//        }
+//    }
 
     @Test
     public void movingOutOfBoundTeleportToBackup() {

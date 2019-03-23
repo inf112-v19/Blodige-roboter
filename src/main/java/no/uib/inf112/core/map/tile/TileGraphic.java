@@ -3,12 +3,17 @@ package no.uib.inf112.core.map.tile;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import static no.uib.inf112.core.map.tile.Attribute.*;
 
 /**
  * All textures and how to render them
@@ -132,10 +137,10 @@ public enum TileGraphic {
      * (TileType Conveyor)
      * GO"Direction" is the conveyors that turn into an already straight conveyor
      */
-    CONVEYOR_RIGHT(52, TileType.CONVEYOR),
-    CONVEYOR_LEFT(51, TileType.CONVEYOR),
-    CONVEYOR_UP(49, TileType.CONVEYOR),
-    CONVEYOR_DOWN(50, TileType.CONVEYOR),
+    CONVEYOR_RIGHT(52, TileType.CONVEYOR, DIR_EAST),
+    CONVEYOR_LEFT(51, TileType.CONVEYOR, DIR_WEST),
+    CONVEYOR_UP(49, TileType.CONVEYOR, DIR_NORTH),
+    CONVEYOR_DOWN(50, TileType.CONVEYOR, DIR_SOUTH),
     CONVEYOR_FROM_LEFT_GO_UP(57, TileType.CONVEYOR),
     CONVEYOR_FROM_TOP_GO_RIGHT(58, TileType.CONVEYOR),
     CONVEYOR_FROM_RIGHT_GO_DOWN(59, TileType.CONVEYOR),
@@ -236,7 +241,16 @@ public enum TileGraphic {
         return tileType;
     }
 
-    public Tile createInstance() {
+    public Tile<?> createInstance(int x, int y) {
+        if (tileType.getImplClass() == null) {
+            return null;
+        }
+        try {
+            Constructor<? extends Tile<?>> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
+            return constructor.newInstance(new Vector2Int(x, y), this);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

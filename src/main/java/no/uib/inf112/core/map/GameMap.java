@@ -80,6 +80,7 @@ public abstract class GameMap implements MapHandler {
 
         tiles = new HashMap<>();
         tiles.put(boardLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(entityLayer, null);
         tiles.put(collidablesLayer, new Tile[mapWidth][mapHeight]);
         tiles.put(flagLayer, new Tile[mapWidth][mapHeight]);
 
@@ -219,7 +220,10 @@ public abstract class GameMap implements MapHandler {
                 return null;
             }
             TileGraphic tg = TileGraphic.fromTiledId(cell.getTile().getId());
-            tiles[x][y] = tg.createInstance();
+            if (tg == null) {
+                return null;
+            }
+            tiles[x][y] = tg.createInstance(x, y);
         }
         return tiles[x][y]; //TODO return the instance at this location at given layer (or create one)
     }
