@@ -7,7 +7,7 @@ import no.uib.inf112.core.map.cards.Card;
 import org.jetbrains.annotations.NotNull;
 
 
-public class NonPlayer extends Player {
+public class NonPlayer extends AbstractPlayer {
 
     private Card[] deck;
 

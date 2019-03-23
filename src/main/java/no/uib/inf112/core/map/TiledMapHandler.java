@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
+import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -16,15 +17,12 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     private OrthogonalTiledMapRenderer renderer;
 
     /**
-     * @param map
-     *     The relative path from assets folder to the Tiled map file
-     *
-     * @throws IllegalArgumentException
-     *     if max zoom is less than min zoom
+     * @param map The relative path from assets folder to the Tiled map file
+     * @throws IllegalArgumentException if max zoom is less than min zoom
      */
     public TiledMapHandler(String map) {
         super(map);
-        renderer = new ColorfulOrthogonalTiledMapRenderer(getTiledMap());
+        renderer = new CustomOrthogonalTiledMapRenderer(getTiledMap());
     }
 
 
@@ -48,8 +46,7 @@ public class TiledMapHandler extends MapCamera implements Disposable {
             if (lastPos == null) {
                 lastPos = new Vector2Int(x, y);
                 entry.setValue(lastPos);
-            }
-            else if (!entry.getKey().shouldUpdate()) {
+            } else if (!entry.getKey().shouldUpdate()) {
                 //do not update if there is no change
                 continue;
             }
@@ -72,23 +69,17 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     /**
      * Draw an entity on the entity layer
      *
-     * @param entity
-     *     The entity to draw
-     * @param oldPos
-     *     The last known position
-     * @param x
-     *     The new x, provided as a parameter to make this thread safe
-     * @param y
-     *     The new y, provided as a parameter to make this thread safe
+     * @param entity The entity to draw
+     * @param oldPos The last known position
+     * @param x      The new x, provided as a parameter to make this thread safe
+     * @param y      The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2Int oldPos, int x, int y) {
-        if (entity.getTileType() == null) {
-            return;
-        }
+        entity.getTileType();
         if (isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds");
+            throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds for " + entity.toString());
         }
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTileType().getTile());
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
         getEntityLayer().setCell(x, y, cell);
 
         oldPos.x = x;

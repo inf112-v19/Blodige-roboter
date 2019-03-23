@@ -3,167 +3,67 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.util.Vector2Int;
+import no.uib.inf112.core.ui.CardContainer;
+import no.uib.inf112.core.ui.actors.cards.SlotType;
+import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
+import no.uib.inf112.core.ui.event.ControlPanelEventListener;
+import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Elg
- */
-public abstract class Player implements IPlayer {
+public class Player extends AbstractPlayer {
 
-    public static final int MAX_LIVES = 3;
-    public static final int MAX_HEALTH = 10;
-    public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
+    private CardContainer cards;
 
-    private Robot robot;
+    public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
+        super(x, y, direction, map, Color.RED);
 
-    private Vector2Int backup;
+        cards = new CardContainer(this);
+        if (!GameGraphics.HEADLESS) {
+            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
+            eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
 
-    protected int dock;
+                if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
+                    //This is not optimal, references both ways but since its a get i have not given a lot of thought
+                    // trying to change it
+                    return;
 
-    protected int flags;
-    protected int lives;
-    protected boolean poweredDown;
-    protected int health;
-
+                }
+                poweredDown = !poweredDown;
+                System.out.println("Powered down? " + isPoweredDown());
+            });
+        }
+    }
 
     /**
-     * @param x         Start x position
-     * @param y         Start y position
-     * @param direction Start direction
-     * @param map       Current map
-     * @throws IllegalArgumentException See {@link Robot#Robot(int, int, Direction)}
-     * @throws IllegalStateException    See {@link Robot#Robot(int, int, Direction)}
+     * Show which cards can be picked
      */
-    public Player(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull Color color) {
-        if (map.isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException("Cant set backup outside of the map");
+    public void beginDrawCards() {
+        cards.draw();
+        GameGraphics.getUiHandler().showDrawnCards();
+    }
+
+    /**
+     * End drawing cards, if invalid do random cards.
+     * End turn
+     */
+    public void endDrawCards() {
+        GameGraphics.getUiHandler().hideDrawnCards();
+
+        if (cards.hasInvalidHand()) {
+            cards.randomizeHand();
         }
-        backup = new Vector2Int(x, y);
-
-        flags = 0;
-        lives = MAX_LIVES;
-        health = MAX_HEALTH;
-        poweredDown = false;
-        robot = new Robot(x, y, direction, color);
-    }
-
-    @Override
-    public void damage(int damageAmount) {
-        if (damageAmount <= 0) {
-            throw new IllegalArgumentException("Cannot do non-positive damage");
-        }
-        health -= damageAmount;
-        if (health <= 0) {
-            kill();
-        }
-    }
-
-    @Override
-    public void kill() {
-        lives--;
-        if (lives == 0) {
-            GameGraphics.getRoboRally().getCurrentMap().removeEntity(robot);
-            return;
-        }
-        health = MAX_HEALTH;
-        robot.teleport(backup.x, backup.y);
-    }
-
-    @Override
-    public void heal(int healAmount) {
-        if (healAmount <= 0) {
-            throw new IllegalArgumentException("Cannot do non-positive damage");
-        }
-        health = Math.min(MAX_HEALTH, health + healAmount);
+        GameGraphics.getRoboRally().getPlayerHandler().endTurn();
     }
 
 
     @Override
-    public boolean isDestroyed() {
-        return lives <= 0;
+    public PlayerCard getNextCard(int id) {
+        return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
     }
 
-
-    @Override
-    public void moveRobot(Movement cardAction) {
-        if (!getRobot().move(cardAction)) {
-            kill();
-        }
+    @NotNull
+    public CardContainer getCards() {
+        return cards;
     }
 
-    @Override
-    public int getFlags() {
-        return flags;
-    }
-
-    @Override
-    public boolean canGetFlag(int flagRank) {
-        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
-    }
-
-    @Override
-    public void registerFlagVisit() {
-        flags++;
-    }
-
-    @Override
-    public int getLives() {
-        return lives;
-    }
-
-    @Override
-    public int getHealth() {
-        return health;
-    }
-
-    @Override
-    public boolean isPoweredDown() {
-        return poweredDown;
-    }
-
-    @Override
-    public int getDamageTokens() {
-        return MAX_HEALTH - health;
-    }
-
-    @Override
-    public Vector2Int getBackup() {
-        return backup;
-    }
-
-    @Override
-    public void setBackup(int x, int y) {
-        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-
-        if (map.isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException("Cant set backup outside of the map");
-        } else {
-            backup.x = x;
-            backup.y = y;
-        }
-    }
-
-    @Override
-    public Robot getRobot() {
-        return robot;
-    }
-
-    @Override
-    public int getDock() {
-        return dock;
-    }
-
-    @Override
-    public void setDock(int dock) {
-        this.dock = dock;
-    }
-
-
-    @Override
-    public int compareTo(@NotNull IPlayer iPlayer) {
-        return Integer.compare(getDock(), iPlayer.getDock());
-    }
 }

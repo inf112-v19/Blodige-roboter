@@ -2,7 +2,7 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import java.util.Random;
 public class CardContainer {
 
     @NotNull
-    private final Player holder;
+    private final AbstractPlayer holder;
     private Random random;
 
     final CardSlot[] handCard;
@@ -33,12 +33,12 @@ public class CardContainer {
      * @see no.uib.inf112.core.ui.CardContainerTest#setUp()
      */
     @SuppressWarnings("JavadocReference")
-    public CardContainer(@NotNull Player holder) {
+    public CardContainer(@NotNull AbstractPlayer holder) {
         this.holder = holder;
         random = new Random();
 
-        handCard = new CardSlot[Player.MAX_PLAYER_CARDS];
-        drawnCard = new CardSlot[Player.MAX_DRAW_CARDS];
+        handCard = new CardSlot[AbstractPlayer.MAX_PLAYER_CARDS];
+        drawnCard = new CardSlot[AbstractPlayer.MAX_DRAW_CARDS];
     }
 
     /**
@@ -51,10 +51,10 @@ public class CardContainer {
             }
         }
 
-        int amount = Player.MAX_HEALTH - holder.getDamageTokens() - 1;
+        int amount = AbstractPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
         Card[] draw = GameGraphics.getRoboRally().getDeck().draw(amount);
 
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
             if (i >= amount) {
                 drawnCard[i].setCard(null);
                 drawnCard[i].getColor().a = 0.70f;
@@ -94,7 +94,7 @@ public class CardContainer {
             throw new IllegalStateException("handcards not properly cleared!");
         }
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             int randomCard = random.nextInt(drawnCard.length);
             if (drawnCard[randomCard].getCard() == null) {
                 //if there are no more valid cards return
@@ -140,7 +140,7 @@ public class CardContainer {
     /**
      * @return The player who owns this container
      */
-    public Player getPlayer() {
+    public AbstractPlayer getPlayer() {
         return holder;
     }
 }

@@ -2,8 +2,9 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Vector2Int;
+import org.jetbrains.annotations.NotNull;
 
-public interface IPlayer extends Comparable<IPlayer> {
+public interface IPlayer<R> extends Comparable<IPlayer>, Entity<R> {
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -16,15 +17,8 @@ public interface IPlayer extends Comparable<IPlayer> {
      * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
      * no lives left
      */
+    @Override
     void kill();
-
-    /**
-     * Heal the player by the given amount up to {@link #MAX_HEALTH}
-     *
-     * @param healAmount How much to heal
-     * @throws IllegalArgumentException If the heal amount is not positive
-     */
-    void heal(int healAmount);
 
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
@@ -40,11 +34,11 @@ public interface IPlayer extends Comparable<IPlayer> {
     /**
      * Moves the robot with the movement corresponding to the cardAction
      * <p>
-     * If the robot moves outside the map, {@link Player#kill()} method is called
+     * If the robot moves outside the map, {@link AbstractPlayer#kill()} method is called
      *
      * @param cardAction movement to do with the robot
      */
-    void moveRobot(Movement cardAction);
+    void move(Movement cardAction);
 
     /**
      * @return amount of flags visited
@@ -90,19 +84,11 @@ public interface IPlayer extends Comparable<IPlayer> {
     /**
      * Sets the backup for the player
      *
-     * @param x
-     *      The new x coordinate of the backup
-     * @param y
-     *      The new y coordinate of the backup
-     *
+     * @param x The new x coordinate of the backup
+     * @param y The new y coordinate of the backup
      * @throws IllegalArgumentException if {@code x} or {@code y} is outside the current map
      */
     void setBackup(int x, int y);
-
-    /**
-     * @return players robot
-     */
-    Robot getRobot();
 
     /**
      * @return assigned dock
@@ -113,4 +99,7 @@ public interface IPlayer extends Comparable<IPlayer> {
      * @param dock
      */
     void setDock(int dock);
+
+    @Override
+    int compareTo(@NotNull IPlayer o);
 }

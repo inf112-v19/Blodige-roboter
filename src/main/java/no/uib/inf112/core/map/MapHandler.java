@@ -4,11 +4,14 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +19,6 @@ import java.util.Set;
  */
 public interface MapHandler {
 
-    //constants for
     float DEFAULT_ZOOM_SENSITIVITY = 1f;
     float DEFAULT_MAX_ZOOM = 10f;
     float DEFAULT_MIN_ZOOM = 2f;
@@ -32,6 +34,7 @@ public interface MapHandler {
 
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
+    String ENTITY_LAYER_NAME = "entities";
     String COLLIDABLES_LAYER_NAME = "collidables";
     String FLAG_LAYER_NAME = "flags";
 
@@ -72,19 +75,6 @@ public interface MapHandler {
     MapProperties getProperties();
 
     /**
-     * @return The board tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
-     */
-    @NotNull
-    TileType getBoardLayerTile(int x, int y);
-
-    /**
-     * @return The entity at the given {@code (x, y)} coordinate or {@code null} if there is nothing there
-     */
-    @Nullable
-    Entity getEntity(int x, int y);
-
-    /**
      * @return The set of all tiles in this map
      */
     @NotNull
@@ -108,7 +98,7 @@ public interface MapHandler {
     boolean removeEntity(@Nullable Entity entity);
 
     /**
-     * @return A read-only set of known robots in the order they were added
+     * @return A read-only set of all tiles that can move in the order they were added
      */
     @NotNull
     Set<Entity> getEntities();
@@ -145,17 +135,11 @@ public interface MapHandler {
      */
     void resize(int width, int height);
 
-    /**
-     * @return The flag tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
-     */
-    @Nullable
-    TileType getFlagLayerTile(int x, int y);
+    TiledMapTileLayer getLayer(@NotNull String layer);
 
-    /**
-     * @return The collidable tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
-     */
-    @Nullable
-    TileType getCollidablesLayerTile(int x, int y);
+    Tile getTile(@NotNull String layerName, int x, int y);
+
+    Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y);
+
+    List<Tile> getAllTiles(int x, int y);
 }

@@ -30,8 +30,8 @@ public class PlayerTest extends TestGraphics {
     public void setup() {
         roboRally.getPlayerHandler().generateOnePlayer();
         testPlayer = roboRally.getPlayerHandler().testPlayer();
-        testPlayer.getRobot().teleport(0, 0);
-        testPlayer.getRobot().setDirection(Direction.NORTH);
+        testPlayer.teleport(0, 0);
+        testPlayer.setDirection(Direction.NORTH);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class PlayerTest extends TestGraphics {
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
         testPlayer.damage(testPlayer.getHealth() + 1);
-        assertEquals(Player.MAX_HEALTH, testPlayer.getHealth());
+        assertEquals(AbstractPlayer.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -78,7 +78,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
-        testPlayer.heal(Player.MAX_HEALTH);
+        testPlayer.heal(AbstractPlayer.MAX_HEALTH);
         int health = testPlayer.getHealth();
         testPlayer.heal(10);
         assertEquals(health, testPlayer.getHealth());
@@ -180,7 +180,7 @@ public class PlayerTest extends TestGraphics {
         }
     }
 
-    private class PlayerImpl extends Player {
+    private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
             super(x, y, Direction.NORTH, map, Color.ORANGE);

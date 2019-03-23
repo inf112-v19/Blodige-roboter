@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerCard implements Comparable<PlayerCard> {
     private Card card;
-    private Player player;
+    private AbstractPlayer player;
 
-    public PlayerCard(Card card, Player player) {
+    public PlayerCard(Card card, AbstractPlayer player) {
         this.card = card;
         this.player = player;
     }
@@ -16,7 +16,7 @@ public class PlayerCard implements Comparable<PlayerCard> {
         return card;
     }
 
-    public Player getPlayer() {
+    public AbstractPlayer getPlayer() {
         return player;
     }
 

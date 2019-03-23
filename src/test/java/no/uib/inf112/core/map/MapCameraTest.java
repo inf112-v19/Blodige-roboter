@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector3;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -144,30 +143,8 @@ public class MapCameraTest extends TestGraphics {
 
         @NotNull
         @Override
-        public TileType getBoardLayerTile(int x, int y) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Entity getEntity(int x, int y) {
-            return null;
-        }
-
-        @NotNull
-        @Override
         public TiledMapTileSets getMapTileSets() {
             return null;
-        }
-
-        @Override
-        public void addEntity(@NotNull Entity entity) {
-
-        }
-
-        @Override
-        public boolean removeEntity(@Nullable Entity entity) {
-            return false;
         }
 
         @NotNull

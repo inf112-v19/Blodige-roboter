@@ -34,7 +34,7 @@ public class PlayerHandler implements IPlayerHandler {
         this.map = map;
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
-        user = new UserPlayer(0, 0, Direction.NORTH, map);
+        user = new Player(0, 0, Direction.NORTH, map);
         players.add(user);
         for (int i = 1; i < playerCount; i++) {
             players.add(new NonPlayer(i, 0, Direction.NORTH, map));
@@ -84,7 +84,7 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             List<PlayerCard> cards = new ArrayList<>();
             for (IPlayer p : players) {
                 cards.add(p.getNextCard(i));
@@ -95,12 +95,12 @@ public class PlayerHandler implements IPlayerHandler {
 
                 GameGraphics.executorService.schedule(() ->
                         Gdx.app.postRunnable(() ->
-                                card.getPlayer().moveRobot(card.getCard().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
+                                card.getPlayer().move(card.getCard().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
             }
         }
 
         GameGraphics.executorService.schedule(() ->
-                Gdx.app.postRunnable(() -> GameGraphics.getRoboRally().round()), 500 * (Player.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
+                Gdx.app.postRunnable(() -> GameGraphics.getRoboRally().round()), 500 * (AbstractPlayer.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class PlayerHandler implements IPlayerHandler {
         //TODO Issue #44 check if player is out side of map
 
         GameGraphics.getRoboRally().getDeck().shuffle();
-        UserPlayer p = mainPlayer();
+        Player p = mainPlayer();
         if (p.isPoweredDown()) {
             //TODO Issue #24 check if is powered down (then heal)
             return;
@@ -136,10 +136,10 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
 
-    public UserPlayer mainPlayer() {
+    public Player mainPlayer() {
         if (HEADLESS) {
             throw new IllegalStateException("Game is headless");
         }
-        return (UserPlayer) players.get(0);
+        return (Player) players.get(0);
     }
 }

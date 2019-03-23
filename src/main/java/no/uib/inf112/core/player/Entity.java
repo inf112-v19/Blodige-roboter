@@ -1,9 +1,9 @@
 package no.uib.inf112.core.player;
 
-import com.badlogic.gdx.graphics.Color;
-import no.uib.inf112.core.map.TileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import no.uib.inf112.core.map.tile.api.ColorTile;
+import no.uib.inf112.core.map.tile.api.HealableTile;
+import no.uib.inf112.core.map.tile.api.MoveableTile;
+import no.uib.inf112.core.map.tile.api.SingleDirectionalTile;
 
 
 /**
@@ -11,34 +11,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Elg
  */
-public interface Entity {
-
-    /**
-     * @return The X-coordinate of the entity
-     */
-    int getX();
-
-    /**
-     * @return The Y-coordinate of the entity
-     */
-    int getY();
-
-    /**
-     * @return the tile of this entity, if {@code null} do not render this entity
-     */
-    @Nullable
-    TileType getTileType();
-
-    /**
-     * @return the direction the entity is facing
-     */
-    @NotNull
-    Direction getDirection();
-
-    /**
-     * Sets the direction the entity is facing
-     */
-    boolean setDirection(@NotNull Direction direction);
+public interface Entity<R> extends HealableTile<R>, MoveableTile<R>, SingleDirectionalTile<R>, ColorTile<R> {
 
     /**
      * @return If this entity has changed in some way
@@ -57,15 +30,5 @@ public interface Entity {
      * @param update new update state
      */
     void update(boolean update);
-
-    /**
-     * @return The color of the entity
-     */
-    Color getColor();
-
-    /**
-     * @param color The new color when rendered
-     */
-    void setColor(@NotNull Color color);
 
 }

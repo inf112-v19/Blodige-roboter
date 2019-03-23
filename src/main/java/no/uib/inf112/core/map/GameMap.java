@@ -7,14 +7,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.tile.TileGraphic;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class GameMap implements MapHandler {
 
@@ -27,6 +28,7 @@ public abstract class GameMap implements MapHandler {
 
     //A map of all know entities and their last know location
     Map<Entity, Vector2Int> entities;
+    private Map<TiledMapTileLayer, Tile[][]> tiles = new HashMap<>();
 
     private int mapWidth;
     private int mapHeight;
@@ -76,6 +78,11 @@ public abstract class GameMap implements MapHandler {
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         tiledMap.getLayers().add(entityLayer);
 
+        tiles = new HashMap<>();
+        tiles.put(boardLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(collidablesLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(flagLayer, new Tile[mapWidth][mapHeight]);
+
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
 
@@ -95,12 +102,6 @@ public abstract class GameMap implements MapHandler {
         return tiledMap.getProperties();
     }
 
-    @NotNull
-    @Override
-    public TileType getBoardLayerTile(int x, int y) {
-        int tileId = boardLayer.getCell(x, y).getTile().getId();
-        return TileType.fromTiledId(tileId);
-    }
 
     @NotNull
     @Override
@@ -119,16 +120,17 @@ public abstract class GameMap implements MapHandler {
     }
 
 
-    @Override
-    @Nullable
-    public Entity getEntity(int x, int y) {
-        Vector2Int v = new Vector2Int(x, y);
-        for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
-            if (v.equals(entry.getValue())) {
-                return entry.getKey();
-            }
+    private TileGraphic getCellId(TiledMapTileLayer.Cell cell) {
+        if (cell == null) {
+            return null;
         }
-        return null;
+        int tileId = cell.getTile().getId();
+        return TileGraphic.fromTiledId(tileId);
+    }
+
+    @Override
+    public boolean isOutsideBoard(int x, int y) {
+        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
     }
 
     @Override
@@ -142,10 +144,6 @@ public abstract class GameMap implements MapHandler {
         return entities.keySet();
     }
 
-    @Override
-    public boolean isOutsideBoard(int x, int y) {
-        return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
-    }
 
     @Override
     public int getMapWidth() {
@@ -157,14 +155,13 @@ public abstract class GameMap implements MapHandler {
         return mapHeight;
     }
 
-    protected TiledMapTileLayer getEntityLayer() {
+    TiledMapTileLayer getEntityLayer() {
         return entityLayer;
     }
 
-    protected TiledMap getTiledMap() {
+    TiledMap getTiledMap() {
         return tiledMap;
     }
-
 
     @Override
     public int getTileHeight() {
@@ -176,24 +173,62 @@ public abstract class GameMap implements MapHandler {
         return tileWidth;
     }
 
+
+    @Override
     @Nullable
-    @Override
-    public TileType getFlagLayerTile(int x, int y) {
-        TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
-        return getCellId(cell);
+    public TiledMapTileLayer getLayer(@NotNull String layer) {
+        return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     }
 
     @Override
-    public TileType getCollidablesLayerTile(int x, int y) {
-        TiledMapTileLayer.Cell cell = collidablesLayer.getCell(x, y);
-        return getCellId(cell);
+    @Nullable
+    public Tile getTile(@NotNull String layerName, int x, int y) {
+        TiledMapTileLayer layer = getLayer(layerName);
+        if (layer == null) {
+            return null;
+        }
+        return getTile(layer, x, y);
     }
 
-    private TileType getCellId(TiledMapTileLayer.Cell cell) {
-        if (cell == null) return null;
-        int tileId = cell.getTile().getId();
-        return TileType.fromTiledId(tileId);
+    @Override
+    @Nullable
+    public Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y) {
+        if (isOutsideBoard(x, y)) {
+            return null;
+        }
+
+        //yes same instance
+        if (layer == entityLayer) {
+            Vector2Int vec = new Vector2Int(x, y);
+            for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
+                if (vec.equals(entry.getValue())) {
+                    return entry.getKey();
+                }
+            }
+            return null;
+        }
+
+        Tile[][] tiles = this.tiles.get(layer);
+        if (tiles == null) {
+            return null;
+        }
+
+        if (tiles[x][y] == null) {
+            TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+            if (cell == null) {
+                return null;
+            }
+            TileGraphic tg = TileGraphic.fromTiledId(cell.getTile().getId());
+            tiles[x][y] = tg.createInstance();
+        }
+        return tiles[x][y]; //TODO return the instance at this location at given layer (or create one)
     }
 
+    //TODO test (this should return instance of all non-null tiles on all layers at the given location)
+    @Override
+    @NotNull
+    public List<Tile> getAllTiles(int x, int y) {
+        return this.tiles.keySet().stream().map(layer -> getTile(layer, x, y)).filter(Objects::nonNull).collect(Collectors.toList());
+    }
 
 }
