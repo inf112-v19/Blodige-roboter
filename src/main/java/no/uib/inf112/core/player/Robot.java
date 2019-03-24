@@ -159,7 +159,7 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
 
     private boolean willCollide(int dx, int dy, Direction dir) {
         int x = pos.x + dx;
-        int y = pos.y + dx;
+        int y = pos.y + dy;
 
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
             if (tile.hasAttribute(Attribute.COLLIDABLE) && !this.equals(tile)) {
