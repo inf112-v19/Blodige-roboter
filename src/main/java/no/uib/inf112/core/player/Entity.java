@@ -7,7 +7,7 @@ import no.uib.inf112.core.map.tile.api.MoveableTile;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 
@@ -37,13 +37,14 @@ public interface Entity<R> extends HealableTile<R>, MoveableTile<R>, ColorTile<R
     void update(boolean update);
 
     @Override
-    default boolean willCollide(MoveableTile tile) {
+    default boolean willCollide(MoveableTile tile, Direction dir) {
+        //entities cannot be walked on
         return true;
     }
 
     @NotNull
     @Override
     default Set<Direction> getDirections() {
-        return new HashSet<>();
+        return Collections.singleton(getDirection());
     }
 }

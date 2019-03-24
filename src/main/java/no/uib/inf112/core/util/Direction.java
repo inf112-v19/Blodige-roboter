@@ -31,6 +31,29 @@ public enum Direction {
     }
 
     /**
+     * The input will be run through {@link Math#signum(float)}, so any integer as long as one of them is 0 will work
+     *
+     * @param dx A delta in the x direction
+     * @param dy A delta in the x direction
+     * @return Direction from delta values
+     * @throws IllegalArgumentException if the given arguments does not match any direction
+     */
+    public static Direction fromDelta(int dx, int dy) {
+        dx = (int) Math.signum(dx);
+        dy = (int) Math.signum(dy);
+        if (dx == NORTH.dx && dy == NORTH.dy) {
+            return NORTH;
+        } else if (dx == EAST.dx && dy == EAST.dy) {
+            return EAST;
+        } else if (dx == WEST.dx && dy == WEST.dy) {
+            return WEST;
+        } else if (dx == SOUTH.dx && dy == SOUTH.dy) {
+            return SOUTH;
+        }
+        throw new IllegalArgumentException("Unknown direction (" + dx + ", " + dy + ")");
+    }
+
+    /**
      * @return The opposite direction of this one
      */
     public Direction inverse() {

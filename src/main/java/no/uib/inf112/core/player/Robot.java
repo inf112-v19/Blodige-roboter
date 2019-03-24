@@ -127,8 +127,6 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
 
     /**
      * Move the robot with given delta to new coordinates
-     *
-     * @return false if the robot moved out of the map
      */
     @Override
     public void move(int dx, int dy) {
@@ -137,20 +135,21 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
             update();
             return;
         }
-        if (!canMoveTo(0, 0)) {
+        if (willCollide(0, 0, getDirection())) {
             return;
         }
 
+        int sdx = (int) Math.signum(dx);
+        int sdy = (int) Math.signum(dy);
+
         int max = Math.max(Math.abs(dx), Math.abs(dy));
         for (int i = 0; i < max; i++) {
-            int x = (int) (pos.x + Math.signum(dx));
-            int y = (int) (pos.y + Math.signum(dy));
 
-            if (canMoveTo(x, y)) {
+            if (willCollide(sdx, sdx, Direction.fromDelta(dx, dy))) {
                 break;
             } else {
-                pos.x = x;
-                pos.y = y;
+                pos.x += sdx;
+                pos.y += sdy;
                 update();
             }
         }
@@ -158,16 +157,19 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
     }
 
 
-    private boolean canMoveTo(int x, int y) {
+    private boolean willCollide(int dx, int dy, Direction dir) {
+        int x = pos.x + dx;
+        int y = pos.y + dx;
+
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
-            if (tile.hasAttribute(Attribute.COLLIDABLE)) {
+            if (tile.hasAttribute(Attribute.COLLIDABLE) && !this.equals(tile)) {
                 CollidableTile cTile = (CollidableTile) tile;
-                if (cTile.willCollide(this)) {
-                    return false;
+                if (cTile.willCollide(this, dir)) {
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     @Override

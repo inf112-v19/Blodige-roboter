@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * @author Elg
@@ -24,8 +23,7 @@ public class WallTile extends AbstractMultiDirectionalTile<Void> implements Coll
     }
 
     @Override
-    public boolean willCollide(MoveableTile tile) {
-        Direction dir = tile.getDirection();
+    public boolean willCollide(MoveableTile tile, Direction dir) {
         System.out.println("getDirections() = " + getDirections());
         //tile wants to move from this tile
         if (tile.getX() == getX() && tile.getY() == tile.getY() && getDirections().contains(dir)) {
@@ -59,7 +57,6 @@ public class WallTile extends AbstractMultiDirectionalTile<Void> implements Coll
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", WallTile.class.getSimpleName() + "[", "]").add(super.toString())
-                .toString();
+        return "WallTile{dirs=" + getDirections() + "}";
     }
 }
