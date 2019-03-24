@@ -19,6 +19,13 @@ public class PlayerCard implements Comparable<PlayerCard> {
     public Player getPlayer() {
         return player;
     }
+    
+    public String toString() {
+        return "PlayerCard{" +
+                "player= " + player +
+                ", card= " + card +
+                "}";
+    }
 
     @Override
     public int compareTo(@NotNull PlayerCard playerCard) {
