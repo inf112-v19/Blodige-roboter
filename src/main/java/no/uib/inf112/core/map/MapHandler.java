@@ -65,7 +65,7 @@ public interface MapHandler {
     void moveCamera(float dx, float dy);
 
     /**
-     * @return The cameara that renderes the board
+     * @return The camera that rendere the board
      */
     OrthographicCamera getCamera();
 

@@ -55,6 +55,6 @@ public abstract class AbstractTile<R> implements Tile<R> {
     //TODO test (this should look at all the required atts and check that hasAttributes return true on all of them)
     @Override
     public boolean canDoAction(@NotNull Tile tile) {
-        return requiredAttributes().stream().allMatch(this::hasAttribute);
+        return tile != this && (requiredAttributes() == null || requiredAttributes().stream().allMatch(this::hasAttribute));
     }
 }

@@ -1,9 +1,10 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.util.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
-import static no.uib.inf112.core.player.Direction.*;
+import static no.uib.inf112.core.util.Direction.*;
 import static org.junit.Assert.assertEquals;
 
 public class DirectionTest {

@@ -20,23 +20,24 @@ public enum Attribute {
     HEALABLE(HealableTile.class),
     BACKUPABLE(BackupTile.class),
     COLORABLE(ColorTile.class),
+    COLLIDABLE(CollidableTile.class),
+    ;
 
-
-    ACTIVE_DURING_PHASE,
-    ACTIVE_AFTER_PHASE;
-
-    private final List<Class<? extends Tile>> requiredInterface;
+    private final List<Class<? extends Tile>> requiredInterfaces;
 
     Attribute() {
-        requiredInterface = new ArrayList<>();
+        requiredInterfaces = new ArrayList<>();
     }
 
-    Attribute(Class<? extends Tile>... requiredInterface) {
-        this.requiredInterface = Arrays.asList(requiredInterface);
+    Attribute(Class<? extends Tile>... requiredInterfaces) {
+        this.requiredInterfaces = Arrays.asList(requiredInterfaces);
     }
 
     //TODO test if the given tile has the specified interfaces
-    public boolean verifyInterfaces(Tile<? extends Tile> tile) {
-        return requiredInterface.stream().anyMatch(superClass -> superClass.isAssignableFrom(tile.getClass()));
+    public boolean verifyInterfaces(Class<? extends Tile<?>> tile) {
+        if (requiredInterfaces.isEmpty()) {
+            return true;
+        }
+        return requiredInterfaces.stream().anyMatch(superClass -> superClass.isAssignableFrom(tile));
     }
 }

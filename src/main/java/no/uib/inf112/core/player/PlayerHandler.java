@@ -1,21 +1,20 @@
 package no.uib.inf112.core.player;
 
-import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
 
 public class PlayerHandler implements IPlayerHandler {
 
     private int playerCount;
-    private ArrayList<IPlayer> players;
+    private List<IPlayer> players;
     private IPlayer user;
     private MapHandler map;
 
@@ -84,42 +83,25 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
-            List<PlayerCard> cards = new ArrayList<>();
-            for (IPlayer p : players) {
-                cards.add(p.getNextCard(i));
-            }
-            Collections.sort(cards);
-            for (int j = 0; j < cards.size(); j++) {
-                PlayerCard card = cards.get(j);
-
-                GameGraphics.executorService.schedule(() ->
-                        Gdx.app.postRunnable(() ->
-                                card.getPlayer().move(card.getCard().getAction())), 500 * (i + 1), TimeUnit.MILLISECONDS);
-            }
-        }
-
-        GameGraphics.executorService.schedule(() ->
-                Gdx.app.postRunnable(() -> GameGraphics.getRoboRally().round()), 500 * (AbstractPlayer.MAX_PLAYER_CARDS + 2), TimeUnit.MILLISECONDS);
+        GameGraphics.getRoboRally().round();
     }
 
     @Override
     public void startTurn() {
-        //TODO Issue #44 check if dead
-        //TODO Issue #44 check if player is out side of map
 
-        GameGraphics.getRoboRally().getDeck().shuffle();
         Player p = mainPlayer();
-        if (p.isPoweredDown()) {
-            //TODO Issue #24 check if is powered down (then heal)
+        if (p.isDestroyed()) {
             return;
+        }
+        if (p.isPoweredDown()) {
+            p.heal();
         } else {
             p.beginDrawCards();
         }
     }
 
     @Override
-    public ArrayList<IPlayer> getPlayers() {
+    public List<IPlayer> getPlayers() {
         return players;
     }
 

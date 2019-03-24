@@ -3,11 +3,14 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventListener;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
+import no.uib.inf112.core.util.ComparableTuple;
+import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
 public class Player extends AbstractPlayer {
@@ -57,13 +60,14 @@ public class Player extends AbstractPlayer {
 
 
     @Override
-    public PlayerCard getNextCard(int id) {
-        return new PlayerCard(cards.getCard(SlotType.HAND, id), this);
+    public ComparableTuple<Card, IPlayer<?>> getNextCard(int id) {
+        return new ComparableTuple<>(cards.getCard(SlotType.HAND, id), this);
     }
 
     @NotNull
     public CardContainer getCards() {
         return cards;
     }
+
 
 }

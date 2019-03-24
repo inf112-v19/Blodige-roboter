@@ -12,7 +12,6 @@ public abstract class MapCamera extends GameMap {
 
     private OrthographicCamera camera;
 
-
     private float defaultHeight;
     private float defaultWidth;
     private float currHeight;
@@ -43,7 +42,7 @@ public abstract class MapCamera extends GameMap {
 
             if (maxZoom < minZoom) {
                 throw new IllegalArgumentException(
-                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+                        "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
             }
 
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -69,8 +68,7 @@ public abstract class MapCamera extends GameMap {
     private void ensureZoomBounds() {
         if (camera.zoom > getMaxZoom()) {
             camera.zoom = getMaxZoom();
-        }
-        else if (camera.zoom < getMinZoom()) {
+        } else if (camera.zoom < getMinZoom()) {
             camera.zoom = getMinZoom();
         }
     }
@@ -116,15 +114,13 @@ public abstract class MapCamera extends GameMap {
 
         if (camera.position.x < minX) {
             camera.position.x = minX;
-        }
-        else if (camera.position.x > maxX) {
+        } else if (camera.position.x > maxX) {
             camera.position.x = maxX;
         }
 
         if (camera.position.y < minY) {
             camera.position.y = minY;
-        }
-        else if (camera.position.y > maxY) {
+        } else if (camera.position.y > maxY) {
             camera.position.y = maxY;
         }
     }

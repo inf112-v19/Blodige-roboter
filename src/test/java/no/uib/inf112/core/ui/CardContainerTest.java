@@ -9,11 +9,12 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.AbstractPlayer;
-import no.uib.inf112.core.player.Direction;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +77,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void drawingFor1HealthPlayerShouldGetNothing() {
-        AbstractPlayer player = container.getPlayer();
+        IPlayer player = container.getPlayer();
         player.damage(player.getHealth() - 1);
         container.draw();
 

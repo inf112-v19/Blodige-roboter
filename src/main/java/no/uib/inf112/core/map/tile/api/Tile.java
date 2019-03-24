@@ -38,10 +38,16 @@ public interface Tile<R> {
     void playActionSound();
 
     /**
-     * What attributes needs to be present for the action to be called
+     * What attributes needs to be present for the action to be called. If null this tile can do action on all tiles
      */
     @Nullable
     List<Attribute> requiredAttributes();
 
+    /**
+     * This checks if the {@link #requiredAttributes} are present/null, given tile is not this tile
+     *
+     * @param tile The tile to check
+     * @return if this tile can do action on the given tile
+     */
     boolean canDoAction(@NotNull Tile tile);
 }

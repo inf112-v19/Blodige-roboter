@@ -1,9 +1,9 @@
 package no.uib.inf112.core.map.MapAction;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import no.uib.inf112.core.player.Direction;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 
 public class Conveyor implements MapAction {

@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GameGraphics extends Game {
 
@@ -35,7 +36,7 @@ public class GameGraphics extends Game {
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
-    public static ScheduledExecutorService executorService;
+    private static ScheduledExecutorService executorService;
 
     @Override
     public void create() {
@@ -55,7 +56,7 @@ public class GameGraphics extends Game {
         getRoboRally();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
-        roboRally.round();
+        getRoboRally().getPlayerHandler().startTurn();
     }
 
     @Override
@@ -113,21 +114,30 @@ public class GameGraphics extends Game {
         return soundPlayer;
     }
 
-    private synchronized static SoundPlayer createSoundPlayer() {
+    private static synchronized void createSoundPlayer() {
         soundPlayer = new SoundPlayer();
-        return soundPlayer;
     }
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 4);
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
         }
         return roboRally;
     }
 
-    public synchronized static RoboRally createRoboRally(String map, int playerCount) {
+    public static synchronized RoboRally createRoboRally(String map, int playerCount) {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
+    }
+
+    public static void scheduleSync(Runnable runnable, long msDelay) {
+        GameGraphics.executorService.schedule(() ->
+                Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
+    }
+
+    public static void scheduleASync(Runnable runnable, long msDelay) {
+        GameGraphics.executorService.schedule(() ->
+                runnable, msDelay, TimeUnit.MILLISECONDS);
     }
 
 

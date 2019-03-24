@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.util.ComparableTuple;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest extends TestGraphics {
 
-    private static IPlayer testPlayer;
+    private static IPlayer<?> testPlayer;
     private static RoboRally roboRally;
     private static MapHandler map;
 
@@ -94,12 +97,13 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        PlayerCard[] cards = new PlayerCard[5];
+        //noinspection unchecked
+        ComparableTuple<Card, IPlayer<?>>[] cards = (ComparableTuple<Card, IPlayer<?>>[]) new ComparableTuple[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
         }
-        for (int i = 0; i < cards.length; i++) {
-            assertTrue("Could not get 5 player cards", cards[i] instanceof PlayerCard);
+        for (ComparableTuple<Card, IPlayer<?>> card : cards) {
+            assertNotNull("Could not get 5 player cards", card);
         }
 
     }
@@ -187,7 +191,7 @@ public class PlayerTest extends TestGraphics {
         }
 
         @Override
-        public PlayerCard getNextCard(int id) {
+        public ComparableTuple<Card, IPlayer<?>> getNextCard(int id) {
             return null;
         }
     }

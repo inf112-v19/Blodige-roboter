@@ -1,6 +1,8 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +31,7 @@ public interface IPlayer<R> extends Comparable<IPlayer>, Entity<R> {
      * @param id
      * @return the next player card in queue
      */
-    PlayerCard getNextCard(int id);
+    ComparableTuple<Card, IPlayer<?>> getNextCard(int id);
 
     /**
      * Moves the robot with the movement corresponding to the cardAction

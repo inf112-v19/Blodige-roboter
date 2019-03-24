@@ -3,6 +3,7 @@ package no.uib.inf112.core.ui;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ import java.util.Random;
 public class CardContainer {
 
     @NotNull
-    private final AbstractPlayer holder;
+    private final IPlayer holder;
     private Random random;
 
     final CardSlot[] handCard;
@@ -33,7 +34,7 @@ public class CardContainer {
      * @see no.uib.inf112.core.ui.CardContainerTest#setUp()
      */
     @SuppressWarnings("JavadocReference")
-    public CardContainer(@NotNull AbstractPlayer holder) {
+    public CardContainer(@NotNull IPlayer holder) {
         this.holder = holder;
         random = new Random();
 
@@ -140,7 +141,7 @@ public class CardContainer {
     /**
      * @return The player who owns this container
      */
-    public AbstractPlayer getPlayer() {
+    public IPlayer getPlayer() {
         return holder;
     }
 }

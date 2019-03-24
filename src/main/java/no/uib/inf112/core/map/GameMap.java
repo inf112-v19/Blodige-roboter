@@ -21,10 +21,7 @@ public abstract class GameMap implements MapHandler {
 
     private TiledMap tiledMap;
 
-    private TiledMapTileLayer boardLayer;
     private TiledMapTileLayer entityLayer;
-    private TiledMapTileLayer flagLayer;
-    private TiledMapTileLayer collidablesLayer;
 
     //A map of all know entities and their last know location
     Map<Entity, Vector2Int> entities;
@@ -70,9 +67,9 @@ public abstract class GameMap implements MapHandler {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
         }
 
-        collidablesLayer = collidables;
-        flagLayer = flags;
-        boardLayer = baseLayer;
+        TiledMapTileLayer collidablesLayer = collidables;
+        TiledMapTileLayer flagLayer = flags;
+        TiledMapTileLayer boardLayer = baseLayer;
 
         //create a new empty layer for all the robots to play on :)
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
@@ -92,7 +89,7 @@ public abstract class GameMap implements MapHandler {
     /**
      * Used to create a skeleton maphandler for testing. Should be used as little as possible
      */
-    public GameMap() {
+    GameMap() {
         if (!GameGraphics.HEADLESS) {
             throw new IllegalStateException("Headless must be true when using this constructor");
         }
@@ -120,22 +117,15 @@ public abstract class GameMap implements MapHandler {
         entities.put(entity, null);
     }
 
-
-    private TileGraphic getCellId(TiledMapTileLayer.Cell cell) {
-        if (cell == null) {
-            return null;
-        }
-        int tileId = cell.getTile().getId();
-        return TileGraphic.fromTiledId(tileId);
-    }
-
     @Override
     public boolean isOutsideBoard(int x, int y) {
         return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
     }
 
+    //FIXME this should be tested
     @Override
     public boolean removeEntity(Entity entity) {
+        entityLayer.setCell(entity.getX(), entity.getY(), null);
         return entities.remove(entity) == null;
     }
 
@@ -144,7 +134,6 @@ public abstract class GameMap implements MapHandler {
     public Set<Entity> getEntities() {
         return entities.keySet();
     }
-
 
     @Override
     public int getMapWidth() {
@@ -191,6 +180,7 @@ public abstract class GameMap implements MapHandler {
         return getTile(layer, x, y);
     }
 
+    //TODO test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
     @Override
     @Nullable
     public Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y) {
@@ -198,8 +188,7 @@ public abstract class GameMap implements MapHandler {
             return null;
         }
 
-        //yes same instance
-        if (layer == entityLayer) {
+        if (layer.equals(entityLayer)) {
             Vector2Int vec = new Vector2Int(x, y);
             for (Map.Entry<Entity, Vector2Int> entry : entities.entrySet()) {
                 if (vec.equals(entry.getValue())) {
@@ -225,7 +214,7 @@ public abstract class GameMap implements MapHandler {
             }
             tiles[x][y] = tg.createInstance(x, y);
         }
-        return tiles[x][y]; //TODO return the instance at this location at given layer (or create one)
+        return tiles[x][y];
     }
 
     //TODO test (this should return instance of all non-null tiles on all layers at the given location)

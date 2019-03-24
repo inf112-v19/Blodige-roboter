@@ -7,4 +7,7 @@ public interface HealableTile<R> extends Tile<R> {
 
     void heal(int amount);
 
+    default void heal() {
+        heal(Integer.MAX_VALUE);
+    }
 }

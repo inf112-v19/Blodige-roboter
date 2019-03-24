@@ -1,10 +1,7 @@
 package no.uib.inf112.core.map.tile;
 
 import no.uib.inf112.core.map.tile.api.Tile;
-import no.uib.inf112.core.map.tile.tiles.ConveyorTile;
-import no.uib.inf112.core.map.tile.tiles.DeathTile;
-import no.uib.inf112.core.map.tile.tiles.WrenchAndHammerTile;
-import no.uib.inf112.core.map.tile.tiles.WrenchTile;
+import no.uib.inf112.core.map.tile.tiles.*;
 import no.uib.inf112.core.player.Robot;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,15 +18,17 @@ public enum TileType {
 
 
     CONVEYOR(ConveyorTile.class),
+    EXPRESS_CONVEYOR(ConveyorTile.class),
+    PUSHER,
     DEFAULT,
     FLAG,
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
     LASER,
-    ROBOT(Robot.class, COLORABLE, MOVEABLE, BACKUPABLE, HEALABLE, ACTIVE_DURING_PHASE),
-    ROTATION,
+    ROBOT(Robot.class, COLORABLE, MOVEABLE, BACKUPABLE, HEALABLE, COLLIDABLE),
+    GEAR,
     SPAWN,
-    VOID(DeathTile.class, ACTIVE_DURING_PHASE, ACTIVE_AFTER_PHASE),
-    WALL,
+    VOID(DeathTile.class),
+    WALL(WallTile.class, COLLIDABLE),
     WRENCH(WrenchTile.class);
 
     private final Class<? extends Tile<?>> implClass;

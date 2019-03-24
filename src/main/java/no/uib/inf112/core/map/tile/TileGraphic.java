@@ -83,16 +83,16 @@ public enum TileGraphic {
      * WALL TILES
      * (TileType Wall)
      */
-    WALL_TOP(31, TileType.WALL),
+    WALL_TOP(31, TileType.WALL, DIR_NORTH),
     WALL_TOP_WITH_LASER(45, TileType.WALL),
     WALL_TOP_WITH_DOUBLE_LASER(94, TileType.WALL),
-    WALL_RIGHT(23, TileType.WALL),
+    WALL_RIGHT(23, TileType.WALL, DIR_EAST),
     WALL_RIGHT_WITH_LASER(46, TileType.WALL),
     WALL_RIGHT_WITH_DOUBLE_LASER(95, TileType.WALL),
-    WALL_LEFT(30, TileType.WALL),
+    WALL_LEFT(30, TileType.WALL, DIR_WEST),
     WALL_LEFT_WITH_LASER(38, TileType.WALL),
     WALL_LEFT_WITH_DOUBLE_LASER(93, TileType.WALL),
-    WALL_BOTTOM(29, TileType.WALL),
+    WALL_BOTTOM(29, TileType.WALL, DIR_SOUTH),
     WALL_BOTTOM_WITH_LASER(37, TileType.WALL),
     WALL_BOTTOM_WITH_DOUBLE_LASER(87, TileType.WALL),
     WALL_TOP_PUSH_DOWN_2_4(1, TileType.WALL),
@@ -126,11 +126,11 @@ public enum TileGraphic {
     WRENCH(15, TileType.WRENCH),
 
     /**
-     * ROTATION TILES
+     * GEAR TILES
      * (TileType Rotation)
      */
-    ROTATE_CLOCKWISE(54, TileType.ROTATION),
-    ROTATE_COUNTERCLOCKWISE(53, TileType.ROTATION),
+    ROTATE_CLOCKWISE(54, TileType.GEAR),
+    ROTATE_COUNTERCLOCKWISE(53, TileType.GEAR),
 
     /**
      * CONVEYOR TILES
@@ -245,6 +245,11 @@ public enum TileGraphic {
         if (tileType.getImplClass() == null) {
             return null;
         }
+
+        if (!tileType.getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
+            throw new IllegalStateException("TileType class (" + tileType.getImplClass() + ") does not have the required interface " + tileType.getAttributes());
+        }
+
         try {
             Constructor<? extends Tile<?>> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
             return constructor.newInstance(new Vector2Int(x, y), this);

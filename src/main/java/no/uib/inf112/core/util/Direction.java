@@ -1,4 +1,4 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.util;
 
 /**
  * @author Elg

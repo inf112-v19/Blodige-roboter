@@ -8,7 +8,9 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractTile;
+import no.uib.inf112.core.map.tile.api.CollidableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -129,21 +131,43 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
      * @return false if the robot moved out of the map
      */
     @Override
-    public void move(int deltaX, int deltaY) {
-        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + deltaX, pos.y + deltaY)) {
+    public void move(int dx, int dy) {
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
             kill();
             update();
             return;
         }
-        pos.x += deltaX;
-        pos.y += deltaY;
+        if (!canMoveTo(0, 0)) {
+            return;
+        }
+
+        int max = Math.max(Math.abs(dx), Math.abs(dy));
+        for (int i = 0; i < max; i++) {
+            int x = (int) (pos.x + Math.signum(dx));
+            int y = (int) (pos.y + Math.signum(dy));
+
+            if (canMoveTo(x, y)) {
+                break;
+            } else {
+                pos.x = x;
+                pos.y = y;
+                update();
+            }
+        }
         GameGraphics.getSoundPlayer().playRobotMoving();
-        update();
     }
 
-    @Override
-    public boolean canMove(int x, int y) {
-        return false;
+
+    private boolean canMoveTo(int x, int y) {
+        for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
+            if (tile.hasAttribute(Attribute.COLLIDABLE)) {
+                CollidableTile cTile = (CollidableTile) tile;
+                if (cTile.willCollide(this)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
