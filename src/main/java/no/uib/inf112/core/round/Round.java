@@ -2,6 +2,7 @@ package no.uib.inf112.core.round;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.round.phase.Phase;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Round {
                         }
                         , finalTotalDelay);
 
-                totalDelay += phase.getDelay();
+                totalDelay += phase.getRunTime();
             }
         }
         System.out.println("totalDelay = " + totalDelay);

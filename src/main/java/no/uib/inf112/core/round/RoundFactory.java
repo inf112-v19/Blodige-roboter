@@ -1,5 +1,6 @@
 package no.uib.inf112.core.round;
 
+import no.uib.inf112.core.round.phase.Phase;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
