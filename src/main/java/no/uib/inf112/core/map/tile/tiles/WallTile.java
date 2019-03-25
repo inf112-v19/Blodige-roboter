@@ -25,16 +25,21 @@ public class WallTile extends AbstractMultiDirectionalTile<Void> implements Coll
     @Override
     public boolean willCollide(MoveableTile tile, Direction dir) {
         System.out.println("getDirections() = " + getDirections());
+        System.out.println("tile.getX() = " + tile.getX());
+        System.out.println("tile.getY() = " + tile.getY());
+        System.out.println("getX() = " + getX());
+        System.out.println("getY() = " + getY());
         //tile wants to move from this tile
-        if (tile.getX() == getX() && tile.getY() == tile.getY() && getDirections().contains(dir)) {
-            System.out.println(tile + " cannot step onto this tile from " + dir);
-            return true;
+        if (tile.getX() == getX() && tile.getY() == tile.getY()) {
+            System.out.println(tile + " cannot move in the direction " + dir);
+            return getDirections().contains(dir);
 
             //the tile try and move onto this tile
         } else if (getDirections().contains(dir.inverse())) {
-            System.out.println(tile + " cannot move in the direction " + dir);
+            System.out.println(tile + " cannot step onto this tile from " + dir);
             return true;
         }
+        System.out.println(tile + " CAN move in direction " + dir);
         return false;
     }
 
