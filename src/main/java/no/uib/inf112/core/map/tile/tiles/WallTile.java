@@ -30,7 +30,7 @@ public class WallTile extends AbstractMultiDirectionalTile<Void> implements Coll
         System.out.println("getX() = " + getX());
         System.out.println("getY() = " + getY());
         //tile wants to move from this tile
-        if (tile.getX() == getX() && tile.getY() == tile.getY()) {
+        if (tile.getX() == getX() && tile.getY() == getY()) {
             System.out.println(tile + " cannot move in the direction " + dir);
             return getDirections().contains(dir);
 
