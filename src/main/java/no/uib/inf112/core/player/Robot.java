@@ -96,19 +96,19 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
      * @param movement how to move
      * @return false if the robot moved out of the map
      */
-    public void move(@NotNull Movement movement) {
+    public void move(@NotNull Movement movement, int maxTime) {
         switch (movement) {
             case MOVE_1:
-                move(direction.getDx(), direction.getDy());
+                move(direction.getDx(), direction.getDy(), maxTime);
                 break;
             case MOVE_2:
-                move(2 * direction.getDx(), 2 * direction.getDy());
+                move(2 * direction.getDx(), 2 * direction.getDy(), maxTime);
                 break;
             case MOVE_3:
-                move(3 * direction.getDx(), 3 * direction.getDy());
+                move(3 * direction.getDx(), 3 * direction.getDy(), maxTime);
                 break;
             case BACK_UP:
-                move(-1 * direction.getDx(), -1 * direction.getDy());
+                move(-1 * direction.getDx(), -1 * direction.getDy(), maxTime);
                 break;
             case LEFT_TURN:
                 setDirection(direction.turnLeft());
@@ -129,13 +129,13 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
      * Move the robot with given delta to new coordinates
      */
     @Override
-    public void move(int dx, int dy) {
+    public void move(int dx, int dy, int maxTime) {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
             kill();
             update();
             return;
         }
-        if (willCollide(0, 0, getDirection())) {
+        if ((dx == 0 && dy == 0) || willCollide(0, 0, getDirection())) {
             return;
         }
 
@@ -143,15 +143,17 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
         int sdy = (int) Math.signum(dy);
 
         int max = Math.max(Math.abs(dx), Math.abs(dy));
+        int maxTimePerMovement =
+                Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
 
-            if (willCollide(sdx, sdx, Direction.fromDelta(dx, dy))) {
-                break;
-            } else {
-                pos.x += sdx;
-                pos.y += sdy;
-                update();
-            }
+            GameGraphics.scheduleSync(() -> {
+                if (!willCollide(sdx, sdx, Direction.fromDelta(dx, dy))) {
+                    pos.x += sdx;
+                    pos.y += sdy;
+                    update();
+                }
+            }, maxTimePerMovement * i);
         }
         GameGraphics.getSoundPlayer().playRobotMoving();
     }

@@ -11,7 +11,7 @@ public interface MoveableTile<R> extends SingleDirectionalTile<R> {
      * @param dx relative x
      * @param dy relative y
      */
-    void move(int dx, int dy);
+    void move(int dx, int dy, int maxTime);
 
     void teleport(int x, int y);
 

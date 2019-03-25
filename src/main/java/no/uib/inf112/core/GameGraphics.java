@@ -36,12 +36,10 @@ public class GameGraphics extends Game {
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
-    private static ScheduledExecutorService executorService;
+    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     @Override
     public void create() {
-
-        executorService = Executors.newSingleThreadScheduledExecutor();
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -131,8 +129,14 @@ public class GameGraphics extends Game {
     }
 
     public static void scheduleSync(Runnable runnable, long msDelay) {
-        GameGraphics.executorService.schedule(() ->
-                Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
+        if (msDelay < 0) {
+            throw new IllegalArgumentException("Cannot schedule with a negative delay");
+        } else if (msDelay == 0) {
+            Gdx.app.postRunnable(runnable);
+        } else {
+            GameGraphics.executorService.schedule(() ->
+                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
+        }
     }
 
     public static void scheduleASync(Runnable runnable, long msDelay) {

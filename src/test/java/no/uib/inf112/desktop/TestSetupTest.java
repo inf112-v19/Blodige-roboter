@@ -31,7 +31,7 @@ public class TestSetupTest extends TestGraphics {
     public void MoveShouldMovePlayer() {
         Robot robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
-        robot.move(Movement.MOVE_1);
+        robot.move(Movement.MOVE_1, 0);
 
         assertNotEquals(pos, new Vector2Int(robot.getX(), robot.getY()));
     }

@@ -40,7 +40,11 @@ public interface IPlayer<R> extends Comparable<IPlayer>, Entity<R> {
      *
      * @param cardAction movement to do with the robot
      */
-    void move(Movement cardAction);
+    void move(Movement cardAction, int maxTime);
+
+    default void move(Movement cardAction) {
+        move(cardAction, 0);
+    }
 
     /**
      * @return amount of flags visited
