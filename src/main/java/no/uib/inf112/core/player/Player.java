@@ -80,6 +80,9 @@ public abstract class Player implements IPlayer {
         health = Math.min(MAX_HEALTH, health + healAmount);
     }
 
+    public void fullHeal(){
+        health = MAX_HEALTH;
+    }
 
     @Override
     public boolean isDestroyed() {

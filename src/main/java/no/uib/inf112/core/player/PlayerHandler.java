@@ -111,8 +111,8 @@ public class PlayerHandler implements IPlayerHandler {
         GameGraphics.getRoboRally().getDeck().shuffle();
         UserPlayer p = mainPlayer();
         if (p.isPoweredDown()) {
-            //TODO Issue #24 check if is powered down (then heal)
-            return;
+            p.fullHeal();
+
         } else {
             p.beginDrawCards();
         }
