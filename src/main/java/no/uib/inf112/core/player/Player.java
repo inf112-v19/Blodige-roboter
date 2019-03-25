@@ -60,7 +60,7 @@ public class Player extends AbstractPlayer {
 
 
     @Override
-    public ComparableTuple<Card, IPlayer<?>> getNextCard(int id) {
+    public ComparableTuple<Card, IPlayer> getNextCard(int id) {
         return new ComparableTuple<>(cards.getCard(SlotType.HAND, id), this);
     }
 

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public abstract class AbstractPlayer extends Robot implements IPlayer<Vector2Int> {
+public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     public static final int MAX_LIVES = 3;
     public static final int MAX_HEALTH = 10;

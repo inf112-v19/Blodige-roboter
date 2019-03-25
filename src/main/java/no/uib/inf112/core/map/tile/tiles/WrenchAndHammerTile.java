@@ -3,7 +3,7 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.AbstractTile;
+import no.uib.inf112.core.map.tile.api.AbstractActionTile;
 import no.uib.inf112.core.map.tile.api.BackupTile;
 import no.uib.inf112.core.map.tile.api.HealableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
@@ -18,21 +18,20 @@ import java.util.List;
 /**
  * @author Elg
  */
-public class WrenchAndHammerTile extends AbstractTile<Void> {
+public class WrenchAndHammerTile extends AbstractActionTile {
 
     public WrenchAndHammerTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
     }
 
     @Override
-    public Void action(@NotNull Tile tile) {
-        HealableTile<?> healableTile = (HealableTile<?>) tile;
+    public void action(@NotNull Tile tile) {
+        HealableTile healableTile = (HealableTile) tile;
         healableTile.heal(AbstractPlayer.MAX_HEALTH);
 
         BackupTile bTile = (BackupTile) tile;
         bTile.getBackup().x = getX();
         bTile.getBackup().y = getY();
-        return null;
     }
 
     @Override

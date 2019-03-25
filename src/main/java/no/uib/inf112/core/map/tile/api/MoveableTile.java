@@ -3,7 +3,7 @@ package no.uib.inf112.core.map.tile.api;
 /**
  * @author Elg
  */
-public interface MoveableTile<R> extends SingleDirectionalTile<R> {
+public interface MoveableTile extends SingleDirectionalTile {
 
     /**
      * Move a tile to the relative position

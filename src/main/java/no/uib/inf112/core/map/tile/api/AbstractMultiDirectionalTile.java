@@ -1,9 +1,7 @@
-package no.uib.inf112.core.map.tile.tiles;
+package no.uib.inf112.core.map.tile.api;
 
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.AbstractTile;
-import no.uib.inf112.core.map.tile.api.MultiDirectionalTile;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +13,7 @@ import java.util.Set;
 /**
  * @author Elg
  */
-public abstract class AbstractMultiDirectionalTile<R> extends AbstractTile<R> implements MultiDirectionalTile<R> {
+public abstract class AbstractMultiDirectionalTile extends AbstractTile implements MultiDirectionalTile {
 
     private Set<Direction> dirs;
 

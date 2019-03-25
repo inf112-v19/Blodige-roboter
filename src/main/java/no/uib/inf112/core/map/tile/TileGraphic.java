@@ -241,7 +241,7 @@ public enum TileGraphic {
         return tileType;
     }
 
-    public Tile<?> createInstance(int x, int y) {
+    public Tile createInstance(int x, int y) {
         if (tileType.getImplClass() == null) {
             return null;
         }
@@ -251,7 +251,7 @@ public enum TileGraphic {
         }
 
         try {
-            Constructor<? extends Tile<?>> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
+            Constructor<? extends Tile> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
             return constructor.newInstance(new Vector2Int(x, y), this);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();

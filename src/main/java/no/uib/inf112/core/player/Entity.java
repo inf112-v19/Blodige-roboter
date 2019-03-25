@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author Elg
  */
-public interface Entity<R> extends HealableTile<R>, MoveableTile<R>, ColorTile<R>, CollidableTile<R> {
+public interface Entity extends HealableTile, MoveableTile, ColorTile, CollidableTile {
 
     /**
      * @return If this entity has changed in some way

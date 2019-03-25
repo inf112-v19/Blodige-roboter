@@ -5,7 +5,7 @@ import no.uib.inf112.core.util.Direction;
 /**
  * @author Elg
  */
-public interface CollidableTile<R> extends MultiDirectionalTile<R> {
+public interface CollidableTile extends MultiDirectionalTile {
 
 
     /**

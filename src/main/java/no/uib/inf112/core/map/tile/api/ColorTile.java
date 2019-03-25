@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public interface ColorTile<R> extends Tile<R> {
+public interface ColorTile extends Tile {
 
     @NotNull
     Color getColor();

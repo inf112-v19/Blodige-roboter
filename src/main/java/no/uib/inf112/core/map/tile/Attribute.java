@@ -21,6 +21,9 @@ public enum Attribute {
     BACKUPABLE(BackupTile.class),
     COLORABLE(ColorTile.class),
     COLLIDABLE(CollidableTile.class),
+
+    //always run the action of this tile when moving over it
+    ACTIVE_ONLY_ON_STEP(ActionTile.class),
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;
@@ -34,7 +37,7 @@ public enum Attribute {
     }
 
     //TODO test if the given tile has the specified interfaces
-    public boolean verifyInterfaces(Class<? extends Tile<?>> tile) {
+    public boolean verifyInterfaces(Class<? extends Tile> tile) {
         if (requiredInterfaces.isEmpty()) {
             return true;
         }

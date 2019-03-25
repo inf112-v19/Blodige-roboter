@@ -19,7 +19,7 @@ public class NonPlayer extends AbstractPlayer {
 
 
     @Override
-    public ComparableTuple<Card, IPlayer<?>> getNextCard(int id) {
+    public ComparableTuple<Card, IPlayer> getNextCard(int id) {
         if (deck == null) {
             deck = GameGraphics.getRoboRally().getDeck().draw(MAX_PLAYER_CARDS);
         }

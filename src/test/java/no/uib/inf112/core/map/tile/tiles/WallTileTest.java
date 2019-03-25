@@ -26,7 +26,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_BOTTOM);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -38,7 +38,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             System.out.println("---\ndir=" + dir);
-            MoveableTile<?> moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -49,7 +49,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_TOP);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -60,7 +60,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_LEFT);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -76,7 +76,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_TOP);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
         }
     }
@@ -88,7 +88,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_RIGHT);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
         }
     }
@@ -100,7 +100,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_BOTTOM);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
         }
     }
@@ -113,7 +113,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_LEFT);
 
         for (Direction dir : Direction.values()) {
-            MoveableTile<?> moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MoveableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
             Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
         }
     }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Elg
  */
-public abstract class AbstractTile<R> implements Tile<R> {
+public abstract class AbstractTile implements Tile {
 
     private final Vector2Int pos;
     private final TileGraphic tg;
@@ -52,9 +52,5 @@ public abstract class AbstractTile<R> implements Tile<R> {
         return tg.getAttributes().contains(attribute);
     }
 
-    //TODO test (this should look at all the required atts and check that hasAttributes return true on all of them)
-    @Override
-    public boolean canDoAction(@NotNull Tile tile) {
-        return tile != this && (requiredAttributes() == null || requiredAttributes().stream().allMatch(this::hasAttribute));
-    }
+
 }

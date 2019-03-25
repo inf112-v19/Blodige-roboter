@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * @author Elg
  */
-public interface MultiDirectionalTile<R> extends Tile<R> {
+public interface MultiDirectionalTile extends Tile {
 
     @NotNull
     Set<Direction> getDirections();

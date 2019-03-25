@@ -6,7 +6,7 @@ import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-public interface IPlayer<R> extends Comparable<IPlayer>, Entity<R> {
+public interface IPlayer extends Comparable<IPlayer>, Entity {
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -31,7 +31,7 @@ public interface IPlayer<R> extends Comparable<IPlayer>, Entity<R> {
      * @param id
      * @return the next player card in queue
      */
-    ComparableTuple<Card, IPlayer<?>> getNextCard(int id);
+    ComparableTuple<Card, IPlayer> getNextCard(int id);
 
     /**
      * Moves the robot with the movement corresponding to the cardAction

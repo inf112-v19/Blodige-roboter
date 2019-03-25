@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public interface SingleDirectionalTile<R> extends Tile<R> {
+public interface SingleDirectionalTile extends Tile {
 
     @NotNull
     Direction getDirection();

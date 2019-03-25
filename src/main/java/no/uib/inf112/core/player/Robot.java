@@ -8,16 +8,14 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractTile;
+import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.CollidableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<Vector2Int> {
+public abstract class Robot extends AbstractTile implements Entity {
 
     private Direction direction;
     private boolean update;
@@ -60,23 +58,6 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
         }
     }
 
-    @Nullable
-    @Override
-    public Vector2Int action(@NotNull Tile tile) {
-        //return the potential position when next player movement card is used now
-        return null; //// TODO: 23.03.2019 all this
-    }
-
-    @Override
-    public void playActionSound() {
-
-    }
-
-    @Nullable
-    @Override
-    public List<Attribute> requiredAttributes() {
-        return null;
-    }
 
     @NotNull
     @Override
@@ -155,6 +136,15 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
                 if (!willCollide(sdx, sdx, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;
+                    for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x, pos.y)) {
+                        if (tile.hasAttribute(Attribute.ACTIVE_ONLY_ON_STEP)) {
+                            ActionTile cTile = (ActionTile) tile;
+                            if (cTile.canDoAction(this)) {
+                                //noinspection unchecked checked in if
+                                cTile.action(this);
+                            }
+                        }
+                    }
                     update();
                 }
             }, maxTimePerMovement * i);

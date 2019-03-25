@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public interface BackupTile<R> extends Tile<R> {
+public interface BackupTile extends Tile {
 
     /**
      * Use this to set the backup (as {@link Vector2Int} is mutable)

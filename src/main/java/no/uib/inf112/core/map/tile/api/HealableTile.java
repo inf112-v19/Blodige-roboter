@@ -3,7 +3,7 @@ package no.uib.inf112.core.map.tile.api;
 /**
  * @author Elg
  */
-public interface HealableTile<R> extends Tile<R> {
+public interface HealableTile extends Tile {
 
     void heal(int amount);
 

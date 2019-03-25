@@ -27,11 +27,11 @@ public enum TileType {
     ROBOT(Robot.class, COLORABLE, MOVEABLE, BACKUPABLE, HEALABLE, COLLIDABLE),
     GEAR,
     SPAWN,
-    VOID(DeathTile.class),
+    VOID(DeathTile.class, ACTIVE_ONLY_ON_STEP),
     WALL(WallTile.class, COLLIDABLE),
     WRENCH(WrenchTile.class);
 
-    private final Class<? extends Tile<?>> implClass;
+    private final Class<? extends Tile> implClass;
     private final Set<Attribute> attributes;
 
     //FIXME this should be removed when all types have an implantation
@@ -39,7 +39,7 @@ public enum TileType {
         this(null);
     }
 
-    TileType(Class<? extends Tile<?>> implClass, Attribute... attributes) {
+    TileType(Class<? extends Tile> implClass, Attribute... attributes) {
 
         this.implClass = implClass;
 
@@ -53,7 +53,7 @@ public enum TileType {
         return attributes;
     }
 
-    public Class<? extends Tile<?>> getImplClass() {
+    public Class<? extends Tile> getImplClass() {
         return implClass;
     }
 }

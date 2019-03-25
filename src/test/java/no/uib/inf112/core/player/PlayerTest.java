@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest extends TestGraphics {
 
-    private static IPlayer<?> testPlayer;
+    private static IPlayer testPlayer;
     private static RoboRally roboRally;
     private static MapHandler map;
 
@@ -98,11 +98,11 @@ public class PlayerTest extends TestGraphics {
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
         //noinspection unchecked
-        ComparableTuple<Card, IPlayer<?>>[] cards = (ComparableTuple<Card, IPlayer<?>>[]) new ComparableTuple[5];
+        ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = testPlayer.getNextCard(i);
         }
-        for (ComparableTuple<Card, IPlayer<?>> card : cards) {
+        for (ComparableTuple<Card, IPlayer> card : cards) {
             assertNotNull("Could not get 5 player cards", card);
         }
 
@@ -191,7 +191,7 @@ public class PlayerTest extends TestGraphics {
         }
 
         @Override
-        public ComparableTuple<Card, IPlayer<?>> getNextCard(int id) {
+        public ComparableTuple<Card, IPlayer> getNextCard(int id) {
             return null;
         }
     }

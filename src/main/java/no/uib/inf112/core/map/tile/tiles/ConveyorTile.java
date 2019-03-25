@@ -3,7 +3,8 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.api.AbstractMultiDirectionalActionTile;
+import no.uib.inf112.core.map.tile.api.MoveableTile;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * @author Elg
  */
-public class ConveyorTile extends AbstractMultiDirectionalTile<Vector2Int> {
+public class ConveyorTile extends AbstractMultiDirectionalActionTile<MoveableTile> {
 
 
     public ConveyorTile(Vector2Int pos, TileGraphic tg) {
@@ -22,9 +23,8 @@ public class ConveyorTile extends AbstractMultiDirectionalTile<Vector2Int> {
     }
 
     @Override
-    public Vector2Int action(@NotNull Tile tile) {
+    public void action(@NotNull MoveableTile tile) {
         //TODO
-        return null;
     }
 
     @Override
