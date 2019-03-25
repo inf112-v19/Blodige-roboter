@@ -25,6 +25,7 @@ public class WallTile extends AbstractMultiDirectionalTile<Void> implements Coll
     @Override
     public boolean willCollide(MoveableTile tile, Direction dir) {
         System.out.println("getDirections() = " + getDirections());
+        System.out.println("dir = " + dir);
         System.out.println("tile.getX() = " + tile.getX());
         System.out.println("tile.getY() = " + tile.getY());
         System.out.println("getX() = " + getX());

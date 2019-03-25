@@ -135,7 +135,11 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
             update();
             return;
         }
-        if ((dx == 0 && dy == 0) || willCollide(0, 0, getDirection())) {
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+        Direction dir = Direction.fromDelta(dx, dy);
+        if (willCollide(0, 0, dir)) {
             return;
         }
 
@@ -148,7 +152,7 @@ public abstract class Robot extends AbstractTile<Vector2Int> implements Entity<V
         for (int i = 0; i < max; i++) {
 
             GameGraphics.scheduleSync(() -> {
-                if (!willCollide(sdx, sdx, Direction.fromDelta(dx, dy))) {
+                if (!willCollide(sdx, sdx, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;
                     update();
