@@ -38,25 +38,24 @@ public class RoboRally {
     }
 
     public void round() {
-        for (int i = 0; i < PHASES_PER_ROUND; i++) {
-            deck = new MovementDeck();
-            playerHandler.startTurn();
-            // End of robot movement
-            mapInteractOnUser.scan(map.getEntities());
-            // Activate lasers
+        deck = new MovementDeck();
+        playerHandler.startTurn();
+        // End of robot movement
+        mapInteractOnUser.scan(map.getEntities());
+        // Activate lasers
 
-            // Move rotation gears
+        // Move rotation gears
 
-            // Move assembly lines
+        // Move assembly lines
 
-            for (IPlayer player : playerHandler.getPlayers()) {
-                if (player.getFlags() == FLAG_COUNT) {
-                    //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
-                }
+        for (IPlayer player : playerHandler.getPlayers()) {
+            if (player.getFlags() == FLAG_COUNT) {
+                //TODO issue #27, this player has wun! (Only one player can possibly get the last flag per phase)
             }
-
-            //Should wait some time
         }
+
+        //Should wait some time
+
         deck.shuffle();
         //User plans next round
     }

@@ -40,6 +40,7 @@ public class UIHandler implements Disposable {
     public static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
+    private static final TextureRegion FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
     public static final int DEFAULT_SPACING = 5;
@@ -59,6 +60,7 @@ public class UIHandler implements Disposable {
         POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
         LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
         DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
+        FLAG_TAKEN_TEXTURE = createTempFlagTexture(20, 25, Color.ORANGE);
     }
 
     /*
@@ -75,6 +77,14 @@ public class UIHandler implements Disposable {
         final Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
         pixmap.fill();
+        return new TextureRegion(new Texture(pixmap));
+    }
+
+    private static TextureRegion createTempFlagTexture(int width, int height, Color color) {
+        final Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fillTriangle(width, height / 4, 0, height / 2, 0, 0);
+        pixmap.fillRectangle(0, 0, width / 6, height);
         return new TextureRegion(new Texture(pixmap));
     }
 
@@ -119,15 +129,28 @@ public class UIHandler implements Disposable {
         controlPanelTable.row();
 
         //display life tokens
-        HorizontalGroup lifeTokens = new HorizontalGroup();
-        topRow.add(lifeTokens).expandX().align(Align.left); //make sire the life tokens are to the left
-        lifeTokens.space(DEFAULT_SPACING);
+        HorizontalGroup lifeTokens = new HorizontalGroup().space(DEFAULT_SPACING);
+        topRow.add(lifeTokens).expandX().align(Align.left); //make sure the life tokens are to the left
         for (int i = 0; i < Player.MAX_LIVES; i++) {
             int id = i;
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override
                 public boolean isDisabled() {
                     return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getLives() <= id;
+                }
+            });
+        }
+
+        int flags = 8;
+
+        HorizontalGroup flagsTaken = new HorizontalGroup().space(DEFAULT_SPACING).padRight(DEFAULT_SPACING);
+        topRow.add(flagsTaken);
+        for (int i = 0; i < flags; i++) {
+            int id = i;
+            flagsTaken.addActor(new ControlPanelElement(FLAG_TAKEN_TEXTURE) {
+                @Override
+                public boolean isDisabled() {
+                    return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getFlags() <= id;
                 }
             });
         }
