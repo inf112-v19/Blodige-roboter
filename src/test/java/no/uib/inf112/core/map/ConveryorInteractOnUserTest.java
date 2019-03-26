@@ -35,7 +35,7 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
         testBot.teleport(x, y);
     }
 
-    //TODO issue 100, all these tests will fail until we support conveyor belts
+    //TODO issue 100, all these tests will fail until we support conveyor belts. Add tests for double step conveyor belts (find out how these work at the edges)
 
 //    @Test
 //    public void singleStepUpConveyorShouldMoveRobotOneUp() {
@@ -63,7 +63,5 @@ public class ConveryorInteractOnUserTest extends TestGraphics {
 //        assertEquals(roboX + 1, testBot.getX());
 //        assertEquals(roboY, testBot.getY());
 //    }
-
-    // TODO add tests for double step conveyor belts (find out how these work at the edges)
 
 }
