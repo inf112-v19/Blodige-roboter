@@ -105,14 +105,10 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-        //TODO Issue #44 check if dead
-        //TODO Issue #44 check if player is out side of map
-
         GameGraphics.getRoboRally().getDeck().shuffle();
         UserPlayer p = mainPlayer();
         if (p.isPoweredDown()) {
             p.fullHeal();
-
         } else {
             p.beginDrawCards();
         }
