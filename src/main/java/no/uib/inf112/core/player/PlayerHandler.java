@@ -125,4 +125,13 @@ public class PlayerHandler implements IPlayerHandler {
         }
         return (Player) players.get(0);
     }
+
+    @Override
+    public String toString() {
+        return "PlayerHandler{" +
+                "playerCount= " + playerCount +
+                ", players= " + players +
+                ", user= " + user +
+                "}";
+    }
 }

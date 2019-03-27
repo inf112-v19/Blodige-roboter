@@ -198,4 +198,13 @@ public abstract class Robot extends AbstractTile implements Entity {
     public void setColor(@NotNull Color color) {
         this.color = color;
     }
+
+    @Override
+    public String toString(){
+        return "Robot{" +
+                "direction= " + direction +
+                ", coordinates= (" + getX() +", " + getY() + ")" +
+                ", shouldUpdate= " + update +
+                "}";
+    }
 }
