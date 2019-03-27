@@ -129,8 +129,8 @@ public enum TileGraphic {
      * GEAR TILES
      * (TileType Rotation)
      */
-    ROTATE_CLOCKWISE(54, TileType.GEAR),
-    ROTATE_COUNTERCLOCKWISE(53, TileType.GEAR),
+    ROTATE_CLOCKWISE(54, TileType.GEAR, DIR_EAST),
+    ROTATE_COUNTERCLOCKWISE(53, TileType.GEAR, DIR_WEST),
 
     /**
      * CONVEYOR TILES
