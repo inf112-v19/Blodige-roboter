@@ -21,9 +21,8 @@ public class WallTile extends AbstractMultiDirectionalTile implements Collidable
         //tile wants to move from this tile
         if (tile.getX() == getX() && tile.getY() == getY()) {
             return getDirections().contains(dir);
-
-            //the tile try and move onto this tile
         } else {
+            //the tile try and move onto this tile
             return getDirections().contains(dir.inverse());
         }
     }

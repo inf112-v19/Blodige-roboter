@@ -88,8 +88,8 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
-    public boolean canGetFlag(int flagRank) {
-        return (flags == flagRank - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
+    public boolean canGetFlag(int flagNr) {
+        return (flags == flagNr - 1);  // Player has to get the flags in order (1 -> 2 -> ...)
     }
 
     @Override

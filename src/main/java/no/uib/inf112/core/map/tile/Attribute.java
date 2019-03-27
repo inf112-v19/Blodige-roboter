@@ -10,24 +10,48 @@ import java.util.List;
  * @author Elg
  */
 public enum Attribute {
+    /**
+     * Has the direction north
+     *
+     * @see no.uib.inf112.core.util.Direction#NORTH
+     */
     DIR_NORTH(SingleDirectionalTile.class, MultiDirectionalTile.class),
+
+    /**
+     * Has the direction east
+     *
+     * @see no.uib.inf112.core.util.Direction#EAST
+     */
     DIR_EAST(SingleDirectionalTile.class, MultiDirectionalTile.class),
+
+    /**
+     * Has the direction south
+     *
+     * @see no.uib.inf112.core.util.Direction#SOUTH
+     */
     DIR_SOUTH(SingleDirectionalTile.class, MultiDirectionalTile.class),
+
+    /**
+     * Has the direction west
+     *
+     * @see no.uib.inf112.core.util.Direction#WEST
+     */
     DIR_WEST(SingleDirectionalTile.class, MultiDirectionalTile.class),
 
-//    //TODO these should be interfaces
-//    MOVEABLE(MoveableTile.class),
-//    HEALABLE(HealableTile.class),
-//    BACKUPABLE(BackupTile.class),
-//    COLORABLE(ColorTile.class),
-//    COLLIDABLE(CollidableTile.class),
-//    CLEAN(Cleanup.class),
-
-    //always run the action of this tile when moving over it
+    /**
+     * Always run the action of this tile when moving over it
+     */
     ACTIVE_ONLY_ON_STEP(ActionTile.class),
-    //mark this tile as a high priority tile (meaning is up to phase implementation)
+
+    /**
+     * Mark this tile as a high priority tile (meaning is up to phase implementation)
+     */
     HIGH_PRIORITY,
-    CAN_BE_PUSHED(MovableTile.class),//mark this movable tile to be pushed if something moves onto it
+
+    /**
+     * Mark this movable tile to be pushed if something moves onto it
+     */
+    CAN_BE_PUSHED(MovableTile.class),
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;
@@ -36,16 +60,24 @@ public enum Attribute {
         requiredInterfaces = new ArrayList<>();
     }
 
+    /**
+     * @param requiredInterfaces All interfaces that is accepted as a super class for a tile class with this attribute
+     */
     @SafeVarargs
     Attribute(Class<? extends Tile>... requiredInterfaces) {
         this.requiredInterfaces = Arrays.asList(requiredInterfaces);
     }
 
-    //TODO test if the given tile has the specified interfaces
-    public boolean verifyInterfaces(Class<? extends Tile> tile) {
+    /**
+     * TODO test if the given tile has the specified interfaces
+     *
+     * @param tileClass The tile class to check
+     * @return {@code true} if the given class is an accepted super class for this attribute
+     */
+    public boolean verifyInterfaces(Class<? extends Tile> tileClass) {
         if (requiredInterfaces.isEmpty()) {
             return true;
         }
-        return requiredInterfaces.stream().anyMatch(superClass -> superClass.isAssignableFrom(tile));
+        return requiredInterfaces.stream().anyMatch(superClass -> superClass.isAssignableFrom(tileClass));
     }
 }

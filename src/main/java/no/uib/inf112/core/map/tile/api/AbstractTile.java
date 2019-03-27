@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * An abstract tile that handles the basics of a tile. In general all tiles should extend this class, as they have to
+ * have the same constructor signature as this class.
+ *
  * @author Elg
  */
 public abstract class AbstractTile implements Tile {
@@ -54,7 +57,7 @@ public abstract class AbstractTile implements Tile {
 
     //TODO test (if this is the correct way around)
     @Override
-    public boolean hasSuperClass(Class<? extends Tile> superClass) {
+    public boolean hasSuperClass(@NotNull Class<? extends Tile> superClass) {
         return superClass.isAssignableFrom(getClass());
     }
 }

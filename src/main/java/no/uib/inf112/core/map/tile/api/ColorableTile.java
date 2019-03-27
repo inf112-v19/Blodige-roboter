@@ -6,10 +6,16 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Elg
  */
-public interface ColorTile extends Tile {
+public interface ColorableTile extends Tile {
 
+    /**
+     * @return The current color of the tile
+     */
     @NotNull
     Color getColor();
 
+    /**
+     * @param color new color of the tile
+     */
     void setColor(@NotNull Color color);
 }

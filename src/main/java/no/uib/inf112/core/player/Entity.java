@@ -1,7 +1,7 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.tile.api.CollidableTile;
-import no.uib.inf112.core.map.tile.api.ColorTile;
+import no.uib.inf112.core.map.tile.api.ColorableTile;
 import no.uib.inf112.core.map.tile.api.HealableTile;
 import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.util.Direction;
@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author Elg
  */
-public interface Entity extends HealableTile, MovableTile, ColorTile, CollidableTile {
+public interface Entity extends HealableTile, MovableTile, ColorableTile, CollidableTile {
 
     /**
      * @return If this entity has changed in some way

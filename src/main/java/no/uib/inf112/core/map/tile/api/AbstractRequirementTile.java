@@ -21,22 +21,16 @@ public abstract class AbstractRequirementTile extends AbstractTile implements Re
     @Override
     public boolean canDoAction(@NotNull Tile tile) {
         if (this.equals(tile)) {
-            System.out.println("given tile is this");
             return false;
         }
         List<Attribute> atts = requiredAttributes();
         if (atts != null && !atts.stream().allMatch(tile::hasAttribute)) {
-            System.out.println("atts = " + atts);
             return false;
         }
         List<Class<? extends Tile>> interfaces = requiredSuperClasses();
         if (interfaces == null) {
-            System.out.println("inter is null");
             return true;
         }
-        System.out.println("interfaces = " + interfaces);
-
-        System.out.println("all match " + interfaces.stream().allMatch(tile::hasSuperClass));
         return interfaces.stream().allMatch(tile::hasSuperClass);
     }
 

@@ -7,20 +7,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
+ * A tile that has some requirements for other methods to be run.
+ *
  * @author Elg
+ * @see no.uib.inf112.core.map.tile.api.ActionTile
+ * @see no.uib.inf112.core.map.tile.api.Cleanup
  */
 public interface RequirementTile extends Tile {
 
     /**
-     * What attributes needs to be present for the action to be called. If null this tile can do action on all tiles
+     * What attributes needs to be present for the action to be called.
+     *
+     * @return The list of attributes required to be present for this class to do something, if
+     * {@code null} this tile can do action on any other tiles
      */
     @Nullable
     List<Attribute> requiredAttributes();
 
     /**
-     * If null this tile can do action on any other tiles
-     *
-     * @return
+     * @return A list of classes required to be super classes, if {@code null} this tile can do action on any other tiles
      */
     @Nullable
     List<Class<? extends Tile>> requiredSuperClasses();
@@ -29,7 +34,7 @@ public interface RequirementTile extends Tile {
      * This checks if the {@link #requiredAttributes} are present/null, given tile is not this tile
      *
      * @param tile The tile to check
-     * @return if this tile can do action on the given tile
+     * @return If this tile can do action on the given tile
      */
     boolean canDoAction(@NotNull Tile tile);
 }

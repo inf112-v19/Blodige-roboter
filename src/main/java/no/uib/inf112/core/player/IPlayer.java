@@ -2,12 +2,12 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.map.tile.api.FlagCollectorTile;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-public interface IPlayer extends Comparable<IPlayer>, Entity, FlagCollectorTile {
+public interface IPlayer extends Comparable<IPlayer>, Entity, Tile {
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -90,6 +90,22 @@ public interface IPlayer extends Comparable<IPlayer>, Entity, FlagCollectorTile 
      * @param dock
      */
     void setDock(int dock);
+
+    /**
+     * @return Amount of flags visited
+     */
+    int getFlags();
+
+    /**
+     * @param flagNr The flags number
+     * @return If player can get given flag or not
+     */
+    boolean canGetFlag(int flagNr);
+
+    /**
+     * Update number of flags visited by one
+     */
+    void registerFlagVisit();
 
     @Override
     int compareTo(@NotNull IPlayer o);
