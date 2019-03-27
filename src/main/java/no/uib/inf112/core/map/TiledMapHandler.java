@@ -85,5 +85,4 @@ public class TiledMapHandler extends MapCamera implements Disposable {
         oldPos.x = x;
         oldPos.y = y;
     }
-
 }

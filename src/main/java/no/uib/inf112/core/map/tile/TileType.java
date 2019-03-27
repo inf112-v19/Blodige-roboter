@@ -20,7 +20,7 @@ public enum TileType {
     CONVEYOR(ConveyorTile.class),
     PUSHER,
     DEFAULT,
-    FLAG(FlagTile.class),
+    FLAG,
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
     LASER,
     ROBOT(Robot.class),

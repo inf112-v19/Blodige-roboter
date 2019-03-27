@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 public class TestSetupTest extends TestGraphics {
@@ -19,7 +21,7 @@ public class TestSetupTest extends TestGraphics {
 
     @BeforeClass
     public static void before() {
-        roboRally = GameGraphics.getRoboRally();
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
     }
 
     @Before

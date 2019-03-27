@@ -69,5 +69,12 @@ public class Player extends AbstractPlayer {
         return cards;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                ", flags= " + flags +
+                ", poweredDown= " + poweredDown +
+                "}";
+    }
 
 }

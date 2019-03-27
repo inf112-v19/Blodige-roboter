@@ -222,4 +222,13 @@ public abstract class Robot extends AbstractTile implements Entity {
         result = 31 * result + pos.hashCode();
         return result;
     }
+
+    @Override
+    public String toString(){
+        return "Robot{" +
+                "direction= " + direction +
+                ", coordinates= (" + getX() +", " + getY() + ")" +
+                ", shouldUpdate= " + update +
+                "}";
+    }
 }

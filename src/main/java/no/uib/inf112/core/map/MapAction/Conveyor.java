@@ -44,4 +44,11 @@ public class Conveyor implements MapAction {
     public Entity getParent() {
         return entity;
     }
+
+    @Override
+    public String toString(){
+        return "Conveyor: Moved robot " + entity +
+                " from (" + entity.getX() +", " + entity.getY() + ")" +
+                " to " + getResultOfMovement().toString();
+    }
 }
