@@ -51,7 +51,7 @@ public enum Attribute {
     /**
      * Mark this movable tile to be pushed if something moves onto it
      */
-    CAN_BE_PUSHED(MovableTile.class),
+    PUSHABLE(MovableTile.class),
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;

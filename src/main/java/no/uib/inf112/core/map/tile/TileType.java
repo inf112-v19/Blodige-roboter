@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static no.uib.inf112.core.map.tile.Attribute.ACTIVE_ONLY_ON_STEP;
+import static no.uib.inf112.core.map.tile.Attribute.PUSHABLE;
 
 /**
  * @author Elg
@@ -23,7 +24,7 @@ public enum TileType {
     FLAG(FlagTile.class),
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
     LASER,
-    ROBOT(Robot.class),
+    ROBOT(Robot.class, PUSHABLE),
     GEAR,
     SPAWN,
     VOID(DeathTile.class, ACTIVE_ONLY_ON_STEP),
