@@ -32,11 +32,7 @@ public class Round {
             for (Phase phase : registerPhases) {
 
                 final long finalTotalDelay = totalDelay;
-                GameGraphics.scheduleSync(() -> {
-                            phase.startPhase(map);
-                            System.out.println("new phase " + phase + " begun after " + finalTotalDelay + " ms");
-                        }
-                        , finalTotalDelay);
+                GameGraphics.scheduleSync(() -> phase.startPhase(map), finalTotalDelay);
 
                 totalDelay += phase.getRunTime();
             }
@@ -48,7 +44,6 @@ public class Round {
             }, totalDelay + 10);
         }
 
-        System.out.println("totalDelay = " + totalDelay);
         GameGraphics.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
 
     }

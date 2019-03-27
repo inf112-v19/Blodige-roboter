@@ -42,9 +42,9 @@ public class ActionPhase extends AbstractPhase {
                 for (Tile tile : tiles) {
                     //get a tile of the correct type
                     if (tile != null && tile.getTileType() == tileType) {
-                        System.out.printf("tile at %d, %d is the correct type %s%n", x, y, tileType);
                         ActionTile actionTile = (ActionTile) tile;
                         for (Tile otherTile : tiles) {
+
                             if (otherTile != tile && actionTile.canDoAction(otherTile)) {
                                 //noinspection unchecked checked in actionTile.canDoAction
                                 actionTile.action(otherTile);

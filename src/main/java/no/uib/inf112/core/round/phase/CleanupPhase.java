@@ -38,7 +38,6 @@ public class CleanupPhase implements Phase {
                 for (Tile tile : tiles) {
                     //get a tile of the correct type
                     if (tile != null && tile.hasSuperClass(Cleanup.class)) {
-                        System.out.printf("tile at %d, %d is the correct type %s%n", x, y, tileType);
                         Cleanup cleanTile = (Cleanup) tile;
                         for (Tile otherTile : tiles) {
                             if (otherTile != tile && cleanTile.canDoAction(otherTile)) {

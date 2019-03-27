@@ -147,7 +147,6 @@ public abstract class Robot extends AbstractTile implements Entity {
                     boolean pushed = true;
                     for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x + sdx, pos.y + sdy)) {
                         if (tile.hasAttribute(Attribute.PUSHABLE)) {
-                            System.out.println("trying to push tile " + tile);
                             pushed &= push((MovableTile) tile, sdx, sdy, dir);
                         }
                     }
@@ -168,17 +167,13 @@ public abstract class Robot extends AbstractTile implements Entity {
     }
 
     private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {
-//        int x = mTile.getX() + dx;
-//        int y = mTile.getY() + dy;
         if (willCollide(mTile, dx, dy, dir)) {
-            System.out.println("pushed tile would collide, tile " + mTile + " can be pushed? " + mTile.hasAttribute(Attribute.PUSHABLE));
             for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(mTile.getX() + dx, mTile.getY() + dy)) {
                 if (tile.hasAttribute(Attribute.PUSHABLE)) {
                     MovableTile mTile2 = (MovableTile) tile;
                     if (willCollide(mTile2, dx, dy, dir)) {
                         return false;
                     }
-                    System.out.println("trying to push tile " + tile);
                     if (!push(mTile2, dx, dy, dir)) {
                         return false;
                     }

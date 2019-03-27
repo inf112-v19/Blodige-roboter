@@ -16,9 +16,9 @@ public class DefaultGameRule {
 
         round.setRounds(5);
 
-        round.addRegisterPhase(new PlayerPhase(400));
+        round.addRegisterPhase(new PlayerPhase(300));
 
-        round.addRegisterPhase(new ConveyorPhase(100));
+        round.addRegisterPhase(new ConveyorPhase(200));
 //        round.addRegisterPhase(new ActionPhase(TileType.PUSHER, 100));
 //        round.addRegisterPhase(new ActionPhase(TileType.GEAR, 100));
 

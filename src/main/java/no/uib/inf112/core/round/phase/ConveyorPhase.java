@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * The phase where conveyor move the moveables. If a conveyor has the {@link Attribute#HIGH_PRIORITY} it is considered
+ * The phase where conveyor move the {@link MovableTile}. If a conveyor has the {@link Attribute#HIGH_PRIORITY} it is considered
  * an express conveyor.
  * <p>
  * In reality it this phase is two phases. First one where only the express conveyor moves, then one where every conveyor moves.
@@ -28,11 +28,9 @@ public class ConveyorPhase extends AbstractPhase {
     //TODO test, first all express conveyor moves, then **all** conveyors move
     @Override
     public void startPhase(@NotNull MapHandler map) {
-        System.out.println("starting conveyor phase express only");
         subPhase(map, false);
-        System.out.println("starting conveyor phase all");
+        //the next sub-phase must be after a bit of delay for it to properly work
         GameGraphics.scheduleSync(() -> subPhase(map, true), getRunTime() / 2);
-        ;
     }
 
     private void subPhase(MapHandler map, boolean allConveyors) {
@@ -45,7 +43,6 @@ public class ConveyorPhase extends AbstractPhase {
                 if (tile != null && tile.getTileType() == TileType.CONVEYOR && (allConveyors || tile.hasAttribute(Attribute.HIGH_PRIORITY))) {
                     ConveyorTile conveyor = (ConveyorTile) tile;
                     List<Tile> tiles = map.getAllTiles(x, y);
-                    System.out.println("tile = " + tile + " Others: " + tiles);
                     for (Tile otherTile : tiles) {
                         if (conveyor.canDoAction(otherTile)) {
                             conveyor.action((MovableTile) otherTile);

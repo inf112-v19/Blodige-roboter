@@ -26,7 +26,7 @@ public class WrenchTile extends AbstractRequirementTile implements ActionTile<Ba
     public void action(@NotNull BackupableTile tile) {
         tile.getBackup().x = getX();
         tile.getBackup().y = getY();
-        System.out.println("Taking backup of " + tile + " with " + getClass().getSimpleName());
+//        System.out.println("Taking backup of " + tile + " with " + getClass().getSimpleName());
     }
 
     @Override

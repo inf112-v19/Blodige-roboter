@@ -23,11 +23,11 @@ public class RoundFactory {
     @Nullable
     public Round generate() {
         if (rounds <= 0) {
-            System.out.println("There must at least be 1 round");
+            System.err.println("There must at least be 1 round");
             return null;
         }
         if (registerPhases.isEmpty()) {
-            System.out.println("No phases added");
+            System.err.println("No phases added");
             return null;
         }
         return new Round(rounds, registerPhases, cleanupPhases);

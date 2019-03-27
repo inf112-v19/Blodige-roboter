@@ -1,6 +1,7 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.util.Direction;
@@ -31,9 +32,8 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
 
     @Override
     public void action(@NotNull MovableTile tile) {
-        System.out.println("moving " + tile);
         if (dir == null) {
-            System.out.println("Dir is null");
+            System.err.println("Dir is null");
             return; //TODO remove this when all conveyors has gotten a direction
         }
         tile.move(dir.getDx(), dir.getDy(), 0);
@@ -63,6 +63,6 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
 
     @Override
     public String toString() {
-        return "ConveyorTile{" + "dir=" + getDirection() + "}";
+        return "ConveyorTile{dir=" + getDirection() + " express= " + hasAttribute(Attribute.HIGH_PRIORITY) + "}";
     }
 }

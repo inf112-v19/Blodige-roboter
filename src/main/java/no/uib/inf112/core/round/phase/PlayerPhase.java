@@ -48,11 +48,7 @@ public class PlayerPhase extends AbstractPhase {
 
         for (int i = 0; i < phaseCards.size(); i++) {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
-            int finalI = i;
-            GameGraphics.scheduleSync(() -> {
-                System.out.println("card (" + tuple + ") played after relative (to phase) " + (delayPerPlayer * (finalI + 1)) + " ms");
-                tuple.value.move(tuple.key.getAction(), delayPerPlayer);
-            }, delayPerPlayer * (i + 1));
+            GameGraphics.scheduleSync(() -> tuple.value.move(tuple.key.getAction(), delayPerPlayer), delayPerPlayer * (i + 1));
         }
     }
 }
