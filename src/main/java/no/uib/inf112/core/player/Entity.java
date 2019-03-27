@@ -3,7 +3,7 @@ package no.uib.inf112.core.player;
 import no.uib.inf112.core.map.tile.api.CollidableTile;
 import no.uib.inf112.core.map.tile.api.ColorTile;
 import no.uib.inf112.core.map.tile.api.HealableTile;
-import no.uib.inf112.core.map.tile.api.MoveableTile;
+import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,13 +16,12 @@ import java.util.Set;
  *
  * @author Elg
  */
-public interface Entity extends HealableTile, MoveableTile, ColorTile, CollidableTile {
+public interface Entity extends HealableTile, MovableTile, ColorTile, CollidableTile {
 
     /**
      * @return If this entity has changed in some way
      */
     boolean shouldUpdate();
-
 
     /**
      * Set the update state to true
@@ -37,7 +36,7 @@ public interface Entity extends HealableTile, MoveableTile, ColorTile, Collidabl
     void update(boolean update);
 
     @Override
-    default boolean willCollide(MoveableTile tile, Direction dir) {
+    default boolean willCollide(MovableTile tile, Direction dir) {
         //entities cannot be walked on
         return true;
     }

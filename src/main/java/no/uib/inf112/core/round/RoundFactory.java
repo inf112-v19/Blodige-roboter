@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class RoundFactory {
 
-    private List<Phase> phases;
+    private List<Phase> registerPhases;
+    private List<Phase> cleanupPhases;
     private int rounds;
 
     public RoundFactory() {
-        phases = new ArrayList<>();
+        registerPhases = new ArrayList<>();
+        cleanupPhases = new ArrayList<>();
     }
 
     @Nullable
@@ -24,19 +26,23 @@ public class RoundFactory {
             System.out.println("There must at least be 1 round");
             return null;
         }
-        if (phases.isEmpty()) {
+        if (registerPhases.isEmpty()) {
             System.out.println("No phases added");
             return null;
         }
-        return new Round(rounds, phases);
+        return new Round(rounds, registerPhases, cleanupPhases);
     }
 
-    public void addPhase(Phase phase) {
-        phases.add(phase);
+    public void addRegisterPhase(Phase phase) {
+        registerPhases.add(phase);
+    }
+
+    public void addCleanupPhase(Phase phase) {
+        cleanupPhases.add(phase);
     }
 
     public List<Phase> getPhases() {
-        return phases;
+        return registerPhases;
     }
 
     public int getRounds() {

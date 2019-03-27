@@ -22,4 +22,6 @@ public interface Tile {
     TiledMapTile getTile();
 
     boolean hasAttribute(@Nullable Attribute attribute);
+
+    boolean hasSuperClass(Class<? extends Tile> superClass);
 }

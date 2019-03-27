@@ -3,7 +3,7 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractMultiDirectionalTile;
 import no.uib.inf112.core.map.tile.api.CollidableTile;
-import no.uib.inf112.core.map.tile.api.MoveableTile;
+import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 
@@ -17,7 +17,7 @@ public class WallTile extends AbstractMultiDirectionalTile implements Collidable
     }
 
     @Override
-    public boolean willCollide(MoveableTile tile, Direction dir) {
+    public boolean willCollide(MovableTile tile, Direction dir) {
         //tile wants to move from this tile
         if (tile.getX() == getX() && tile.getY() == getY()) {
             return getDirections().contains(dir);

@@ -13,6 +13,6 @@ public interface CollidableTile extends MultiDirectionalTile {
      * @param dir  The direction the tile will be moving
      * @return true if the tile moves in the current direction it is facing
      */
-    boolean willCollide(MoveableTile tile, Direction dir);
+    boolean willCollide(MovableTile tile, Direction dir);
 
 }

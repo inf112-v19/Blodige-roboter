@@ -12,11 +12,13 @@ import java.util.List;
 public class Round {
 
     private final int phasesAmount;
-    private List<Phase> phases;
+    private List<Phase> registerPhases;
+    private List<Phase> cleanupPhases;
 
-    Round(int phasesAmount, List<Phase> phases) {
+    Round(int phasesAmount, List<Phase> registerPhases, List<Phase> cleanupPhases) {
         this.phasesAmount = phasesAmount;
-        this.phases = phases;
+        this.registerPhases = registerPhases;
+        this.cleanupPhases = cleanupPhases;
     }
 
     public void startRound() {
@@ -27,7 +29,7 @@ public class Round {
         long totalDelay = 0;
 
         for (int i = 0; i < phasesAmount; i++) {
-            for (Phase phase : phases) {
+            for (Phase phase : registerPhases) {
 
                 final long finalTotalDelay = totalDelay;
                 GameGraphics.scheduleSync(() -> {
@@ -39,8 +41,15 @@ public class Round {
                 totalDelay += phase.getRunTime();
             }
         }
+
+        for (Phase phase : cleanupPhases) {
+            GameGraphics.scheduleSync(() -> {
+                phase.startPhase(map);
+            }, totalDelay + 10);
+        }
+
         System.out.println("totalDelay = " + totalDelay);
-        GameGraphics.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay);
+        GameGraphics.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
 
     }
 }

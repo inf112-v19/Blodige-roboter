@@ -52,5 +52,9 @@ public abstract class AbstractTile implements Tile {
         return tg.getAttributes().contains(attribute);
     }
 
-
+    //TODO test (if this is the correct way around)
+    @Override
+    public boolean hasSuperClass(Class<? extends Tile> superClass) {
+        return superClass.isAssignableFrom(getClass());
+    }
 }

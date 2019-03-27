@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
-    public static boolean HEADLESS = false;
+    public static boolean HEADLESS;
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
@@ -139,7 +139,7 @@ public class GameGraphics extends Game {
         }
     }
 
-    public static void scheduleASync(Runnable runnable, long msDelay) {
+    public static void scheduleAsync(Runnable runnable, long msDelay) {
         GameGraphics.executorService.schedule(() ->
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }

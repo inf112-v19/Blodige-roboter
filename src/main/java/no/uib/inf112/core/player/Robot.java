@@ -133,7 +133,7 @@ public abstract class Robot extends AbstractTile implements Entity {
         for (int i = 0; i < max; i++) {
 
             GameGraphics.scheduleSync(() -> {
-                if (!willCollide(sdx, sdx, dir)) {
+                if (!willCollide(sdx, sdy, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;
                     for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x, pos.y)) {
@@ -158,7 +158,7 @@ public abstract class Robot extends AbstractTile implements Entity {
         int y = pos.y + dy;
 
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
-            if (tile.hasAttribute(Attribute.COLLIDABLE) && !this.equals(tile)) {
+            if (tile.hasSuperClass(CollidableTile.class) && !this.equals(tile)) {
                 CollidableTile cTile = (CollidableTile) tile;
                 if (cTile.willCollide(this, dir)) {
                     return true;
@@ -197,5 +197,29 @@ public abstract class Robot extends AbstractTile implements Entity {
     @Override
     public void setColor(@NotNull Color color) {
         this.color = color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Robot robot = (Robot) o;
+
+        if (direction != robot.direction) {
+            return false;
+        }
+        return pos.equals(robot.pos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = direction.hashCode();
+        result = 31 * result + pos.hashCode();
+        return result;
     }
 }

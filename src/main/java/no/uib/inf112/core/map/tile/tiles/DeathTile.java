@@ -1,10 +1,11 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.AbstractActionTile;
-import no.uib.inf112.core.map.tile.api.MoveableTile;
+import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
+import no.uib.inf112.core.map.tile.api.ActionTile;
+import no.uib.inf112.core.map.tile.api.MovableTile;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,14 +16,14 @@ import java.util.List;
 /**
  * @author Elg
  */
-public class DeathTile extends AbstractActionTile<MoveableTile> {
+public class DeathTile extends AbstractRequirementTile implements ActionTile<MovableTile> {
 
     public DeathTile(Vector2Int pos, TileGraphic tg) {
         super(pos, tg);
     }
 
     @Override
-    public void action(@NotNull MoveableTile tile) {
+    public void action(@NotNull MovableTile tile) {
         tile.kill();
     }
 
@@ -33,7 +34,7 @@ public class DeathTile extends AbstractActionTile<MoveableTile> {
 
     @Nullable
     @Override
-    public List<Attribute> requiredAttributes() {
-        return Collections.singletonList(Attribute.MOVEABLE);
+    public List<Class<? extends Tile>> requiredSuperClasses() {
+        return Collections.singletonList(MovableTile.class);
     }
 }
