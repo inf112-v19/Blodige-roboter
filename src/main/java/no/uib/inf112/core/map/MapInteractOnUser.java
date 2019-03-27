@@ -8,10 +8,7 @@ import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapInteractOnUser {
 
@@ -22,7 +19,7 @@ public class MapInteractOnUser {
      * @return true
      */
     public boolean scan(Collection<Entity> entitiesOnMap) {
-        ArrayList<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
 
         findAndDoMovement(entitiesOnMap);
 
@@ -37,7 +34,7 @@ public class MapInteractOnUser {
      *
      * @param players A list of all the players
      */
-    private void registerSpecialTiles(@NotNull ArrayList<IPlayer> players) {
+    private void registerSpecialTiles(@NotNull List<IPlayer> players) {
         for (IPlayer player : players) {
             //Looping through players instead of entities because players can register flags and entity doesn't have a reference to player
             int x = player.getRobot().getX();
@@ -49,31 +46,9 @@ public class MapInteractOnUser {
             }
             switch (tileUnderRobot.getGroup()) {
                 case FLAG:
-                    switch (tileUnderRobot) {
-                        case FLAG1:
-                            if (player.canGetFlag(1)) {
-                                registerFlag(player, x, y);
-                                GameGraphics.getSoundPlayer().playFlag();
-                            }
-                            break;
-                        case FLAG2:
-                            if (player.canGetFlag(2)) {
-                                registerFlag(player, x, y);
-                                GameGraphics.getSoundPlayer().playFlag();
-                            }
-                            break;
-                        case FLAG3:
-                            if (player.canGetFlag(3)) {
-                                registerFlag(player, x, y);
-                                GameGraphics.getSoundPlayer().playFlag();
-                            }
-                            break;
-                        case FLAG4:
-                            if (player.canGetFlag(4)) {
-                                registerFlag(player, x, y);
-                                GameGraphics.getSoundPlayer().playFlag();
-                            }
-                            break;
+                    int flagId = Integer.valueOf(tileUnderRobot.name().replace("FLAG", ""));
+                    if (player.canGetFlag(flagId)) {
+                        registerFlag(player, x, y);
                     }
                 case OPTION:
                     switch (tileUnderRobot) {
