@@ -72,13 +72,13 @@ public class Player extends AbstractPlayer {
     @Override
     public String toString() {
         return "Player{" +
-                "robot= " + robot +
-                "backup= " + backup +
+                //"robot= " + robot +
+                //"backup= " + backup +
                 ", flags= " + flags +
-                ", lives= " + lives +
-                ", health= " + health +
+                //", lives= " + lives +
+                //", health= " + health +
                 ", poweredDown= " + poweredDown +
-                ", dock= " + dock +
+                //", dock= " + dock +
                 "}";
     }
 
