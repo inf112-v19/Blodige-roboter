@@ -7,6 +7,7 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -189,6 +190,12 @@ public class RobotTest extends TestGraphics {
         @Override
         public void kill() {
             player.kill();
+        }
+
+        @NotNull
+        @Override
+        public Vector2Int getBackup() {
+            return new Vector2Int(0, 0);
         }
     }
 

@@ -2,12 +2,11 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-public interface IPlayer extends Comparable<IPlayer>, Entity, Tile {
+public interface IPlayer extends Comparable<IPlayer>, Entity {
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -70,6 +69,7 @@ public interface IPlayer extends Comparable<IPlayer>, Entity, Tile {
     /**
      * @return backup position
      */
+    @Override
     Vector2Int getBackup();
 
     /**

@@ -24,10 +24,9 @@ public class DefaultGameRule {
 
 //        round.addRegisterPhase(new ActionPhase(TileType.LASER, 250));
 
-        //HAMMER_AND_WRENCH extends WRENCH, no need for double the backup
         round.addRegisterPhase(new ActionPhase(TileType.WRENCH, 50));
+        round.addRegisterPhase(new ActionPhase(TileType.HAMMER_AND_WRENCH, 0));
         round.addRegisterPhase(new ActionPhase(TileType.FLAG, 10));
-
 
         round.addCleanupPhase(new CleanupPhase(TileType.HAMMER_AND_WRENCH));
 
