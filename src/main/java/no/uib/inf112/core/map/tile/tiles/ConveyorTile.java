@@ -1,7 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.util.Direction;
@@ -10,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,25 +17,11 @@ import java.util.Set;
  */
 public class ConveyorTile extends AbstractRequirementTile implements ActionTile<MovableTile>, SingleDirectionalTile {
 
-    Direction dir;
+    private Direction dir;
 
     public ConveyorTile(Vector2Int pos, TileGraphic tg) {
         super(pos, tg);
-        Set<Direction> tempDirs = new HashSet<>();
-
-        if (hasAttribute(Attribute.DIR_NORTH)) {
-            tempDirs.add(Direction.NORTH);
-        }
-        if (hasAttribute(Attribute.DIR_EAST)) {
-            tempDirs.add(Direction.EAST);
-        }
-        if (hasAttribute(Attribute.DIR_SOUTH)) {
-            tempDirs.add(Direction.SOUTH);
-        }
-        if (hasAttribute(Attribute.DIR_WEST)) {
-            tempDirs.add(Direction.WEST);
-        }
-
+        Set<Direction> tempDirs = Direction.getDirectionsFromTile(this);
         if (tempDirs.size() != 1) {
             System.out.println("WARN: ConveyorTile " + tg + " does not have one direction, but " + tempDirs.size());
             return;
