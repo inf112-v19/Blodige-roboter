@@ -111,7 +111,13 @@ public class Robot implements Entity {
     private boolean move(int deltaX, int deltaY) {
         x += deltaX;
         y += deltaY;
-        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(x, y)) {
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+        if (map.isOutsideBoard(x, y)) {
+            GameGraphics.getSoundPlayer().playRobotFalling();
+            return false;
+        }
+        if (map.getBoardLayerTile(x, y).getGroup() == TileType.Group.VOID) { //The robot moved onto a hole
+            GameGraphics.getSoundPlayer().playRobotFalling();
             return false;
         }
         GameGraphics.getSoundPlayer().playRobotMoving();
