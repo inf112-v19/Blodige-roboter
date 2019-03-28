@@ -4,6 +4,8 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.round.phase.ActionPhase;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -11,6 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class LaserTest extends TestGraphics {
 
@@ -36,8 +40,24 @@ public class LaserTest extends TestGraphics {
 
     @Test
     public void standingOnlaserShouldDecreaseHealthByOne() {
+        int healthBefore = testPlayer.getHealth();
         testPlayer.setDirection(Direction.EAST);
         testPlayer.move(Movement.MOVE_1);
-        
+        new ActionPhase(TileType.LASER,0).startPhase(map);
+        assertEquals(healthBefore-1, testPlayer.getHealth());
+    }
+
+    @Test
+    public void walkingOnTreeLasersShouldDecreaseHealthByTree() {
+        int healthBefore = testPlayer.getHealth();
+        testPlayer.setDirection(Direction.EAST);
+        testPlayer.move(Movement.MOVE_1);
+        testPlayer.setDirection(Direction.NORTH);
+        new ActionPhase(TileType.LASER,0).startPhase(map);
+        testPlayer.move(Movement.MOVE_1);
+        new ActionPhase(TileType.LASER, 0).startPhase(map);
+        testPlayer.move(Movement.MOVE_1);
+        new ActionPhase(TileType.LASER, 0).startPhase(map);
+        assertEquals(healthBefore-1, testPlayer.getHealth());
     }
 }
