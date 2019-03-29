@@ -19,24 +19,29 @@ import java.util.Set;
 public class ConveyorTile extends AbstractRequirementTile implements ActionTile<MovableTile>, SingleDirectionalTile {
 
     private Direction dir;
+    @Nullable
+    private Direction rotation;
 
-    public ConveyorTile(Vector2Int pos, TileGraphic tg) {
+    public ConveyorTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
         Set<Direction> tempDirs = Direction.getDirectionsFromTile(this);
         if (tempDirs.size() != 1) {
-            System.out.println("WARN: ConveyorTile " + tg + " does not have one direction, but " + tempDirs.size());
-            return;
+            throw new IllegalStateException("Given tileTypes '" + tg + "' does not have exactly one direction, but " + tempDirs.size());
         }
         dir = tempDirs.iterator().next();
+
+        if (tg.name().contains("ROTATE")) {
+            String[] name = tg.name().split("_");
+            rotation = Direction.valueOf(name[name.length - 1]);
+        }
     }
 
     @Override
     public void action(@NotNull MovableTile tile) {
-        if (dir == null) {
-            System.err.println("Dir is null");
-            return; //TODO remove this when all conveyors has gotten a direction
-        }
         tile.move(dir.getDx(), dir.getDy(), 0);
+        if (rotation != null) {
+            tile.rotate(rotation);
+        }
     }
 
     @Override
@@ -52,7 +57,7 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
 
     @Override
     public void setDirection(@NotNull Direction direction) {
-
+        //The directions of a conveyor cannot be changed
     }
 
     @Nullable
