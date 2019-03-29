@@ -24,7 +24,7 @@ public class WallTileTest extends TestGraphics {
     @Test
     public void walkOntoBottomWallBlocksSouthOnly() {
         Direction blockedDir = Direction.SOUTH;
-        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_BOTTOM);
+        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_SOUTH);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
@@ -35,7 +35,7 @@ public class WallTileTest extends TestGraphics {
     @Test
     public void walkOntoRightWallBlocksEastOnly() {
         Direction blockedDir = Direction.EAST;
-        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_RIGHT);
+        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_EAST);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
@@ -46,7 +46,7 @@ public class WallTileTest extends TestGraphics {
     @Test
     public void walkOntoTopWallBlocksNorthOnly() {
         Direction blockedDir = Direction.NORTH;
-        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_TOP);
+        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_NORTH);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
@@ -57,7 +57,7 @@ public class WallTileTest extends TestGraphics {
     @Test
     public void walkOntoLeftWallBlocksWestOnly() {
         Direction blockedDir = Direction.WEST;
-        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_LEFT);
+        WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_WEST);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
@@ -73,7 +73,7 @@ public class WallTileTest extends TestGraphics {
     public void walkFromTopWallBlocksNorthOnly() {
         Direction blockedDir = Direction.NORTH;
         Vector2Int pos = new Vector2Int(0, 0);
-        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_TOP);
+        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_NORTH);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
@@ -85,7 +85,7 @@ public class WallTileTest extends TestGraphics {
     public void walkFromRightWallBlocksEastOnly() {
         Direction blockedDir = Direction.EAST;
         Vector2Int pos = new Vector2Int(0, 0);
-        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_RIGHT);
+        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_EAST);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
@@ -97,7 +97,7 @@ public class WallTileTest extends TestGraphics {
     public void walkFromBottomWallBlocksSouthOnly() {
         Direction blockedDir = Direction.SOUTH;
         Vector2Int pos = new Vector2Int(0, 0);
-        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_BOTTOM);
+        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_SOUTH);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
@@ -110,7 +110,7 @@ public class WallTileTest extends TestGraphics {
     public void walkFromLeftWallBlocksWestOnly() {
         Direction blockedDir = Direction.WEST;
         Vector2Int pos = new Vector2Int(0, 0);
-        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_LEFT);
+        WallTile wallTile = new WallTile(pos, TileGraphic.WALL_WEST);
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
