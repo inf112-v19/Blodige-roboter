@@ -49,10 +49,12 @@ public abstract class GameMap implements MapHandler {
         tileHeight = tiledMap.getProperties().get("tileheight", int.class);
 
         TiledMapTileLayer baseLayer = null;
+        TiledMapTileLayer lasers = null;
         TiledMapTileLayer collidables = null;
         TiledMapTileLayer flags = null;
         try {
             baseLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BOARD_LAYER_NAME);
+            lasers = (TiledMapTileLayer) tiledMap.getLayers().get(LASERS_LAYER_NAME);
             collidables = (TiledMapTileLayer) tiledMap.getLayers().get(COLLIDABLES_LAYER_NAME);
             flags = (TiledMapTileLayer) tiledMap.getLayers().get(FLAG_LAYER_NAME);
         } catch (ClassCastException ignore) {
@@ -66,10 +68,14 @@ public abstract class GameMap implements MapHandler {
         if (collidables == null) {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
         }
+        if (lasers == null) {
+            throw new IllegalStateException("Given tiled map does not have a tile layer named '" + LASERS_LAYER_NAME + "'");
+        }
 
         TiledMapTileLayer collidablesLayer = collidables;
         TiledMapTileLayer flagLayer = flags;
         TiledMapTileLayer boardLayer = baseLayer;
+        TiledMapTileLayer laserLayer = lasers;
 
         //create a new empty layer for all the robots to play on :)
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
@@ -80,6 +86,7 @@ public abstract class GameMap implements MapHandler {
         tiles.put(entityLayer, null);
         tiles.put(collidablesLayer, new Tile[mapWidth][mapHeight]);
         tiles.put(flagLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(laserLayer, new Tile[mapWidth][mapHeight]);
 
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
@@ -221,7 +228,7 @@ public abstract class GameMap implements MapHandler {
     @Override
     @NotNull
     public List<Tile> getAllTiles(int x, int y) {
-        return this.tiles.keySet().stream().map(layer -> getTile(layer, x, y)).filter(Objects::nonNull).collect(Collectors.toList());
+        return tiles.keySet().stream().map(layer -> getTile(layer, x, y)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
 }

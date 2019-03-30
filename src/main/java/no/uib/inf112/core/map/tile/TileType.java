@@ -23,7 +23,7 @@ public enum TileType {
     DEFAULT,
     FLAG(FlagTile.class),
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
-    LASER,
+    LASER(LaserTile.class),
     ROBOT(Robot.class, PUSHABLE),
     GEAR(GearTile.class),
     SPAWN,

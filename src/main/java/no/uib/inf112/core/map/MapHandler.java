@@ -35,6 +35,7 @@ public interface MapHandler {
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
     String ENTITY_LAYER_NAME = "entities";
+    String LASERS_LAYER_NAME = "lasers";
     String COLLIDABLES_LAYER_NAME = "collidables";
     String FLAG_LAYER_NAME = "flags";
 
