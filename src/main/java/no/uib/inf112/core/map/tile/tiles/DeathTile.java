@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DeathTile extends AbstractRequirementTile implements ActionTile<MovableTile> {
 
-    public DeathTile(Vector2Int pos, TileGraphic tg) {
+    public DeathTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
     }
 
