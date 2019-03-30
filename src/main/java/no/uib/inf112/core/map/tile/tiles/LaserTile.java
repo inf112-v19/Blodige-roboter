@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 public class LaserTile extends AbstractMultiDirectionalTile implements ColorableTile {
     private Color color;
 
-    public LaserTile(Vector2Int pos, TileGraphic tg) {
+    public LaserTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
         color = Color.DARK_GRAY;
     }
 
-    public LaserTile(Vector2Int pos, TileGraphic tg, Color color) {
+    public LaserTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg, @NotNull Color color) {
         super(pos, tg);
         this.color = color;
     }

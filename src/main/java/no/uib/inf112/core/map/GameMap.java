@@ -86,11 +86,13 @@ public abstract class GameMap implements MapHandler {
         TiledMapTileLayer boardLayer = baseLayer;
         TiledMapTileLayer laserLayer = lasers;
 
-        //create a two new empty layer for all the robots to play on, one for enity and one for their laser trace
-        entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
-        tiledMap.getLayers().add(entityLayer);
+        //create a two new empty layer for all the robots to play on, one for entity and one for their laser trace
         entityLaserLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         tiledMap.getLayers().add(entityLaserLayer);
+
+        entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
+        tiledMap.getLayers().add(entityLayer);
+
 
         tiles = new HashMap<>();
         tiles.put(boardLayer, new Tile[mapWidth][mapHeight]);
@@ -152,7 +154,9 @@ public abstract class GameMap implements MapHandler {
     @Override
     public void addEntityLaser(Tile laser) {
         for (Tile knownLaser : getLaserEntities()) {
+
             if (laser.getX() == knownLaser.getX() && laser.getY() == knownLaser.getY()) {
+                // Already a laser tile in this layer, se if we need to change it to a cross or just ignore it (same orientation)
                 if (laser.getTile() != knownLaser.getTile()) {
                     removeEntityLaser(knownLaser);
                     entityLasers.put(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS, Color.WHITE), new Vector2Int(knownLaser.getX(), knownLaser.getY()));
@@ -173,12 +177,12 @@ public abstract class GameMap implements MapHandler {
     public boolean removeEntityLaser(Tile entityLaser) {
         Tile tile = getTile(entityLaserLayer, entityLaser.getX(), entityLaser.getY());
         if (tile != null && tile.getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
+            //There is two lasers here remove only the one we want and restore tile to the other
             entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
             Iterator<Tile> iterator = entityLasers.keySet().iterator();
             while (iterator.hasNext()) {
                 Tile laserTile = iterator.next();
                 if (laserTile.getX() == entityLaser.getX() && laserTile.getY() == entityLaser.getY()) {
-                    iterator.remove();
                     entityLasers.remove(laserTile);
                     entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
                     Vector2Int pos = new Vector2Int(laserTile.getX(), laserTile.getY());
@@ -193,9 +197,7 @@ public abstract class GameMap implements MapHandler {
     }
 
     /**
-     * TODO JAVADOC
-     *
-     * @return
+     * @return the set of all the laser traces from the entities currently on the map
      */
     private Set<Tile> getLaserEntities() {
         return entityLasers.keySet();
