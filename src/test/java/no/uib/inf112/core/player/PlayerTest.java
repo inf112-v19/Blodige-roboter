@@ -5,14 +5,19 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.tile.Attribute;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -193,6 +198,28 @@ public class PlayerTest extends TestGraphics {
         @Override
         public ComparableTuple<Card, IPlayer> getNextCard(int id) {
             return null;
+        }
+
+        @Override
+        public void clean(@NotNull Tile tile) {
+
+        }
+
+        @Nullable
+        @Override
+        public List<Attribute> requiredAttributes() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public List<Class<? extends Tile>> requiredSuperClasses() {
+            return null;
+        }
+
+        @Override
+        public boolean canDoAction(@NotNull Tile tile) {
+            return false;
         }
     }
 }

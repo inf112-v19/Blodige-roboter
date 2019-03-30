@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Elg
  */
-public interface Entity extends HealableTile, MovableTile, ColorableTile, CollidableTile, BackupableTile {
+public interface Entity extends HealableTile, MovableTile, ColorableTile, CollidableTile, BackupableTile, Cleanup{
 
     /**
      * @return If this entity has changed in some way

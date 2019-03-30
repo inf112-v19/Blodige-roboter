@@ -29,6 +29,7 @@ public class DefaultGameRule {
         round.addRegisterPhase(new ActionPhase(TileType.FLAG, 10));
 
         round.addCleanupPhase(new CleanupPhase(TileType.HAMMER_AND_WRENCH));
+        round.addCleanupPhase(new CleanupPhase(TileType.ROBOT));
 
         return round.generate();
     }

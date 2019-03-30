@@ -1,15 +1,20 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import com.badlogic.gdx.graphics.Color;
+import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.MovableTile;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * @author Elg
@@ -139,6 +144,28 @@ public class WallTileTest extends TestGraphics {
         @Override
         public Vector2Int getBackup() {
             return new Vector2Int(0, 0);
+        }
+
+        @Override
+        public void clean(@NotNull Tile tile) {
+
+        }
+
+        @Nullable
+        @Override
+        public List<Attribute> requiredAttributes() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public List<Class<? extends Tile>> requiredSuperClasses() {
+            return null;
+        }
+
+        @Override
+        public boolean canDoAction(@NotNull Tile tile) {
+            return false;
         }
     }
 

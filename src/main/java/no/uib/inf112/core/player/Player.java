@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.tile.Attribute;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -12,6 +14,9 @@ import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class Player extends AbstractPlayer {
 
@@ -78,5 +83,27 @@ public class Player extends AbstractPlayer {
                 ", flags=" + flags +
                 ", poweredDown=" + poweredDown +
                 '}';
+    }
+
+    @Override
+    public void clean(@NotNull Tile tile) {
+        poweredDown = false;
+    }
+
+    @Nullable
+    @Override
+    public List<Attribute> requiredAttributes() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public List<Class<? extends Tile>> requiredSuperClasses() {
+        return null;
+    }
+
+    @Override
+    public boolean canDoAction(@NotNull Tile tile) {
+        return false;
     }
 }
