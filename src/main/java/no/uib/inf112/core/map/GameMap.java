@@ -261,12 +261,9 @@ public abstract class GameMap implements MapHandler {
         if (isOutsideBoard(x, y)) {
             return null;
         }
-        Map<Tile, Vector2Int> layerMap = null;
-        if (layer.equals(entityLayer)) {
-            layerMap = entities;
-        } else if (layer.equals(entityLaserLayer)) {
-            layerMap = entityLasers;
-        }
+
+        Map<Tile, Vector2Int> layerMap = layer.equals(entityLayer) ? entities : null;
+        layerMap = layer.equals(entityLaserLayer) ? entityLasers : layerMap;
         if (layerMap != null) {
             Vector2Int vec = new Vector2Int(x, y);
             for (Map.Entry<Tile, Vector2Int> entry : layerMap.entrySet()) {

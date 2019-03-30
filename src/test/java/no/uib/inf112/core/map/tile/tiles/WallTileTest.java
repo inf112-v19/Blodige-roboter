@@ -144,6 +144,7 @@ public class WallTileTest extends TestGraphics {
 
         @Override
         public void damage(int damageAmount) {
+            //Dummy robot no need for implementation
         }
     }
 

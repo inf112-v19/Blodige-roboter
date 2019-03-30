@@ -100,11 +100,11 @@ public class LaserPhase extends AbstractPhase {
         } else if (onPos != null) {
             throw new IllegalStateException("Found something in the entity layer that's not hurtable");
         }
-        GameGraphics.scheduleSync(() -> resetLasers(activatedLasers, map), getRunTime() * 2);
+        GameGraphics.scheduleSync(() -> resetLasers(activatedLasers), getRunTime() * 2);
 
     }
 
-    private void resetLasers(Set<LaserTile> activatedLasers, MapHandler map) {
+    private void resetLasers(Set<LaserTile> activatedLasers) {
         for (LaserTile laserTile :
                 activatedLasers) {
             laserTile.setColor(Color.DARK_GRAY);
