@@ -72,9 +72,11 @@ public class Player extends AbstractPlayer {
     @Override
     public String toString() {
         return "Player{" +
-                ", flags= " + flags +
-                ", poweredDown= " + poweredDown +
-                "}";
+                "x=" + getY() +
+                ", y=" + getX() +
+                ", dir=" + getDirection() +
+                ", flags=" + flags +
+                ", poweredDown=" + poweredDown +
+                '}';
     }
-
 }

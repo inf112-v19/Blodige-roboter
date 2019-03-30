@@ -48,7 +48,6 @@ public class PlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
-
     }
 
     @Override

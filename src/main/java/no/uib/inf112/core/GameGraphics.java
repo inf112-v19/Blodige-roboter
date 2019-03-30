@@ -128,22 +128,27 @@ public class GameGraphics extends Game {
         return roboRally;
     }
 
-    public static void scheduleSync(Runnable runnable, long msDelay) {
+    /**
+     * This method will always run the runnable on the main thread
+     *
+     * @param runnable The code to run
+     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
+     */
+    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
         if (msDelay <= 0) {
-            runnable.run();
+            Gdx.app.postRunnable(runnable);
         } else {
             GameGraphics.executorService.schedule(() ->
                     Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
         }
     }
 
-    public static void scheduleAsync(Runnable runnable, long msDelay) {
-        if (msDelay <= 0) {
-            runnable.run();
-        }
+    /**
+     * @param runnable The code to run
+     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
+     */
+    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
         GameGraphics.executorService.schedule(() ->
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }
-
-
 }

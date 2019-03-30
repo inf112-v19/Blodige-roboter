@@ -1,5 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
@@ -33,7 +34,7 @@ public class FlagTile extends AbstractRequirementTile implements ActionTile<IPla
 
     @Override
     public void playActionSound() {
-    
+        GameGraphics.getSoundPlayer().playFlag();
     }
 
     @Override

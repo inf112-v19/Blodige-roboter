@@ -260,10 +260,9 @@ public abstract class Robot extends AbstractTile implements Entity {
     @Override
     public String toString() {
         return "Robot{" +
-                "direction=" + direction +
-                ", update=" + update +
+                "pos=" + pos +
+                ", direction=" + direction +
                 ", color=" + color +
-                ", pos=" + pos +
                 '}';
     }
 }
