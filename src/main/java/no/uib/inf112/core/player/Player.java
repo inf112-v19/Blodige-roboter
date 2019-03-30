@@ -87,7 +87,7 @@ public class Player extends AbstractPlayer {
 
     @Override
     public void clean(@NotNull Tile tile) {
-        poweredDown = false;
+        poweredDown = true;
     }
 
     @Nullable

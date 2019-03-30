@@ -37,7 +37,7 @@ public class StaticPlayer extends AbstractPlayer {
 
     @Override
     public void clean(@NotNull Tile tile) {
-        poweredDown = false;
+        poweredDown = true;
     }
 
     @Nullable

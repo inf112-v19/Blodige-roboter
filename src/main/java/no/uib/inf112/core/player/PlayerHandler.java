@@ -93,7 +93,6 @@ public class PlayerHandler implements IPlayerHandler {
         }
         if (p.isPoweredDown()) {
             p.heal();
-            p.poweredDown = false;
         } else {
             p.beginDrawCards();
         }
