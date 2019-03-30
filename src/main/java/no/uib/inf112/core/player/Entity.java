@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Elg
  */
-public interface Entity extends HealableTile, MovableTile, ColorableTile, CollidableTile, BackupableTile {
+public interface Entity extends HealableTile, MovableTile, ColorableTile, CollidableTile, BackupableTile, DamagableTile {
 
     /**
      * @return If this entity has changed in some way
@@ -33,7 +33,7 @@ public interface Entity extends HealableTile, MovableTile, ColorableTile, Collid
     void update(boolean update);
 
     @Override
-    default boolean willCollide(MovableTile tile, Direction dir) {
+    default boolean willCollide(Tile tile, Direction dir) {
         //entities cannot be walked on
         return true;
     }

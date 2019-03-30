@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -103,6 +104,20 @@ public interface MapHandler {
      */
     @NotNull
     Set<Entity> getEntities();
+
+    /**
+     * TODO JAVADOC
+     *
+     * @param laser
+     */
+    void addEntityLaser(LaserTile laser);
+
+    /**
+     * TODO javadoc
+     *
+     * @param entityLaser
+     */
+    boolean removeEntityLaser(LaserTile entityLaser);
 
     /**
      * @param x The x coordinate to test

@@ -7,8 +7,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -17,20 +19,26 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static no.uib.inf112.core.map.tile.TileGraphic.LASER_HORIZONTAL;
+import static no.uib.inf112.core.map.tile.TileGraphic.LASER_VERTICAL;
+
 public abstract class GameMap implements MapHandler {
 
     private TiledMap tiledMap;
 
     private TiledMapTileLayer entityLayer;
+    private TiledMapTileLayer entityLaserLayer;
 
     //A map of all know entities and their last know location
     Map<Entity, Vector2Int> entities;
+    Map<LaserTile, Vector2Int> entityLasers;
     private Map<TiledMapTileLayer, Tile[][]> tiles = new HashMap<>();
 
     private int mapWidth;
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
+
 
     public GameMap(String map) {
         try {
@@ -77,20 +85,24 @@ public abstract class GameMap implements MapHandler {
         TiledMapTileLayer boardLayer = baseLayer;
         TiledMapTileLayer laserLayer = lasers;
 
-        //create a new empty layer for all the robots to play on :)
+        //create a two new empty layer for all the robots to play on, one for enity and one for their laser trace
         entityLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
         tiledMap.getLayers().add(entityLayer);
+        entityLaserLayer = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
+        tiledMap.getLayers().add(entityLaserLayer);
 
         tiles = new HashMap<>();
         tiles.put(boardLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(laserLayer, new Tile[mapWidth][mapHeight]);
+        tiles.put(entityLaserLayer, null);
         tiles.put(entityLayer, null);
         tiles.put(collidablesLayer, new Tile[mapWidth][mapHeight]);
         tiles.put(flagLayer, new Tile[mapWidth][mapHeight]);
-        tiles.put(laserLayer, new Tile[mapWidth][mapHeight]);
+
 
         //use a linked hashmap to make sure the iteration is consistent
         entities = new LinkedHashMap<>();
-
+        entityLasers = new LinkedHashMap<>();
     }
 
     /**
@@ -134,6 +146,48 @@ public abstract class GameMap implements MapHandler {
     public boolean removeEntity(Entity entity) {
         entityLayer.setCell(entity.getX(), entity.getY(), null);
         return entities.remove(entity) == null;
+    }
+
+    @Override
+    public void addEntityLaser(LaserTile laser) {
+        for (LaserTile knownLaser : getLaserEntities()) {
+            if (laser.getX() == knownLaser.getX() && laser.getY() == knownLaser.getY()) {
+                removeEntityLaser(knownLaser);
+                entityLasers.put(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS), null);
+            }
+        }
+        entityLasers.put(laser, null);
+    }
+
+    @Override
+    public boolean removeEntityLaser(LaserTile entityLaser) {
+        if (getTile(LASERS_LAYER_NAME, entityLaser.getX(), entityLaser.getY()).getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
+            entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
+            Iterator<LaserTile> iterator = entityLasers.keySet().iterator();
+            while (iterator.hasNext()) {
+                LaserTile laserTile = iterator.next();
+                if (laserTile.getX() == entityLaser.getX() && laserTile.getY() == entityLaser.getY()) {
+                    iterator.remove();
+                    entityLasers.remove(laserTile);
+                    entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
+                    Vector2Int pos = new Vector2Int(laserTile.getX(), laserTile.getY());
+                    LaserTile newLaserTile = new LaserTile(pos, (laserTile.hasAttribute(Attribute.DIR_WEST)) ? LASER_VERTICAL : LASER_HORIZONTAL);
+                    addEntityLaser(newLaserTile);
+                    break;
+                }
+            }
+        }
+        entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
+        return entityLasers.remove(entityLaser) == null;
+    }
+
+    /**
+     * TODO JAVADOC
+     *
+     * @return
+     */
+    private Set<LaserTile> getLaserEntities() {
+        return entityLasers.keySet();
     }
 
     @NotNull

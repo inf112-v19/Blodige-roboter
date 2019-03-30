@@ -52,6 +52,11 @@ public enum Attribute {
      * Mark this movable tile to be pushed if something moves onto it
      */
     PUSHABLE(MovableTile.class),
+
+    /**
+     * This tile shoots a laser
+     */
+    SHOOTS_LASER,
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;

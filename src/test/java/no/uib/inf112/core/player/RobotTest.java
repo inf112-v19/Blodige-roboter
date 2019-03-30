@@ -197,6 +197,11 @@ public class RobotTest extends TestGraphics {
         public Vector2Int getBackup() {
             return new Vector2Int(0, 0);
         }
+
+        @Override
+        public void damage(int damageAmount) {
+            player.damage(damageAmount);
+        }
     }
 
 }
