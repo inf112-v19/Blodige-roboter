@@ -1,13 +1,10 @@
 package no.uib.inf112.core.map.tile.api;
 
-import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -20,22 +17,7 @@ public abstract class AbstractMultiDirectionalTile extends AbstractTile implemen
     public AbstractMultiDirectionalTile(Vector2Int pos, TileGraphic tg) {
         super(pos, tg);
 
-        Set<Direction> tempDirs = new HashSet<>();
-
-        if (hasAttribute(Attribute.DIR_NORTH)) {
-            tempDirs.add(Direction.NORTH);
-        }
-        if (hasAttribute(Attribute.DIR_EAST)) {
-            tempDirs.add(Direction.EAST);
-        }
-        if (hasAttribute(Attribute.DIR_SOUTH)) {
-            tempDirs.add(Direction.SOUTH);
-        }
-        if (hasAttribute(Attribute.DIR_WEST)) {
-            tempDirs.add(Direction.WEST);
-        }
-        dirs = Collections.unmodifiableSet(tempDirs);
-
+        dirs = Direction.getDirectionsFromTile(this);
         if (dirs.isEmpty()) {
             System.out.println("WARN: Multi-directional TileGraphic " + tg + " has no direction specified");
         }
@@ -49,8 +31,6 @@ public abstract class AbstractMultiDirectionalTile extends AbstractTile implemen
 
     @Override
     public String toString() {
-        return "AbstractMultiDirectionalTile{" +
-                "dirs=" + dirs +
-                "}";
+        return "AbstractMultiDirectionalTile{" + "dirs=" + dirs + "}";
     }
 }

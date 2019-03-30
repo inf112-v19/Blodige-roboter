@@ -47,22 +47,6 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     }
 
     /**
-     * @return amount of flags visited
-     */
-    int getFlags();
-
-    /**
-     * @param flagRank
-     * @return if player can get given flag or nor
-     */
-    boolean canGetFlag(int flagRank);
-
-    /**
-     * Add flags visited by one
-     */
-    void registerFlagVisit();
-
-    /**
      * @return lives
      */
     int getLives();
@@ -85,6 +69,7 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     /**
      * @return backup position
      */
+    @Override
     Vector2Int getBackup();
 
     /**
@@ -105,6 +90,22 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      * @param dock
      */
     void setDock(int dock);
+
+    /**
+     * @return Amount of flags visited
+     */
+    int getFlags();
+
+    /**
+     * @param flagNr The flags number
+     * @return If player can get given flag or not
+     */
+    boolean canGetFlag(int flagNr);
+
+    /**
+     * Update number of flags visited by one
+     */
+    void registerFlagVisit();
 
     @Override
     int compareTo(@NotNull IPlayer o);

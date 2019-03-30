@@ -130,10 +130,9 @@ public class UIHandler implements Disposable {
         controlPanelTable.row();
 
         //display life tokens
-        HorizontalGroup lifeTokens = new HorizontalGroup();
-        topRow.add(lifeTokens).expandX().align(Align.left); //make sire the life tokens are to the left
-        lifeTokens.space(DEFAULT_SPACING);
-        for (int i = 0; i < AbstractPlayer.MAX_LIVES; i++) {
+        HorizontalGroup lifeTokens = new HorizontalGroup().space(DEFAULT_SPACING);
+        topRow.add(lifeTokens).expandX().align(Align.left); //make sure the life tokens are to the left
+        for (int i = 0; i < Player.MAX_LIVES; i++) {
             int id = i;
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override

@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static no.uib.inf112.core.map.tile.Attribute.*;
+import static no.uib.inf112.core.map.tile.Attribute.ACTIVE_ONLY_ON_STEP;
+import static no.uib.inf112.core.map.tile.Attribute.PUSHABLE;
 
 /**
  * @author Elg
@@ -18,17 +19,16 @@ public enum TileType {
 
 
     CONVEYOR(ConveyorTile.class),
-    EXPRESS_CONVEYOR(ConveyorTile.class),
     PUSHER,
     DEFAULT,
-    FLAG,
+    FLAG(FlagTile.class),
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
     LASER,
-    ROBOT(Robot.class, COLORABLE, MOVEABLE, BACKUPABLE, HEALABLE, COLLIDABLE),
-    GEAR,
+    ROBOT(Robot.class, PUSHABLE),
+    GEAR(GearTile.class),
     SPAWN,
     VOID(DeathTile.class, ACTIVE_ONLY_ON_STEP),
-    WALL(WallTile.class, COLLIDABLE),
+    WALL(WallTile.class),
     WRENCH(WrenchTile.class);
 
     private final Class<? extends Tile> implClass;

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
-    public static boolean HEADLESS = false;
+    public static boolean HEADLESS;
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
@@ -129,17 +129,18 @@ public class GameGraphics extends Game {
     }
 
     public static void scheduleSync(Runnable runnable, long msDelay) {
-        if (msDelay < 0) {
-            throw new IllegalArgumentException("Cannot schedule with a negative delay");
-        } else if (msDelay == 0) {
-            Gdx.app.postRunnable(runnable);
+        if (msDelay <= 0) {
+            runnable.run();
         } else {
             GameGraphics.executorService.schedule(() ->
                     Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
         }
     }
 
-    public static void scheduleASync(Runnable runnable, long msDelay) {
+    public static void scheduleAsync(Runnable runnable, long msDelay) {
+        if (msDelay <= 0) {
+            runnable.run();
+        }
         GameGraphics.executorService.schedule(() ->
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }

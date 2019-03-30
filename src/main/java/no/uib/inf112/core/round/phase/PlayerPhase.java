@@ -6,12 +6,16 @@ import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.util.ComparableTuple;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * The phase where each player move according to their left-most not yet played programming card.
+ * They do so following the priority of their card.
+ *
  * @author Elg
  */
 public class PlayerPhase extends AbstractPhase {
@@ -38,17 +42,13 @@ public class PlayerPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(MapHandler map) {
+    public void startPhase(@NotNull MapHandler map) {
         List<ComparableTuple<Card, IPlayer>> phaseCards = cards.get(lastIndex);
         lastIndex++;
 
         for (int i = 0; i < phaseCards.size(); i++) {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
-            int finalI = i;
-            GameGraphics.scheduleSync(() -> {
-                System.out.println("card (" + tuple + ") played after relative (to phase) " + (delayPerPlayer * (finalI + 1)) + " ms");
-                tuple.value.move(tuple.key.getAction(), delayPerPlayer);
-            }, delayPerPlayer * (i + 1));
+            GameGraphics.scheduleSync(() -> tuple.value.move(tuple.key.getAction(), delayPerPlayer), delayPerPlayer * (i + 1));
         }
     }
 }

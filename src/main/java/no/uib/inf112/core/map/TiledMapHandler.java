@@ -75,7 +75,6 @@ public class TiledMapHandler extends MapCamera implements Disposable {
      * @param y      The new y, provided as a parameter to make this thread safe
      */
     private void setEntityOnBoard(@NotNull Entity entity, @NotNull Vector2Int oldPos, int x, int y) {
-        entity.getTileType();
         if (isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds for " + entity.toString());
         }

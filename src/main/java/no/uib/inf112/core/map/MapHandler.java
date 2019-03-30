@@ -135,11 +135,31 @@ public interface MapHandler {
      */
     void resize(int width, int height);
 
+    /**
+     * @param layer The name of the layer
+     * @return The corresponding layer to this tile
+     */
+    @Nullable
     TiledMapTileLayer getLayer(@NotNull String layer);
 
+    /**
+     * @param layerName The name of the layer
+     * @param x
+     * @param y
+     * @return The tile at the given location and tile
+     */
+    @Nullable
     Tile getTile(@NotNull String layerName, int x, int y);
 
+    /**
+     * @return The tile at the given location and tile
+     */
+    @Nullable
     Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y);
 
+    /**
+     * @return A list of all tiles on a given location
+     */
+    @NotNull
     List<Tile> getAllTiles(int x, int y);
 }

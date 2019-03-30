@@ -7,8 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.tile.Attribute;
-import no.uib.inf112.core.map.tile.api.ColorTile;
+import no.uib.inf112.core.map.tile.api.ColorableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
 import org.jetbrains.annotations.NotNull;
 
@@ -89,8 +88,8 @@ public class CustomOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer
                     float v2 = region.getV();
 
                     Tile tt = GameGraphics.getRoboRally().getCurrentMap().getTile(layer, col, row);
-                    if (tt != null && tt.hasAttribute(Attribute.COLORABLE)) {
-                        Color rc = ((ColorTile) tt).getColor();
+                    if (tt != null && tt.hasSuperClass(ColorableTile.class)) {
+                        Color rc = ((ColorableTile) tt).getColor();
                         realColor = Color.toFloatBits(rc.r, rc.g, rc.b, rc.a * layer.getOpacity());
                     } else if (PARTY) {
                         realColor = Color.toFloatBits(r.nextFloat(), r.nextFloat(), r.nextFloat(), layer.getOpacity());

@@ -36,8 +36,7 @@ public class PlayerHandler implements IPlayerHandler {
         user = new Player(0, 0, Direction.NORTH, map);
         players.add(user);
         for (int i = 1; i < playerCount; i++) {
-            players.add(new NonPlayer(i, 0, Direction.NORTH, map));
-
+            players.add(new StaticPlayer(i, 0, Direction.NORTH, map));
         }
 
         Stack<Integer> docks = new Stack<>();

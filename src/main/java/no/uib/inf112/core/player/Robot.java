@@ -7,10 +7,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.AbstractTile;
-import no.uib.inf112.core.map.tile.api.ActionTile;
-import no.uib.inf112.core.map.tile.api.CollidableTile;
-import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -120,7 +117,7 @@ public abstract class Robot extends AbstractTile implements Entity {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
-        if (willCollide(0, 0, dir)) {
+        if (willCollide(this, 0, 0, dir)) {
             return;
         }
 
@@ -133,9 +130,10 @@ public abstract class Robot extends AbstractTile implements Entity {
         for (int i = 0; i < max; i++) {
 
             GameGraphics.scheduleSync(() -> {
-                if (!willCollide(sdx, sdx, dir)) {
+                if (!willCollide(this, sdx, sdy, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;
+                    update();
                     for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x, pos.y)) {
                         if (tile.hasAttribute(Attribute.ACTIVE_ONLY_ON_STEP)) {
                             ActionTile cTile = (ActionTile) tile;
@@ -145,20 +143,56 @@ public abstract class Robot extends AbstractTile implements Entity {
                             }
                         }
                     }
-                    update();
+                } else {
+                    boolean pushed = true;
+                    for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x + sdx, pos.y + sdy)) {
+                        if (tile.hasAttribute(Attribute.PUSHABLE)) {
+                            pushed &= push((MovableTile) tile, sdx, sdy, dir);
+                        }
+                    }
+                    if (pushed) {
+                        GameGraphics.scheduleSync(() -> {
+                            if (!willCollide(this, sdx, sdy, dir)) {
+                                pos.x += sdx;
+                                pos.y += sdy;
+                                update();
+                            }
+                        }, 10);
+                    }
                 }
             }, maxTimePerMovement * i);
         }
+        update();
         GameGraphics.getSoundPlayer().playRobotMoving();
     }
 
+    private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {
+        if (willCollide(mTile, dx, dy, dir)) {
+            for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(mTile.getX() + dx, mTile.getY() + dy)) {
+                if (tile.hasAttribute(Attribute.PUSHABLE)) {
+                    MovableTile mTile2 = (MovableTile) tile;
+                    if (willCollide(mTile2, dx, dy, dir)) {
+                        return false;
+                    }
+                    if (!push(mTile2, dx, dy, dir)) {
+                        return false;
+                    }
+                }
+            }
+        }
 
-    private boolean willCollide(int dx, int dy, Direction dir) {
-        int x = pos.x + dx;
-        int y = pos.y + dy;
+        update();
+        mTile.move(dx, dy, 0);
+        return true;
+    }
+
+
+    private boolean willCollide(MovableTile mTile, int dx, int dy, Direction dir) {
+        int x = mTile.getX() + dx;
+        int y = mTile.getY() + dy;
 
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
-            if (tile.hasAttribute(Attribute.COLLIDABLE) && !this.equals(tile)) {
+            if (tile.hasSuperClass(CollidableTile.class) && !this.equals(tile)) {
                 CollidableTile cTile = (CollidableTile) tile;
                 if (cTile.willCollide(this, dir)) {
                     return true;
@@ -200,11 +234,36 @@ public abstract class Robot extends AbstractTile implements Entity {
     }
 
     @Override
-    public String toString(){
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Robot robot = (Robot) o;
+
+        if (direction != robot.direction) {
+            return false;
+        }
+        return pos.equals(robot.pos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = direction.hashCode();
+        result = 31 * result + pos.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
         return "Robot{" +
-                "direction= " + direction +
-                ", coordinates= (" + getX() +", " + getY() + ")" +
-                ", shouldUpdate= " + update +
-                "}";
+                "direction=" + direction +
+                ", update=" + update +
+                ", color=" + color +
+                ", pos=" + pos +
+                '}';
     }
 }

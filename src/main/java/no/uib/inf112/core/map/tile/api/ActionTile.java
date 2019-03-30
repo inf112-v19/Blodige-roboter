@@ -1,36 +1,26 @@
 package no.uib.inf112.core.map.tile.api;
 
-import no.uib.inf112.core.map.tile.Attribute;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
+ * A tile that will do something to some other tile. If {@link no.uib.inf112.core.map.tile.Attribute#ACTIVE_ONLY_ON_STEP} is set for this tile the {@link #action(Tile)} will be run in all phases
+ *
  * @author Elg
+ * @see no.uib.inf112.core.round.phase.Phase
+ * @see no.uib.inf112.core.map.tile.Attribute#ACTIVE_ONLY_ON_STEP
  */
-public interface ActionTile<T extends Tile> extends Tile {
+public interface ActionTile<T extends Tile> extends RequirementTile {
 
     /**
-     * Do action :) TODO write javadoc
+     * Before calling this method it is expected that {@link #canDoAction(Tile)} (where {@code Tile} is the same as here) returns {@code true}
      *
-     * @param tile The tile to do the action on. Guaranteed to have all attributes of {@link #requiredAttributes()}
+     * @param tile The tile to do the action on.
      */
     void action(@NotNull T tile);
 
+    /**
+     * The sound played when the action is executed
+     */
     void playActionSound();
 
-    /**
-     * What attributes needs to be present for the action to be called. If null this tile can do action on all tiles
-     */
-    @Nullable
-    List<Attribute> requiredAttributes();
-
-    /**
-     * This checks if the {@link #requiredAttributes} are present/null, given tile is not this tile
-     *
-     * @param tile The tile to check
-     * @return if this tile can do action on the given tile
-     */
-    boolean canDoAction(@NotNull Tile tile);
 }

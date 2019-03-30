@@ -2,6 +2,8 @@ package no.uib.inf112.core.round;
 
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.round.phase.ActionPhase;
+import no.uib.inf112.core.round.phase.CleanupPhase;
+import no.uib.inf112.core.round.phase.ConveyorPhase;
 import no.uib.inf112.core.round.phase.PlayerPhase;
 
 /**
@@ -14,19 +16,19 @@ public class DefaultGameRule {
 
         round.setRounds(5);
 
-        round.addPhase(new PlayerPhase(500));
+        round.addRegisterPhase(new PlayerPhase(300));
 
-        round.addPhase(new ActionPhase(TileType.EXPRESS_CONVEYOR, 250)); //TODO only move those who have this
-        round.addPhase(new ActionPhase(TileType.CONVEYOR, 100)); //TODO move both CONVEYOR and EXPRESS_CONVEYOR
-//        round.addPhase(new ActionPhase(TileType.PUSHER, 100));
-//        round.addPhase(new ActionPhase(TileType.GEAR, 100));
+        round.addRegisterPhase(new ConveyorPhase(200));
+//        round.addRegisterPhase(new ActionPhase(TileType.PUSHER, 100));
+        round.addRegisterPhase(new ActionPhase(TileType.GEAR, 100));
 
-//        round.addPhase(new ActionPhase(TileType.LASER, 250));
+//        round.addRegisterPhase(new ActionPhase(TileType.LASER, 250));
 
-        round.addPhase(new ActionPhase(TileType.HAMMER_AND_WRENCH, 100));
-        round.addPhase(new ActionPhase(TileType.WRENCH, 0));
+        round.addRegisterPhase(new ActionPhase(TileType.WRENCH, 50));
+        round.addRegisterPhase(new ActionPhase(TileType.HAMMER_AND_WRENCH, 0));
+        round.addRegisterPhase(new ActionPhase(TileType.FLAG, 10));
 
-//        round.addPhase(new ActionPhase(TileType.FLAG, 0));
+        round.addCleanupPhase(new CleanupPhase(TileType.HAMMER_AND_WRENCH));
 
         return round.generate();
     }

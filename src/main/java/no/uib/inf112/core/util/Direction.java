@@ -1,5 +1,13 @@
 package no.uib.inf112.core.util;
 
+import no.uib.inf112.core.map.tile.Attribute;
+import no.uib.inf112.core.map.tile.api.Tile;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Elg
  */
@@ -105,6 +113,29 @@ public enum Direction {
             default:
                 throw new IllegalStateException("Unknown direction " + name());
         }
+    }
+
+    /**
+     * @param tile The tile to get the directions of
+     * @return An unmodifiable set of all direction this tile has
+     */
+    @NotNull
+    public static Set<Direction> getDirectionsFromTile(@NotNull Tile tile) {
+        Set<Direction> tempDirs = new HashSet<>();
+
+        if (tile.hasAttribute(Attribute.DIR_NORTH)) {
+            tempDirs.add(Direction.NORTH);
+        }
+        if (tile.hasAttribute(Attribute.DIR_EAST)) {
+            tempDirs.add(Direction.EAST);
+        }
+        if (tile.hasAttribute(Attribute.DIR_SOUTH)) {
+            tempDirs.add(Direction.SOUTH);
+        }
+        if (tile.hasAttribute(Attribute.DIR_WEST)) {
+            tempDirs.add(Direction.WEST);
+        }
+        return Collections.unmodifiableSet(tempDirs);
     }
 
 }
