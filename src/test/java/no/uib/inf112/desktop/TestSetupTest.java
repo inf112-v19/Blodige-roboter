@@ -43,7 +43,7 @@ public class TestSetupTest extends TestGraphics {
         Robot robot = roboRally.getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         Tile tile = roboRally.getCurrentMap().getTile(MapHandler.BOARD_LAYER_NAME, pos.x, pos.y);
-        assertNotNull(tile);
-        assertEquals(TileType.DEFAULT, tile.getTileType());
+        assertNotNull("Could not find any tile at " + pos, tile);
+        assertEquals(TileType.CONVEYOR, tile.getTileType());
     }
 }
