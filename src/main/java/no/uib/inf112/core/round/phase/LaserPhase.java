@@ -52,6 +52,7 @@ public class LaserPhase extends AbstractPhase {
         while (onPos == null || !onPos.hasSuperClass(CollidableTile.class)) {
             Tile laser = map.getTile(LASERS_LAYER_NAME, currentPos.x, currentPos.y);
             activateLaser(laser, activatedLasers);
+
             if (canMove(laser, direction, map)) {
                 currentPos = new Vector2Int(currentPos.x + direction.getDx(), currentPos.y + direction.getDy());
                 onPos = map.getTile(ENTITY_LAYER_NAME, currentPos.x, currentPos.y);
@@ -59,12 +60,10 @@ public class LaserPhase extends AbstractPhase {
                 break;
             }
         }
-
         if (onPos != null && onPos.hasSuperClass(DamagableTile.class)) {
             GameGraphics.getSoundPlayer().playShootLaser();
             DamagableTile damagableTile = (DamagableTile) onPos;
             damagableTile.damage(1);
-            System.out.println("Got damaged");
         } else if (onPos != null) {
             throw new IllegalStateException("Found something in the entity layer that's not hurtable");
         }
@@ -82,8 +81,7 @@ public class LaserPhase extends AbstractPhase {
 
     private boolean canMove(Tile laser, Direction direction, MapHandler map) {
         Tile standingOnTile = map.getTile(COLLIDABLES_LAYER_NAME, laser.getX(), laser.getY());
-        Tile movingToTile = map.getTile(COLLIDABLES_LAYER_NAME, laser.getX() + direction.getDx(), laser.getY() + direction.getDy());
-        return !willCollide(laser, standingOnTile, direction) && !willCollide(laser, movingToTile, direction);
+        return !willCollide(laser, standingOnTile, direction);
     }
 
     private boolean willCollide(Tile laser, Tile tile, Direction direction) {

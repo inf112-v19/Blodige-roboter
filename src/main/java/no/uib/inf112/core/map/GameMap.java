@@ -235,10 +235,12 @@ public abstract class GameMap implements MapHandler {
     @Nullable
     public Tile getTile(@NotNull String layerName, int x, int y) {
         TiledMapTileLayer layer = getLayer(layerName);
-        if (layer == null) {
-            return null;
+        if (layerName.equals(ENTITY_LAYER_NAME)) {
+            layer = entityLayer;
+        } else if (layerName.equals(ENITTY_LASER_LAYER_NAME)) {
+            layer = entityLaserLayer;
         }
-        return getTile(layer, x, y);
+        return layer != null ? getTile(layer, x, y) : null;
     }
 
     //TODO test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
