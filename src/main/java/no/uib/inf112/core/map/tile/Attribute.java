@@ -57,6 +57,16 @@ public enum Attribute {
      * This tile shoots a laser
      */
     SHOOTS_LASER,
+
+    /**
+     * This tile lays down laser, meaning it puts down laser on the entitylaser layer
+     * e.g robots
+     */
+    LAYS_DOWN_LASER,
+    /**
+     * This tile shoots two lasers
+     */
+    DOUBLE_LASER,
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;

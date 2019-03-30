@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -149,7 +149,7 @@ public class MapCameraTest extends TestGraphics {
 
         @NotNull
         @Override
-        public Set<Entity> getEntities() {
+        public Set<Tile> getEntities() {
             return null;
         }
 

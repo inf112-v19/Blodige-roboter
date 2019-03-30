@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.util.Vector2Int;
@@ -36,24 +37,25 @@ public class TiledMapHandler extends MapCamera implements Disposable {
 
     @Override
     public void update(float delta) {
-        for (Map.Entry<Entity, Vector2Int> entry : super.entities.entrySet()) {
+        for (Map.Entry<Tile, Vector2Int> entry : super.entities.entrySet()) {
 
             //make sure the new x and y are always consistent
-            int x = entry.getKey().getX();
-            int y = entry.getKey().getY();
+            Entity entity = (Entity) entry.getKey();
+            int x = entity.getX();
+            int y = entity.getY();
             Vector2Int lastPos = entry.getValue();
 
             if (lastPos == null) {
                 lastPos = new Vector2Int(x, y);
                 entry.setValue(lastPos);
-            } else if (!entry.getKey().shouldUpdate()) {
+            } else if (!entity.shouldUpdate()) {
                 //do not update if there is no change
                 continue;
             }
 
             getEntityLayer().setCell(lastPos.x, lastPos.y, null);
-            entry.getKey().update(false);
-            setEntityOnBoard(entry.getKey(), lastPos, x, y);
+            entity.update(false);
+            setEntityOnBoard(entity, lastPos, x, y);
 
         }
     }

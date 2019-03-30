@@ -15,6 +15,11 @@ public class LaserTile extends AbstractMultiDirectionalTile implements Colorable
         color = Color.DARK_GRAY;
     }
 
+    public LaserTile(Vector2Int pos, TileGraphic tg, Color color) {
+        super(pos, tg);
+        this.color = color;
+    }
+
     @NotNull
     @Override
     public Color getColor() {
