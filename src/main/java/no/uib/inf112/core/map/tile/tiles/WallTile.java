@@ -20,9 +20,6 @@ public class WallTile extends AbstractMultiDirectionalTile implements Collidable
     public boolean willCollide(Tile tile, Direction dir) {
         //tile wants to move from this tile
         if (tile.getX() == getX() && tile.getY() == getY()) {
-            System.out.println(getDirections().contains(dir));
-            System.out.println(dir);
-            System.out.println(getDirections());
             return getDirections().contains(dir);
         } else {
             //the tile try and move onto this tile
