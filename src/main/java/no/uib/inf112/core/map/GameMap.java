@@ -153,10 +153,16 @@ public abstract class GameMap implements MapHandler {
     public void addEntityLaser(Tile laser) {
         for (Tile knownLaser : getLaserEntities()) {
             if (laser.getX() == knownLaser.getX() && laser.getY() == knownLaser.getY()) {
-                removeEntityLaser(knownLaser);
-                entityLasers.put(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS, Color.WHITE), new Vector2Int(knownLaser.getX(), knownLaser.getY()));
-                entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(TileGraphic.LASER_CROSS.getTile()));
-                return;
+                if (laser.getTile() != knownLaser.getTile()) {
+                    removeEntityLaser(knownLaser);
+                    entityLasers.put(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS, Color.WHITE), new Vector2Int(knownLaser.getX(), knownLaser.getY()));
+                    entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(TileGraphic.LASER_CROSS.getTile()));
+                    return;
+                } else {
+                    /* We should probably have a count for when this happens, cleanup will try and remove non existing tile since we didn't add it.
+                       I just handles this by allowing to get a tile thats null in remove, but this might not be healty*/
+                    return;
+                }
             }
         }
         entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(laser.getTile()));
@@ -165,7 +171,8 @@ public abstract class GameMap implements MapHandler {
 
     @Override
     public boolean removeEntityLaser(Tile entityLaser) {
-        if (getTile(entityLaserLayer, entityLaser.getX(), entityLaser.getY()).getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
+        Tile tile = getTile(entityLaserLayer, entityLaser.getX(), entityLaser.getY());
+        if (tile != null && tile.getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
             entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
             Iterator<Tile> iterator = entityLasers.keySet().iterator();
             while (iterator.hasNext()) {

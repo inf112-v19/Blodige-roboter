@@ -44,7 +44,7 @@ public class LaserPhase extends AbstractPhase {
         Direction direction = prevTile.getDirection();
         Tile onTile = prevTile;
         List<LaserTile> activatedLasers = new ArrayList<>();
-        while (canMove2(onTile, direction, map)) {
+        while (canMoveAcrossTile(onTile, direction, map)) {
             Vector2Int newPos = new Vector2Int(onTile.getX() + direction.getDx(), onTile.getY() + direction.getDy());
             onTile = map.getTile(ENTITY_LAYER_NAME, newPos.x, newPos.y);
             if (!map.isOutsideBoard(newPos.x, newPos.y) && (onTile == null || !onTile.hasSuperClass(CollidableTile.class))) {
@@ -71,11 +71,6 @@ public class LaserPhase extends AbstractPhase {
         }
     }
 
-    private boolean canMove2(Tile prevTile, Direction direction, MapHandler map) {
-        Tile standingOnTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX(), prevTile.getY());
-        Tile nextTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX() + direction.getDx(), prevTile.getY() + direction.getDy());
-        return !willCollide(prevTile, standingOnTile, direction) || !willCollide(prevTile, nextTile, direction);
-    }
 
     private void shootAlreadyExistingLaser(@NotNull MapHandler map, Tile tile) {
         MultiDirectionalTile originTile = (MultiDirectionalTile) tile;
@@ -120,6 +115,12 @@ public class LaserPhase extends AbstractPhase {
     private boolean canMove(Tile laser, Direction direction, MapHandler map) {
         Tile standingOnTile = map.getTile(COLLIDABLES_LAYER_NAME, laser.getX(), laser.getY());
         return !willCollide(laser, standingOnTile, direction);
+    }
+
+    private boolean canMoveAcrossTile(Tile prevTile, Direction direction, MapHandler map) {
+        Tile standingOnTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX(), prevTile.getY());
+        Tile nextTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX() + direction.getDx(), prevTile.getY() + direction.getDy());
+        return !willCollide(prevTile, standingOnTile, direction) || !willCollide(prevTile, nextTile, direction);
     }
 
     private boolean willCollide(Tile laser, Tile tile, Direction direction) {
