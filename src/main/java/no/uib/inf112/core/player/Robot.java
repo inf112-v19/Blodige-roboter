@@ -117,9 +117,7 @@ public abstract class Robot extends AbstractTile implements Entity {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
-        if (willCollide(this, 0, 0, dir)) {
-            return;
-        }
+
 
         int sdx = (int) Math.signum(dx);
         int sdy = (int) Math.signum(dy);
@@ -128,6 +126,10 @@ public abstract class Robot extends AbstractTile implements Entity {
         int maxTimePerMovement =
                 Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
+
+            if (willCollide(this, 0, 0, dir)) {
+                return;
+            }
 
             GameGraphics.scheduleSync(() -> {
                 if (!willCollide(this, sdx, sdy, dir)) {
