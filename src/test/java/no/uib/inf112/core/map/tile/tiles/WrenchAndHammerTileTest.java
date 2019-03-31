@@ -49,4 +49,11 @@ public class WrenchAndHammerTileTest extends TestGraphics {
         assertEquals(beforeHealth, testPlayer.getHealth());
     }
 
+    @Test
+    public void wahTileShouldOnlyHealOneHP() {
+        testPlayer.damage(2);
+        int damageHealt = testPlayer.getHealth();
+        wahTile.clean(testPlayer);
+        assertEquals(damageHealt + 1, testPlayer.getHealth());
+    }
 }
