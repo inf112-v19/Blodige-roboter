@@ -2,12 +2,16 @@ package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -27,29 +31,36 @@ import java.io.File;
 public class ConveyorTileTest extends TestGraphics {
 
     private static RoboRally roboRally;
-    //private static Player player;
-    private static Robot testBot;
-    private int roboX, roboY;
+
+    private AbstractPlayer testPlayer;
 
     @BeforeClass
     public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_interaction_test_map.tmx", 1);
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
     }
 
     @Before
     public void setUp() {
         roboRally.getPlayerHandler().generateOnePlayer();
-        testBot = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().testPlayer();
     }
 
-    private void moveTestBotTo(int x, int y) {
-        roboX = x;
-        roboY = y;
-        testBot.teleport(x, y);
+    private ConveyorTile getConveyorTile(int x, int y) {
+        return (ConveyorTile) roboRally.getCurrentMap().getTile("board", x, y);
     }
 
-    //TODO issue 100, all these tests will fail until we support conveyor belts. Add tests for double step conveyor belts (find out how these work at the edges)
+    private void conveyorTileAction(Vector2Int start, Vector2Int end) {
+        testPlayer.teleport(start.x, start.y);
+        ConveyorTile conveyor = getConveyorTile(start.x, start.y);
+        conveyor.action(testPlayer);
+        assertEquals(end.x, testPlayer.getX());
+        assertEquals(end.y, testPlayer.getY());
+    }
 
+    @Test
+    public void singleStepNorthShouldMoveRobotOneStep() {
+        conveyorTileAction(new Vector2Int(0, 0), new Vector2Int(0, 1));
+    }
 //    @Test
 //    public void singleStepUpConveyorShouldMoveRobotOneUp() {
 //        moveTestBotTo(0, 0);
