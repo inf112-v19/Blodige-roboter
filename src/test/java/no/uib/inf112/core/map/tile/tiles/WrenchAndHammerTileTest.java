@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 public class WrenchAndHammerTileTest extends TestGraphics {
 
-    private static RoboRally roboRally;
-    private AbstractPlayer testPlayer;
+    protected static RoboRally roboRally;
+    protected AbstractPlayer testPlayer;
     private WrenchAndHammerTile wahTile;
     private Vector2Int pos = new Vector2Int(0, 0); //Position of the tile we are testing
 
