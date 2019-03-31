@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Stack;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
+import static no.uib.inf112.core.GameGraphics.getInputMultiplexer;
 
 public class PlayerHandler implements IPlayerHandler {
 
@@ -93,6 +94,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
         if (p.isPoweredDown()) {
             p.heal();
+            p.poweredDown = false;
         } else {
             p.beginDrawCards();
         }
