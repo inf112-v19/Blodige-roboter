@@ -34,3 +34,10 @@
 
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)
 * Main player robot should be distinguishable by color
+
+### Power down
+
+* When pressing the power down button (red circle) it darkens.
+* This followed by pressing 'enter' should put the robot in a power down mode
+* No movementcards used but still affected by the map, the player should also be fully healed.
+* After the round the player should not be in a power down state anymore
