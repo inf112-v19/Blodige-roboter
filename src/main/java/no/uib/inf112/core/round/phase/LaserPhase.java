@@ -164,7 +164,7 @@ public class LaserPhase extends AbstractPhase {
     private boolean canMoveAcrossTile(Tile prevTile, Direction direction, MapHandler map) {
         Tile standingOnTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX(), prevTile.getY());
         Tile nextTile = map.getTile(COLLIDABLES_LAYER_NAME, prevTile.getX() + direction.getDx(), prevTile.getY() + direction.getDy());
-        return !willCollide(prevTile, standingOnTile, direction) || !willCollide(prevTile, nextTile, direction);
+        return !willCollide(prevTile, standingOnTile, direction) && !willCollide(prevTile, nextTile, direction);
     }
 
     /**
