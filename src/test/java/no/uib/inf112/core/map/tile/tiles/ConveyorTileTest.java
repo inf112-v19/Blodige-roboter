@@ -3,6 +3,7 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.round.phase.ConveyorPhase;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -76,31 +77,15 @@ public class ConveyorTileTest extends TestGraphics {
     public void singleStepEastShouldMoveRobotOneStep() {
         conveyorTileAction(new Vector2Int(1, 0), new Vector2Int(2, 0));
     }
-//    @Test
-//    public void singleStepUpConveyorShouldMoveRobotOneUp() {
-//        moveTestBotTo(0, 0);
-//        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
-//
-//        assertEquals(roboX, testBot.getX());
-//        assertEquals(roboY + 1, testBot.getY());
-//    }
-//
-//    @Test
-//    public void singleStepLeftConveyorShouldMoveRobotOneLeft() {
-//        moveTestBotTo(1, 0);
-//        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
-//
-//        assertEquals(roboX - 1, testBot.getX());
-//        assertEquals(roboY, testBot.getY());
-//    }
-//
-//    @Test
-//    public void singleStepRightConveyorShouldMoveRobotOneLeft() {
-//        moveTestBotTo(2, 0);
-//        roboRally.mapInteractOnUser.scan(roboRally.getCurrentMap().getEntities());
-//
-//        assertEquals(roboX + 1, testBot.getX());
-//        assertEquals(roboY, testBot.getY());
-//    }
+
+    @Test
+    public void doubleStepNorthShouldMoveRobotTwoSteps() {
+        testPlayer.teleport(5, 0);
+        ConveyorPhase phase = new ConveyorPhase(0);
+        phase.startPhase(roboRally.getCurrentMap());
+
+        assertEquals(5, testPlayer.getX());
+        assertEquals(2, testPlayer.getY());
+    }
 
 }
