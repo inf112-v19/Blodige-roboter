@@ -41,14 +41,6 @@ public class TiledMapHandler extends MapCamera implements Disposable {
             int y = entity.getY();
             Vector2Int lastPos = prevPosOfEntity.get(i);
 
-            if (lastPos == null) {
-                lastPos = new Vector2Int(x, y);
-                prevPosOfEntity.set(i, lastPos);
-            } else if (!entity.shouldUpdate()) {
-                //do not update if there is no change
-                continue;
-            }
-
             getEntityLayer().setCell(lastPos.x, lastPos.y, null);
             entity.update(false);
             setEntityOnBoard(entity, x, y);
