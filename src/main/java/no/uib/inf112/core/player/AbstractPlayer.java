@@ -151,8 +151,10 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     @Override
     public void clean(@NotNull Tile tile) {
-        heal();
-        poweredDown = true;
+        if(willPowerDown){
+            poweredDown = true;
+            heal();
+        }
     }
 
     @Override
