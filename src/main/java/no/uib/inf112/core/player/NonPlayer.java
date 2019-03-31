@@ -32,9 +32,4 @@ public class NonPlayer extends AbstractPlayer {
         return new ComparableTuple<>(deck[id], this);
     }
 
-
-    @Override
-    public void clean(@NotNull Tile tile) {
-        poweredDown = true;
-    }
 }

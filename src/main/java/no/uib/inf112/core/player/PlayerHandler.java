@@ -18,6 +18,7 @@ public class PlayerHandler implements IPlayerHandler {
     private List<IPlayer> players;
     private IPlayer user;
     private MapHandler map;
+    private  Boolean powerDown;
 
     /**
      * @param playerCount

@@ -84,9 +84,4 @@ public class Player extends AbstractPlayer {
                 ", poweredDown=" + poweredDown +
                 '}';
     }
-
-    @Override
-    public void clean(@NotNull Tile tile) {
-        poweredDown = true;
-    }
 }
