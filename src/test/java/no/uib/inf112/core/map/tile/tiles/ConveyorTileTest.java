@@ -61,6 +61,21 @@ public class ConveyorTileTest extends TestGraphics {
     public void singleStepNorthShouldMoveRobotOneStep() {
         conveyorTileAction(new Vector2Int(0, 0), new Vector2Int(0, 1));
     }
+
+    @Test
+    public void singleStepSouthShouldMoveRobotOneStep() {
+        conveyorTileAction(new Vector2Int(0, 1), new Vector2Int(0, 0));
+    }
+
+    @Test
+    public void singleStepWestShouldMoveRobotOneStep() {
+        conveyorTileAction(new Vector2Int(1, 1), new Vector2Int(0, 1));
+    }
+
+    @Test
+    public void singleStepEastShouldMoveRobotOneStep() {
+        conveyorTileAction(new Vector2Int(1, 0), new Vector2Int(2, 0));
+    }
 //    @Test
 //    public void singleStepUpConveyorShouldMoveRobotOneUp() {
 //        moveTestBotTo(0, 0);
