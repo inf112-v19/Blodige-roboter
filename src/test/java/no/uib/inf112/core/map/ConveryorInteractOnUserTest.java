@@ -1,40 +1,36 @@
 package no.uib.inf112.core.map;
 
-import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
-import org.junit.BeforeClass;
 
-import java.io.File;
-
+/**
+ * Coordinates for impotant tiles on the test map for the testing of conveyors:
+ */
 public class ConveryorInteractOnUserTest extends TestGraphics {
 
-    private static RoboRally roboRally;
-    //private static Player player;
-    private static Robot testBot;
-    private int roboX, roboY;
-
-    @BeforeClass
-    public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_interaction_test_map.tmx", 1);
-    }
-
-    @Before
-    public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
-        testBot = roboRally.getPlayerHandler().testPlayer();
-    }
-
-    private void moveTestBotTo(int x, int y) {
-        roboX = x;
-        roboY = y;
-        testBot.teleport(x, y);
-    }
-
-    //TODO issue 100, all these tests will fail until we support conveyor belts. Add tests for double step conveyor belts (find out how these work at the edges)
-
+//    private static RoboRally roboRally;
+//    //private static Player player;
+//    private static Robot testBot;
+//    private int roboX, roboY;
+//
+//    @BeforeClass
+//    public static void beforeClass() {
+//        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_interaction_test_map.tmx", 1);
+//    }
+//
+//    @Before
+//    public void setUp() {
+//        roboRally.getPlayerHandler().generateOnePlayer();
+//        testBot = roboRally.getPlayerHandler().testPlayer();
+//    }
+//
+//    private void moveTestBotTo(int x, int y) {
+//        roboX = x;
+//        roboY = y;
+//        testBot.teleport(x, y);
+//    }
+//
+//    //TODO issue 100, all these tests will fail until we support conveyor belts. Add tests for double step conveyor belts (find out how these work at the edges)
+//
 //    @Test
 //    public void singleStepUpConveyorShouldMoveRobotOneUp() {
 //        moveTestBotTo(0, 0);
