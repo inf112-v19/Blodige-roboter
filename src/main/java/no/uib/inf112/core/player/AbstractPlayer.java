@@ -27,6 +27,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     protected int flags;
 
     boolean poweredDown;
+    boolean willPowerDown;
 
 
     /**
@@ -46,6 +47,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
+        willPowerDown = false;
     }
 
     @Override
@@ -112,6 +114,8 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     public boolean isPoweredDown() {
         return poweredDown;
     }
+
+    public boolean willPowerDown() { return willPowerDown; }
 
     @Override
     public int getDamageTokens() {

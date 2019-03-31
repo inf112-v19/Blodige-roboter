@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Stack;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
-import static no.uib.inf112.core.GameGraphics.getInputMultiplexer;
 
 public class PlayerHandler implements IPlayerHandler {
 
@@ -18,7 +17,6 @@ public class PlayerHandler implements IPlayerHandler {
     private List<IPlayer> players;
     private IPlayer user;
     private MapHandler map;
-    private  Boolean powerDown;
 
     /**
      * @param playerCount
@@ -83,6 +81,11 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
+        if(mainPlayer().poweredDown){
+            mainPlayer().poweredDown = false;
+            mainPlayer().willPowerDown = true;
+        }
+
         GameGraphics.getRoboRally().round();
     }
 
@@ -90,11 +93,13 @@ public class PlayerHandler implements IPlayerHandler {
     public void startTurn() {
 
         Player p = mainPlayer();
+        p.poweredDown = p.willPowerDown;
         if (p.isDestroyed()) {
             return;
         }
         if (p.isPoweredDown()) {
             p.heal();
+            p.willPowerDown = false;
             p.poweredDown = false;
         } else {
             p.beginDrawCards();
