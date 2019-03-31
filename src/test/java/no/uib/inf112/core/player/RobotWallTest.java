@@ -41,7 +41,6 @@ public class RobotWallTest extends TestGraphics {
         assertEquals(1, testBot.getY());
     }
 
-    //    TODO this test will fail until we fix issue 99 (supporting moving into walls in map)
     @Test
     public void movingToWalltileWhereWallIsOnClosestEdgeShouldNotWork() {
         testBot.setDirection(Direction.EAST);
@@ -51,8 +50,6 @@ public class RobotWallTest extends TestGraphics {
 
     }
 
-
-    //    TODO this test will fail until we fix issue 73
     @Test
     public void movingTwoStepsWithWallBetweenShouldMakeRobotStopAfterOneStep() {
         testBot.setDirection(Direction.NORTH);
