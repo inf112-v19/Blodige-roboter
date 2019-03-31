@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="2" height="1" tilewidth="300" tileheight="300" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="../tiles_tileset.tsx"/>
+ <layer id="1" name="board" width="2" height="1">
+  <data encoding="csv">
+7,15
+</data>
+ </layer>
+ <layer id="2" name="flags" width="2" height="1">
+  <data encoding="csv">
+0,0
+</data>
+ </layer>
+ <layer id="3" name="collidables" width="2" height="1">
+  <data encoding="csv">
+0,15
+</data>
+ </layer>
+</map>
