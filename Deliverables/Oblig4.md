@@ -11,6 +11,11 @@
 - Vi har akkurat passe med byråkrati slik at vi ikke gjør ting to ganger og vi har kontroll. Uten at vi bruker mer tid på byråkratiet enn koden. Vi har vært litt dårlige den siste perioden med at pull request er blitt liggende, vi lager også pr med engang vi begynner for at de andre på teamet letter skal kunne gå inn og se hva noen andre gjør.
   1. Pull reviews må skje raskere
 - Møtenotater ligger under meeting notes i sidemenyen på [wiki'en](https://github.com/inf112-v19/Blodige-roboter/wiki)
+- Kunnskapsoverføring:
+  - Vi er tilgjengelige for hverandre når vi jobber med noe og kan spørre enten på lesesalen, i møter eller på slack.
+  - Vi har en "mini" standup på hvert møte hvor folk sier hva de har jobbet med og om de har eller har hatt eventuelle utfordringer.
+  - Hvis det gjøres store endringer i strukturen, som f.eks med [#108](https://github.com/inf112-v19/Blodige-roboter/issues/108) setter vi oss sammen og ser på det i møtet slik at vi vet at alle har forstått det nye. Dette gjør vi for å kunne utnytte strukturen mest mulig.
+  - Dette har vi også gjort tidligere i f.eks. [#50](https://github.com/inf112-v19/Blodige-roboter/issues/50). Men da ved at alle på teamet utførte pull review.
 
 ## Deloppgave 2
 
@@ -29,7 +34,8 @@ Under kommer kravene samlet i tre kategorier, de vi mener at vi er ferdige, de v
   - [#19](https://github.com/inf112-v19/Blodige-roboter/issues/19)
 - Det skal være hull på brettet
   - [#73](https://github.com/inf112-v19/Blodige-roboter/issues/73)
-- Spillmekanismer for å skyte andre spillere innen rekkevidde med laser som peker rett frem
+- Spillmekanismer for å skyte andre spillere innen rekkevidde med laser som peker rett frem.
+  - Her har vi tatt en forutsetning om at robotene skyter "evig" langt men ikke gjennom andre roboter, vegger eller "dyttere", dette samsvarer også med spillmanualen
   - [#19](https://github.com/inf112-v19/Blodige-roboter/issues/19)
 - fungerende samlebånd på brettet som flytter robotene
   - [#17](https://github.com/inf112-v19/Blodige-roboter/issues/17)
@@ -51,9 +57,10 @@ Dette er mange punkter men mye av det bygger på allerede eksiserende funksjonal
 - options-kort
   - Dette mener vi krever noen grunnfunksjoner som vi må få på plass først før vi kan begynne å lage funksjonelle options kort
 - plassere flagg selv før spillet starter
-  - Dette har vi ikke sett for oss å gjøre, og siden disse kravene kom 6 dager før innlevering har vi ikke "kastet oss rundt" for å gjennomføre det, det er i tillegg ikke noe vi anser som særdeles viktig for grunnspillet.
+  - Dette har vi ikke sett for oss å gjøre, og siden disse kravene kom 6(+3) dager før innlevering har vi ikke "kastet oss rundt" for å gjennomføre det, det er i tillegg ikke noe vi anser som særdeles viktig for grunnspillet.
 - sette sammen ulike brett til større spillflate
   - Her har vi implementert muligheten for flere kart, men ikke i forhold til brukerinteraksjon, sammensetting av kart har vi heller ikke sett på.
   - Også dette punktet anser vi som ikke en viktig funksjon for grunnspillet
 - spille mot AI (single-player-mode), evt spill mot random-roboter
   - Nedprioritert for å fokusere på grunnleggende funksjoner.
+  - Men strukturen vår er noenlunde tilrettelagt for dette.
