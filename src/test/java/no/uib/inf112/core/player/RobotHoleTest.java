@@ -16,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 public class RobotHoleTest extends TestGraphics {
 
-    private Robot testBot;
     private AbstractPlayer player;
     private static RoboRally roboRally;
 
@@ -30,9 +29,8 @@ public class RobotHoleTest extends TestGraphics {
     public void setUp() {
         roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
-        testBot = player;
-        testBot.teleport(0, 0);
-        testBot.setDirection(Direction.NORTH);
+        player.teleport(0, 0);
+        player.setDirection(Direction.NORTH);
         player.setBackup(0, 0);
     }
 
@@ -41,8 +39,8 @@ public class RobotHoleTest extends TestGraphics {
     public void movingOntoHoleShouldTeleportRobotToBackup() {
         player.move(Movement.MOVE_1);
         Vector2Int backup = player.getBackup();
-        assertEquals(backup.x, testBot.getX());
-        assertEquals(backup.y, testBot.getY());
+        assertEquals(backup.x, player.getX());
+        assertEquals(backup.y, player.getY());
     }
 
     @Test
@@ -57,7 +55,7 @@ public class RobotHoleTest extends TestGraphics {
         //Hole is one step from robot, default tile is two tiles from robot
         player.move(Movement.MOVE_2);
         Vector2Int backup = player.getBackup();
-        assertEquals(backup.x, testBot.getX());
-        assertEquals(backup.y, testBot.getY());
+        assertEquals(backup.x, player.getX());
+        assertEquals(backup.y, player.getY());
     }
 }
