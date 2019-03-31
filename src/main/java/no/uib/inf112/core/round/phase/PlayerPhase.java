@@ -34,7 +34,9 @@ public class PlayerPhase extends AbstractPhase {
 
             List<ComparableTuple<Card, IPlayer>> roundList = new ArrayList<>();
             for (IPlayer p : players) {
-                roundList.add(p.getNextCard(i));
+                if(!p.isPoweredDown()){
+                    roundList.add(p.getNextCard(i));
+                }
             }
             Collections.sort(roundList);
             cards.add(roundList);
