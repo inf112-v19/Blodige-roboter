@@ -31,9 +31,9 @@ public abstract class GameMap implements MapHandler {
     private TiledMapTileLayer entityLaserLayer;
 
     //A map of all know entities and their last know location
-    List<Entity> entities;
-    List<Vector2Int> prevPosOfEntity;
-    Set<Tile> entityLasers;
+    private List<Entity> entities;
+    private List<Vector2Int> prevPosOfEntity;
+    private Set<Tile> entityLasers;
     private Map<TiledMapTileLayer, Tile[][]> tiles = new HashMap<>();
 
     private int mapWidth;
@@ -205,6 +205,13 @@ public abstract class GameMap implements MapHandler {
      */
     private Set<Tile> getLaserEntities() {
         return entityLasers;
+    }
+
+    /**
+     * @return the list of positions for the entities their index correspond to entities in the entities
+     */
+    protected List<Vector2Int> getPrevPosOfEntities() {
+        return prevPosOfEntity;
     }
 
     @NotNull
