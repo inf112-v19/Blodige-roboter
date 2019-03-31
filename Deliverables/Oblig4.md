@@ -16,6 +16,7 @@
   - Vi har en "mini" standup på hvert møte hvor folk sier hva de har jobbet med og om de har eller har hatt eventuelle utfordringer.
   - Hvis det gjøres store endringer i strukturen, som f.eks med [#108](https://github.com/inf112-v19/Blodige-roboter/issues/108) setter vi oss sammen og ser på det i møtet slik at vi vet at alle har forstått det nye. Dette gjør vi for å kunne utnytte strukturen mest mulig.
   - Dette har vi også gjort tidligere i f.eks. [#50](https://github.com/inf112-v19/Blodige-roboter/issues/50). Men da ved at alle på teamet utførte pull review.
+- Vi ser at det i oppgaven står at det forventes at alle deltar i kodebasen: det har alle gjort. I forhold til retteskjema forventes det lik fordeling av commits: det har vi ikke. Det kommer nok fra at vi har valgt forskjellige oppgaver. Kristian, Rikke og Elg som har flest den siste perioden har hatt refaktorering og nye funksjoner som oppgaver og har generert flere commits. Rune og Daniel har hatt forholdsvis bug fixing og ny funksjonalitet. Buggen viste seg vanskelig å få bort og det ble brukt mye tid per commit. I forhold til ny funksjonaliteten var også denne vanskelig å få inn i flow'en vi hadde. Dette gjaldt altså [#24](https://github.com/inf112-v19/Blodige-roboter/issues/24).
 
 ## Deloppgave 2
 
