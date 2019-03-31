@@ -1,8 +1,9 @@
-package no.uib.inf112.core.player;
+package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -14,7 +15,7 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 
-public class RobotHoleTest extends TestGraphics {
+public class DeathTileTest extends TestGraphics {
 
     private AbstractPlayer player;
     private static RoboRally roboRally;
