@@ -7,8 +7,11 @@ import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 public class WrenchAndHammerTileTest extends TestGraphics {
 
@@ -28,6 +31,14 @@ public class WrenchAndHammerTileTest extends TestGraphics {
         testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.teleport(pos.x, pos.y);
         wahTile = (WrenchAndHammerTile) roboRally.getCurrentMap().getTile("board", pos.x, pos.y);
+    }
+
+
+    @Test
+    public void wahTileShouldBeAbleToChangeBackup() {
+        testPlayer.setBackup(1, 0); //Changing backup to see that wah-tile can set backup
+        wahTile.action(testPlayer);
+        assertEquals(pos, testPlayer.getBackup());
     }
 
 }
