@@ -81,11 +81,6 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        if(mainPlayer().poweredDown){
-            mainPlayer().poweredDown = false;
-            mainPlayer().willPowerDown = true;
-        }
-
         GameGraphics.getRoboRally().round();
     }
 
@@ -100,7 +95,7 @@ public class PlayerHandler implements IPlayerHandler {
         if (p.isPoweredDown()) {
             p.heal();
             p.willPowerDown = false;
-            p.poweredDown = false;
+            p.endDrawCards();
         } else {
             p.beginDrawCards();
         }
