@@ -140,6 +140,7 @@ public abstract class GameMap implements MapHandler {
         }
         entities.add(entity);
         prevPosOfEntity.add(new Vector2Int(entity.getX(), entity.getY()));
+        entity.update(true);
     }
 
     @Override
