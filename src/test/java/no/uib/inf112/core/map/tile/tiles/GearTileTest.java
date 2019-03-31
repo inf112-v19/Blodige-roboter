@@ -35,19 +35,38 @@ public class GearTileTest extends TestGraphics {
         testPlayer.teleport(0, 0);  //Location of counter clockwise rotation gear on test map
         GearTile gear = (GearTile) roboRally.getCurrentMap().getTile("board", 0, 0);
         if (gear != null) {
-            rotateCClockwise(Direction.NORTH, Direction.WEST, gear);
-            rotateCClockwise(Direction.WEST, Direction.SOUTH, gear);
-            rotateCClockwise(Direction.SOUTH, Direction.EAST, gear);
-            rotateCClockwise(Direction.EAST, Direction.NORTH, gear);
+            rotateCounterClockwise(Direction.NORTH, Direction.WEST, gear);
+            rotateCounterClockwise(Direction.WEST, Direction.SOUTH, gear);
+            rotateCounterClockwise(Direction.SOUTH, Direction.EAST, gear);
+            rotateCounterClockwise(Direction.EAST, Direction.NORTH, gear);
         } else {
             fail();
         }
     }
 
-    private void rotateCClockwise(Direction from, Direction to, GearTile gear) {
+    private void rotateCounterClockwise(Direction from, Direction to, GearTile gear) {
         testPlayer.setDirection(from);
         gear.action(testPlayer);
         assertEquals(to, testPlayer.getDirection());
     }
 
+    @Test
+    public void robotOnClockwiseRotationGear() {
+        testPlayer.teleport(1, 0);  //Location of clockwise rotation gear on test map
+        GearTile gear = (GearTile) roboRally.getCurrentMap().getTile("board", 1, 0);
+        if (gear != null) {
+            rotateClockwise(Direction.NORTH, Direction.EAST, gear);
+            rotateClockwise(Direction.EAST, Direction.SOUTH, gear);
+            rotateClockwise(Direction.SOUTH, Direction.WEST, gear);
+            rotateClockwise(Direction.WEST, Direction.NORTH, gear);
+        } else {
+            fail();
+        }
+    }
+
+    private void rotateClockwise(Direction from, Direction to, GearTile gear) {
+        testPlayer.setDirection(from);
+        gear.action(testPlayer);
+        assertEquals(to, testPlayer.getDirection());
+    }
 }
