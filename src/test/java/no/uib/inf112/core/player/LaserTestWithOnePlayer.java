@@ -16,7 +16,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class LaserTest extends TestGraphics {
+public class LaserTestWithOnePlayer extends TestGraphics {
 
     private static IPlayer testPlayer;
     private static RoboRally roboRally;
@@ -63,31 +63,21 @@ public class LaserTest extends TestGraphics {
     @Test
     public void standingOnLaserForFivePhasesShouldDecreaseLivesByOne() {
         int livesBefore = testPlayer.getLives();
-        testPlayer.setDirection(Direction.EAST);
-        testPlayer.move(Movement.MOVE_1);
+        testPlayer.teleport(1, 2);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
 
-        assertEquals(livesBefore-1, testPlayer.getLives());
+        assertEquals(livesBefore - 1, testPlayer.getLives());
     }
 
     @Test
     public void standingOnDoubleLaserShouldDecreaseHealthByFour() {
         int healthBefore = testPlayer.getHealth();
-        testPlayer.move(Movement.MOVE_3);
-        testPlayer.move(Movement.RIGHT_TURN);
-        testPlayer.move(Movement.MOVE_3);
+        testPlayer.teleport(3, 3);
         new LaserPhase(0).startPhase(map);
-        assertEquals(healthBefore-4, testPlayer.getHealth());
-    }
-
-    @Test
-    public void playerLaser() {
-        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
-        IPlayer first = players.get(0);
-        IPlayer secound = players.get(1);
+        assertEquals(healthBefore - 4, testPlayer.getHealth());
     }
 }
