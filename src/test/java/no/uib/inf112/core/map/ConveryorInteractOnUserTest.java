@@ -2,9 +2,7 @@ package no.uib.inf112.core.map;
 
 import no.uib.inf112.desktop.TestGraphics;
 
-/**
- * Coordinates for impotant tiles on the test map for the testing of conveyors:
- */
+
 public class ConveryorInteractOnUserTest extends TestGraphics {
 
 //    private static RoboRally roboRally;
