@@ -42,7 +42,7 @@ public class LaserTest extends TestGraphics {
         testPlayer.setDirection(Direction.EAST);
         testPlayer.move(Movement.MOVE_1);
         new LaserPhase(0).startPhase(map);
-        assertEquals(healthBefore - 1, testPlayer.getHealth());
+        assertEquals(healthBefore - 2, testPlayer.getHealth());
     }
 
     @Test
@@ -56,6 +56,6 @@ public class LaserTest extends TestGraphics {
         new LaserPhase(0).startPhase(map);
         testPlayer.move(Movement.MOVE_1);
         new LaserPhase(0).startPhase(map);
-        assertEquals(healthBefore - 1, testPlayer.getHealth());
+        assertEquals(healthBefore - 6, testPlayer.getHealth());
     }
 }
