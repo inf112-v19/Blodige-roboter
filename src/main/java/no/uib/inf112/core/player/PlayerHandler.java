@@ -56,7 +56,7 @@ public class PlayerHandler implements IPlayerHandler {
         if (HEADLESS) {
             players = new ArrayList<>(playerCount);
             for (int i = 0; i < playerCount; i++) {
-                players.add(new NonPlayer(5 + i, 2, Direction.NORTH, map));
+                players.add(new NonPlayer( i, 0, Direction.NORTH, map));
             }
 
             Stack<Integer> docks = new Stack<>();

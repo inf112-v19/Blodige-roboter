@@ -194,7 +194,7 @@ public abstract class Robot extends AbstractTile implements Entity {
         int y = mTile.getY() + dy;
 
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
-            if (tile.hasSuperClass(CollidableTile.class) && !this.equals(tile)) {
+            if (tile.hasSuperClass(CollidableTile.class) && !equals(tile)) {
                 CollidableTile cTile = (CollidableTile) tile;
                 if (cTile.willCollide(this, dir)) {
                     return true;
@@ -240,10 +240,12 @@ public abstract class Robot extends AbstractTile implements Entity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null) {
             return false;
         }
-
+        if (!(o instanceof Robot)) {
+            return false;
+        }
         Robot robot = (Robot) o;
 
         if (direction != robot.direction) {

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static no.uib.inf112.core.map.MapHandler.*;
@@ -149,7 +149,7 @@ public class MapCameraTest extends TestGraphics {
 
         @NotNull
         @Override
-        public Set<Entity> getEntities() {
+        public List<Entity> getEntities() {
             return null;
         }
 
