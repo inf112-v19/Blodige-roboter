@@ -59,14 +59,11 @@ public enum Attribute {
     SHOOTS_LASER,
 
     /**
-     * This tile lays down laser, meaning it puts down laser on the entitylaser layer
+     * This tile lays down a new  laser trail, its an extension for shoot_laser and should not occur together with it
+     * meaning it puts down laser on the entitylaser layer
      * e.g robots
      */
     LAYS_DOWN_LASER,
-    /**
-     * This tile shoots two lasers
-     */
-    DOUBLE_LASER,
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;

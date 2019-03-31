@@ -66,7 +66,7 @@ public class LaserPhase extends AbstractPhase {
         if (onTile != null && !onTile.equals(tile) && onTile.hasSuperClass(DamageableTile.class)) {
             GameGraphics.getSoundPlayer().playShootLaser();
             DamageableTile damageableTile = (DamageableTile) onTile;
-            damageableTile.damage(prevTile.hasAttribute(Attribute.DOUBLE_LASER) ? 2 : 1);
+            damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
         final LaserTile[] clone = activatedLasers.toArray(new LaserTile[activatedLasers.size()]);
         GameGraphics.scheduleSync(() -> cleanUpLasers(Arrays.asList(clone), map), getRunTime() * 2);
@@ -116,7 +116,7 @@ public class LaserPhase extends AbstractPhase {
         if (onPos != null && onPos.hasSuperClass(DamageableTile.class)) {
             GameGraphics.getSoundPlayer().playShootLaser();
             DamageableTile damageableTile = (DamageableTile) onPos;
-            damageableTile.damage(originTile.hasAttribute(Attribute.DOUBLE_LASER) ? 2 : 1);
+            damageableTile.damage(originTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         } else if (onPos != null) {
             throw new IllegalStateException("Found something in the entity layer that's not hurtable");
         }
