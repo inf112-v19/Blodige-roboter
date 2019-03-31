@@ -89,21 +89,4 @@ public class Player extends AbstractPlayer {
     public void clean(@NotNull Tile tile) {
         poweredDown = true;
     }
-
-    @Nullable
-    @Override
-    public List<Attribute> requiredAttributes() {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public List<Class<? extends Tile>> requiredSuperClasses() {
-        return null;
-    }
-
-    @Override
-    public boolean canDoAction(@NotNull Tile tile) {
-        return false;
-    }
 }
