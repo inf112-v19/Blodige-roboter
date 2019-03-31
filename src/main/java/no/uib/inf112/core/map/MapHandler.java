@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Elg
@@ -103,7 +102,7 @@ public interface MapHandler {
      * @return A read-only set of all tiles that can move in the order they were added
      */
     @NotNull
-    Set<Tile> getEntities();
+    List<Entity> getEntities();
 
     /**
      * Adds an laserTile to the laserEntities layer, if there is one there currently it creates a cross tile if they have different orientation, otherwise it ignores it.

@@ -31,8 +31,9 @@ public abstract class GameMap implements MapHandler {
     private TiledMapTileLayer entityLaserLayer;
 
     //A map of all know entities and their last know location
-    Map<Tile, Vector2Int> entities;
-    Map<Tile, Vector2Int> entityLasers;
+    List<Entity> entities;
+    List<Vector2Int> prevPosOfEntity;
+    Set<Tile> entityLasers;
     private Map<TiledMapTileLayer, Tile[][]> tiles = new HashMap<>();
 
     private int mapWidth;
@@ -104,8 +105,9 @@ public abstract class GameMap implements MapHandler {
 
 
         //use a linked hashmap to make sure the iteration is consistent
-        entities = new LinkedHashMap<>();
-        entityLasers = new LinkedHashMap<>();
+        entities = new ArrayList<>();
+        prevPosOfEntity = new ArrayList<>();
+        entityLasers = new HashSet<>();
     }
 
     /**
@@ -136,7 +138,8 @@ public abstract class GameMap implements MapHandler {
                 throw new IllegalStateException("Cannot add an entity on top of another entity");
             }
         }
-        entities.put(entity, null);
+        entities.add(entity);
+        prevPosOfEntity.add(new Vector2Int(entity.getX(), entity.getY()));
     }
 
     @Override
@@ -148,7 +151,7 @@ public abstract class GameMap implements MapHandler {
     @Override
     public boolean removeEntity(Entity entity) {
         entityLayer.setCell(entity.getX(), entity.getY(), null);
-        return entities.remove(entity) == null;
+        return entities.remove(entity);
     }
 
     @Override
@@ -159,7 +162,7 @@ public abstract class GameMap implements MapHandler {
                 // Already a laser tile in this layer, se if we need to change it to a cross or just ignore it (same orientation)
                 if (laser.getTile() != knownLaser.getTile()) {
                     removeEntityLaser(knownLaser);
-                    entityLasers.put(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS, Color.WHITE), new Vector2Int(knownLaser.getX(), knownLaser.getY()));
+                    entityLasers.add(new LaserTile(new Vector2Int(knownLaser.getX(), knownLaser.getY()), TileGraphic.LASER_CROSS, Color.WHITE));
                     entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(TileGraphic.LASER_CROSS.getTile()));
                     return;
                 } else {
@@ -170,7 +173,7 @@ public abstract class GameMap implements MapHandler {
             }
         }
         entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(laser.getTile()));
-        entityLasers.put(laser, new Vector2Int(laser.getX(), laser.getY()));
+        entityLasers.add(laser);
     }
 
     @Override
@@ -179,7 +182,7 @@ public abstract class GameMap implements MapHandler {
         if (tile != null && tile.getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
             //There is two lasers here remove only the one we want and restore tile to the other
             entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
-            Iterator<Tile> iterator = entityLasers.keySet().iterator();
+            Iterator<Tile> iterator = entityLasers.iterator();
             while (iterator.hasNext()) {
                 Tile laserTile = iterator.next();
                 if (laserTile.getX() == entityLaser.getX() && laserTile.getY() == entityLaser.getY()) {
@@ -193,20 +196,20 @@ public abstract class GameMap implements MapHandler {
             }
         }
         entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
-        return entityLasers.remove(entityLaser) == null;
+        return entityLasers.remove(entityLaser);
     }
 
     /**
      * @return the set of all the laser traces from the entities currently on the map
      */
     private Set<Tile> getLaserEntities() {
-        return entityLasers.keySet();
+        return entityLasers;
     }
 
     @NotNull
     @Override
-    public Set<Tile> getEntities() {
-        return entities.keySet();
+    public List<Entity> getEntities() {
+        return entities;
     }
 
     @Override
@@ -264,13 +267,18 @@ public abstract class GameMap implements MapHandler {
             return null;
         }
 
-        Map<Tile, Vector2Int> layerMap = layer.equals(entityLayer) ? entities : null;
-        layerMap = layer.equals(entityLaserLayer) ? entityLasers : layerMap;
-        if (layerMap != null) {
-            Vector2Int vec = new Vector2Int(x, y);
-            for (Map.Entry<Tile, Vector2Int> entry : layerMap.entrySet()) {
-                if (vec.equals(entry.getValue())) {
-                    return entry.getKey();
+        if (layer.equals(entityLayer)) {
+            for (Entity entity : entities) {
+                if (entity.getX() == x && entity.getY() == y) {
+                    return entity;
+                }
+            }
+        }
+
+        if (layer.equals(entityLaserLayer)) {
+            for (Tile tile : entityLasers) {
+                if (tile.getX() == x && tile.getY() == y) {
+                    return tile;
                 }
             }
             return null;

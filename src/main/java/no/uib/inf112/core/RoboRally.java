@@ -28,7 +28,9 @@ public class RoboRally {
         playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player);
+            player.update(true);
         }
+
     }
 
     public void round() {

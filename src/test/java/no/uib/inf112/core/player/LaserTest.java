@@ -30,8 +30,7 @@ public class LaserTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().getPlayers().get(0);
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
     }
