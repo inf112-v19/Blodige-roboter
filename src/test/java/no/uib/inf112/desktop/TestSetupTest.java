@@ -21,7 +21,7 @@ public class TestSetupTest extends TestGraphics {
 
     @BeforeClass
     public static void before() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player _test_map.tmx", 8);
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
     }
 
     @Before
