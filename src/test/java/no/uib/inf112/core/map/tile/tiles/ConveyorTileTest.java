@@ -4,10 +4,8 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -79,15 +77,4 @@ public class ConveyorTileTest extends TestGraphics {
         assertEquals(3, testPlayer.getX());
         assertEquals(0, testPlayer.getY());
     }
-
-    @Ignore //rotation removed from conveyors for now (as it REALLY doesn't work)
-    @Test
-    public void movingFromTurningConveyorShouldTurnRobot() {
-        testPlayer.setDirection(Direction.NORTH);
-        conveyorTileAction(1, 6);
-        assertEquals(2, testPlayer.getX());
-        assertEquals(6, testPlayer.getY());
-        assertEquals(Direction.EAST, testPlayer.getDirection());
-    }
-
 }
