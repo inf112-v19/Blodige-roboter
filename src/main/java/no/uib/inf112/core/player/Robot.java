@@ -127,11 +127,12 @@ public abstract class Robot extends AbstractTile implements Entity {
                 Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
 
-            if (willCollide(this, 0, 0, dir)) {
-                return;
-            }
-
             GameGraphics.scheduleSync(() -> {
+                if (willCollide(this, 0, 0, dir)) {
+                    // Collision with wall on the same tile as robot
+                    return;
+                }
+
                 if (!willCollide(this, sdx, sdy, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;
