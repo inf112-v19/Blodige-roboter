@@ -5,6 +5,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
+import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.util.Direction;
@@ -47,7 +48,11 @@ public class LaserPhase extends AbstractPhase {
      */
     private void shootLaserFromTile(@NotNull MapHandler map, @NotNull Tile tile) {
         SingleDirectionalTile prevTile = (SingleDirectionalTile) tile;
-
+        if (tile.getTileType().equals(TileType.ROBOT)) {
+            if (GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().isPoweredDown()) {
+                return;
+            }
+        }
         Direction direction = prevTile.getDirection();
         Tile onTile = prevTile;
         List<LaserTile> activatedLasers = new ArrayList<>();
