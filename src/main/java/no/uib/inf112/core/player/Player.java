@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.map.tile.Attribute;
-import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -14,9 +12,6 @@ import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class Player extends AbstractPlayer {
 
@@ -24,7 +19,7 @@ public class Player extends AbstractPlayer {
 
     public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
         super(x, y, direction, map, Color.RED);
-
+        
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
@@ -37,7 +32,7 @@ public class Player extends AbstractPlayer {
 
                 }
                 willPowerDown = !poweredDown;
-                System.out.println("Powered down? " + isPoweredDown());
+                System.out.println("Power down next round? " + !isPoweredDown());
             });
         }
     }
