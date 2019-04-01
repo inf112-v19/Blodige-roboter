@@ -1,4 +1,4 @@
-package no.uib.inf112.core.map;
+package no.uib.inf112.core.map.tiled;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,7 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.map.tile.api.ColorableTile;
+import no.uib.inf112.core.map.tile.api.Tile;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
@@ -20,12 +21,12 @@ import static com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell.*;
  *
  * @author Elg and Kristian
  */
-public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
+public class CustomOrthogonalTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
     public static boolean PARTY;
     private final Random r = new Random();
 
-    ColorfulOrthogonalTiledMapRenderer(@NotNull TiledMap map) {
+    public CustomOrthogonalTiledMapRenderer(@NotNull TiledMap map) {
         super(map);
     }
 
@@ -86,13 +87,10 @@ public class ColorfulOrthogonalTiledMapRenderer extends OrthogonalTiledMapRender
                     float u2 = region.getU2();
                     float v2 = region.getV();
 
-                    TileType tt = TileType.fromTiledId(tile.getId());
-                    if (tt.getGroup() == TileType.Group.ROBOT) {
-                        Entity entity = GameGraphics.getRoboRally().getCurrentMap().getEntity(col, row);
-                        if (entity != null) {
-                            Color rc = entity.getColor();
-                            realColor = Color.toFloatBits(rc.r, rc.g, rc.b, rc.a * layer.getOpacity());
-                        }
+                    Tile tt = GameGraphics.getRoboRally().getCurrentMap().getTile(layer, col, row);
+                    if (tt != null && tt.hasSuperClass(ColorableTile.class)) {
+                        Color rc = ((ColorableTile) tt).getColor();
+                        realColor = Color.toFloatBits(rc.r, rc.g, rc.b, rc.a * layer.getOpacity());
                     } else if (PARTY) {
                         realColor = Color.toFloatBits(r.nextFloat(), r.nextFloat(), r.nextFloat(), layer.getOpacity());
                     }

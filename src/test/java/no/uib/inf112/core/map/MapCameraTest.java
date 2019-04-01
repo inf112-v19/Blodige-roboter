@@ -2,17 +2,12 @@ package no.uib.inf112.core.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 import static no.uib.inf112.core.map.MapHandler.*;
@@ -140,40 +135,6 @@ public class MapCameraTest extends TestGraphics {
         @Override
         public MapProperties getProperties() {
             return new MapProperties();
-        }
-
-        @NotNull
-        @Override
-        public TileType getBoardLayerTile(int x, int y) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Entity getEntity(int x, int y) {
-            return null;
-        }
-
-        @NotNull
-        @Override
-        public TiledMapTileSets getMapTileSets() {
-            return null;
-        }
-
-        @Override
-        public void addEntity(@NotNull Entity entity) {
-
-        }
-
-        @Override
-        public boolean removeEntity(@Nullable Entity entity) {
-            return false;
-        }
-
-        @NotNull
-        @Override
-        public Set<Entity> getEntities() {
-            return null;
         }
 
         @Override

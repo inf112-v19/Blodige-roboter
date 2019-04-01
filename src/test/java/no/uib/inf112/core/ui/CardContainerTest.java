@@ -8,12 +8,13 @@ import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.map.cards.MovementDeck;
-import no.uib.inf112.core.player.Direction;
+import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,12 +39,12 @@ public class CardContainerTest extends TestGraphics {
 
         DragAndDrop dad = new DragAndDrop();
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
             container.handCard[i] = cardSlot;
         }
 
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad);
             container.drawnCard[i] = cardSlot;
         }
@@ -76,7 +77,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Test
     public void drawingFor1HealthPlayerShouldGetNothing() {
-        Player player = container.getPlayer();
+        IPlayer player = container.getPlayer();
         player.damage(player.getHealth() - 1);
         container.draw();
 
@@ -90,7 +91,7 @@ public class CardContainerTest extends TestGraphics {
         container.draw();
         container.randomizeHand();
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             assertNotNull(container.getCard(SlotType.HAND, i));
         }
 
@@ -100,11 +101,11 @@ public class CardContainerTest extends TestGraphics {
     @Test
     public void randomizingAlreadyFullHandShouldMakeHandStayFull() {
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             container.handCard[i].setCard(new MovementCard(Movement.MOVE_1, 1));
         }
         container.randomizeHand();
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             assertNotNull(container.getCard(SlotType.HAND, i));
         }
 
@@ -116,14 +117,14 @@ public class CardContainerTest extends TestGraphics {
     public void randomizeHandOnlyDrawCardsFromDrawn() {
         Movement action = Movement.MOVE_1;
 
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
             container.drawnCard[i].setCard(new MovementCard(action, i));
         }
         //all hand cards should be null
         assertTrue(Arrays.stream(container.handCard).map(CardActor::getCard).allMatch(Objects::isNull));
         container.randomizeHand();
 
-        assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getPriority() < Player.MAX_DRAW_CARDS));
+        assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getPriority() < AbstractPlayer.MAX_DRAW_CARDS));
         assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getAction() == action));
 
         //no duplicates
@@ -144,8 +145,8 @@ public class CardContainerTest extends TestGraphics {
         container.handCard[3].setCard(new MovementCard(Movement.LEFT_TURN, 3));
         container.handCard[4].setCard(null);
 
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
-            if (i < Player.MAX_PLAYER_CARDS - 1) {
+        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
+            if (i < AbstractPlayer.MAX_PLAYER_CARDS - 1) {
                 container.drawnCard[i].setCard(null);
             } else {
                 container.drawnCard[i].setCard(new MovementCard(Movement.RIGHT_TURN, i));
@@ -220,12 +221,12 @@ public class CardContainerTest extends TestGraphics {
     public void lockedSlotsShouldBeDisabled() {
         Card card = new MovementCard(Movement.LEFT_TURN, 100);
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             container.handCard[i].setCard(card);
         }
         assertFalse(container.hasInvalidHand());
         final int damage = 6;
-        final int hp = Player.MAX_HEALTH - damage; //4
+        final int hp = AbstractPlayer.MAX_HEALTH - damage; //4
         container.getPlayer().damage(damage);
         assertEquals(hp, container.getPlayer().getHealth());
         assertTrue(container.handCard[hp].isDisabled());

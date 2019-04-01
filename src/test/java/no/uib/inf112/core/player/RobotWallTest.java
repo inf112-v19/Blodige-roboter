@@ -3,6 +3,7 @@ package no.uib.inf112.core.player;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,8 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RobotWallTest extends TestGraphics {
 
-    private static Player player;
-    private static Robot testBot;
+    private static IPlayer player;
     private static RoboRally roboRally;
 
     @BeforeClass
@@ -25,38 +25,34 @@ public class RobotWallTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        //roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
-        testBot = player.getRobot();
-        testBot.teleport(0, 0);
+        player.teleport(0, 0);
         player.setBackup(0, 0);
     }
 
     @Test
     public void movingToWalltileWhereWallIsOnOppositeEdgeShouldWork() {
-        testBot.setDirection(Direction.NORTH);
-        player.moveRobot(Movement.MOVE_1);
-        assertEquals(0, testBot.getX());
-        assertEquals(1, testBot.getY());
+        player.setDirection(Direction.NORTH);
+        player.move(Movement.MOVE_1);
+        assertEquals(0, player.getX());
+        assertEquals(1, player.getY());
     }
 
-//    TODO this test will fail until we fix issue 99 (supporting moving into walls in map)
-//    @Test
-//    public void movingToWalltileWhereWallIsOnClosestEdgeShouldNotWork() {
-//        testBot.setDirection(Direction.EAST);
-//        player.moveRobot(Movement.MOVE_1);
-//        assertEquals(0, testBot.getX());
-//        assertEquals(0, testBot.getY());
-//
-//    }
+    @Test
+    public void movingToWalltileWhereWallIsOnClosestEdgeShouldNotWork() {
+        player.setDirection(Direction.EAST);
+        player.move(Movement.MOVE_1);
+        assertEquals(0, player.getX());
+        assertEquals(0, player.getY());
 
+    }
 
-//    TODO this test will fail until we fix issue 73
-//    @Test
-//    public void movingTwoStepsWithWallBetweenShouldMakeRobotStopAfterOneStep() {
-//        testBot.setDirection(Direction.NORTH);
-//        player.moveRobot(Movement.MOVE_2);
-//        assertEquals(0, testBot.getX());
-//        assertEquals(1, testBot.getY()); //Only moved one step
-//    }
+    @Test
+    public void movingTwoStepsWithWallBetweenShouldMakeRobotStopAfterOneStep() {
+        player.setDirection(Direction.NORTH);
+        player.move(Movement.MOVE_2);
+        assertEquals(0, player.getX());
+        assertEquals(1, player.getY()); //Only moved one step
+    }
 }

@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.util.ComparableTuple;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,18 +22,15 @@ public class PlayerTest extends TestGraphics {
     private static RoboRally roboRally;
     private static MapHandler map;
 
-    @BeforeClass
-    public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
-        map = roboRally.getCurrentMap();
-    }
-
     @Before
     public void setup() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
+        map = roboRally.getCurrentMap();
+
         testPlayer = roboRally.getPlayerHandler().testPlayer();
-        testPlayer.getRobot().teleport(0, 0);
-        testPlayer.getRobot().setDirection(Direction.NORTH);
+        testPlayer.teleport(0, 0);
+        testPlayer.setDirection(Direction.NORTH);
     }
 
     @Test
@@ -67,7 +66,7 @@ public class PlayerTest extends TestGraphics {
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
         testPlayer.damage(testPlayer.getHealth() + 1);
-        assertEquals(Player.MAX_HEALTH, testPlayer.getHealth());
+        assertEquals(AbstractPlayer.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -78,7 +77,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
-        testPlayer.heal(Player.MAX_HEALTH);
+        testPlayer.heal(AbstractPlayer.MAX_HEALTH);
         int health = testPlayer.getHealth();
         testPlayer.heal(10);
         assertEquals(health, testPlayer.getHealth());
@@ -94,12 +93,15 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        PlayerCard[] cards = new PlayerCard[5];
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+
+        //noinspection unchecked
+        ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
         for (int i = 0; i < cards.length; i++) {
-            cards[i] = testPlayer.getNextCard(i);
+            cards[i] = player.getNextCard(i);
         }
-        for (int i = 0; i < cards.length; i++) {
-            assertTrue("Could not get 5 player cards", cards[i] instanceof PlayerCard);
+        for (ComparableTuple<Card, IPlayer> card : cards) {
+            assertNotNull("Could not get 5 player cards", card);
         }
 
     }
@@ -180,14 +182,14 @@ public class PlayerTest extends TestGraphics {
         }
     }
 
-    private class PlayerImpl extends Player {
+    private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
             super(x, y, Direction.NORTH, map, Color.ORANGE);
         }
 
         @Override
-        public PlayerCard getNextCard(int id) {
+        public ComparableTuple<Card, IPlayer> getNextCard(int id) {
             return null;
         }
     }

@@ -3,9 +3,11 @@ package no.uib.inf112.core.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector3;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.ColorfulOrthogonalTiledMapRenderer;
-import no.uib.inf112.core.player.UserPlayer;
+import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
+import no.uib.inf112.core.player.Player;
 
 import java.util.Stack;
 
@@ -47,7 +49,7 @@ public class InputHandler extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (Input.Keys.ENTER == keycode) {
 
-            UserPlayer player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
+            Player player = (Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
 
             if (GameGraphics.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();
@@ -56,20 +58,38 @@ public class InputHandler extends InputAdapter {
         }
         logger.push(keycode);
         if (logger.size() > 9 &&
-                logger.elementAt(0) == Input.Keys.UP &&
-                logger.elementAt(1) == Input.Keys.UP &&
-                logger.elementAt(2) == Input.Keys.DOWN &&
-                logger.elementAt(3) == Input.Keys.DOWN &&
-                logger.elementAt(4) == Input.Keys.LEFT &&
-                logger.elementAt(5) == Input.Keys.RIGHT &&
-                logger.elementAt(6) == Input.Keys.LEFT &&
-                logger.elementAt(7) == Input.Keys.RIGHT &&
-                logger.elementAt(8) == Input.Keys.B &&
-                logger.elementAt(9) == Input.Keys.A) {
+                logger.elementAt(logger.size() - 10) == Input.Keys.UP &&
+                logger.elementAt(logger.size() - 9) == Input.Keys.UP &&
+                logger.elementAt(logger.size() - 8) == Input.Keys.DOWN &&
+                logger.elementAt(logger.size() - 7) == Input.Keys.DOWN &&
+                logger.elementAt(logger.size() - 6) == Input.Keys.LEFT &&
+                logger.elementAt(logger.size() - 5) == Input.Keys.RIGHT &&
+                logger.elementAt(logger.size() - 4) == Input.Keys.LEFT &&
+                logger.elementAt(logger.size() - 3) == Input.Keys.RIGHT &&
+                logger.elementAt(logger.size() - 2) == Input.Keys.B &&
+                logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
-            ColorfulOrthogonalTiledMapRenderer.PARTY = true;
+            CustomOrthogonalTiledMapRenderer.PARTY = true;
 
         }
         return false;
+    }
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+
+        final Vector3 mousePos = map.getCamera().unproject(new Vector3(screenX, screenY, 0));
+
+        final int blockX = (int) (mousePos.x / map.getTileWidth());
+        final int blockY = (int) (mousePos.y / map.getTileHeight());
+
+        if (map.isOutsideBoard(blockX, blockY)) {
+            return false;
+        }
+        System.out.printf("Tiles at (%d, %d) = %s%n", blockX, blockY, map.getAllTiles(blockX, blockY));
+
+        return true;
     }
 }

@@ -4,19 +4,20 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Elg
  */
 public interface MapHandler {
 
-    //constants for
     float DEFAULT_ZOOM_SENSITIVITY = 1f;
     float DEFAULT_MAX_ZOOM = 10f;
     float DEFAULT_MIN_ZOOM = 2f;
@@ -32,6 +33,9 @@ public interface MapHandler {
 
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
+    String ENTITY_LAYER_NAME = "entities";
+    String ENITTY_LASER_LAYER_NAME = "entitylasers";
+    String LASERS_LAYER_NAME = "lasers";
     String COLLIDABLES_LAYER_NAME = "collidables";
     String FLAG_LAYER_NAME = "flags";
 
@@ -62,7 +66,7 @@ public interface MapHandler {
     void moveCamera(float dx, float dy);
 
     /**
-     * @return The cameara that renderes the board
+     * @return The camera that render the board
      */
     OrthographicCamera getCamera();
 
@@ -70,19 +74,6 @@ public interface MapHandler {
      * @return Properties of the current map
      */
     MapProperties getProperties();
-
-    /**
-     * @return The board tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
-     */
-    @NotNull
-    TileType getBoardLayerTile(int x, int y);
-
-    /**
-     * @return The entity at the given {@code (x, y)} coordinate or {@code null} if there is nothing there
-     */
-    @Nullable
-    Entity getEntity(int x, int y);
 
     /**
      * @return The set of all tiles in this map
@@ -108,10 +99,18 @@ public interface MapHandler {
     boolean removeEntity(@Nullable Entity entity);
 
     /**
-     * @return A read-only set of known robots in the order they were added
+     * Adds an laserTile to the laserEntities layer, if there is one there currently it creates a cross tile if they have different orientation, otherwise it ignores it.
+     *
+     * @param laser laserTile to add on the map
      */
-    @NotNull
-    Set<Entity> getEntities();
+    void addEntityLaser(@NotNull Tile laser);
+
+    /**
+     * Removes the laserTile in the laserEntities layer, if this tile is not on the map it is ignored
+     *
+     * @param entityLaser laserTile to remove
+     */
+    boolean removeEntityLaser(Tile entityLaser);
 
     /**
      * @param x The x coordinate to test
@@ -146,16 +145,30 @@ public interface MapHandler {
     void resize(int width, int height);
 
     /**
-     * @return The flag tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     * @param layer The name of the layer
+     * @return The corresponding layer to this tile
      */
     @Nullable
-    TileType getFlagLayerTile(int x, int y);
+    TiledMapTileLayer getLayer(@NotNull String layer);
 
     /**
-     * @return The collidable tile at the given {@code (x, y)} coordinate
-     * @throws IllegalArgumentException if the given given {@code (x, y)} coordinate is outside the map
+     * @param layerName The name of the layer
+     * @param x
+     * @param y
+     * @return The tile at the given location and tile
      */
     @Nullable
-    TileType getCollidablesLayerTile(int x, int y);
+    Tile getTile(@NotNull String layerName, int x, int y);
+
+    /**
+     * @return The tile at the given location and tile
+     */
+    @Nullable
+    Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y);
+
+    /**
+     * @return A list of all tiles on a given location
+     */
+    @NotNull
+    List<Tile> getAllTiles(int x, int y);
 }

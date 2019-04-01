@@ -25,6 +25,7 @@ public class TestGraphics {
     public static void init() {
         GameGraphics.HEADLESS = true;
         application = new HeadlessApplication(Mockito.mock(ApplicationListener.class));
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         // Use Mockito to mock the OpenGL methods since we are running headlessly
         Gdx.gl20 = Mockito.mock(GL20.class);

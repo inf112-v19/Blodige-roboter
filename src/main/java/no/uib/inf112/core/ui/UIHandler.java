@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;
@@ -164,7 +165,7 @@ public class UIHandler implements Disposable {
         controlPanelTable.add(damageRow).align(Align.left).padBottom(DEFAULT_SPACING);
         controlPanelTable.row();
 
-        for (int i = 0; i < Player.MAX_HEALTH; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_HEALTH; i++) {
             int id = i;
             damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
                 @Override
@@ -178,15 +179,15 @@ public class UIHandler implements Disposable {
         HorizontalGroup cardsRow = new HorizontalGroup();
         cardsRow.space(DEFAULT_SPACING); //space between cards
         controlPanelTable.add(cardsRow);
-        CardContainer container = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getCards();
+        CardContainer container = ((Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()).getCards();
 
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
-        for (int i = 0; i < Player.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
@@ -196,12 +197,12 @@ public class UIHandler implements Disposable {
 
     /**
      * Show the drawn cards table of the main player.
-     * Do not use this at the start of a new round, use {@link no.uib.inf112.core.player.UserPlayer#beginDrawCards()}
+     * Do not use this at the start of a new round, use {@link Player#beginDrawCards()}
      *
      * @throws IllegalStateException If no drawn card slots have a card in them
      */
     public void showDrawnCards() {
-        Stream<CardSlot> drawnCard = Arrays.stream(GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getCards().drawnCard);
+        Stream<CardSlot> drawnCard = Arrays.stream(((Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()).getCards().drawnCard);
         if (drawnCard.allMatch(Objects::isNull)) {
             throw new IllegalStateException("At least one card must be present on the drawn cards to show them");
         }
@@ -210,7 +211,7 @@ public class UIHandler implements Disposable {
 
     /**
      * Hide the drawn cards table of the main player. After this the player is ready for the round
-     * Do not use this to end the player draw turn, use {@link no.uib.inf112.core.player.UserPlayer#endDrawCards()}
+     * Do not use this to end the player draw turn, use {@link Player#endDrawCards()}
      */
     public void hideDrawnCards() {
         cardDrawTable.setVisible(false);

@@ -2,9 +2,11 @@ package no.uib.inf112.desktop;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.map.TileType;
+import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,22 +26,24 @@ public class TestSetupTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generatePlayers();
+//        roboRally.getPlayerHandler().generatePlayers();
     }
 
     @Test
     public void MoveShouldMovePlayer() {
-        Robot robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer().getRobot();
+        IPlayer robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
-        assertTrue(robot.move(Movement.MOVE_1));
+        robot.move(Movement.MOVE_1, 0);
 
         assertNotEquals(pos, new Vector2Int(robot.getX(), robot.getY()));
     }
 
     @Test
     public void MapShouldGetLoaded() {
-        Robot robot = roboRally.getPlayerHandler().testPlayer().getRobot();
+        IPlayer robot = roboRally.getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
-        assertEquals(TileType.DEFAULT_TILE, roboRally.getCurrentMap().getBoardLayerTile(pos.x, pos.y));
+        Tile tile = roboRally.getCurrentMap().getTile(MapHandler.BOARD_LAYER_NAME, pos.x, pos.y);
+        assertNotNull("Could not find any tile at " + pos, tile);
+        assertEquals(TileType.CONVEYOR, tile.getTileType());
     }
 }

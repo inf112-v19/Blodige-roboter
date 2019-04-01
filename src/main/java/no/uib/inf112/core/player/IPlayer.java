@@ -1,9 +1,12 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
+import org.jetbrains.annotations.NotNull;
 
-public interface IPlayer extends Comparable<IPlayer> {
+public interface IPlayer extends Comparable<IPlayer>, Entity {
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -16,15 +19,8 @@ public interface IPlayer extends Comparable<IPlayer> {
      * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
      * no lives left
      */
+    @Override
     void kill();
-
-    /**
-     * Heal the player by the given amount up to {@link #MAX_HEALTH}
-     *
-     * @param healAmount How much to heal
-     * @throws IllegalArgumentException If the heal amount is not positive
-     */
-    void heal(int healAmount);
 
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
@@ -35,32 +31,20 @@ public interface IPlayer extends Comparable<IPlayer> {
      * @param id
      * @return the next player card in queue
      */
-    PlayerCard getNextCard(int id);
+    ComparableTuple<Card, IPlayer> getNextCard(int id);
 
     /**
      * Moves the robot with the movement corresponding to the cardAction
      * <p>
-     * If the robot moves outside the map, {@link Player#kill()} method is called
+     * If the robot moves outside the map, {@link AbstractPlayer#kill()} method is called
      *
      * @param cardAction movement to do with the robot
      */
-    void moveRobot(Movement cardAction);
+    void move(Movement cardAction, int maxTime);
 
-    /**
-     * @return amount of flags visited
-     */
-    int getFlags();
-
-    /**
-     * @param flagRank
-     * @return if player can get given flag or nor
-     */
-    boolean canGetFlag(int flagRank);
-
-    /**
-     * Add flags visited by one
-     */
-    void registerFlagVisit();
+    default void move(Movement cardAction) {
+        move(cardAction, 0);
+    }
 
     /**
      * @return lives
@@ -85,24 +69,17 @@ public interface IPlayer extends Comparable<IPlayer> {
     /**
      * @return backup position
      */
+    @Override
     Vector2Int getBackup();
 
     /**
      * Sets the backup for the player
      *
-     * @param x
-     *      The new x coordinate of the backup
-     * @param y
-     *      The new y coordinate of the backup
-     *
+     * @param x The new x coordinate of the backup
+     * @param y The new y coordinate of the backup
      * @throws IllegalArgumentException if {@code x} or {@code y} is outside the current map
      */
     void setBackup(int x, int y);
-
-    /**
-     * @return players robot
-     */
-    Robot getRobot();
 
     /**
      * @return assigned dock
@@ -113,4 +90,23 @@ public interface IPlayer extends Comparable<IPlayer> {
      * @param dock
      */
     void setDock(int dock);
+
+    /**
+     * @return Amount of flags visited
+     */
+    int getFlags();
+
+    /**
+     * @param flagNr The flags number
+     * @return If player can get given flag or not
+     */
+    boolean canGetFlag(int flagNr);
+
+    /**
+     * Update number of flags visited by one
+     */
+    void registerFlagVisit();
+
+    @Override
+    int compareTo(@NotNull IPlayer o);
 }

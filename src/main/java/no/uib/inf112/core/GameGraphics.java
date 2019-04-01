@@ -15,11 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
-    public static boolean HEADLESS = false;
+    public static boolean HEADLESS;
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
@@ -35,12 +36,10 @@ public class GameGraphics extends Game {
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
-    public static ScheduledExecutorService executorService;
+    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     @Override
     public void create() {
-
-        executorService = Executors.newSingleThreadScheduledExecutor();
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -55,7 +54,7 @@ public class GameGraphics extends Game {
         getRoboRally();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
-        roboRally.round();
+        getRoboRally().getPlayerHandler().startTurn();
     }
 
     @Override
@@ -113,22 +112,43 @@ public class GameGraphics extends Game {
         return soundPlayer;
     }
 
-    private synchronized static SoundPlayer createSoundPlayer() {
+    private static synchronized void createSoundPlayer() {
         soundPlayer = new SoundPlayer();
-        return soundPlayer;
     }
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 4);
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
         }
         return roboRally;
     }
 
-    public synchronized static RoboRally createRoboRally(String map, int playerCount) {
+    public static synchronized RoboRally createRoboRally(String map, int playerCount) {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
 
+    /**
+     * This method will always run the runnable on the main thread
+     *
+     * @param runnable The code to run
+     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
+     */
+    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
+        if (msDelay <= 0) {
+            Gdx.app.postRunnable(runnable);
+        } else {
+            GameGraphics.executorService.schedule(() ->
+                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
+        }
+    }
 
+    /**
+     * @param runnable The code to run
+     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
+     */
+    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
+        GameGraphics.executorService.schedule(() ->
+                runnable, msDelay, TimeUnit.MILLISECONDS);
+    }
 }
