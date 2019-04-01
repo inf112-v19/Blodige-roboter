@@ -2,7 +2,6 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.map.tile.api.Cleanup;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -61,12 +60,6 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      * @return if powered down or not
      */
     boolean isPoweredDown();
-
-    /**
-     *
-     * @return if robot should power down
-     */
-    boolean willPowerDown();
 
     /**
      * @return amount of damage tokens

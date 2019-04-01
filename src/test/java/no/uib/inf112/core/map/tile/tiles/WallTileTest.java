@@ -1,7 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import com.badlogic.gdx.graphics.Color;
-import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
@@ -146,17 +145,6 @@ public class WallTileTest extends TestGraphics {
             return new Vector2Int(0, 0);
         }
 
-        @Override
-        public void clean(@NotNull Tile tile) {
-
-        }
-
-        @Nullable
-        @Override
-        public List<Attribute> requiredAttributes() {
-            return null;
-        }
-
         @Nullable
         @Override
         public List<Class<? extends Tile>> requiredSuperClasses() {
@@ -166,6 +154,11 @@ public class WallTileTest extends TestGraphics {
         @Override
         public boolean canDoAction(@NotNull Tile tile) {
             return false;
+        }
+
+        @Override
+        public void clean(@NotNull Tile tile) {
+            //EMPTY
         }
     }
 

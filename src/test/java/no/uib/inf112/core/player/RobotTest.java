@@ -204,7 +204,7 @@ public class RobotTest extends TestGraphics {
 
         @Override
         public void clean(@NotNull Tile tile) {
-
+            //EMPTY
         }
 
         @Nullable

@@ -115,8 +115,6 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         return poweredDown;
     }
 
-    public boolean willPowerDown() { return willPowerDown; }
-
     @Override
     public int getDamageTokens() {
         return MAX_HEALTH - health;
@@ -151,7 +149,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     @Override
     public void clean(@NotNull Tile tile) {
-        if(willPowerDown){
+        if (willPowerDown) {
             poweredDown = true;
             heal();
         }
