@@ -4,11 +4,11 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.util.Direction;
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.round.phase.ActionPhase;
+import no.uib.inf112.core.round.phase.Phase;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -17,20 +17,17 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    private AbstractPlayer player;
+    private IPlayer player;
     private static RoboRally roborally;
-
-    @BeforeClass
-    public static void beforeClass() {
-        roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
-
-    }
+    private MapHandler map;
+    private Phase phase;
 
     @Before
     public void setUp() {
-        //GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
-        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-        player = new NonPlayer(0, 0, Direction.NORTH, map);
+        roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
+        map = GameGraphics.getRoboRally().getCurrentMap();
+        player = roborally.getPlayerHandler().testPlayer();
+        phase = new ActionPhase(TileType.FLAG, 0);
     }
 
     @Test
@@ -38,76 +35,30 @@ public class FlagRegistrationTest extends TestGraphics {
         assertEquals(0, player.getFlags());
     }
 
-    @Ignore //TODO reimplement
     @Test
-    public void checkIfLandOnFlag1RegistersFlag() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(1, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+    public void checkIfLandOnFlagRegistersFlag() {
+        for (int i = 0; i < 4; i++) {
+            player.move(Movement.MOVE_1);
+            map.update(0);
+            phase.startPhase(map);
+            assertEquals(1 + i, player.getFlags());
+        }
     }
 
-    @Ignore //TODO reimplement
-    @Test
-    public void checkIfLandOnFlag1and2RegistersFlag() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(2, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
-    }
-
-    @Ignore //TODO reimplement
-    @Test
-    public void checkIfLandOnFlag1and2and3RegistersFlag() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(3, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
-    }
-
-    @Ignore //TODO reimplement
-    @Test
-    public void checkIfLandOnFlag1and2and3and4RegistersFlag() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(4, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
-    }
-
-    @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag2Before1DoesNotRegister() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_2);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(0, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+        player.move(Movement.MOVE_2);
+        map.update(0);
+        phase.startPhase(map);
+        assertEquals(0, player.getFlags());
     }
 
-    @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag3Before1DoesNotRegister() {
-//        roborally.getPlayerHandler().generateOnePlayer();
-        roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_3);
-//        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
-
-        assertEquals(0, roborally.getPlayerHandler().getPlayers().get(0).getFlags());
+        player.move(Movement.MOVE_3);
+        map.update(0);
+        phase.startPhase(map);
+        assertEquals(0, player.getFlags());
     }
 
 
@@ -122,56 +73,6 @@ public class FlagRegistrationTest extends TestGraphics {
         player.registerFlagVisit();
         player.registerFlagVisit();
         assertEquals(2, player.getFlags());
-    }
-
-    @Test
-    public void registerFlagVisitFor3Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        assertEquals(3, player.getFlags());
-    }
-
-    @Test
-    public void registerFlagVisitFor4Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        assertEquals(4, player.getFlags());
-    }
-
-    @Test
-    public void registerFlagVisitFor5Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        assertEquals(5, player.getFlags());
-    }
-
-    @Test
-    public void registerFlagVisitFor6Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        assertEquals(6, player.getFlags());
-    }
-
-    @Test
-    public void registerFlagVisitFor7Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        assertEquals(7, player.getFlags());
     }
 
     @Test
@@ -190,7 +91,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Test
     public void registerFlagVisitsDoesNotRegisterFlagIfNotCalled() {
         player.registerFlagVisit();
-        assertFalse(player.getFlags() == 2);
+        assertNotEquals(2, player.getFlags());
     }
 
     @Test
