@@ -34,7 +34,6 @@ public enum TileType {
     private final Class<? extends Tile> implClass;
     private final Set<Attribute> attributes;
 
-    //FIXME this should be removed when all types have an implantation
     TileType() {
         this(null);
     }
