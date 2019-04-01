@@ -24,9 +24,10 @@ public class LaserTestWithOnePlayer extends TestGraphics {
     public void setUp() {
         RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "laser_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
-        testPlayer = roboRally.getPlayerHandler().getPlayers().get(0);
+        testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
+        map.update(0);
     }
 
 
@@ -35,6 +36,7 @@ public class LaserTestWithOnePlayer extends TestGraphics {
         int healthBefore = testPlayer.getHealth();
         testPlayer.setDirection(Direction.EAST);
         testPlayer.move(Movement.MOVE_1);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
         assertEquals(healthBefore - 2, testPlayer.getHealth());
     }
@@ -45,11 +47,17 @@ public class LaserTestWithOnePlayer extends TestGraphics {
         testPlayer.setDirection(Direction.EAST);
         testPlayer.move(Movement.MOVE_1);
         testPlayer.setDirection(Direction.NORTH);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
+
         testPlayer.move(Movement.MOVE_1);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
+
         testPlayer.move(Movement.MOVE_1);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
+
         assertEquals(healthBefore - 6, testPlayer.getHealth());
     }
 
@@ -57,6 +65,7 @@ public class LaserTestWithOnePlayer extends TestGraphics {
     public void standingOnLaserForFivePhasesShouldDecreaseLivesByOne() {
         int livesBefore = testPlayer.getLives();
         testPlayer.teleport(1, 2);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
         new LaserPhase(0).startPhase(map);
@@ -70,6 +79,7 @@ public class LaserTestWithOnePlayer extends TestGraphics {
     public void standingOnDoubleLaserShouldDecreaseHealthByFour() {
         int healthBefore = testPlayer.getHealth();
         testPlayer.teleport(3, 3);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
         assertEquals(healthBefore - 4, testPlayer.getHealth());
     }

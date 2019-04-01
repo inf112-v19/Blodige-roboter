@@ -34,11 +34,12 @@ public class LaserTestWithMultiplePlayers extends TestGraphics {
         int secondHealthBefore = second.getHealth();
 
         first.teleport(0, 0);
-        first.setDirection(Direction.WEST);
+        first.setDirection(Direction.NORTH);
 
         second.teleport(0, 1);
         second.setDirection(Direction.SOUTH);
 
+        map.update(0);
         new LaserPhase(0).startPhase(map);
         assertEquals(firstHealthBefore - 1, first.getHealth());
         assertEquals(secondHealthBefore - 1, second.getHealth());
@@ -52,6 +53,7 @@ public class LaserTestWithMultiplePlayers extends TestGraphics {
         int secondHealthBefore = second.getHealth();
         first.teleport(0, 0);
         second.teleport(0, 1);
+        map.update(0);
         new LaserPhase(0).startPhase(map);
         assertEquals(firstHealthBefore, first.getHealth());
         assertEquals(secondHealthBefore - 1, second.getHealth());
