@@ -2,10 +2,10 @@ package no.uib.inf112.core.testUtils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import no.uib.inf112.core.map.GameMap;
+import no.uib.inf112.core.map.TiledMapHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class HeadlessMapHandler extends GameMap {
+public class HeadlessMapHandler extends TiledMapHandler {
 
     public HeadlessMapHandler(String map) {
         super(map);
@@ -13,11 +13,6 @@ public class HeadlessMapHandler extends GameMap {
 
     @Override
     public void render(@NotNull Batch batch) {
-
-    }
-
-    @Override
-    public void update(float delta) {
 
     }
 
@@ -34,16 +29,6 @@ public class HeadlessMapHandler extends GameMap {
     @Override
     public OrthographicCamera getCamera() {
         return null;
-    }
-
-    @Override
-    public int getTileWidth() {
-        return 0;
-    }
-
-    @Override
-    public int getTileHeight() {
-        return 0;
     }
 
     @Override

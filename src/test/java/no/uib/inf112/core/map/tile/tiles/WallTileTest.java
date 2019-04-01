@@ -160,6 +160,12 @@ public class WallTileTest extends TestGraphics {
         public void clean(@NotNull Tile tile) {
             //EMPTY
         }
+
+
+        @Override
+        public void damage(int damageAmount) {
+            //Dummy robot no need for implementation
+        }
     }
 
 }

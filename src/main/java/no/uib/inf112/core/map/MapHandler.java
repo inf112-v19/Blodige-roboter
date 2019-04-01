@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Elg
@@ -35,6 +34,8 @@ public interface MapHandler {
     //The layer name of the board it self, this layer should never be modified
     String BOARD_LAYER_NAME = "board";
     String ENTITY_LAYER_NAME = "entities";
+    String ENITTY_LASER_LAYER_NAME = "entitylasers";
+    String LASERS_LAYER_NAME = "lasers";
     String COLLIDABLES_LAYER_NAME = "collidables";
     String FLAG_LAYER_NAME = "flags";
 
@@ -98,10 +99,18 @@ public interface MapHandler {
     boolean removeEntity(@Nullable Entity entity);
 
     /**
-     * @return A read-only set of all tiles that can move in the order they were added
+     * Adds an laserTile to the laserEntities layer, if there is one there currently it creates a cross tile if they have different orientation, otherwise it ignores it.
+     *
+     * @param laser laserTile to add on the map
      */
-    @NotNull
-    Set<Entity> getEntities();
+    void addEntityLaser(@NotNull Tile laser);
+
+    /**
+     * Removes the laserTile in the laserEntities layer, if this tile is not on the map it is ignored
+     *
+     * @param entityLaser laserTile to remove
+     */
+    boolean removeEntityLaser(Tile entityLaser);
 
     /**
      * @param x The x coordinate to test

@@ -8,18 +8,13 @@ import java.util.List;
 public interface IPlayerHandler {
 
     /**
-     * Generate one test player, used for testing
-     */
-    void generateOnePlayer();
-
-    /**
      * Add all player cards in a queue
      * Execute cards for each player after priority
      */
     void endTurn();
 
     /**
-     * Add All player to the round queue
+     * Add all player to the round queue
      * Do turn for first player
      */
     void startTurn();
@@ -33,13 +28,6 @@ public interface IPlayerHandler {
      * @return the number of players playing
      */
     int getPlayerCount();
-
-    /**
-     * Add all players to game
-     * Pick a unique dock for each player
-     */
-    void generatePlayers();
-
 }
 
 

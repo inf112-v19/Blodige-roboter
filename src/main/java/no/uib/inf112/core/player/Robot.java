@@ -117,9 +117,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
-        if (willCollide(this, 0, 0, dir)) {
-            return;
-        }
+
 
         int sdx = (int) Math.signum(dx);
         int sdy = (int) Math.signum(dy);
@@ -128,6 +126,10 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         int maxTimePerMovement =
                 Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
+
+            if (willCollide(this, 0, 0, dir)) {
+                return;
+            }
 
             GameGraphics.scheduleSync(() -> {
                 if (!willCollide(this, sdx, sdy, dir)) {
@@ -162,7 +164,6 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 }
             }, maxTimePerMovement * i);
         }
-        update();
         GameGraphics.getSoundPlayer().playRobotMoving();
     }
 
@@ -192,7 +193,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         int y = mTile.getY() + dy;
 
         for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(x, y)) {
-            if (tile.hasSuperClass(CollidableTile.class) && !this.equals(tile)) {
+            if (tile.hasSuperClass(CollidableTile.class) && !equals(tile)) {
                 CollidableTile cTile = (CollidableTile) tile;
                 if (cTile.willCollide(this, dir)) {
                     return true;
@@ -238,10 +239,12 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null) {
             return false;
         }
-
+        if (!(o instanceof Robot)) {
+            return false;
+        }
         Robot robot = (Robot) o;
 
         if (direction != robot.direction) {

@@ -22,7 +22,7 @@ public interface SingleDirectionalTile extends Tile {
     void setDirection(@NotNull Direction direction);
 
     default void rotate(@NotNull Direction direction) {
-        Direction dir = direction;
+        Direction dir = getDirection();
         switch (direction) {
             case WEST:
                 dir = dir.turnLeft();

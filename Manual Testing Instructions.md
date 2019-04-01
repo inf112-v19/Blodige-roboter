@@ -35,6 +35,13 @@
 * Robot should always face its direction and movement should be in that direction (remember backing up is legal)
 * Main player robot should be distinguishable by color
 
+### Double step conveyors
+#### (Due to difficulties with ConveyorStep class while testing, these tests will be manual temporarily. A good map to use for this testing is dizzy_dash.)
+
+* Double step conveyor belt should move robot two steps between each move robot makes
+* When being moved from a turning double step conveyor belt, robot's direction should be changed
+* If robot is standing on the edge of a double step conveyor belt so that after being moved one step robot is no longer standing on the conveyor belt, robot should only be moved one step.
+
 ### Power down
 
 * When pressing the power down button (red circle) it darkens.
