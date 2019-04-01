@@ -21,7 +21,7 @@
 ## Deloppgave 2
 
 Oppgavene vi har valgt å gjøre ligger i [iterasjon 4](https://github.com/inf112-v19/Blodige-roboter/milestone/5)
-Under kommer kravene samlet i tre kategorier, de vi mener at vi er ferdige, de vi har valgt og de vi vil gjøre senere. Akseptansekriterier for oppgavene ligger under issuet på github.
+Under kommer kravene samlet i tre kategorier, de vi mener at vi er ferdige med, de vi har valgt og de vi vil gjøre senere. Akseptansekriterier for oppgavene ligger under issuet på github.
 
 ### Ferdige med
 
@@ -44,6 +44,7 @@ Under kommer kravene samlet i tre kategorier, de vi mener at vi er ferdige, de v
 - fungerende gyroer på brettet som flytter robotene
   - [#18](https://github.com/inf112-v19/Blodige-roboter/issues/18)
 - power down
+  - Er nesten ferdig, mangler bare at lasere ikke skyter når roboten er i power down. Oppgaven viste seg å være vanskligere enn forventet der problemer dukket opp rett etter hverandre under hele prosessen. Mangler også noe finpussing i UI. Dette fullføres etter oblig 4 innlevering.
   - [#24](https://github.com/inf112-v19/Blodige-roboter/issues/24)
 - samlebånd som går i dobbelt tempo
   - [#17](https://github.com/inf112-v19/Blodige-roboter/issues/17)
