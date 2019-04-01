@@ -74,15 +74,12 @@ public abstract class GameMap implements MapHandler {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
         if (flags == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + FLAG_LAYER_NAME + "'");
         }
         if (collidables == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
         }
         if (lasers == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + LASERS_LAYER_NAME + "'");
         }
 
