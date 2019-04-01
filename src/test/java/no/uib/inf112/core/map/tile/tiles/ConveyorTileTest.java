@@ -4,7 +4,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.round.phase.ConveyorPhase;
-import no.uib.inf112.core.util.Vector2Int;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  * - (0,1) : single step south conveyor
  * - (1,0) : singel step east conveyor
  * - (1,1) : singel step west conveyor
- * - (0,5) : singel step north conveyor moving onto right turn (robot should be rotated)
+ * - (0,6) : singel step right turn conveyor (robot should be rotated)
  * - (5,0)-(5,1) : double step north conveyor
  * - (5,3)-(5,2) : double step south conveyor
  * - (7,1)-(6,1) : double step west conveyor
@@ -29,15 +29,17 @@ import static org.junit.Assert.assertEquals;
  * - (6,2) : double step north conveyor moving onto normal board tile (robot should only move one step)
  * - (5,5) : double step north conveyor moving onto right turn (robot should be rotated)
  */
+
 public class ConveyorTileTest extends TestGraphics {
 
     private static RoboRally roboRally;
-
+    private static ConveyorPhase testPhase;
     private AbstractPlayer testPlayer;
 
     @BeforeClass
     public static void beforeClass() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
+        testPhase = new ConveyorPhase(0);
     }
 
     @Before
@@ -50,42 +52,39 @@ public class ConveyorTileTest extends TestGraphics {
         return (ConveyorTile) roboRally.getCurrentMap().getTile("board", x, y);
     }
 
-    private void conveyorTileAction(Vector2Int start, Vector2Int end) {
-        testPlayer.teleport(start.x, start.y);
-        ConveyorTile conveyor = getConveyorTile(start.x, start.y);
+    private void conveyorTileAction(int startX, int startY, int endX, int endY) {
+        testPlayer.teleport(startX, startY);
+        ConveyorTile conveyor = getConveyorTile(startX, startY);
         conveyor.action(testPlayer);
-        assertEquals(end.x, testPlayer.getX());
-        assertEquals(end.y, testPlayer.getY());
+        assertEquals(endX, testPlayer.getX());
+        assertEquals(endY, testPlayer.getY());
     }
 
     @Test
     public void singleStepNorthShouldMoveRobotOneStep() {
-        conveyorTileAction(new Vector2Int(0, 0), new Vector2Int(0, 1));
+        conveyorTileAction(0, 0, 0, 1);
     }
 
     @Test
     public void singleStepSouthShouldMoveRobotOneStep() {
-        conveyorTileAction(new Vector2Int(0, 1), new Vector2Int(0, 0));
+        conveyorTileAction(0, 1, 0, 0);
     }
 
     @Test
     public void singleStepWestShouldMoveRobotOneStep() {
-        conveyorTileAction(new Vector2Int(1, 1), new Vector2Int(0, 1));
+        conveyorTileAction(1, 1, 0, 1);
     }
 
     @Test
     public void singleStepEastShouldMoveRobotOneStep() {
-        conveyorTileAction(new Vector2Int(1, 0), new Vector2Int(2, 0));
+        conveyorTileAction(1, 0, 2, 0);
     }
 
     @Test
-    public void doubleStepNorthShouldMoveRobotTwoSteps() {
-        testPlayer.teleport(5, 0);
-        ConveyorPhase phase = new ConveyorPhase(0);
-        phase.startPhase(roboRally.getCurrentMap());
-
-        assertEquals(5, testPlayer.getX());
-        assertEquals(2, testPlayer.getY());
+    public void movingFromTurningConveyorShouldTurnRobot() {
+        testPlayer.setDirection(Direction.NORTH);
+        conveyorTileAction(0, 6, 1, 6);
+        assertEquals(Direction.EAST, testPlayer.getDirection());
     }
 
 }
