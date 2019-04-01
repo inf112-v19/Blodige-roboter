@@ -3,12 +3,11 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -17,18 +16,11 @@ import static org.junit.Assert.assertEquals;
 
 public class DeathTileTest extends TestGraphics {
 
-    private AbstractPlayer player;
-    private static RoboRally roboRally;
-
-
-    @BeforeClass
-    public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_hole_test_map.tmx", 1);
-    }
+    private IPlayer player;
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_hole_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         player.teleport(0, 0);
         player.setDirection(Direction.NORTH);

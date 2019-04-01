@@ -2,7 +2,7 @@ package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import static org.junit.Assert.fail;
 public class GearTileTest extends TestGraphics {
 
     private static RoboRally roboRally;
-    private AbstractPlayer testPlayer;
+    private IPlayer testPlayer;
 
     @BeforeClass
     public static void beforeClass() {
@@ -26,7 +26,7 @@ public class GearTileTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        //roboRally.getPlayerHandler().generateOnePlayer();
         testPlayer = roboRally.getPlayerHandler().testPlayer();
     }
 

@@ -99,12 +99,6 @@ public interface MapHandler {
     boolean removeEntity(@Nullable Entity entity);
 
     /**
-     * @return A read-only set of all tiles that can move in the order they were added
-     */
-    @NotNull
-    List<Entity> getEntities();
-
-    /**
      * Adds an laserTile to the laserEntities layer, if there is one there currently it creates a cross tile if they have different orientation, otherwise it ignores it.
      *
      * @param laser laserTile to add on the map

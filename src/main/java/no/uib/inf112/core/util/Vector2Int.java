@@ -1,6 +1,8 @@
 package no.uib.inf112.core.util;
 
 /**
+ * Mutable 2D integer vector
+ *
  * @author Elg
  */
 public class Vector2Int {
@@ -12,6 +14,13 @@ public class Vector2Int {
 
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
 
     @Override

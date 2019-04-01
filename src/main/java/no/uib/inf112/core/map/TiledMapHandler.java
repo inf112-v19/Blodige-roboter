@@ -4,10 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Entity;
-import no.uib.inf112.core.util.Vector2Int;
+import no.uib.inf112.core.util.UVector2Int;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 
 public class TiledMapHandler extends MapCamera implements Disposable {
@@ -20,7 +23,9 @@ public class TiledMapHandler extends MapCamera implements Disposable {
      */
     public TiledMapHandler(String map) {
         super(map);
-        renderer = new CustomOrthogonalTiledMapRenderer(getTiledMap());
+        if (!GameGraphics.HEADLESS) {
+            renderer = new CustomOrthogonalTiledMapRenderer(getTiledMap());
+        }
     }
 
 
@@ -34,18 +39,28 @@ public class TiledMapHandler extends MapCamera implements Disposable {
 
     @Override
     public void update(float delta) {
-        for (int i = 0; i < getEntities().size(); i++) {
-            //make sure the new x and y are always consistent
-            Entity entity = getEntities().get(i);
-            int x = entity.getX();
-            int y = entity.getY();
-            Vector2Int lastPos = getPrevPosOfEntities().get(i);
+        Map<UVector2Int, Entity> entities = getEntities();
 
-            getEntityLayer().setCell(lastPos.x, lastPos.y, null);
-            entity.update(false);
-            setEntityOnBoard(entity, x, y);
-            getPrevPosOfEntities().set(i, new Vector2Int(x, y));
+        for (Map.Entry<UVector2Int, Entity> entry : entities.entrySet()) {
+            Entity entity = entry.getValue();
+            UVector2Int oldPos = entry.getKey();
+            if (entity.shouldUpdate()) {
 
+                int x = entity.getX();
+                int y = entity.getY();
+
+                entity.update(false);
+                getEntityLayer().setCell(oldPos.x, oldPos.y, null);
+
+                if (isOutsideBoard(x, y)) {
+                    throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds for " + entity.toString());
+                }
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
+                getEntityLayer().setCell(x, y, cell);
+
+                entities.remove(oldPos, entity);
+                entities.put(new UVector2Int(x, y), entity);
+            }
         }
     }
 
@@ -54,21 +69,5 @@ public class TiledMapHandler extends MapCamera implements Disposable {
     public void dispose() {
         renderer.dispose();
         getTiledMap().dispose();
-    }
-
-
-    /**
-     * Draw an entity on the entity layer
-     *
-     * @param entity The entity to draw
-     * @param x      The new x, provided as a parameter to make this thread safe
-     * @param y      The new y, provided as a parameter to make this thread safe
-     */
-    private void setEntityOnBoard(@NotNull Entity entity, int x, int y) {
-        if (isOutsideBoard(x, y)) {
-            throw new IllegalArgumentException("Given location (" + x + ", " + y + ") is out of bounds for " + entity.toString());
-        }
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell().setTile(entity.getTile());
-        getEntityLayer().setCell(x, y, cell);
     }
 }

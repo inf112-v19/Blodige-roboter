@@ -39,9 +39,6 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     @Override
     public void action(@NotNull MovableTile tile) {
         tile.move(dir.getDx(), dir.getDy(), 0);
-        if (rotation != null) {
-            tile.rotate(rotation);
-        }
     }
 
     @Override

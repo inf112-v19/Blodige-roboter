@@ -68,7 +68,7 @@ public class LaserPhase extends AbstractPhase {
             DamageableTile damageableTile = (DamageableTile) onTile;
             damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
-        final LaserTile[] clone = activatedLasers.toArray(new LaserTile[activatedLasers.size()]);
+        final LaserTile[] clone = activatedLasers.toArray(new LaserTile[0]);
         GameGraphics.scheduleSync(() -> cleanUpLasers(Arrays.asList(clone), map), getRunTime() * 2);
     }
 

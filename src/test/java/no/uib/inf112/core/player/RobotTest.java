@@ -18,10 +18,9 @@ import static org.junit.Assert.*;
 
 public class RobotTest extends TestGraphics {
 
-    private Robot testBot;
     private int roboX;
     private int roboY;
-    private AbstractPlayer player;
+    private IPlayer player;
 
     public static final int HEIGHT = 20;
     public static final int WIDTH = 20;
@@ -34,104 +33,103 @@ public class RobotTest extends TestGraphics {
 
     @Before
     public void setup() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        //roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
-        testBot = player;
-        testBot.teleport(HEIGHT / 2, WIDTH / 2);
-        testBot.setDirection(Direction.NORTH);
+        player.teleport(HEIGHT / 2, WIDTH / 2);
+        player.setDirection(Direction.NORTH);
 
-        roboX = testBot.getX();
-        roboY = testBot.getY();
+        roboX = player.getX();
+        roboY = player.getY();
     }
 
     @Test
     public void movingOneFacingNorthShouldNotChangeX() {
         player.move(Movement.MOVE_1);
-        assertEquals(roboX, testBot.getX());
+        assertEquals(roboX, player.getX());
     }
 
     @Test
     public void movingOneFacingNorthShouldIncrementY() {
         player.move(Movement.MOVE_1);
-        assertEquals(roboY + 1, testBot.getY());
+        assertEquals(roboY + 1, player.getY());
     }
 
     @Test
     public void movingThreeFacingNorthShouldIncreaseYWithThree() {
         player.move(Movement.MOVE_3);
-        assertEquals(roboY + 3, testBot.getY());
+        assertEquals(roboY + 3, player.getY());
     }
 
     @Test
     public void movingTwoFacingEastShouldNotChangeY() {
-        testBot.setDirection(Direction.EAST);
+        player.setDirection(Direction.EAST);
         player.move(Movement.MOVE_2);
-        assertEquals(roboY, testBot.getY());
+        assertEquals(roboY, player.getY());
     }
 
     @Test
     public void movingTwoFacingEastShouldIncreaseXWithTwo() {
-        testBot.setDirection(Direction.EAST);
+        player.setDirection(Direction.EAST);
         player.move(Movement.MOVE_2);
-        assertEquals(roboX + 2, testBot.getX());
+        assertEquals(roboX + 2, player.getX());
     }
 
     @Test
     public void backingUpWhileFacingNorthShouldDecrementY() {
         player.move(Movement.BACK_UP);
-        assertEquals(roboY - 1, testBot.getY());
+        assertEquals(roboY - 1, player.getY());
     }
 
     @Test
     public void backingUpShouldNotAffectDirectionOfRobot() {
-        Direction facing = testBot.getDirection();
+        Direction facing = player.getDirection();
         player.move(Movement.BACK_UP);
-        assertEquals(facing, testBot.getDirection());
+        assertEquals(facing, player.getDirection());
     }
 
     @Test
     public void movingForwardShouldNotAffectDirectionOfRobot() {
-        Direction facing = testBot.getDirection();
+        Direction facing = player.getDirection();
         player.move(Movement.MOVE_2);
         player.move(Movement.MOVE_1);
         player.move(Movement.MOVE_3);
-        assertEquals(facing, testBot.getDirection());
+        assertEquals(facing, player.getDirection());
     }
 
     @Test
     public void turningLeftWhileFacingNorthShouldResultInWest() {
-        testBot.setDirection(Direction.NORTH); //Just in case setup is changed
+        player.setDirection(Direction.NORTH); //Just in case setup is changed
         player.move(Movement.LEFT_TURN);
-        assertEquals(Direction.WEST, testBot.getDirection());
+        assertEquals(Direction.WEST, player.getDirection());
     }
 
     @Test
     public void turningLeftShouldNotChangeXOrY() {
         player.move(Movement.LEFT_TURN);
-        assertEquals(roboX, testBot.getX());
-        assertEquals(roboY, testBot.getY());
+        assertEquals(roboX, player.getX());
+        assertEquals(roboY, player.getY());
     }
 
     @Test
     public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
-        Robot testBot2 = new RobotImpl(new Vector2Int(2, 2), testBot.getDirection(), Color.BLUE);
+        Robot player2 = new RobotImpl(new Vector2Int(2, 2), player.getDirection(), Color.BLUE);
         player.move(Movement.RIGHT_TURN);
         player.move(Movement.RIGHT_TURN);
         player.move(Movement.U_TURN);
-        assertEquals(testBot.getDirection(), testBot2.getDirection());
+        assertEquals(player.getDirection(), player2.getDirection());
     }
 
     @Test
     public void movingRobotInASquareShouldResultInRobotBeingBackAtStartingPosition() {
-        Direction facing = testBot.getDirection();
+        Direction facing = player.getDirection();
         for (int i = 0; i < 100; i++) {
             if (i % 4 == 0) {
-                assertEquals(roboX, testBot.getX());
-                assertEquals(roboY, testBot.getY());
-                assertEquals(facing, testBot.getDirection());
+                assertEquals(roboX, player.getX());
+                assertEquals(roboY, player.getY());
+                assertEquals(facing, player.getDirection());
             } else {
-                assertFalse(roboX == testBot.getX() && roboY == testBot.getY());
-                assertNotEquals(facing, testBot.getDirection());
+                assertFalse(roboX == player.getX() && roboY == player.getY());
+                assertNotEquals(facing, player.getDirection());
             }
             player.move(Movement.MOVE_2);
             player.move(Movement.LEFT_TURN);
@@ -141,35 +139,35 @@ public class RobotTest extends TestGraphics {
 //    @Test
 //    public void getTileType() {
 //        for (Direction dir : Direction.values()) {
-//            testBot.setDirection(dir);
-//            assertNotNull(testBot.getTileType());
+//            player.setDirection(dir);
+//            assertNotNull(player.getTileType());
 //
-//            assertEquals(TileType.ROBOT, testBot.getTileType());
+//            assertEquals(TileType.ROBOT, player.getTileType());
 //
-//            String[] name = testBot.get().name().split("_");
+//            String[] name = player.get().name().split("_");
 //            assertEquals(dir.name(), name[name.length - 1]);
 //        }
 //    }
 
     @Test
     public void movingOutOfBoundTeleportToBackup() {
-        player.setBackup(testBot.getX(), testBot.getY());
-        testBot.teleport(0, 0);
-        testBot.setDirection(Direction.SOUTH);
+        player.setBackup(player.getX(), player.getY());
+        player.teleport(0, 0);
+        player.setDirection(Direction.SOUTH);
         player.move(Movement.MOVE_1);
 
-        assertEquals(roboX, testBot.getX());
-        assertEquals(roboY, testBot.getY());
+        assertEquals(roboX, player.getX());
+        assertEquals(roboY, player.getY());
     }
 
     @Test
     public void movingOutOfBoundReduceLifeByOne() {
 
-        testBot.teleport(0, 0);
-        testBot.setDirection(Direction.SOUTH);
+        player.teleport(0, 0);
+        player.setDirection(Direction.SOUTH);
         player.move(Movement.MOVE_1);
 
-        assertTrue(testBot.shouldUpdate());
+        assertTrue(player.shouldUpdate());
 
         assertEquals(AbstractPlayer.MAX_HEALTH, player.getHealth());
         assertEquals(AbstractPlayer.MAX_LIVES - 1, player.getLives());

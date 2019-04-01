@@ -164,7 +164,6 @@ public abstract class Robot extends AbstractTile implements Entity {
                 }
             }, maxTimePerMovement * i);
         }
-        update();
         GameGraphics.getSoundPlayer().playRobotMoving();
     }
 

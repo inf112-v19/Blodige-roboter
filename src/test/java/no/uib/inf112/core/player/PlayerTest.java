@@ -9,7 +9,6 @@ import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,15 +22,12 @@ public class PlayerTest extends TestGraphics {
     private static RoboRally roboRally;
     private static MapHandler map;
 
-    @BeforeClass
-    public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
-        map = roboRally.getCurrentMap();
-    }
-
     @Before
     public void setup() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
+        map = roboRally.getCurrentMap();
+
         testPlayer = roboRally.getPlayerHandler().testPlayer();
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
@@ -97,10 +93,12 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+
         //noinspection unchecked
         ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
         for (int i = 0; i < cards.length; i++) {
-            cards[i] = testPlayer.getNextCard(i);
+            cards[i] = player.getNextCard(i);
         }
         for (ComparableTuple<Card, IPlayer> card : cards) {
             assertNotNull("Could not get 5 player cards", card);

@@ -15,8 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RobotWallTest extends TestGraphics {
 
-    private static AbstractPlayer player;
-    private static Robot testBot;
+    private static IPlayer player;
     private static RoboRally roboRally;
 
     @BeforeClass
@@ -26,35 +25,34 @@ public class RobotWallTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        //roboRally.getPlayerHandler().generateOnePlayer();
         player = roboRally.getPlayerHandler().testPlayer();
-        testBot = player;
-        testBot.teleport(0, 0);
+        player.teleport(0, 0);
         player.setBackup(0, 0);
     }
 
     @Test
     public void movingToWalltileWhereWallIsOnOppositeEdgeShouldWork() {
-        testBot.setDirection(Direction.NORTH);
+        player.setDirection(Direction.NORTH);
         player.move(Movement.MOVE_1);
-        assertEquals(0, testBot.getX());
-        assertEquals(1, testBot.getY());
+        assertEquals(0, player.getX());
+        assertEquals(1, player.getY());
     }
 
     @Test
     public void movingToWalltileWhereWallIsOnClosestEdgeShouldNotWork() {
-        testBot.setDirection(Direction.EAST);
+        player.setDirection(Direction.EAST);
         player.move(Movement.MOVE_1);
-        assertEquals(0, testBot.getX());
-        assertEquals(0, testBot.getY());
+        assertEquals(0, player.getX());
+        assertEquals(0, player.getY());
 
     }
 
     @Test
     public void movingTwoStepsWithWallBetweenShouldMakeRobotStopAfterOneStep() {
-        testBot.setDirection(Direction.NORTH);
+        player.setDirection(Direction.NORTH);
         player.move(Movement.MOVE_2);
-        assertEquals(0, testBot.getX());
-        assertEquals(1, testBot.getY()); //Only moved one step
+        assertEquals(0, player.getX());
+        assertEquals(1, player.getY()); //Only moved one step
     }
 }

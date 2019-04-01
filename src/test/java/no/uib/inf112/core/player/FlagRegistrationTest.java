@@ -28,7 +28,7 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
+        //GameGraphics.getRoboRally().getPlayerHandler().generateOnePlayer();
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         player = new NonPlayer(0, 0, Direction.NORTH, map);
     }
@@ -41,7 +41,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag1RegistersFlag() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
 
@@ -51,7 +51,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag1and2RegistersFlag() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
@@ -63,7 +63,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag1and2and3RegistersFlag() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
@@ -77,7 +77,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag1and2and3and4RegistersFlag() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_1);
@@ -93,7 +93,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag2Before1DoesNotRegister() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_2);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
 
@@ -103,7 +103,7 @@ public class FlagRegistrationTest extends TestGraphics {
     @Ignore //TODO reimplement
     @Test
     public void checkIfLandOnFlag3Before1DoesNotRegister() {
-        roborally.getPlayerHandler().generateOnePlayer();
+//        roborally.getPlayerHandler().generateOnePlayer();
         roborally.getPlayerHandler().getPlayers().get(0).move(Movement.MOVE_3);
 //        roborally.mapInteractOnUser.scan(roborally.getCurrentMap().getEntities());
 

@@ -13,11 +13,13 @@ import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.player.Entity;
+import no.uib.inf112.core.util.UVector2Int;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static no.uib.inf112.core.map.tile.TileGraphic.LASER_HORIZONTAL;
@@ -31,8 +33,7 @@ public abstract class GameMap implements MapHandler {
     private TiledMapTileLayer entityLaserLayer;
 
     //A map of all know entities and their last know location
-    private List<Entity> entities;
-    private List<Vector2Int> prevPosOfEntity;
+    private Map<UVector2Int, Entity> entities;
     private Set<Tile> entityLasers;
     private Map<TiledMapTileLayer, Tile[][]> tiles = new HashMap<>();
 
@@ -106,10 +107,7 @@ public abstract class GameMap implements MapHandler {
         tiles.put(collidablesLayer, new Tile[mapWidth][mapHeight]);
         tiles.put(flagLayer, new Tile[mapWidth][mapHeight]);
 
-
-        //use a linked hashmap to make sure the iteration is consistent
-        entities = new ArrayList<>();
-        prevPosOfEntity = new ArrayList<>();
+        entities = new ConcurrentHashMap<>();
         entityLasers = new HashSet<>();
     }
 
@@ -127,7 +125,6 @@ public abstract class GameMap implements MapHandler {
         return tiledMap.getProperties();
     }
 
-
     @NotNull
     @Override
     public TiledMapTileSets getMapTileSets() {
@@ -136,13 +133,10 @@ public abstract class GameMap implements MapHandler {
 
     @Override
     public void addEntity(@NotNull Entity entity) {
-        for (Tile knownRobot : getEntities()) {
-            if (entity.getX() == knownRobot.getX() && entity.getY() == knownRobot.getY()) {
-                throw new IllegalStateException("Cannot add an entity on top of another entity");
-            }
+        if (getTile(entityLayer, entity.getX(), entity.getY()) != null) {
+            throw new IllegalStateException("Cannot add an entity on top of another entity");
         }
-        entities.add(entity);
-        prevPosOfEntity.add(new Vector2Int(entity.getX(), entity.getY()));
+        entities.put(new UVector2Int(entity.getX(), entity.getY()), entity);
         entity.update(true);
     }
 
@@ -153,13 +147,22 @@ public abstract class GameMap implements MapHandler {
 
     //FIXME this should be tested
     @Override
-    public boolean removeEntity(Entity entity) {
-        entityLayer.setCell(entity.getX(), entity.getY(), null);
-        return entities.remove(entity);
+    public boolean removeEntity(@Nullable Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+        UVector2Int pos = new UVector2Int(entity.getX(), entity.getY());
+        Entity e = entities.get(pos);
+
+        if (entity.equals(e)) {
+            entityLayer.setCell(entity.getX(), entity.getY(), null);
+            entities.remove(pos);
+        }
+        return false;
     }
 
     @Override
-    public void addEntityLaser(Tile laser) {
+    public void addEntityLaser(@NotNull Tile laser) {
         for (Tile knownLaser : getLaserEntities()) {
 
             if (laser.getX() == knownLaser.getX() && laser.getY() == knownLaser.getY()) {
@@ -186,9 +189,7 @@ public abstract class GameMap implements MapHandler {
         if (tile != null && tile.getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
             //There is two lasers here remove only the one we want and restore tile to the other
             entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
-            Iterator<Tile> iterator = entityLasers.iterator();
-            while (iterator.hasNext()) {
-                Tile laserTile = iterator.next();
+            for (Tile laserTile : entityLasers) {
                 if (laserTile.getX() == entityLaser.getX() && laserTile.getY() == entityLaser.getY()) {
                     entityLasers.remove(laserTile);
                     entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
@@ -210,16 +211,7 @@ public abstract class GameMap implements MapHandler {
         return entityLasers;
     }
 
-    /**
-     * @return the list of positions for the entities their index correspond to entities in the entities
-     */
-    protected List<Vector2Int> getPrevPosOfEntities() {
-        return prevPosOfEntity;
-    }
-
-    @NotNull
-    @Override
-    public List<Entity> getEntities() {
+    public Map<UVector2Int, Entity> getEntities() {
         return entities;
     }
 
@@ -261,29 +253,27 @@ public abstract class GameMap implements MapHandler {
     @Override
     @Nullable
     public Tile getTile(@NotNull String layerName, int x, int y) {
-        TiledMapTileLayer layer = getLayer(layerName);
-        if (layerName.equals(ENTITY_LAYER_NAME)) {
+        TiledMapTileLayer layer;
+        if (ENTITY_LAYER_NAME.equals(layerName)) {
             layer = entityLayer;
-        } else if (layerName.equals(ENITTY_LASER_LAYER_NAME)) {
+        } else if (ENITTY_LASER_LAYER_NAME.equals(layerName)) {
             layer = entityLaserLayer;
+        } else {
+            layer = getLayer(layerName);
         }
-        return layer != null ? getTile(layer, x, y) : null;
+        return getTile(layer, x, y);
     }
 
     //TODO test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
     @Override
     @Nullable
-    public Tile getTile(@NotNull TiledMapTileLayer layer, int x, int y) {
-        if (isOutsideBoard(x, y)) {
+    public Tile getTile(@Nullable TiledMapTileLayer layer, int x, int y) {
+        if (isOutsideBoard(x, y) || layer == null) {
             return null;
         }
 
         if (layer.equals(entityLayer)) {
-            for (Entity entity : entities) {
-                if (entity.getX() == x && entity.getY() == y) {
-                    return entity;
-                }
-            }
+            return entities.get(new UVector2Int(x, y));
         }
 
         if (layer.equals(entityLaserLayer)) {
@@ -320,5 +310,4 @@ public abstract class GameMap implements MapHandler {
     public List<Tile> getAllTiles(int x, int y) {
         return tiles.keySet().stream().map(layer -> getTile(layer, x, y)).filter(Objects::nonNull).collect(Collectors.toList());
     }
-
 }

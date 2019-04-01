@@ -3,11 +3,11 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -33,17 +33,12 @@ import static org.junit.Assert.assertEquals;
 public class ConveyorTileTest extends TestGraphics {
 
 
-    private static RoboRally roboRally;
-    private AbstractPlayer testPlayer;
-
-    @BeforeClass
-    public static void beforeClass() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
-    }
+    private RoboRally roboRally;
+    private IPlayer testPlayer;
 
     @Before
     public void setUp() {
-        roboRally.getPlayerHandler().generateOnePlayer();
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
         testPlayer = roboRally.getPlayerHandler().testPlayer();
     }
 
@@ -85,6 +80,7 @@ public class ConveyorTileTest extends TestGraphics {
         assertEquals(0, testPlayer.getY());
     }
 
+    @Ignore //rotation removed from conveyors for now (as it REALLY doesn't work)
     @Test
     public void movingFromTurningConveyorShouldTurnRobot() {
         testPlayer.setDirection(Direction.NORTH);
