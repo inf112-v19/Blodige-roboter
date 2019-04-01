@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="4" height="3" tilewidth="300" tileheight="300" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="4" height="3" tilewidth="300" tileheight="300" infinite="0" nextlayerid="5" nextobjectid="1">
  <tileset firstgid="1" source="../tiles_tileset.tsx"/>
  <layer id="1" name="board" width="4" height="3">
   <data encoding="csv">
 5,5,5,5,
 5,5,5,5,
 5,5,5,5
+</data>
+ </layer>
+ <layer id="4" name="lasers" width="4" height="3">
+  <data encoding="csv">
+0,0,0,0,
+0,0,0,0,
+0,0,0,0
 </data>
  </layer>
  <layer id="2" name="flags" width="4" height="3">

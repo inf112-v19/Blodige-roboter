@@ -29,6 +29,7 @@ public class RoboRally {
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player);
         }
+
     }
 
     public void round() {

@@ -52,6 +52,18 @@ public enum Attribute {
      * Mark this movable tile to be pushed if something moves onto it
      */
     PUSHABLE(MovableTile.class),
+
+    /**
+     * This tile shoots a laser
+     */
+    SHOOTS_LASER,
+
+    /**
+     * This tile lays down a new  laser trail, its an extension for shoot_laser and should not occur together with it
+     * meaning it puts down laser on the entitylaser layer
+     * e.g robots
+     */
+    LAYS_DOWN_LASER,
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;

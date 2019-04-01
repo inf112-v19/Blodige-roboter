@@ -23,12 +23,12 @@ public enum TileType {
     DEFAULT,
     FLAG(FlagTile.class),
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
-    LASER,
     ROBOT(Robot.class, PUSHABLE),
     GEAR(GearTile.class),
     SPAWN,
     VOID(DeathTile.class, ACTIVE_ONLY_ON_STEP),
     WALL(WallTile.class),
+    LASER(LaserTile.class),
     WRENCH(WrenchTile.class);
 
     private final Class<? extends Tile> implClass;

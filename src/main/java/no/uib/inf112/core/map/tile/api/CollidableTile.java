@@ -14,6 +14,6 @@ public interface CollidableTile extends MultiDirectionalTile {
      * @param dir  The direction the tile will be moving
      * @return {@code true} if the given tile, {@code tile}, will collide with this tile if it moves in given direction, {@code dir}
      */
-    boolean willCollide(MovableTile tile, Direction dir);
+    boolean willCollide(Tile tile, Direction dir);
 
 }
