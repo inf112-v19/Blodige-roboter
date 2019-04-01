@@ -39,6 +39,7 @@ Under kommer kravene samlet i tre kategorier, de vi mener at vi er ferdige, de v
   - Her har vi tatt en forutsetning om at robotene skyter "evig" langt men ikke gjennom andre roboter, vegger eller "dyttere", dette samsvarer også med spillmanualen
   - [#19](https://github.com/inf112-v19/Blodige-roboter/issues/19)
 - fungerende samlebånd på brettet som flytter robotene
+  - Doble samlebånd gjenstår, og samlebåndene roterer ikke da det er noe kompleks logikk, dette fullfører vi etter oblig 4 innlevering.
   - [#17](https://github.com/inf112-v19/Blodige-roboter/issues/17)
 - fungerende gyroer på brettet som flytter robotene
   - [#18](https://github.com/inf112-v19/Blodige-roboter/issues/18)
