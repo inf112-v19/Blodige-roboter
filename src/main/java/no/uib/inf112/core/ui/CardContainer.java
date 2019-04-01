@@ -63,7 +63,6 @@ public class CardContainer {
                 drawnCard[i].setCard(draw[i]);
             }
         }
-
     }
 
 
