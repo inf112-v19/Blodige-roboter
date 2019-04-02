@@ -258,7 +258,7 @@ public enum TileGraphic {
             return null;
         }
 
-        if (!tileType.getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
+        if (!getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
             throw new IllegalStateException("TileType class (" + tileType.getImplClass() + ") does not have the required interface " + tileType.getAttributes());
         }
 

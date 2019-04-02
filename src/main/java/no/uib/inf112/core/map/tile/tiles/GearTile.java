@@ -1,5 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * @author Elg
  */
-public class GearTile extends AbstractRequirementTile implements ActionTile<SingleDirectionalTile> {
+public class GearTile extends AbstractRequirementTile implements ActionTile<SingleDirectionalTile>, SingleDirectionalTile {
 
     private Direction rotation;
 
@@ -42,10 +43,36 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
         return Collections.singletonList(SingleDirectionalTile.class);
     }
 
+    @NotNull
+    @Override
+    public TiledMapTile getTile() {
+        //This will sadly not update the graphic, so this could be fixed in the future
+        switch (rotation) {
+            case WEST:
+                return TileGraphic.ROTATE_COUNTERCLOCKWISE.getTile();
+            case EAST:
+                return TileGraphic.ROTATE_CLOCKWISE.getTile();
+            default:
+                throw new IllegalStateException("Cannot display gear that rotates in the direction " + rotation);
+        }
+    }
+
+    @NotNull
+    @Override
+    public Direction getDirection() {
+        return rotation;
+    }
+
+    @Override
+    public void setDirection(@NotNull Direction direction) {
+        if (direction != Direction.WEST && direction != Direction.EAST) {
+            throw new IllegalArgumentException("Gears can only spin in the WEST and EAST directions.");
+        }
+        this.rotation = direction;
+    }
+
     @Override
     public String toString() {
-        return "GearTile{" +
-                "rotation=" + rotation +
-                '}';
+        return "GearTile{" + "rotation=" + rotation + '}';
     }
 }
