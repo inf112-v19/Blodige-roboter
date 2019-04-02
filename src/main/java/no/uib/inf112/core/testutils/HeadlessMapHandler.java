@@ -1,4 +1,4 @@
-package no.uib.inf112.core.testUtils;
+package no.uib.inf112.core.testutils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;

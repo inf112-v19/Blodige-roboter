@@ -18,7 +18,7 @@ public class MapCameraTest extends TestGraphics {
 
 
     @Before
-    public void setup() {
+    public void setUp() {
         c = new MapCameraTestImpl();
     }
 

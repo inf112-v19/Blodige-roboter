@@ -19,5 +19,6 @@ public class SlotTarget extends DragAndDrop.Target {
 
     @Override
     public void drop(final DragAndDrop.Source source, final Payload payload, final float x, final float y, final int pointer) {
+        //Do nothing
     }
 }

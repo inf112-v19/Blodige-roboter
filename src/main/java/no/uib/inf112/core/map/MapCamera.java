@@ -19,12 +19,12 @@ public abstract class MapCamera extends GameMap {
 
     private Vector2 tilesShown = new Vector2();
 
-    MapCamera(String map) {
+    public MapCamera(String map) {
         super(map);
         setupCamera();
     }
 
-    MapCamera() {
+    public MapCamera() {
         setupCamera();
     }
 
@@ -76,7 +76,7 @@ public abstract class MapCamera extends GameMap {
     /**
      * @return How many tiles are shown in the x any y direction
      */
-    Vector2 tilesShown() {
+    protected Vector2 tilesShown() {
         tilesShown.x = (currWidth * camera.zoom) / getTileWidth();
         tilesShown.y = (currHeight * camera.zoom) / getTileHeight();
         return tilesShown;
@@ -86,7 +86,7 @@ public abstract class MapCamera extends GameMap {
     /*
      * Calculate how much larger the current screen is than the default size
      */
-    float deltaSize() {
+    protected float deltaSize() {
         return ((currWidth / defaultWidth) + (currHeight / defaultHeight)) / 2;
     }
 

@@ -127,12 +127,12 @@ public class WallTileTest extends TestGraphics {
 
         @Override
         public void heal(int amount) {
-
+            //Dummy robot no need for implementation
         }
 
         @Override
         public void kill() {
-
+            //Dummy robot no need for implementation
         }
 
         @NotNull

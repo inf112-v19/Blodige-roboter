@@ -28,9 +28,7 @@ import static org.junit.Assert.*;
 
 public class CardContainerTest extends TestGraphics {
 
-    private MovementDeck deck = new MovementDeck();
     private CardContainer container;
-    private RoboRally roboRally;
     private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
     @Before

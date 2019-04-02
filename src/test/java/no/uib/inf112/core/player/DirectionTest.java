@@ -12,23 +12,23 @@ public class DirectionTest {
     private Direction dir;
 
     @Before
-    public void setup() {
+    public void setUp() {
         dir = NORTH;
     }
 
     //INVERSE()
     @Test
-    public void NORTHInvertedShouldReturnSOUTH() {
+    public void northInvertedShouldReturnSOUTH() {
         assertEquals(SOUTH, dir.inverse());
     }
 
     @Test
-    public void NORTHInvertedTwiceShouldReturnNORTH() {
+    public void northInvertedTwiceShouldReturnNORTH() {
         assertEquals(NORTH, dir.inverse().inverse());
     }
 
     @Test
-    public void EASTInvertedShouldReturnWEST() {
+    public void eastInvertedShouldReturnWEST() {
         dir = EAST;
         assertEquals(WEST, dir.inverse());
     }
@@ -36,30 +36,30 @@ public class DirectionTest {
 
     // LEFT()
     @Test
-    public void NORTHTurnedLeftShouldReturnWest() {
+    public void northTurnedLeftShouldReturnWest() {
         assertEquals(WEST, dir.turnLeft());
     }
 
     @Test
-    public void NORTHTurnedLeftFourTimesShouldReturnNorth() {
+    public void northTurnedLeftFourTimesShouldReturnNorth() {
         assertEquals(NORTH, dir.turnLeft().turnLeft().turnLeft().turnLeft());
     }
 
 
     // RIGHT()
     @Test
-    public void NORTHTurnedRightShouldReturnEast() {
+    public void northTurnedRightShouldReturnEast() {
         assertEquals(EAST, dir.turnRight());
     }
 
     @Test
-    public void NORTHTurnedRightFourTimesShouldReturnNorth() {
+    public void northTurnedRightFourTimesShouldReturnNorth() {
         assertEquals(NORTH, dir.turnRight().turnRight().turnRight().turnRight());
     }
 
 
     @Test
-    public void InvertingShouldReturnTheSameAsTurningTwice() {
+    public void invertingShouldReturnTheSameAsTurningTwice() {
         Direction turnedLeft = NORTH.turnLeft().turnLeft();
         Direction turnedRight = NORTH.turnRight().turnRight();
 
