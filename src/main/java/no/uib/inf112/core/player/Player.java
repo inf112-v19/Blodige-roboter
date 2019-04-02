@@ -31,7 +31,7 @@ public class Player extends AbstractPlayer {
                     return;
 
                 }
-                poweredDown = !poweredDown;
+                setPoweredDown(!isPoweredDown());
                 System.out.println("Powered down? " + isPoweredDown());
             });
         }
