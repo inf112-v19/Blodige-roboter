@@ -21,7 +21,7 @@ public class PowerButton extends ImageTextButton {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().isPoweredDown() ? 0.25f : -0.25f;
+                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? 0.25f : -0.25f;
                 getColor().a += state;
                 GameGraphics.getCPEventHandler().fireEvent(new PowerDownEvent());
             }

@@ -116,6 +116,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    public boolean willPowerDown() {
+        return willPowerDown;
+    }
+
+    @Override
     public int getDamageTokens() {
         return MAX_HEALTH - health;
     }

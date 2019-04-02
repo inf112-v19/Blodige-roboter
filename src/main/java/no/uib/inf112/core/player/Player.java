@@ -19,7 +19,7 @@ public class Player extends AbstractPlayer {
 
     public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
         super(x, y, direction, map, Color.RED);
-        
+
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
@@ -31,8 +31,12 @@ public class Player extends AbstractPlayer {
                     return;
 
                 }
-                willPowerDown = !poweredDown;
-                System.out.println("Power down next round? " + !isPoweredDown());
+
+                willPowerDown = !willPowerDown;
+                System.out.println("Power down next round? " + willPowerDown);
+                if (poweredDown && willPowerDown) {
+                    poweredDown = false;
+                }
             });
         }
     }
