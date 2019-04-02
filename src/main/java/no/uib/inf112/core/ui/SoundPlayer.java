@@ -78,11 +78,3 @@ public class SoundPlayer {
         return Gdx.files.internal(SOUND_FOLDER + File.separatorChar + filename);
     }
 }
-
-/*
-TODO wiki
-- Hvordan legge inn ny sound
-- samme feltnavn som filnavn
-- alle lydfiler .wav
-- Filers kilde og lisens
- */

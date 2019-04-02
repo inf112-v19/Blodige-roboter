@@ -74,18 +74,15 @@ public abstract class GameMap implements MapHandler {
             throw new IllegalStateException("Given tiled map does not have a tile layer named '" + BOARD_LAYER_NAME + "'");
         }
         if (flags == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + FLAG_LAYER_NAME + "'");
         }
         if (collidables == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + COLLIDABLES_LAYER_NAME + "'");
         }
         if (lasers == null) {
-            lasers = new TiledMapTileLayer(mapWidth, mapHeight, tileWidth, tileHeight);
             System.out.println("WARN: Given tiled map does not have a tile layer named '" + LASERS_LAYER_NAME + "'");
         }
- 
+
         TiledMapTileLayer collidablesLayer = collidables;
         TiledMapTileLayer flagLayer = flags;
         TiledMapTileLayer boardLayer = baseLayer;
@@ -145,7 +142,7 @@ public abstract class GameMap implements MapHandler {
         return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
     }
 
-    //FIXME this should be tested
+    //TODO ISSUE #118 this should be tested
     @Override
     public boolean removeEntity(@Nullable Entity entity) {
         if (entity == null) {
@@ -264,7 +261,7 @@ public abstract class GameMap implements MapHandler {
         return getTile(layer, x, y);
     }
 
-    //TODO test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
+    //TODO ISSUE #118 test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
     @Override
     @Nullable
     public Tile getTile(@Nullable TiledMapTileLayer layer, int x, int y) {
@@ -304,7 +301,7 @@ public abstract class GameMap implements MapHandler {
         return tiles[x][y];
     }
 
-    //TODO test (this should return instance of all non-null tiles on all layers at the given location)
+    //TODO ISSUE #118  test (this should return instance of all non-null tiles on all layers at the given location)
     @Override
     @NotNull
     public List<Tile> getAllTiles(int x, int y) {
