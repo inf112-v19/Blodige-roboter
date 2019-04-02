@@ -26,8 +26,8 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     protected int flags;
 
-    boolean poweredDown;
-    boolean willPowerDown;
+    public boolean poweredDown;
+    public boolean willPowerDown;
 
 
     /**
