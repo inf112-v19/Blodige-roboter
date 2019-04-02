@@ -8,7 +8,6 @@ import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

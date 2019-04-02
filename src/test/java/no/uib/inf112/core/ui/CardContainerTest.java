@@ -2,12 +2,10 @@ package no.uib.inf112.core.ui;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
-import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
