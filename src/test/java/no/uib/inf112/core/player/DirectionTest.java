@@ -18,17 +18,17 @@ public class DirectionTest {
 
     //INVERSE()
     @Test
-    public void northInvertedShouldReturnSOUTH() {
+    public void northInvertedShouldReturnSouth() {
         assertEquals(SOUTH, dir.inverse());
     }
 
     @Test
-    public void northInvertedTwiceShouldReturnNORTH() {
+    public void northInvertedTwiceShouldReturnNorth() {
         assertEquals(NORTH, dir.inverse().inverse());
     }
 
     @Test
-    public void eastInvertedShouldReturnWEST() {
+    public void eastInvertedShouldReturnWest() {
         dir = EAST;
         assertEquals(WEST, dir.inverse());
     }
