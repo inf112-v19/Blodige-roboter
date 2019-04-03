@@ -1,11 +1,11 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.SingleDirectionalTile;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -32,8 +32,8 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     }
 
     @Override
-    public void playActionSound() {
-        GameGraphics.getSoundPlayer().playRobotMoving();
+    public Sound getActionSound() {
+        return Sound.getOptionCard;
     }
 
     @Nullable

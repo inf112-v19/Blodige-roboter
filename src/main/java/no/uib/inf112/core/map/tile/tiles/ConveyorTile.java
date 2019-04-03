@@ -1,9 +1,9 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -35,8 +35,8 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     }
 
     @Override
-    public void playActionSound() {
-        GameGraphics.getSoundPlayer().playRobotMoving();
+    public Sound getActionSound() {
+        return Sound.conveyor;
     }
 
     @NotNull

@@ -8,6 +8,7 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -167,7 +168,7 @@ public abstract class Robot extends AbstractTile implements Entity {
                 }
             }, maxTimePerMovement * i);
         }
-        GameGraphics.getSoundPlayer().playRobotMoving();
+        Sound.robotMoving.play();
     }
 
     private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {

@@ -46,6 +46,7 @@ public class ConveyorPhase extends AbstractPhase {
                     for (Tile otherTile : tiles) {
                         if (conveyor.canDoAction(otherTile)) {
                             conveyor.action((MovableTile) otherTile);
+                            conveyor.getActionSound().play();
                         }
                     }
                 }

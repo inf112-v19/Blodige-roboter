@@ -22,8 +22,6 @@ public class RoboRally {
         } else {
             map = new TiledMapHandler(mapPath);
         }
-
-        GameGraphics.getSoundPlayer();
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {

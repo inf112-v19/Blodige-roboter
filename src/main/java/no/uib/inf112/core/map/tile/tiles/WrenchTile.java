@@ -1,11 +1,11 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.BackupableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,8 +29,8 @@ public class WrenchTile extends AbstractRequirementTile implements ActionTile<Ba
     }
 
     @Override
-    public void playActionSound() {
-        GameGraphics.getSoundPlayer().playRobotUpdatesBackup();
+    public Sound getActionSound() {
+        return Sound.robotUpdatesBackup;
     }
 
     @Nullable
