@@ -25,7 +25,6 @@ public enum Direction {
     private final int dy;
 
     Direction(int dx, int dy) {
-
         this.dx = dx;
         this.dy = dy;
     }

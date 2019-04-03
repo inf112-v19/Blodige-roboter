@@ -13,17 +13,17 @@ public class HeadlessMapHandler extends TiledMapHandler {
 
     @Override
     public void render(@NotNull Batch batch) {
-        //Do nothing
+        //Skeleton code: made for running in test environment nowhere to render too
     }
 
     @Override
     public void zoomCamera(int direction) {
-        //Do nothing
+        //Skeleton code: made for running in test environment nowhere to render too
     }
 
     @Override
     public void moveCamera(float dx, float dy) {
-        //Do nothing
+        //Skeleton code: made for running in test environment nowhere to render too
     }
 
     @Override
@@ -33,7 +33,7 @@ public class HeadlessMapHandler extends TiledMapHandler {
 
     @Override
     public void resize(int width, int height) {
-        //Do nothing
+        //Skeleton code: made for running in test environment nowhere to render too
     }
 
 }
