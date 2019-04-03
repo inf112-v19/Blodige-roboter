@@ -46,5 +46,6 @@
 
 * When pressing the power down button (red circle) it darkens.
 * This followed by choosing cards and playing the following round should put the robot in a power down mode the next round
-* No movementcards used but still affected by the map, the player should also be fully healed.
+* No movementcards used but robot is still interactive, but does not move nor shoot lasers, the player should also be fully healed.
+
 * After the power down round the player should not be in a power down state anymore
