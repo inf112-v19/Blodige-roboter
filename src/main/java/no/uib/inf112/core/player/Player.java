@@ -80,7 +80,7 @@ public class Player extends AbstractPlayer {
                 ", y=" + getX() +
                 ", dir=" + getDirection() +
                 ", flags=" + flags +
-                ", poweredDown=" + poweredDown +
+                ", poweredDown=" + isPoweredDown() +
                 '}';
     }
 }

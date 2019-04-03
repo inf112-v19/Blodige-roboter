@@ -108,11 +108,6 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
      */
     @Override
     public void move(int dx, int dy, int maxTime) {
-        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
-            kill();
-            update();
-            return;
-        }
         if (dx == 0 && dy == 0) {
             return;
         }
@@ -127,11 +122,19 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
 
-            if (willCollide(this, 0, 0, dir)) {
-                return;
-            }
-
             GameGraphics.scheduleSync(() -> {
+                // Collision with wall on the same tile as robot
+                if (willCollide(this, 0, 0, dir)) {
+                    return;
+                }
+
+                // Robot walks out of map
+                if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + sdx, pos.y + sdy)) {
+                    kill();
+                    update();
+                    return;
+                }
+
                 if (!willCollide(this, sdx, sdy, dir)) {
                     pos.x += sdx;
                     pos.y += sdy;

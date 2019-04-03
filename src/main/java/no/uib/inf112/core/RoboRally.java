@@ -7,7 +7,7 @@ import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.round.DefaultGameRule;
-import no.uib.inf112.core.testUtils.HeadlessMapHandler;
+import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class RoboRally {
