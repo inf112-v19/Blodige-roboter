@@ -23,7 +23,7 @@ public class HeadlessMapHandler extends TiledMapHandler {
 
     @Override
     public void moveCamera(float dx, float dy) {
-        //Skeleton code: made for running in test environment nowhere to render too
+        //Skeleton code: no camera to move
     }
 
     @Override

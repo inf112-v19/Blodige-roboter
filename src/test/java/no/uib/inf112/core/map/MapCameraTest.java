@@ -103,8 +103,8 @@ public class MapCameraTest extends TestGraphics {
 
     @Test
     public void zoomingScalesCorrectlyWithTilesShown() {
-        for (float i = DEFAULT_MAX_ZOOM; i >= DEFAULT_MIN_ZOOM; i--) {
-            assertEquals(new Vector2(i, i), c.tilesShown());
+        for (double i = DEFAULT_MAX_ZOOM; i >= DEFAULT_MIN_ZOOM; i--) {
+            assertEquals(new Vector2((float) i, (float) i), c.tilesShown());
             c.zoomCamera(ZOOM_IN);
         }
     }
@@ -124,12 +124,12 @@ public class MapCameraTest extends TestGraphics {
 
         @Override
         public void render(@NotNull Batch batch) {
-
+            //Skeleton code: made for running in test environment nowhere to render too
         }
 
         @Override
         public void update(float delta) {
-
+            //Skeleton code: made for running in test environment nowhere to render too
         }
 
         @Override
