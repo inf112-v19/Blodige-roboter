@@ -19,12 +19,12 @@ public abstract class MapCamera extends GameMap {
 
     private Vector2 tilesShown = new Vector2();
 
-    public MapCamera(String map) {
+    protected MapCamera(String map) {
         super(map);
         setupCamera();
     }
 
-    public MapCamera() {
+    protected MapCamera() {
         setupCamera();
     }
 
