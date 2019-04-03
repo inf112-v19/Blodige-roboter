@@ -62,6 +62,12 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     boolean isPoweredDown();
 
     /**
+     *
+     * @param poweredDown if it should be powered down or not
+     */
+    void setPoweredDown(boolean poweredDown);
+
+    /**
      * @return amount of damage tokens
      */
     int getDamageTokens();

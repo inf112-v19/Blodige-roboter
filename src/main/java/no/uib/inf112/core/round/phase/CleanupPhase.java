@@ -40,7 +40,7 @@ public class CleanupPhase implements Phase {
                     if (tile != null && tile.hasSuperClass(Cleanup.class)) {
                         Cleanup cleanTile = (Cleanup) tile;
                         for (Tile otherTile : tiles) {
-                            if (otherTile != tile && cleanTile.canDoAction(otherTile)) {
+                            if (!otherTile.equals(tile) && cleanTile.canDoAction(otherTile)) {
                                 //noinspection unchecked checked in actionTile.canDoAction
                                 cleanTile.clean(otherTile);
                             }

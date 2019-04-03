@@ -8,7 +8,6 @@ import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,13 +23,8 @@ public class TestSetupTest extends TestGraphics {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
     }
 
-    @Before
-    public void setUp() {
-//        roboRally.getPlayerHandler().generatePlayers();
-    }
-
     @Test
-    public void MoveShouldMovePlayer() {
+    public void moveShouldMovePlayer() {
         IPlayer robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         robot.move(Movement.MOVE_1, 0);
@@ -39,7 +33,7 @@ public class TestSetupTest extends TestGraphics {
     }
 
     @Test
-    public void MapShouldGetLoaded() {
+    public void mapShouldGetLoaded() {
         IPlayer robot = roboRally.getPlayerHandler().testPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         Tile tile = roboRally.getCurrentMap().getTile(MapHandler.BOARD_LAYER_NAME, pos.x, pos.y);

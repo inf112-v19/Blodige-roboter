@@ -222,11 +222,11 @@ public abstract class GameMap implements MapHandler {
         return mapHeight;
     }
 
-    TiledMapTileLayer getEntityLayer() {
+    protected TiledMapTileLayer getEntityLayer() {
         return entityLayer;
     }
 
-    TiledMap getTiledMap() {
+    protected TiledMap getTiledMap() {
         return tiledMap;
     }
 
