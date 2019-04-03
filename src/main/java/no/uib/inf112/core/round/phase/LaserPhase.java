@@ -32,10 +32,8 @@ public class LaserPhase extends AbstractPhase {
                     GameGraphics.scheduleSync(() -> shootAlreadyExistingLaser(map, collidablesTile), getRunTime() / 5);
                 }
                 Tile entitiesTile = map.getTile(ENTITY_LAYER_NAME, x, y);
-                if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER)) {
-                    if (!((IPlayer) (entitiesTile)).isPoweredDown()) {
+                if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER) && !((IPlayer) (entitiesTile)).isPoweredDown()) {
                         GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
-                    }
                 }
             }
 
