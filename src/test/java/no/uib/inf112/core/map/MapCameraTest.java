@@ -67,10 +67,10 @@ public class MapCameraTest extends TestGraphics {
 
     @Test
     public void zoomNineTimesZoomsCorrect() {
-        for (float i = DEFAULT_MAX_ZOOM; i > DEFAULT_MIN_ZOOM; i--) {
-            float zoom = c.getCamera().zoom;
+        for (double i = DEFAULT_MAX_ZOOM; i > DEFAULT_MIN_ZOOM; i--) {
+            double zoom = c.getCamera().zoom;
             c.zoomCamera(ZOOM_IN);
-            assertEquals("i: " + i, zoom - DEFAULT_ZOOM_SENSITIVITY, c.getCamera().zoom);
+            assertEquals("i: " + i, zoom - DEFAULT_ZOOM_SENSITIVITY, (double) c.getCamera().zoom);
         }
     }
 

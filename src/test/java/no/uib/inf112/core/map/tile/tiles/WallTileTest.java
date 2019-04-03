@@ -28,7 +28,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -39,7 +39,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -50,7 +50,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -61,7 +61,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -77,7 +77,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -89,7 +89,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -101,7 +101,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -114,7 +114,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 

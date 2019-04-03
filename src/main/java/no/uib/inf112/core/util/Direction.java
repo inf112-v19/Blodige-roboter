@@ -46,18 +46,18 @@ public enum Direction {
      * @throws IllegalArgumentException if the given arguments does not match any direction
      */
     public static Direction fromDelta(int dx, int dy) {
-        dx = (int) Math.signum(dx);
-        dy = (int) Math.signum(dy);
-        if (dx == NORTH.dx && dy == NORTH.dy) {
+        int newDx = (int) Math.signum(dx);
+        int newDy = (int) Math.signum(dy);
+        if (newDx == NORTH.dx && newDy == NORTH.dy) {
             return NORTH;
-        } else if (dx == EAST.dx && dy == EAST.dy) {
+        } else if (newDx == EAST.dx && newDy == EAST.dy) {
             return EAST;
-        } else if (dx == WEST.dx && dy == WEST.dy) {
+        } else if (newDx == WEST.dx && newDy == WEST.dy) {
             return WEST;
-        } else if (dx == SOUTH.dx && dy == SOUTH.dy) {
+        } else if (newDx == SOUTH.dx && newDy == SOUTH.dy) {
             return SOUTH;
         }
-        throw new IllegalArgumentException("Unknown direction (" + dx + ", " + dy + ")");
+        throw new IllegalArgumentException("Unknown direction (" + newDx + ", " + newDy + ")");
     }
 
     /**
