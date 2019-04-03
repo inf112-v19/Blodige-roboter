@@ -60,6 +60,8 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public void startTurn() {
 
+        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
+
         Player p = (Player) mainPlayer();
         p.poweredDown = p.willPowerDown;
         if (p.isDestroyed()) {
