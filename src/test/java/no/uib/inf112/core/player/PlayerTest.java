@@ -23,7 +23,7 @@ public class PlayerTest extends TestGraphics {
     private static MapHandler map;
 
     @Before
-    public void setup() {
+    public void setUp() {
 
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();

@@ -25,7 +25,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     protected int flags;
 
-    boolean poweredDown;
+    private boolean poweredDown;
 
 
     /**
@@ -110,6 +110,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     @Override
     public boolean isPoweredDown() {
         return poweredDown;
+    }
+
+    @Override
+    public void setPoweredDown(boolean poweredDown) {
+        this.poweredDown = poweredDown;
     }
 
     @Override
