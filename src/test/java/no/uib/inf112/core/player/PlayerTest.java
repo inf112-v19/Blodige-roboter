@@ -200,7 +200,7 @@ public class PlayerTest extends TestGraphics {
 
         @Override
         public void clean(@NotNull Tile tile) {
-            //EMPTY
+            //This method does not do anything for this test class
         }
 
         @Nullable
