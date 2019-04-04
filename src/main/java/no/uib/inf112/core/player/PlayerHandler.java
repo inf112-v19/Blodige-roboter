@@ -58,13 +58,17 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public void startTurn() {
 
+        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
+
         Player p = (Player) mainPlayer();
+        p.setPoweredDown(p.willPowerDown());
         if (p.isDestroyed()) {
             return;
         }
         if (p.isPoweredDown()) {
-            p.heal();
-            p.setPoweredDown(false);
+            p.heal(Player.MAX_HEALTH);
+            p.setWillPowerDown(false);
+            p.endDrawCards();
         } else {
             p.beginDrawCards();
         }

@@ -26,5 +26,4 @@ public class NonPlayer extends AbstractPlayer {
         return new ComparableTuple<>(deck[id], this);
     }
 
-
 }

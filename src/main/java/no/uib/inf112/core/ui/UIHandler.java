@@ -49,6 +49,7 @@ public class UIHandler implements Disposable {
     private final Skin skin;
     private final Table controlPanelTable;
     private final Stage stage;
+    private PowerButton powerButton;
 
     private final DragAndDrop dad;
     private final Table cardDrawTable;
@@ -165,7 +166,8 @@ public class UIHandler implements Disposable {
         }
 
         //display power button, it will by default be to the right
-        topRow.add(new PowerButton());
+        powerButton = new PowerButton();
+        topRow.add(powerButton);
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
@@ -239,6 +241,10 @@ public class UIHandler implements Disposable {
 
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    }
+
+    public PowerButton getPowerButton() {
+        return powerButton;
     }
 
     @Override

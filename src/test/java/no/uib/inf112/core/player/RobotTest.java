@@ -4,15 +4,19 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
+import no.uib.inf112.core.map.tile.Attribute;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -194,6 +198,28 @@ public class RobotTest extends TestGraphics {
         @Override
         public Vector2Int getBackup() {
             return new Vector2Int(0, 0);
+        }
+
+        @Override
+        public void clean(@NotNull Tile tile) {
+            //This method does not do anything for this test class
+        }
+
+        @Nullable
+        @Override
+        public List<Attribute> requiredAttributes() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public List<Class<? extends Tile>> requiredSuperClasses() {
+            return null;
+        }
+
+        @Override
+        public boolean canDoAction(@NotNull Tile tile) {
+            return false;
         }
 
         @Override
