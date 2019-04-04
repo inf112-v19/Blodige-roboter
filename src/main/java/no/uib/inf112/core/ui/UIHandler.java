@@ -90,7 +90,7 @@ public class UIHandler implements Disposable {
     }
 
     public UIHandler() {
-        stage = new Stage(new FitViewport(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height));
+        stage = new Stage(new FitViewport(1920, 1080));
         GameGraphics.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
