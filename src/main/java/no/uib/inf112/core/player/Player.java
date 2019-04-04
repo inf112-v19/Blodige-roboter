@@ -32,11 +32,11 @@ public class Player extends AbstractPlayer {
 
                 }
 
-                if(poweredDown){
-                    poweredDown = false;
+                if(isPoweredDown()){
+                    setPoweredDown(false);
                 }
-                willPowerDown = !willPowerDown;
-                System.out.println("Power down next round? " + willPowerDown);
+                setWillPowerDown(!willPowerDown());
+                System.out.println("Power down next round? " + willPowerDown());
             });
         }
     }

@@ -61,13 +61,13 @@ public class PlayerHandler implements IPlayerHandler {
         GameGraphics.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
-        p.poweredDown = p.willPowerDown;
+        p.setPoweredDown(p.willPowerDown());
         if (p.isDestroyed()) {
             return;
         }
         if (p.isPoweredDown()) {
             p.heal(Player.MAX_HEALTH);
-            p.willPowerDown = false;
+            p.setWillPowerDown(false);
             p.endDrawCards();
         } else {
             p.beginDrawCards();
