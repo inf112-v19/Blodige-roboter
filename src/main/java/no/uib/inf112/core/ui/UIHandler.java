@@ -93,7 +93,7 @@ public class UIHandler implements Disposable {
         stage = new Stage(new FitViewport(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height));
         GameGraphics.getInputMultiplexer().addProcessor(stage);
 
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
 
         dad = new DragAndDrop();
         dad.setDragTime(50);
