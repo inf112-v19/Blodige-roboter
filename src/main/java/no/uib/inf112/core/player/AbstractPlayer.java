@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -121,6 +122,9 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     public void setPoweredDown(boolean poweredDown) {
+        if (poweredDown) {
+            Sound.robotShutdown.play();
+        }
         this.poweredDown = poweredDown;
     }
 
