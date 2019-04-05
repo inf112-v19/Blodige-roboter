@@ -132,6 +132,7 @@ public abstract class Robot extends AbstractTile implements Entity {
                 // Robot walks out of map
                 if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + sdx, pos.y + sdy)) {
                     kill();
+                    Sound.robotFalling.play();
                     update();
                     return;
                 }
@@ -168,7 +169,6 @@ public abstract class Robot extends AbstractTile implements Entity {
                 }
             }, maxTimePerMovement * i);
         }
-        Sound.robotMoving.play();
     }
 
     private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {

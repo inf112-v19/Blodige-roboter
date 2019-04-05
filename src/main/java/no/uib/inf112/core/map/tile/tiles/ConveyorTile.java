@@ -30,8 +30,9 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     }
 
     @Override
-    public void action(@NotNull MovableTile tile) {
+    public boolean action(@NotNull MovableTile tile) {
         tile.move(dir.getDx(), dir.getDy(), 0);
+        return true;
     }
 
     @Override

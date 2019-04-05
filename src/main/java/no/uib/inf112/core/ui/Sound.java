@@ -18,6 +18,7 @@ public enum Sound {
     getOptionCard("getOptionCard.wav"),
     robotUpdatesBackup("robotUpdatesBackup.wav");
 
+    private static final String SOUND_FOLDER = "sound";
     private final com.badlogic.gdx.audio.Sound sound;
 
     Sound(String filename) {
@@ -27,10 +28,7 @@ public enum Sound {
     public void play() {
         sound.play();
     }
-
-    //Static
-    private static final String SOUND_FOLDER = "sound";
-
+    
     private FileHandle getFile(String filename) {
         return Gdx.files.internal(SOUND_FOLDER + File.separatorChar + filename);
     }

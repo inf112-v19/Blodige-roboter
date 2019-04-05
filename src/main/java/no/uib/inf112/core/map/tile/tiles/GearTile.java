@@ -27,13 +27,16 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     }
 
     @Override
-    public void action(@NotNull SingleDirectionalTile tile) {
+    public boolean action(@NotNull SingleDirectionalTile tile) {
+        Direction orgRotation = tile.getDirection();
         tile.rotate(rotation);
+        return orgRotation != tile.getDirection();
     }
 
     @Override
     public Sound getActionSound() {
-        return Sound.getOptionCard;
+
+        return Sound.conveyor;
     }
 
     @Nullable

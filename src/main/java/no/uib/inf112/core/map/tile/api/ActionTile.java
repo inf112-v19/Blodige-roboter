@@ -17,7 +17,7 @@ public interface ActionTile<T extends Tile> extends RequirementTile {
      *
      * @param tile The tile to do the action on.
      */
-    void action(@NotNull T tile);
+    boolean action(@NotNull T tile);
 
     /**
      * The sound played when the action is executed

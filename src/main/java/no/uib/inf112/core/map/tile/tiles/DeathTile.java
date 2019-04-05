@@ -23,8 +23,9 @@ public class DeathTile extends AbstractRequirementTile implements ActionTile<Mov
     }
 
     @Override
-    public void action(@NotNull MovableTile tile) {
+    public boolean action(@NotNull MovableTile tile) {
         tile.kill();
+        return true;
     }
 
     @Override

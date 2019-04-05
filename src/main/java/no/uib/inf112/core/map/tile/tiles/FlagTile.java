@@ -26,11 +26,12 @@ public class FlagTile extends AbstractRequirementTile implements ActionTile<IPla
     }
 
     @Override
-    public void action(@NotNull IPlayer player) {
+    public boolean action(@NotNull IPlayer player) {
         if (player.canGetFlag(flagNr)) {
             player.registerFlagVisit();
-            getActionSound().play();
+            return player.getFlags() >= flagNr;
         }
+        return false;
     }
 
     @Override
