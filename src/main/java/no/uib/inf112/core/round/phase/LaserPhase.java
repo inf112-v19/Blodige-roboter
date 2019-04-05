@@ -8,6 +8,7 @@ import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -32,8 +33,8 @@ public class LaserPhase extends AbstractPhase {
                     GameGraphics.scheduleSync(() -> shootAlreadyExistingLaser(map, collidablesTile), getRunTime() / 5);
                 }
                 Tile entitiesTile = map.getTile(ENTITY_LAYER_NAME, x, y);
-                if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER)) {
-                    GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
+                if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER) && !((IPlayer) (entitiesTile)).isPoweredDown()) {
+                        GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
                 }
             }
 
@@ -48,7 +49,6 @@ public class LaserPhase extends AbstractPhase {
      */
     private void shootLaserFromTile(@NotNull MapHandler map, @NotNull Tile tile) {
         SingleDirectionalTile prevTile = (SingleDirectionalTile) tile;
-
         Direction direction = prevTile.getDirection();
         Tile onTile = prevTile;
         List<LaserTile> activatedLasers = new ArrayList<>();

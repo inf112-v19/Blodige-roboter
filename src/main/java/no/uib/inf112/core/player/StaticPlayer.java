@@ -29,4 +29,5 @@ public class StaticPlayer extends AbstractPlayer {
     public ComparableTuple<Card, IPlayer> getNextCard(int id) {
         return new ComparableTuple<>(new MovementCard(Movement.RIGHT_TURN, 0), this);
     }
+
 }

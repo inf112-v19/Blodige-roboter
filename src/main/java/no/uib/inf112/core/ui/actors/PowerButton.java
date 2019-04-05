@@ -21,7 +21,7 @@ public class PowerButton extends ImageTextButton {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().isPoweredDown() ? 0.25f : -0.25f;
+                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? 0.50f : -0.50f;
                 getColor().a += state;
                 GameGraphics.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
@@ -47,5 +47,9 @@ public class PowerButton extends ImageTextButton {
         style.imageUp = new TextureRegionDrawable(UIHandler.POWER_DOWN_TEXTURE);
         style.font = new BitmapFont();
         return style;
+    }
+
+    public void resetAlpha() {
+        getColor().a = 1f;
     }
 }

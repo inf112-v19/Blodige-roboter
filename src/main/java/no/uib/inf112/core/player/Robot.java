@@ -13,7 +13,7 @@ import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Robot extends AbstractTile implements Entity {
+public abstract class Robot extends AbstractRequirementTile implements Entity {
 
     private Direction direction;
     private boolean update;
