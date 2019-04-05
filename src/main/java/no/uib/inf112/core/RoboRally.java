@@ -17,7 +17,6 @@ public class RoboRally {
 
     private PlayerHandler playerHandler;
     private Deck deck;
-    private Music backgroundMusic;
 
     public RoboRally(String mapPath, int playerCount) {
         if (GameGraphics.HEADLESS) {
@@ -27,7 +26,7 @@ public class RoboRally {
         }
 
         //TODO refactor #123
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
+        Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.1f);
         backgroundMusic.play();
