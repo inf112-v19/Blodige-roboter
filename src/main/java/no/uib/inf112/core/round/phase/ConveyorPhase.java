@@ -44,11 +44,9 @@ public class ConveyorPhase extends AbstractPhase {
                     ConveyorTile conveyor = (ConveyorTile) tile;
                     List<Tile> tiles = map.getAllTiles(x, y);
                     for (Tile otherTile : tiles) {
-                        if (conveyor.canDoAction(otherTile)) {
-                            if (conveyor.action((MovableTile) otherTile)) {
-                                conveyor.getActionSound().play();
-                            }
-
+                        if (conveyor.canDoAction(otherTile) &&
+                                conveyor.action((MovableTile) otherTile)) {
+                            conveyor.getActionSound().play();
                         }
                     }
                 }
