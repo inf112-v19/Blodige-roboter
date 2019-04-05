@@ -26,6 +26,7 @@ public class RoboRally {
             map = new TiledMapHandler(mapPath);
         }
 
+        //TODO refactor #123
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.1f);
