@@ -13,6 +13,7 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      * @param damageAmount How much to damage the player
      * @throws IllegalArgumentException If the damage amount is not positive
      */
+    @Override
     void damage(int damageAmount);
 
     /**
@@ -62,10 +63,9 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     boolean isPoweredDown();
 
     /**
-     *
-     * @param poweredDown if it should be powered down or not
+     * @return if robot will power down next round
      */
-    void setPoweredDown(boolean poweredDown);
+    boolean willPowerDown();
 
     /**
      * @return amount of damage tokens

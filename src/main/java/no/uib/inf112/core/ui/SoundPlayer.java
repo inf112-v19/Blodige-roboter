@@ -19,6 +19,7 @@ public class SoundPlayer {
     private Sound pusher;
     private Sound getOptionCard;
     private Sound robotUpdatesBackup;
+    private Sound backgroundMusic;
 
 
     public SoundPlayer() {
@@ -32,6 +33,7 @@ public class SoundPlayer {
         pusher = Gdx.audio.newSound(getFile("pusher.wav"));
         getOptionCard = Gdx.audio.newSound(getFile("getOptionCard.wav"));
         robotUpdatesBackup = Gdx.audio.newSound(getFile("robotUpdatesBackup.wav"));
+        backgroundMusic = Gdx.audio.newSound(getFile("backgroundMusic.wav"));
     }
 
     public void playRobotMoving() {
@@ -72,6 +74,10 @@ public class SoundPlayer {
 
     public void playRobotUpdatesBackup() {
         robotUpdatesBackup.play();
+    }
+
+    public Sound getBackgroundMusic() {
+        return backgroundMusic;
     }
 
     private FileHandle getFile(String filename) {

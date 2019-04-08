@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.Player;
@@ -44,11 +44,12 @@ public class UIHandler implements Disposable {
     private static final TextureRegion FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
-    public static final int DEFAULT_SPACING = 5;
+    private static final int DEFAULT_SPACING = 5;
 
     private final Skin skin;
     private final Table controlPanelTable;
     private final Stage stage;
+    private PowerButton powerButton;
 
     private final DragAndDrop dad;
     private final Table cardDrawTable;
@@ -90,17 +91,27 @@ public class UIHandler implements Disposable {
     }
 
     public UIHandler() {
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(1920, 1080));
         GameGraphics.getInputMultiplexer().addProcessor(stage);
 
 //        stage.setDebugAll(true);
-        skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
-        controlPanelTable = new Table(skin);
 
         dad = new DragAndDrop();
         dad.setDragTime(50);
         dad.setDragActorPosition(CARDS_TEXTURE.getRegionWidth() / 2f, -CARDS_TEXTURE.getRegionHeight() / 2f);
+
+
+        Table backgroundTable = new Table();
+        stage.addActor(backgroundTable);
+        backgroundTable.setFillParent(true);
+
+        skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
+        controlPanelTable = new Table(skin);
         cardDrawTable = new Table();
+
+        backgroundTable.add(cardDrawTable).row();
+        backgroundTable.add(controlPanelTable).space(DEFAULT_SPACING);
+        backgroundTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
 
         create();
     }
@@ -109,8 +120,6 @@ public class UIHandler implements Disposable {
      * Initiate ui
      */
     private void create() {
-        stage.addActor(cardDrawTable);
-        stage.addActor(controlPanelTable);
 
         cardDrawTable.setTransform(false);
         cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
@@ -157,7 +166,8 @@ public class UIHandler implements Disposable {
         }
 
         //display power button, it will by default be to the right
-        topRow.add(new PowerButton());
+        powerButton = new PowerButton();
+        topRow.add(powerButton);
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
@@ -231,16 +241,10 @@ public class UIHandler implements Disposable {
 
     public void resize() {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    }
 
-        controlPanelTable.pack();
-        cardDrawTable.pack();
-
-        controlPanelTable.setX(Gdx.graphics.getWidth() / 2f - controlPanelTable.getWidth() / 2f); //center the cp in the x axis
-        controlPanelTable.setY(DEFAULT_SPACING); //let there be a gap at the bottom of screen
-
-        cardDrawTable.setX(Gdx.graphics.getWidth() / 2f - cardDrawTable.getWidth() / 2f);
-        //place the draw ui just above the control panel
-        cardDrawTable.setY(controlPanelTable.getY() + controlPanelTable.getHeight() + DEFAULT_SPACING);
+    public PowerButton getPowerButton() {
+        return powerButton;
     }
 
     @Override
