@@ -35,9 +35,12 @@ public class CardActor extends ImageTextButton {
         }
         if (card == null) {
             setText("");
-            getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);
+            getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE); // Empty slot
         } else {
-            setText("pri " + card.getPriority() + "\n" + card.getAction().toString());
+
+            String[] movement = card.getAction().toString().split(" ");
+            String movementWithNewline = movement[0] + "\n" + movement[1];
+            setText("pri " + card.getPriority() + "\n\n\n" + movementWithNewline);
             getStyle().imageUp = new TextureRegionDrawable(card.getRegionTexture());
             getLabelCell().padLeft(-card.getRegionTexture().getRegionWidth()); //make sure the text is within the card
         }

@@ -37,6 +37,7 @@ public class UIHandler implements Disposable {
 
     public static final TextureRegion UI_BACKGROUND_TEXTURE;
     public static final TextureRegion CARDS_TEXTURE;
+    public static final TextureRegion CARDS_SLOT_TEXTURE;
 
     public static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
@@ -60,7 +61,7 @@ public class UIHandler implements Disposable {
 
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("art/tiles.png"), 1, 1);
         CARDS_TEXTURE = new TextureRegion(new Texture("ui/cardSkin.png"), 100, 161);
-
+        CARDS_SLOT_TEXTURE = createTempRectTexture(100, 161, Color.LIGHT_GRAY);
 
         //UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
         //CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
