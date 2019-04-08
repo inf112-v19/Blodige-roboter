@@ -63,15 +63,16 @@ public class ConveyorPhase extends AbstractPhase {
                 }
             }
         }
-        GameGraphics.scheduleAsync(() -> rotateMoved(map, movedTiles), delayForRotation);
+        GameGraphics.scheduleSync(() -> rotateMoved(map, movedTiles), delayForRotation);
     }
 
     private void rotateMoved(MapHandler map, Map<MovableTile, Vector2Int> movedTiles) {
+        System.out.println("Called");
         for (Map.Entry<MovableTile, Vector2Int> entry : movedTiles.entrySet()) {
             if (entry.getKey().getX() != entry.getValue().x || entry.getKey().getY() != entry.getValue().y) {
                 //Entity moved
                 Tile tile = map.getTile(MapHandler.BOARD_LAYER_NAME, entry.getKey().getX(), entry.getKey().getY());
-                if (tile.getTileType() == TileType.ROTATION_CONVEYOR) {
+                if (tile != null && tile.getTileType() == TileType.ROTATION_CONVEYOR) {
                     ((ConditionalRotateEffectTile) tile).rotate(entry.getKey(), entry.getValue());
                 }
             }

@@ -22,35 +22,37 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
     @Override
     public boolean rotate(@NotNull MovableTile tile, Vector2Int prevPos) {
         if (hasAttribute(Attribute.LEFT)) {
-            return tile.rotate(tile.getDirection().turnLeft());
+            tile.setDirection(tile.getDirection().turnLeft());
+            return true;
         } else if (hasAttribute(Attribute.RIGHT)) {
-            return tile.rotate(tile.getDirection().turnRight());
+            tile.setDirection(tile.getDirection().turnRight());
+            return true;
         } else {
             int dx = tile.getX() - prevPos.x;
             int dy = tile.getY() - prevPos.y;
             if (dx == Direction.NORTH.getDx() && dy == Direction.NORTH.getDy()) {
                 if (hasAttribute(Attribute.NORTH_EAST)) {
-                    return tile.rotate(tile.getDirection().turnLeft());
+                    return tile.setDirection(tile.getDirection().turnLeft());
                 } else if (hasAttribute(Attribute.NORTH_WEST)) {
-                    return tile.rotate(tile.getDirection().turnRight());
+                    return tile.setDirection(tile.getDirection().turnRight());
                 }
             } else if (dx == Direction.EAST.getDx() && dy == Direction.EAST.getDy()) {
                 if (hasAttribute(Attribute.EAST_SOUTH)) {
-                    return tile.rotate(tile.getDirection().turnLeft());
+                    return tile.setDirection(tile.getDirection().turnLeft());
                 } else if (hasAttribute(Attribute.EAST_NORTH)) {
-                    return tile.rotate(tile.getDirection().turnRight());
+                    return tile.setDirection(tile.getDirection().turnRight());
                 }
             } else if (dx == Direction.SOUTH.getDx() && dy == Direction.SOUTH.getDy()) {
                 if (hasAttribute(Attribute.SOUTH_WEST)) {
-                    return tile.rotate(tile.getDirection().turnLeft());
+                    return tile.setDirection(tile.getDirection().turnLeft());
                 } else if (hasAttribute(Attribute.SOUTH_EAST)) {
-                    return tile.rotate(tile.getDirection().turnRight());
+                    return tile.setDirection(tile.getDirection().turnRight());
                 }
             } else if (dx == Direction.WEST.getDx() && dy == Direction.WEST.getDy()) {
                 if (hasAttribute(Attribute.WEST_NORTH)) {
-                    return tile.rotate(tile.getDirection().turnLeft());
+                    return tile.setDirection(tile.getDirection().turnLeft());
                 } else if (hasAttribute(Attribute.WEST_SOUTH)) {
-                    return tile.rotate(tile.getDirection().turnRight());
+                    return tile.setDirection(tile.getDirection().turnRight());
                 }
             }
             return false;
