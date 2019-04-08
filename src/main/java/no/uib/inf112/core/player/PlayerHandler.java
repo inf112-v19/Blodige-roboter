@@ -2,6 +2,7 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.round.phase.SpawnPhase;
 import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private List<IPlayer> players;
     private IPlayer user;
-    private Docks docks;
+    private boolean firstRound = true;
 
     /**
      * @param playerCount
@@ -30,10 +31,6 @@ public class PlayerHandler implements IPlayerHandler {
         } else if (playerCount > 8) {
             throw new IllegalArgumentException("Too many players");
         }
-
-        docks = new Docks(map);
-
-
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
@@ -62,6 +59,10 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
+        if(firstRound) {
+            new SpawnPhase(0).startPhase(GameGraphics.getRoboRally().getCurrentMap());
+            firstRound = false;
+        }
 
         GameGraphics.getUiHandler().getPowerButton().resetAlpha();
 
