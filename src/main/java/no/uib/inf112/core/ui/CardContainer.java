@@ -21,8 +21,8 @@ public class CardContainer {
     private final IPlayer holder;
     private Random random;
 
-    final CardSlot[] handCard;
-    final CardSlot[] drawnCard;
+    protected final CardSlot[] handCard;
+    protected final CardSlot[] drawnCard;
 
     /**
      * Before using any of the methods in this class you need to initiate {@link #handCard} and {@link #drawnCard} with {@link CardSlot}s.
@@ -63,7 +63,6 @@ public class CardContainer {
                 drawnCard[i].setCard(draw[i]);
             }
         }
-
     }
 
 

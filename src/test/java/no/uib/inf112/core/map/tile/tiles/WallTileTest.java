@@ -3,13 +3,17 @@ package no.uib.inf112.core.map.tile.tiles;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.MovableTile;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * @author Elg
@@ -28,7 +32,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -39,7 +43,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -50,7 +54,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -61,7 +65,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir.inverse(), wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -77,7 +81,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -89,7 +93,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -101,7 +105,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -114,7 +118,7 @@ public class WallTileTest extends TestGraphics {
 
         for (Direction dir : Direction.values()) {
             MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
-            Assert.assertEquals(blockedDir == dir, wallTile.willCollide(moveTile, dir));
+            Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
 
@@ -127,18 +131,34 @@ public class WallTileTest extends TestGraphics {
 
         @Override
         public void heal(int amount) {
-
+            //Dummy robot no need for implementation
         }
 
         @Override
         public void kill() {
-
+            //Dummy robot no need for implementation
         }
 
         @NotNull
         @Override
         public Vector2Int getBackup() {
             return new Vector2Int(0, 0);
+        }
+
+        @Nullable
+        @Override
+        public List<Class<? extends Tile>> requiredSuperClasses() {
+            return null;
+        }
+
+        @Override
+        public boolean canDoAction(@NotNull Tile tile) {
+            return false;
+        }
+
+        @Override
+        public void clean(@NotNull Tile tile) {
+            //This method does not do anything for this test class
         }
 
 

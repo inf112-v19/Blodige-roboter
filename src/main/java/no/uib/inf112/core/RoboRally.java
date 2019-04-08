@@ -1,5 +1,7 @@
 package no.uib.inf112.core;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
@@ -7,7 +9,7 @@ import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.round.DefaultGameRule;
-import no.uib.inf112.core.testUtils.HeadlessMapHandler;
+import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class RoboRally {
@@ -23,7 +25,12 @@ public class RoboRally {
             map = new TiledMapHandler(mapPath);
         }
 
-        GameGraphics.getSoundPlayer();
+        //TODO refactor #123
+        Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.1f);
+        backgroundMusic.play();
+
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {

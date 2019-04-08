@@ -41,3 +41,11 @@
 * Double step conveyor belt should move robot two steps between each move robot makes
 * When being moved from a turning double step conveyor belt, robot's direction should be changed
 * If robot is standing on the edge of a double step conveyor belt so that after being moved one step robot is no longer standing on the conveyor belt, robot should only be moved one step.
+
+### Power down
+
+* When pressing the power down button (red circle) it darkens.
+* This followed by choosing cards and playing the following round should put the robot in a power down mode the next round
+* No movementcards used but robot is still interactive, but does not move nor shoot lasers, the player should also be fully healed.
+
+* After the power down round the player should not be in a power down state anymore

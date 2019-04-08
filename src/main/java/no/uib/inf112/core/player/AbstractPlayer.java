@@ -3,6 +3,7 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,8 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     protected int flags;
 
-    boolean poweredDown;
+    private boolean poweredDown;
+    private boolean willPowerDown;
 
 
     /**
@@ -45,6 +47,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         lives = MAX_LIVES;
         health = MAX_HEALTH;
         poweredDown = false;
+        willPowerDown = false;
     }
 
     @Override
@@ -113,6 +116,19 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    public boolean willPowerDown() {
+        return willPowerDown;
+    }
+
+    public void setPoweredDown(boolean poweredDown) {
+        this.poweredDown = poweredDown;
+    }
+
+    public void setWillPowerDown(boolean willPowerDown) {
+        this.willPowerDown = willPowerDown;
+    }
+
+    @Override
     public int getDamageTokens() {
         return MAX_HEALTH - health;
     }
@@ -142,6 +158,14 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     @Override
     public void setDock(int dock) {
         this.dock = dock;
+    }
+
+    @Override
+    public void clean(@NotNull Tile tile) {
+        if (willPowerDown) {
+            poweredDown = true;
+            heal();
+        }
     }
 
     @Override
