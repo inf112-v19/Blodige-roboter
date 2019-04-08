@@ -95,6 +95,7 @@ public class ActionPhase extends AbstractPhase {
             if (otherTile != tile && tile.canDoAction(otherTile)) {
                 //noinspection unchecked checked in actionTile.canDoAction
                 tile.action(otherTile);
+                tile.playActionSound();
             }
         }
 
