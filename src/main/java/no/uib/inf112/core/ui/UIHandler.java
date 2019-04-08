@@ -48,6 +48,7 @@ public class UIHandler implements Disposable {
 
 
     public static final TextureRegion POWER_DOWN_TEXTURE;
+    public static final TextureRegion NOT_POWER_DOWN_TEXTURE;
 
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion NOT_LIFE_TOKEN_TEXTURE;
@@ -90,7 +91,9 @@ public class UIHandler implements Disposable {
         //CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
 
 
-        POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
+        POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/power_down.png"));
+        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/not_power_down.png"));
+        //POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
 
         LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/life.png"));
         NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_life.png"));
@@ -162,7 +165,7 @@ public class UIHandler implements Disposable {
     private void create() {
 
         cardDrawTable.setTransform(false);
-        cardDrawTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
+        cardDrawTable.setBackground(new TextureRegionDrawable(createTempRectTexture(1, 1, Color.LIGHT_GRAY)));
         cardDrawTable.getColor().a = 0.9f;
         cardDrawTable.pad(DEFAULT_SPACING);
         cardDrawTable.setVisible(false);
@@ -192,10 +195,10 @@ public class UIHandler implements Disposable {
                 @Override
                 public void act(float delta) {
                     if (isDisabled()) {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_LIFE_TOKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_LIFE_TOKEN_TEXTURE);
                         updateImage();
                     } else {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.LIFE_TOKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.LIFE_TOKEN_TEXTURE);
                         updateImage();
                     }
                 }
@@ -204,7 +207,7 @@ public class UIHandler implements Disposable {
 
         int flags = 8;
 
-        HorizontalGroup flagsTaken = new HorizontalGroup().space(DEFAULT_SPACING).padRight(DEFAULT_SPACING);
+        HorizontalGroup flagsTaken = new HorizontalGroup().space(2 * DEFAULT_SPACING).padRight(3 * DEFAULT_SPACING);
         topRow.add(flagsTaken);
         for (int i = 0; i < flags; i++) {
             int id = i;
@@ -217,10 +220,10 @@ public class UIHandler implements Disposable {
                 @Override
                 public void act(float delta) {
                     if (isDisabled()) {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_FLAG_TAKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_FLAG_TAKEN_TEXTURE);
                         updateImage();
                     } else {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.FLAG_TAKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.FLAG_TAKEN_TEXTURE);
                         updateImage();
                     }
                 }
@@ -248,10 +251,10 @@ public class UIHandler implements Disposable {
                 @Override
                 public void act(float delta) {
                     if (isDisabled()) {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_DAMAGE_TOKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_DAMAGE_TOKEN_TEXTURE);
                         updateImage();
                     } else {
-                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.DAMAGE_TOKEN_TEXTURE);
+                        getStyle().imageUp = new TextureRegionDrawable(UIHandler.DAMAGE_TOKEN_TEXTURE);
                         updateImage();
                     }
                 }
