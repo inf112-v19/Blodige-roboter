@@ -1,13 +1,20 @@
 package no.uib.inf112.core.round.phase;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.ActionTile;
+import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Elg
@@ -15,11 +22,19 @@ import java.util.List;
 public class ActionPhase extends AbstractPhase {
 
     private final TileType tileType;
-    private final long totalRunTime; //delay till next phase
+    private final boolean movableTile;
+    @Nullable
+    private final TiledMapTileLayer layer;
+
+    private Set<ActionTile<?>> tiles;
+
 
     /**
-     * @param tileType
-     * @param totalRunTime
+     * @param tileType     The type of tile to run the actions of
+     * @param totalRunTime The total run time in milliseconds
+     * @throws IllegalArgumentException If {@code tileType} does not have an implementation class
+     * @throws IllegalArgumentException If the implementation class of {@code tileType} does not implement {@link ActionTile}
+     * @throws IllegalArgumentException If the implementation class of {@code tileType} has the attribute {@link Attribute#ACTIVE_ONLY_ON_STEP}
      */
     public ActionPhase(@NotNull TileType tileType, int totalRunTime) {
         super(totalRunTime);
@@ -30,36 +45,58 @@ public class ActionPhase extends AbstractPhase {
         }
 
         this.tileType = tileType;
-        this.totalRunTime = totalRunTime;
+
+        movableTile = MovableTile.class.isAssignableFrom(tileType.getImplClass());
+        layer = GameGraphics.getRoboRally().getCurrentMap().getLayer(tileType.getLayerName());
+
     }
 
     @Override
     public void startPhase(@NotNull MapHandler map) {
-        for (int x = 0; x < map.getMapWidth(); x++) {
-            for (int y = 0; y < map.getMapHeight(); y++) {
-                List<Tile> tiles = map.getAllTiles(x, y);
+        Set<ActionTile<?>> foundTiles = new HashSet<>();
+        if (tiles == null) {
+            for (int x = 0; x < map.getMapWidth(); x++) {
+                for (int y = 0; y < map.getMapHeight(); y++) {
 
-                for (Tile tile : tiles) {
-                    //get a tile of the correct type
-                    if (tile != null && tile.getTileType() == tileType) {
-                        ActionTile actionTile = (ActionTile) tile;
-                        for (Tile otherTile : tiles) {
+                    List<Tile> tiles;
+                    if (layer == null) {
+                        tiles = map.getAllTiles(x, y);
+                    } else {
+                        tiles = Collections.singletonList(map.getTile(layer, x, y));
+                    }
 
-                            if (otherTile != tile && actionTile.canDoAction(otherTile)) {
-                                //noinspection unchecked checked in actionTile.canDoAction
-                                actionTile.action(otherTile);
+                    for (Tile tile : tiles) {
+                        //get a tile of the correct type
+                        if (tile != null && tile.getTileType() == tileType) {
+                            ActionTile<?> actionTile = (ActionTile<?>) tile;
+                            if (movableTile) {
+                                runActionOnTiles(actionTile, tiles);
+                            } else {
+                                foundTiles.add(actionTile);
                             }
                         }
                     }
                 }
             }
+            if (movableTile) {
+                return;
+            } else {
+                tiles = foundTiles;
+            }
+        }
+
+        for (ActionTile tile : tiles) {
+            runActionOnTiles(tile, map.getAllTiles(tile.getX(), tile.getY()));
         }
     }
 
-    @Override
-    public String toString() {
-        return "Phase{" + "tileType=" + tileType +
-                ", totalRunTime=" + totalRunTime +
-                '}';
+    private void runActionOnTiles(@NotNull ActionTile tile, List<Tile> tiles) {
+        for (Tile otherTile : tiles) {
+            if (otherTile != tile && tile.canDoAction(otherTile)) {
+                //noinspection unchecked checked in actionTile.canDoAction
+                tile.action(otherTile);
+            }
+        }
+
     }
 }
