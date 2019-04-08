@@ -55,6 +55,7 @@ public class UIHandler implements Disposable {
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
     private static final TextureRegion NOT_DAMAGE_TOKEN_TEXTURE;
     private static final TextureRegion FLAG_TAKEN_TEXTURE;
+    private static final TextureRegion NOT_FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
     private static final int DEFAULT_SPACING = 5;
@@ -98,7 +99,10 @@ public class UIHandler implements Disposable {
         DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/damage.png"));
         NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_damage.png"));
         //DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
-        FLAG_TAKEN_TEXTURE = createTempFlagTexture(20, 25, Color.ORANGE);
+
+        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/flag.png"));
+        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/not_flag.png"));
+        //FLAG_TAKEN_TEXTURE = createTempFlagTexture(20, 25, Color.ORANGE);
     }
 
     /*
@@ -208,6 +212,17 @@ public class UIHandler implements Disposable {
                 @Override
                 public boolean isDisabled() {
                     return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getFlags() <= id;
+                }
+
+                @Override
+                public void act(float delta) {
+                    if (isDisabled()) {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_FLAG_TAKEN_TEXTURE);
+                        updateImage();
+                    } else {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.FLAG_TAKEN_TEXTURE);
+                        updateImage();
+                    }
                 }
             });
         }
