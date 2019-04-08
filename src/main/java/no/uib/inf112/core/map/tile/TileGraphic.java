@@ -5,6 +5,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,10 +27,10 @@ public enum TileGraphic {
      * THE ROBOT
      * (TileType ROBOT)
      */
-    ROBOT_TILE_NORTH(137, "player-robot", TileType.ROBOT, DIR_NORTH, LAYS_DOWN_LASER),
-    ROBOT_TILE_EAST(138, "player-robot", TileType.ROBOT, DIR_EAST, LAYS_DOWN_LASER),
-    ROBOT_TILE_SOUTH(139, "player-robot", TileType.ROBOT, DIR_WEST, LAYS_DOWN_LASER),
-    ROBOT_TILE_WEST(140, "player-robot", TileType.ROBOT, DIR_SOUTH, LAYS_DOWN_LASER),
+    ROBOT_TILE_NORTH(137, "player-robot", TileType.ROBOT, DIR_NORTH),
+    ROBOT_TILE_EAST(138, "player-robot", TileType.ROBOT, DIR_EAST),
+    ROBOT_TILE_SOUTH(139, "player-robot", TileType.ROBOT, DIR_WEST),
+    ROBOT_TILE_WEST(140, "player-robot", TileType.ROBOT, DIR_SOUTH),
 
     /**
      * THE TILES THAT ROBOTS CAN FALL THROUGH
@@ -200,9 +201,11 @@ public enum TileGraphic {
 
 
     private final int id;
+    @NotNull
     private String tilesetName;
     @NotNull
     private final TileType tileType;
+    @NotNull
     private Set<Attribute> attributes;
 
     private static HashMap<Integer, TileGraphic> TileIdMap = new HashMap<>();
@@ -213,15 +216,20 @@ public enum TileGraphic {
         }
     }
 
+    /**
+     * @param id The tiled id of the wanted TileGraphic
+     * @return The TileGraphic with the given id. Will be {@code null} if the given id is not known
+     */
+    @Nullable
     public static TileGraphic fromTiledId(int id) {
         return TileIdMap.get(id);
     }
 
-    TileGraphic(int id, TileType tileType, Attribute... attributes) {
+    TileGraphic(int id, @NotNull TileType tileType, Attribute... attributes) {
         this(id, "tiles", tileType, attributes);
     }
 
-    TileGraphic(int id, String tilesetName, TileType tileType, Attribute... attributes) {
+    TileGraphic(int id, @NotNull String tilesetName, @NotNull TileType tileType, Attribute... attributes) {
         this.id = id;
         this.tilesetName = tilesetName;
         this.tileType = tileType;
@@ -232,6 +240,10 @@ public enum TileGraphic {
         this.attributes = Collections.unmodifiableSet(tempSet);
     }
 
+    /**
+     * @return The graphic part of this tile
+     */
+    @NotNull
     public TiledMapTile getTile() {
         return GameGraphics.getRoboRally().getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
     }
@@ -248,11 +260,21 @@ public enum TileGraphic {
         return id;
     }
 
+    /**
+     * @return The more general type of tile this is
+     */
     @NotNull
     public TileType getTileType() {
         return tileType;
     }
 
+    /**
+     * @param x The x-coordinate of the tile
+     * @param y The y-coordinate of the tile
+     * @return Create a new instance of this TileGraphic at the given coordinates, or {@code null} if there is no implantation
+     * @throws IllegalStateException If the implementation does not fulfill the attributes criteria
+     */
+    @Nullable
     public Tile createInstance(int x, int y) {
         if (tileType.getImplClass() == null) {
             return null;
@@ -261,13 +283,13 @@ public enum TileGraphic {
         if (!getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
             throw new IllegalStateException("TileType class (" + tileType.getImplClass() + ") does not have the required interface " + tileType.getAttributes());
         }
-
         try {
             Constructor<? extends Tile> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
             return constructor.newInstance(new Vector2Int(x, y), this);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }
