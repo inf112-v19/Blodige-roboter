@@ -48,7 +48,11 @@ public class UIHandler implements Disposable {
 
 
     public static final TextureRegion POWER_DOWN_TEXTURE;
+
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
+    private static final TextureRegion NOT_LIFE_TOKEN_TEXTURE;
+
+
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
     private static final TextureRegion FLAG_TAKEN_TEXTURE;
 
@@ -86,7 +90,10 @@ public class UIHandler implements Disposable {
 
 
         POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
-        LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
+
+        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/life.png"));
+        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_life.png"));
+        //LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
         DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
         FLAG_TAKEN_TEXTURE = createTempFlagTexture(20, 25, Color.ORANGE);
     }
