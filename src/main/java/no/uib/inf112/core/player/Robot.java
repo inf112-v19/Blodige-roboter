@@ -64,9 +64,10 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         this.direction = direction;
         update();
+        return true;
     }
 
     /**

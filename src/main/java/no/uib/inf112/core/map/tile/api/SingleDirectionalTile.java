@@ -18,10 +18,11 @@ public interface SingleDirectionalTile extends Tile {
 
     /**
      * @param direction The new direction of the tile
+     * @return true if able to rotate
      */
-    void setDirection(@NotNull Direction direction);
+    boolean setDirection(@NotNull Direction direction);
 
-    default void rotate(@NotNull Direction direction) {
+    default boolean rotate(@NotNull Direction direction) {
         Direction dir = getDirection();
         switch (direction) {
             case WEST:
@@ -38,7 +39,7 @@ public interface SingleDirectionalTile extends Tile {
             default:
                 throw new IllegalStateException("Unknown direction " + direction);
         }
-        setDirection(dir);
+        return setDirection(dir);
     }
 
 }
