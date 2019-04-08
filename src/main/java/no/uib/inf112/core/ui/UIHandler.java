@@ -67,11 +67,11 @@ public class UIHandler implements Disposable {
         //temp textures, to be replaced with real textures
         //TODO Issue #52 find/create real textures for control panel
 
-        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("art/tiles.png"), 1, 1);
+        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("ui/background.png"), 600, 190);
 
 
         // CARDS_TEXTURE = new TextureRegion(new Texture("ui/cardSkin.png"), 100, 161);
-        CARDS_SLOT_TEXTURE = createTempRectTexture(100, 161, Color.LIGHT_GRAY);
+        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture("ui/emptySlot.png"));
         MOVE1_TEXTURE = new TextureRegion(new Texture("ui/move1.png"));
         MOVE2_TEXTURE = new TextureRegion(new Texture("ui/move2.png"));
         MOVE3_TEXTURE = new TextureRegion(new Texture("ui/move3.png"));
@@ -80,6 +80,7 @@ public class UIHandler implements Disposable {
         TURN_RIGHT_TEXTURE = new TextureRegion(new Texture("ui/turnRight.png"));
         U_TURN_TEXTURE = new TextureRegion(new Texture("ui/uTurn.png"));
 
+        //UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.2f, 0.2f, 0.2f, 0.9f));
         //UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
         //CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
 

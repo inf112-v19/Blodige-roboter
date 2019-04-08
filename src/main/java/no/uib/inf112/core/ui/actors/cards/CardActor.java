@@ -40,7 +40,9 @@ public class CardActor extends ImageTextButton {
 
             String[] movement = card.getAction().toString().split(" ");
             String movementWithNewline = movement[0] + "\n" + movement[1];
-            setText("        " + card.getPriority() + "\n\n\n\n\n\n");// + movementWithNewline + "\n\n");
+
+            // TODO fix this, this is ugly
+            setText(card.getPriority() + "\n\n\n\n\n\n");// + movementWithNewline + "\n\n");
             getStyle().imageUp = new TextureRegionDrawable(card.getRegionTexture());
             getLabelCell().padLeft(-card.getRegionTexture().getRegionWidth()); //make sure the text is within the card
         }
