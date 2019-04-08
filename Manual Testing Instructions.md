@@ -62,4 +62,4 @@
   * `DeathTile` plays `robotFalling`
   * `Robot` plays `robotMoving`
   * `WrenchTile` and `WrenchAndHammerTile`  plays `robotUpdateBackup`
-  * `LaserTile` plays `shootLaser`
+  * `LaserTile` plays `shootLaser` when hitting a robot with a laser
