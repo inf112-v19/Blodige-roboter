@@ -57,8 +57,13 @@ public class UIHandler implements Disposable {
     static {
         //temp textures, to be replaced with real textures
         //TODO Issue #52 find/create real textures for control panel
-        UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
-        CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
+
+        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("art/tiles.png"), 1, 1);
+        CARDS_TEXTURE = new TextureRegion(new Texture("ui/cardSkin.png"), 100, 161);
+
+
+        //UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
+        //CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
         POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
         LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
         DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
