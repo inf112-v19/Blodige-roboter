@@ -22,24 +22,4 @@ public interface SingleDirectionalTile extends Tile {
      */
     boolean setDirection(@NotNull Direction direction);
 
-    default boolean rotate(@NotNull Direction direction) {
-        Direction dir = getDirection();
-        switch (direction) {
-            case WEST:
-                dir = dir.turnLeft();
-                break;
-            case EAST:
-                dir = dir.turnRight();
-                break;
-            case SOUTH:
-                dir = dir.inverse();
-                break;
-            case NORTH:
-                break;
-            default:
-                throw new IllegalStateException("Unknown direction " + direction);
-        }
-        return setDirection(dir);
-    }
-
 }
