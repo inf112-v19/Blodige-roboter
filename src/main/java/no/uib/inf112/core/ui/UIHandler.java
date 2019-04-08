@@ -52,8 +52,8 @@ public class UIHandler implements Disposable {
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
     private static final TextureRegion NOT_LIFE_TOKEN_TEXTURE;
 
-
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
+    private static final TextureRegion NOT_DAMAGE_TOKEN_TEXTURE;
     private static final TextureRegion FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
@@ -94,7 +94,10 @@ public class UIHandler implements Disposable {
         LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/life.png"));
         NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_life.png"));
         //LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
-        DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
+
+        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/damage.png"));
+        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_damage.png"));
+        //DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
         FLAG_TAKEN_TEXTURE = createTempFlagTexture(20, 25, Color.ORANGE);
     }
 
@@ -172,7 +175,7 @@ public class UIHandler implements Disposable {
         controlPanelTable.row();
 
         //display life tokens
-        HorizontalGroup lifeTokens = new HorizontalGroup().space(DEFAULT_SPACING);
+        HorizontalGroup lifeTokens = new HorizontalGroup().space(0);
         topRow.add(lifeTokens).expandX().align(Align.left); //make sure the life tokens are to the left
         for (int i = 0; i < Player.MAX_LIVES; i++) {
             int id = i;
@@ -215,7 +218,7 @@ public class UIHandler implements Disposable {
 
         //display damage tokens
         HorizontalGroup damageRow = new HorizontalGroup();
-        damageRow.space(DEFAULT_SPACING); //space between tokens
+        damageRow.space(-2 * DEFAULT_SPACING); //space between tokens
         controlPanelTable.add(damageRow).align(Align.left).padBottom(DEFAULT_SPACING);
         controlPanelTable.row();
 
@@ -225,6 +228,17 @@ public class UIHandler implements Disposable {
                 @Override
                 public boolean isDisabled() {
                     return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getHealth() <= id;
+                }
+
+                @Override
+                public void act(float delta) {
+                    if (isDisabled()) {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_DAMAGE_TOKEN_TEXTURE);
+                        updateImage();
+                    } else {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.DAMAGE_TOKEN_TEXTURE);
+                        updateImage();
+                    }
                 }
             });
         }
