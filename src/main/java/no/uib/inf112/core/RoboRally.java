@@ -26,7 +26,7 @@ public class RoboRally {
         }
 
         //TODO #93 move this to a reasonable and easy to handle place
-        Music backgroundMusic = Sound.BACKGROUND_MUSIC;
+        Music backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(0.1f);
         backgroundMusic.play();
 
