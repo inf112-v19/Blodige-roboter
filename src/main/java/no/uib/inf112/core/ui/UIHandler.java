@@ -181,6 +181,17 @@ public class UIHandler implements Disposable {
                 public boolean isDisabled() {
                     return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getLives() <= id;
                 }
+
+                @Override
+                public void act(float delta) {
+                    if (isDisabled()) {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.NOT_LIFE_TOKEN_TEXTURE);
+                        updateImage();
+                    } else {
+                        super.getStyle().imageUp = new TextureRegionDrawable(UIHandler.LIFE_TOKEN_TEXTURE);
+                        updateImage();
+                    }
+                }
             });
         }
 
