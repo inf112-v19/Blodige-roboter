@@ -37,7 +37,7 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
 
     @Override
     public Sound getActionSound() {
-        return Sound.conveyor;
+        return Sound.CONVEYOR;
     }
 
     @NotNull
@@ -48,7 +48,7 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
 
     @Override
     public void setDirection(@NotNull Direction direction) {
-        //The directions of a conveyor cannot be changed
+        //The directions of a CONVEYOR cannot be changed
     }
 
     @Nullable

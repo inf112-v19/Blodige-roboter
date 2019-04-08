@@ -36,7 +36,7 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     @Override
     public Sound getActionSound() {
 
-        return Sound.conveyor;
+        return Sound.CONVEYOR;
     }
 
     @Nullable

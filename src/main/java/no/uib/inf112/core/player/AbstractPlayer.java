@@ -123,7 +123,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     public void setPoweredDown(boolean poweredDown) {
         if (poweredDown) {
-            Sound.robotShutdown.play();
+            Sound.ROBOT_SHUTDOWN.play();
         }
         this.poweredDown = poweredDown;
     }

@@ -36,7 +36,7 @@ public class FlagTile extends AbstractRequirementTile implements ActionTile<IPla
 
     @Override
     public Sound getActionSound() {
-        return Sound.flag;
+        return Sound.FLAG;
     }
 
     @Override

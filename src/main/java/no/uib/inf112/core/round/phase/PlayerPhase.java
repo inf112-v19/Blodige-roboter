@@ -35,7 +35,7 @@ public class PlayerPhase extends AbstractPhase {
 
             List<ComparableTuple<Card, IPlayer>> roundList = new ArrayList<>();
             for (IPlayer p : players) {
-                if(!p.isPoweredDown()){
+                if (!p.isPoweredDown()) {
                     roundList.add(p.getNextCard(i));
                 }
             }
@@ -53,7 +53,7 @@ public class PlayerPhase extends AbstractPhase {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
             GameGraphics.scheduleSync(() -> {
                 tuple.value.move(tuple.key.getAction(), delayPerPlayer);
-                Sound.robotMoving.play();
+                Sound.ROBOT_MOVING.play();
             }, delayPerPlayer * (i + 1));
         }
     }

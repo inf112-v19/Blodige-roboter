@@ -32,7 +32,7 @@ public class WrenchTile extends AbstractRequirementTile implements ActionTile<Ba
 
     @Override
     public Sound getActionSound() {
-        return Sound.robotUpdatesBackup;
+        return Sound.ROBOT_UPDATES_BACKUP;
     }
 
     @Nullable

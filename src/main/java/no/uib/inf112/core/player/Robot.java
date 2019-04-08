@@ -132,7 +132,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 // Robot walks out of map
                 if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + sdx, pos.y + sdy)) {
                     kill();
-                    Sound.robotFalling.play();
+                    Sound.ROBOT_FALLING.play();
                     update();
                     return;
                 }
