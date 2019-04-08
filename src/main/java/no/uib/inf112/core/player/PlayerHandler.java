@@ -16,6 +16,7 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private List<IPlayer> players;
     private IPlayer user;
+    private Docks docks;
 
     /**
      * @param playerCount
@@ -29,6 +30,10 @@ public class PlayerHandler implements IPlayerHandler {
         } else if (playerCount > 8) {
             throw new IllegalArgumentException("Too many players");
         }
+
+        docks = new Docks(map);
+
+
         this.playerCount = playerCount;
         players = new ArrayList<>(playerCount);
 
