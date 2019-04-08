@@ -22,9 +22,6 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
     public CardSlot(int id, @NotNull SlotType type, @NotNull CardContainer container, @NotNull DragAndDrop dad) {
         super();
 
-        //getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE); // Set image to emp
-        //updateImage();
-
         this.type = type;
         this.container = container;
         slotId = id;

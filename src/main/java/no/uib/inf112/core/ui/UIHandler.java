@@ -36,8 +36,16 @@ public class UIHandler implements Disposable {
     public static final String SKIN_JSON_FILE = SKIN_FOLDER + SKIN_NAME + ".json";
 
     public static final TextureRegion UI_BACKGROUND_TEXTURE;
-    public static final TextureRegion CARDS_TEXTURE;
+    //public static final TextureRegion CARDS_TEXTURE;
     public static final TextureRegion CARDS_SLOT_TEXTURE;
+    public static final TextureRegion MOVE1_TEXTURE;
+    public static final TextureRegion MOVE2_TEXTURE;
+    public static final TextureRegion MOVE3_TEXTURE;
+    public static final TextureRegion BACK_UP_TEXTURE;
+    public static final TextureRegion TURN_LEFT_TEXTURE;
+    public static final TextureRegion TURN_RIGHT_TEXTURE;
+    public static final TextureRegion U_TURN_TEXTURE;
+
 
     public static final TextureRegion POWER_DOWN_TEXTURE;
     private static final TextureRegion LIFE_TOKEN_TEXTURE;
@@ -60,11 +68,22 @@ public class UIHandler implements Disposable {
         //TODO Issue #52 find/create real textures for control panel
 
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("art/tiles.png"), 1, 1);
-        CARDS_TEXTURE = new TextureRegion(new Texture("ui/cardSkin.png"), 100, 161);
+
+
+        // CARDS_TEXTURE = new TextureRegion(new Texture("ui/cardSkin.png"), 100, 161);
         CARDS_SLOT_TEXTURE = createTempRectTexture(100, 161, Color.LIGHT_GRAY);
+        MOVE1_TEXTURE = new TextureRegion(new Texture("ui/move1.png"));
+        MOVE2_TEXTURE = new TextureRegion(new Texture("ui/move2.png"));
+        MOVE3_TEXTURE = new TextureRegion(new Texture("ui/move3.png"));
+        BACK_UP_TEXTURE = new TextureRegion(new Texture("ui/backUp.png"));
+        TURN_LEFT_TEXTURE = new TextureRegion(new Texture("ui/turnLeft.png"));
+        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture("ui/turnRight.png"));
+        U_TURN_TEXTURE = new TextureRegion(new Texture("ui/uTurn.png"));
 
         //UI_BACKGROUND_TEXTURE = createTempRectTexture(1, 1, new Color(0.145f, 0.145f, 0.145f, 0.9f));
         //CARDS_TEXTURE = createTempRectTexture(100, 161, Color.BLUE); //make sure the card are golden ratios (ish)
+
+
         POWER_DOWN_TEXTURE = createTempCircleTexture(41, Color.RED);
         LIFE_TOKEN_TEXTURE = createTempCircleTexture(25, Color.GREEN);
         DAMAGE_TOKEN_TEXTURE = createTempCircleTexture(19, Color.YELLOW);
@@ -104,7 +123,7 @@ public class UIHandler implements Disposable {
 
         dad = new DragAndDrop();
         dad.setDragTime(50);
-        dad.setDragActorPosition(CARDS_TEXTURE.getRegionWidth() / 2f, -CARDS_TEXTURE.getRegionHeight() / 2f);
+        dad.setDragActorPosition(CARDS_SLOT_TEXTURE.getRegionWidth() / 2f, -CARDS_SLOT_TEXTURE.getRegionHeight() / 2f);
 
 
         Table backgroundTable = new Table();

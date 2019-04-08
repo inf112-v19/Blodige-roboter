@@ -22,7 +22,7 @@ public class CardActor extends ImageTextButton {
     private static ImageTextButtonStyle createSkin() {
         ImageTextButtonStyle style = new ImageTextButtonStyle();
         style.font = new BitmapFont();
-        style.imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);
+        style.imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE);
         return style;
     }
 
@@ -40,7 +40,7 @@ public class CardActor extends ImageTextButton {
 
             String[] movement = card.getAction().toString().split(" ");
             String movementWithNewline = movement[0] + "\n" + movement[1];
-            setText("pri " + card.getPriority() + "\n\n\n" + movementWithNewline);
+            setText("        " + card.getPriority() + "\n\n\n\n\n\n");// + movementWithNewline + "\n\n");
             getStyle().imageUp = new TextureRegionDrawable(card.getRegionTexture());
             getLabelCell().padLeft(-card.getRegionTexture().getRegionWidth()); //make sure the text is within the card
         }
