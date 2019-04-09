@@ -22,11 +22,9 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
     @Override
     public boolean rotate(@NotNull MovableTile tile, Vector2Int prevPos) {
         if (hasAttribute(Attribute.LEFT)) {
-            tile.setDirection(tile.getDirection().turnLeft());
-            return true;
+            return tile.setDirection(tile.getDirection().turnLeft());
         } else if (hasAttribute(Attribute.RIGHT)) {
-            tile.setDirection(tile.getDirection().turnRight());
-            return true;
+            return tile.setDirection(tile.getDirection().turnRight());
         } else {
             int dx = tile.getX() - prevPos.x;
             int dy = tile.getY() - prevPos.y;
