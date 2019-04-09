@@ -155,6 +155,10 @@ public class GameGraphics extends Game {
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Looks through every tile in 'flags' layer to count the number of flags in map
+     * Assumes that the flag layer is called 'flags' and that there are no other tiles in flag layer that flags and null
+     */
     private void findFlags() {
         MapHandler map = getRoboRally().getCurrentMap();
         for (int y = 0; y < map.getMapHeight(); y++) {
