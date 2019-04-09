@@ -27,9 +27,14 @@ public class SlotSource extends DragAndDrop.Source {
         }
         GameGraphics.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
-        final CardActor dragActor = new CardActor();
-        dragActor.setCard(sourceSlot.getCard());
-        sourceSlot.isDisabled();
+//        final CardActor dragActor = new CardActor();
+//        dragActor.setCard(sourceSlot.getCard());
+
+        final CardSlot dragActor = sourceSlot.copy();
+        //dragActor.setCard(sourceSlot.getCard());
+        sourceSlot.setCard(null);
+        sourceSlot.updateCard();
+
 
         final Payload payload = new Payload();
         payload.setObject(sourceSlot);
@@ -43,12 +48,14 @@ public class SlotSource extends DragAndDrop.Source {
     @Override
     public void dragStop(final InputEvent event, final float x, final float y, final int pointer, final Payload payload,
                          final DragAndDrop.Target target) {
-        final CardSlot payloadSlot = (CardSlot) payload.getObject();
+        final CardSlot payloadSlot = (CardSlot) payload.getDragActor();
         if (target != null) {
             final CardSlot targetSlot = (CardSlot) target.getActor();
 
             if (targetSlot.isDisabled()) {
                 //do not allow dropping on disabled slots (both drawn and hand)
+                CardSlot source = (CardSlot) payload.getObject();
+                source.setCard(payloadSlot.getCard());
                 return;
             }
 
@@ -74,5 +81,9 @@ public class SlotSource extends DragAndDrop.Source {
             inputEvent.setStageY(tempCoords.y);
             targetSlot.fire(inputEvent);
         }
+
+        // If card is dropped outside a card slot we put it back to its original slot
+        CardSlot source = (CardSlot) payload.getObject();
+        source.setCard(payloadSlot.getCard());
     }
 }

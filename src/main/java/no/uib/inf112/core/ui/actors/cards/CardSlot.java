@@ -1,6 +1,7 @@
 package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
+import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.DisabledVisualizer;
@@ -53,5 +54,17 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
                 "type=" + type +
                 ", slotId=" + slotId + super.toString() +
                 "} ";
+    }
+
+    /**
+     * Method to copy the current card actor
+     *
+     * @return A copy of this card actor
+     */
+    public CardSlot copy() {
+        CardSlot copy = new CardSlot(slotId, type, container, GameGraphics.getUiHandler().getDad());
+        copy.setCard(getCard());
+        copy.updateCard();
+        return copy;
     }
 }

@@ -61,4 +61,6 @@ public class CardActor extends ImageTextButton {
                 "card=" + card +
                 '}';
     }
+
+
 }
