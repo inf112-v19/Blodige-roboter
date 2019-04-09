@@ -2,7 +2,9 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.round.phase.SpawnPhase;
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private List<IPlayer> players;
     private IPlayer user;
-    private boolean firstRound = true;
 
     /**
      * @param playerCount
@@ -50,6 +51,7 @@ public class PlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
+        GameGraphics.scheduleSync(() -> giveSpawningDocks(map), 0);
     }
 
     @Override
@@ -59,11 +61,6 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-        if(firstRound) {
-            new SpawnPhase(0).startPhase(GameGraphics.getRoboRally().getCurrentMap());
-            firstRound = false;
-        }
-
         GameGraphics.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
@@ -88,6 +85,25 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public int getPlayerCount() {
         return playerCount;
+    }
+
+    @Override
+    public void giveSpawningDocks(MapHandler map) {
+        for (int x = 0; x < map.getMapWidth(); x++) {
+            for (int y = 0; y < map.getMapHeight(); y++) {
+                Tile tile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
+
+                if (tile != null && tile.getTileType() == TileType.SPAWN) {
+                    for (IPlayer player : players) {
+                        SpawnTile spawnTile = (SpawnTile) tile;
+                        if (player.getDock() == spawnTile.getSpawnNumber()) {
+                            player.teleport(tile.getX(), tile.getY());
+                            player.setBackup(tile.getX(), tile.getY());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public IPlayer testPlayer() {
