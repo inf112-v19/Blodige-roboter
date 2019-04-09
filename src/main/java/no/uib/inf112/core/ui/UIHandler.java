@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -61,7 +60,6 @@ public class UIHandler implements Disposable {
     //How much space there should be between each element in the ui
     private static final int DEFAULT_SPACING = 5;
 
-    private final Skin skin;
     private final Table controlPanelTable;
     private final Stage stage;
     private PowerButton powerButton;
@@ -137,8 +135,7 @@ public class UIHandler implements Disposable {
         stage.addActor(backgroundTable);
         backgroundTable.setFillParent(true);
 
-        skin = new Skin(Gdx.files.internal(SKIN_JSON_FILE));
-        controlPanelTable = new Table(skin);
+        controlPanelTable = new Table();
         cardDrawTable = new Table();
 
         backgroundTable.add(cardDrawTable).row();
@@ -154,7 +151,7 @@ public class UIHandler implements Disposable {
     private void create() {
 
         cardDrawTable.setTransform(false);
-        cardDrawTable.setBackground(new TextureRegionDrawable(createTempRectTexture(1, 1, Color.LIGHT_GRAY)));
+        //cardDrawTable.setBackground(new TextureRegionDrawable(createTempRectTexture(1, 1, Color.LIGHT_GRAY)));
         cardDrawTable.getColor().a = 0.9f;
         cardDrawTable.pad(DEFAULT_SPACING);
         cardDrawTable.setVisible(false);
@@ -315,7 +312,6 @@ public class UIHandler implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     public Stage getStage() {
