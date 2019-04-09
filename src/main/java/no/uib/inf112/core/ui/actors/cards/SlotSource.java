@@ -29,6 +29,7 @@ public class SlotSource extends DragAndDrop.Source {
 
         final CardActor dragActor = new CardActor();
         dragActor.setCard(sourceSlot.getCard());
+        sourceSlot.isDisabled();
 
         final Payload payload = new Payload();
         payload.setObject(sourceSlot);

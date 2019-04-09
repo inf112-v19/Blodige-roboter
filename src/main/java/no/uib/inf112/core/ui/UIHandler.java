@@ -75,26 +75,26 @@ public class UIHandler implements Disposable {
 
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("ui/background.png"), 600, 190);
 
-        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture("ui/emptySlot.png"));
-        MOVE1_TEXTURE = new TextureRegion(new Texture("ui/move1.png"));
-        MOVE2_TEXTURE = new TextureRegion(new Texture("ui/move2.png"));
-        MOVE3_TEXTURE = new TextureRegion(new Texture("ui/move3.png"));
-        BACK_UP_TEXTURE = new TextureRegion(new Texture("ui/backUp.png"));
-        TURN_LEFT_TEXTURE = new TextureRegion(new Texture("ui/turnLeft.png"));
-        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture("ui/turnRight.png"));
-        U_TURN_TEXTURE = new TextureRegion(new Texture("ui/uTurn.png"));
+        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/emptySlot.png"));
+        MOVE1_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move1.png"));
+        MOVE2_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move2.png"));
+        MOVE3_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move3.png"));
+        BACK_UP_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/backUp.png"));
+        TURN_LEFT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/turnLeft.png"));
+        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/turnRight.png"));
+        U_TURN_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/uTurn.png"));
 
-        POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/power_down.png"));
-        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/not_power_down.png"));
+        POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/buttons/power_down.png"));
+        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_power_down.png"));
 
-        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/life.png"));
-        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_life.png"));
+        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/life.png"));
+        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_life.png"));
 
-        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/damage.png"));
-        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/not_damage.png"));
+        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/damage.png"));
+        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_damage.png"));
 
-        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/flag.png"));
-        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/not_flag.png"));
+        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/flag.png"));
+        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_flag.png"));
     }
 
     /*
@@ -194,7 +194,7 @@ public class UIHandler implements Disposable {
             });
         }
 
-        int flags = 8;
+        int flags = GameGraphics.flagCount;
 
         HorizontalGroup flagsTaken = new HorizontalGroup().space(2 * DEFAULT_SPACING).padRight(3 * DEFAULT_SPACING);
         topRow.add(flagsTaken);
