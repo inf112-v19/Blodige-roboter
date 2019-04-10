@@ -49,12 +49,12 @@ public class SlotSource extends DragAndDrop.Source {
     public void dragStop(final InputEvent event, final float x, final float y, final int pointer, final Payload payload,
                          final DragAndDrop.Target target) {
         final CardSlot payloadSlot = (CardSlot) payload.getDragActor();
+        CardSlot source = (CardSlot) payload.getObject();
         if (target != null) {
             final CardSlot targetSlot = (CardSlot) target.getActor();
 
             if (targetSlot.isDisabled()) {
                 //do not allow dropping on disabled slots (both drawn and hand)
-                CardSlot source = (CardSlot) payload.getObject();
                 source.setCard(payloadSlot.getCard());
                 return;
             }
@@ -62,12 +62,12 @@ public class SlotSource extends DragAndDrop.Source {
             if (targetSlot.getCard() == null) {
                 //move the payload to the target slot
                 targetSlot.setCard(payloadSlot.getCard());
-                payloadSlot.setCard(null);
+
             } else {
                 //swap the two items
                 final Card payloadCard = payloadSlot.getCard();
 
-                payloadSlot.setCard(targetSlot.getCard());
+                source.setCard(targetSlot.getCard());
                 targetSlot.setCard(payloadCard);
             }
 
@@ -80,10 +80,9 @@ public class SlotSource extends DragAndDrop.Source {
             inputEvent.setStageX(tempCoords.x);
             inputEvent.setStageY(tempCoords.y);
             targetSlot.fire(inputEvent);
+        } else {
+            // If card is dropped outside a card slot we put it back to its original slot
+            source.setCard(payloadSlot.getCard());
         }
-
-        // If card is dropped outside a card slot we put it back to its original slot
-        CardSlot source = (CardSlot) payload.getObject();
-        source.setCard(payloadSlot.getCard());
     }
 }
