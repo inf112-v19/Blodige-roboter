@@ -151,19 +151,21 @@ public class UIHandler implements Disposable {
             });
         }
 
-        int flags = 8;
+        GameGraphics.scheduleSync(() -> {
+            int flags = GameGraphics.getRoboRally().getPlayerHandler().getFlagCount();
 
-        HorizontalGroup flagsTaken = new HorizontalGroup().space(DEFAULT_SPACING).padRight(DEFAULT_SPACING);
-        topRow.add(flagsTaken);
-        for (int i = 0; i < flags; i++) {
-            int id = i;
-            flagsTaken.addActor(new ControlPanelElement(FLAG_TAKEN_TEXTURE) {
-                @Override
-                public boolean isDisabled() {
-                    return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getFlags() <= id;
-                }
-            });
-        }
+            HorizontalGroup flagsTaken = new HorizontalGroup().space(DEFAULT_SPACING).padRight(DEFAULT_SPACING);
+            topRow.add(flagsTaken);
+            for (int i = 0; i < flags; i++) {
+                int id = i;
+                flagsTaken.addActor(new ControlPanelElement(FLAG_TAKEN_TEXTURE) {
+                    @Override
+                    public boolean isDisabled() {
+                        return GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().getFlags() <= id;
+                    }
+                });
+            }
+        }, 0);
 
         //display power button, it will by default be to the right
         powerButton = new PowerButton();

@@ -31,7 +31,19 @@ public interface IPlayerHandler {
      */
     int getPlayerCount();
 
-    void giveSpawningDocks(MapHandler map);
+    /**
+     * Move players to given spawning docks
+     * Count number of flags in map
+     *
+     * @param map
+     */
+    void analyseMap(MapHandler map);
+
+    /**
+     *
+     * @return number of flags to catch
+     */
+    int getFlagCount();
 }
 
 

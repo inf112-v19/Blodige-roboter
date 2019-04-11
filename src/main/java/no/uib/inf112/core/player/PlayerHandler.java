@@ -17,6 +17,7 @@ import static no.uib.inf112.core.GameGraphics.HEADLESS;
 public class PlayerHandler implements IPlayerHandler {
 
     private int playerCount;
+    private int flagCount;
     private List<IPlayer> players;
     private IPlayer user;
 
@@ -33,6 +34,7 @@ public class PlayerHandler implements IPlayerHandler {
             throw new IllegalArgumentException("Too many players");
         }
         this.playerCount = playerCount;
+        this.flagCount = 0;
         players = new ArrayList<>(playerCount);
 
         user = new Player(0, 0, Direction.NORTH, map);
@@ -51,7 +53,7 @@ public class PlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
-        GameGraphics.scheduleSync(() -> giveSpawningDocks(map), 0);
+        GameGraphics.scheduleSync(() -> analyseMap(map), 0);
     }
 
     @Override
@@ -88,19 +90,24 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public void giveSpawningDocks(MapHandler map) {
+    public void analyseMap(MapHandler map) {
         for (int x = 0; x < map.getMapWidth(); x++) {
             for (int y = 0; y < map.getMapHeight(); y++) {
-                Tile tile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
+                Tile boardTile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
+                Tile flagTile = map.getTile(MapHandler.FLAG_LAYER_NAME, x, y);
 
-                if (tile != null && tile.getTileType() == TileType.SPAWN) {
+                if (boardTile != null && boardTile.getTileType() == TileType.SPAWN) {
                     for (IPlayer player : players) {
-                        SpawnTile spawnTile = (SpawnTile) tile;
+                        SpawnTile spawnTile = (SpawnTile) boardTile;
                         if (player.getDock() == spawnTile.getSpawnNumber()) {
-                            player.teleport(tile.getX(), tile.getY());
-                            player.setBackup(tile.getX(), tile.getY());
+                            player.teleport(boardTile.getX(), boardTile.getY());
+                            player.setBackup(boardTile.getX(), boardTile.getY());
                         }
                     }
+                }
+
+                if(flagTile != null && flagTile.getTileType() == TileType.FLAG) {
+                    flagCount++;
                 }
             }
         }
@@ -119,6 +126,11 @@ public class PlayerHandler implements IPlayerHandler {
             throw new IllegalStateException("Game is headless");
         }
         return players.get(0);
+    }
+
+    @Override
+    public int getFlagCount() {
+        return flagCount;
     }
 
     @Override

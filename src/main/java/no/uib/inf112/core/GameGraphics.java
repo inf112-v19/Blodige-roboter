@@ -118,7 +118,7 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 8);
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
         }
         return roboRally;
     }
