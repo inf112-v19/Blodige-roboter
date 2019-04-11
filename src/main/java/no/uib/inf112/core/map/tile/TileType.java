@@ -22,7 +22,7 @@ public enum TileType {
     CONVEYOR(MapHandler.BOARD_LAYER_NAME, ConveyorTile.class),
     PUSHER(MapHandler.BOARD_LAYER_NAME),
     DEFAULT(MapHandler.BOARD_LAYER_NAME),
-    FLAG(MapHandler.BOARD_LAYER_NAME, FlagTile.class),
+    FLAG(MapHandler.FLAG_LAYER_NAME, FlagTile.class),
     HAMMER_AND_WRENCH(MapHandler.BOARD_LAYER_NAME, WrenchAndHammerTile.class),
     ROBOT(MapHandler.ENTITY_LAYER_NAME, Robot.class, PUSHABLE, LAYS_DOWN_LASER),
     GEAR(MapHandler.BOARD_LAYER_NAME, GearTile.class),
