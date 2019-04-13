@@ -18,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 
 public class DockTileTest extends TestGraphics {
 
-    static Map<Integer, Vector2Int> dockPositions;
-    static RoboRally roboRally;
+    private static Map<Integer, Vector2Int> dockPositions;
+    private static RoboRally roboRally;
 
 
     @BeforeClass
