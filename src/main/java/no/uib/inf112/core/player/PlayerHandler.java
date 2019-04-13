@@ -34,14 +34,14 @@ public class PlayerHandler implements IPlayerHandler {
             throw new IllegalArgumentException("Too many players");
         }
         this.playerCount = playerCount;
-        this.flagCount = 0;
+        flagCount = 0;
         players = new ArrayList<>(playerCount);
 
         user = new Player(0, 0, Direction.NORTH, map);
         players.add(user);
 
         for (int i = 1; i < playerCount; i++) {
-            players.add(new StaticPlayer(i, 0, Direction.NORTH, map));
+            players.add(new StaticPlayer(i % map.getMapWidth(), 0 + i % map.getMapWidth(), Direction.NORTH, map));
         }
 
         Stack<Integer> docks = new Stack<>();
@@ -53,7 +53,7 @@ public class PlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
-        GameGraphics.scheduleSync(() -> analyseMap(map), 0);
+        GameGraphics.scheduleSync(() -> analyseMap(map), 500);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class PlayerHandler implements IPlayerHandler {
                     }
                 }
 
-                if(flagTile != null && flagTile.getTileType() == TileType.FLAG) {
+                if (flagTile != null && flagTile.getTileType() == TileType.FLAG) {
                     flagCount++;
                 }
             }
