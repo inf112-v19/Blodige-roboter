@@ -53,7 +53,7 @@ public class PlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             player.setDock(docks.pop());
         }
-        GameGraphics.scheduleSync(() -> analyseMap(map), 500);
+        GameGraphics.scheduleSync(() -> analyseMap(map), 0);
     }
 
     @Override
