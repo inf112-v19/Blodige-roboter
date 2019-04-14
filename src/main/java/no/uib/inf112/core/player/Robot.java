@@ -14,6 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Robot extends AbstractRequirementTile implements Entity {
 
+    /**
+     * A lock for flagging that this robot should not be doing more of its current movement
+     */
+    private boolean stopMoving = false;
     private Direction direction;
     private boolean update;
     private Color color;
@@ -108,86 +112,83 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
      */
     @Override
     public void move(int dx, int dy, int maxTime) {
+        stopMoving = false;
         if (dx == 0 && dy == 0) {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
 
 
-        int sdx = (int) Math.signum(dx);
-        int sdy = (int) Math.signum(dy);
+        int sdx = dir.getDx();
+        int sdy = dir.getDy();
 
         int max = Math.max(Math.abs(dx), Math.abs(dy));
         int maxTimePerMovement =
                 Math.round((maxTime * 1f) / max);
-        for (int i = 0; i < max; i++) {
 
-            GameGraphics.scheduleSync(() -> {
-                // Collision with wall on the same tile as robot
-                if (willCollide(this, 0, 0, dir)) {
-                    return;
-                }
-
-                // Robot walks out of map
-                if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + sdx, pos.y + sdy)) {
-                    kill();
-                    update();
-                    return;
-                }
-
-                if (!willCollide(this, sdx, sdy, dir)) {
-                    pos.x += sdx;
-                    pos.y += sdy;
-                    update();
-                    for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x, pos.y)) {
-                        if (tile.hasAttribute(Attribute.ACTIVE_ONLY_ON_STEP)) {
-                            ActionTile cTile = (ActionTile) tile;
-                            if (cTile.canDoAction(this)) {
-                                //noinspection unchecked checked in if
-                                cTile.action(this);
-                            }
-                        }
-                    }
-                } else {
-                    boolean pushed = true;
-                    for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x + sdx, pos.y + sdy)) {
-                        if (tile.hasAttribute(Attribute.PUSHABLE)) {
-                            pushed &= push((MovableTile) tile, sdx, sdy, dir);
-                        }
-                    }
-                    if (pushed) {
-                        GameGraphics.scheduleSync(() -> {
-                            if (!willCollide(this, sdx, sdy, dir)) {
-                                pos.x += sdx;
-                                pos.y += sdy;
-                                update();
-                            }
-                        }, 10);
-                    }
-                }
-            }, maxTimePerMovement * i);
+        if (moveOneStep(dir) && !stopMoving) {
+            if (dx - sdx != 0 || dy - sdy != 0) {
+                GameGraphics.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
+            }
+            update();
+            GameGraphics.getSoundPlayer().playRobotMoving();
         }
-        GameGraphics.getSoundPlayer().playRobotMoving();
     }
 
-    private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {
-        if (willCollide(mTile, dx, dy, dir)) {
-            for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(mTile.getX() + dx, mTile.getY() + dy)) {
-                if (tile.hasAttribute(Attribute.PUSHABLE)) {
-                    MovableTile mTile2 = (MovableTile) tile;
-                    if (willCollide(mTile2, dx, dy, dir)) {
-                        return false;
-                    }
-                    if (!push(mTile2, dx, dy, dir)) {
-                        return false;
+    private boolean push(MovableTile mTile, Direction dir) {
+        if (mTile.moveOneStep(dir)) {
+            ((Entity) mTile).update();
+            GameGraphics.getRoboRally().getCurrentMap().update(0);
+            moveOneStep(dir);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean moveOneStep(@NotNull Direction dir) {
+        int dx = dir.getDx();
+        int dy = dir.getDy();
+
+        if (willCollide(this, 0, 0, dir)) {
+            return false;
+        }
+
+        // Robot walks out of map
+        if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
+            kill();
+            update();
+            stopMoving = true;
+            return true;
+        }
+
+        if (!willCollide(this, dx, dy, dir)) {
+            pos.x += dx;
+            pos.y += dy;
+            update();
+            for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x, pos.y)) {
+                if (tile.hasAttribute(Attribute.ACTIVE_ONLY_ON_STEP)) {
+                    ActionTile cTile = (ActionTile) tile;
+                    if (cTile.canDoAction(this)) {
+                        //noinspection unchecked checked in if
+                        cTile.action(this);
                     }
                 }
             }
+            return true;
+        } else {
+            MovableTile toBePushed = null;
+            for (Tile tile : GameGraphics.getRoboRally().getCurrentMap().getAllTiles(pos.x + dx, pos.y + dy)) {
+                if (tile.hasAttribute(Attribute.PUSHABLE)) {
+                    if (toBePushed == null) {
+                        toBePushed = (MovableTile) tile;
+                    } else {
+                        throw new IllegalStateException("Expected one pushable on a position, found two");
+                    }
+                }
+            }
+            return toBePushed != null && push(toBePushed, dir);
         }
-
-        update();
-        mTile.move(dx, dy, 0);
-        return true;
     }
 
 

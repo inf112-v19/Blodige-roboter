@@ -24,10 +24,10 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     private SpriteBatch batch;
@@ -136,7 +136,7 @@ public class GameGraphics extends Game {
      */
     public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
         if (msDelay <= 0) {
-            Gdx.app.postRunnable(runnable);
+            runnable.run();
         } else {
             GameGraphics.executorService.schedule(() ->
                     Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);

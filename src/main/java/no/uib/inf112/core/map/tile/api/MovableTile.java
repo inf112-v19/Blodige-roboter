@@ -1,5 +1,7 @@
 package no.uib.inf112.core.map.tile.api;
 
+import no.uib.inf112.core.util.Direction;
+
 /**
  * A tile that can be moved
  *
@@ -14,6 +16,14 @@ public interface MovableTile extends SingleDirectionalTile {
      * @param dy Relative y-coordinate to this
      */
     void move(int dx, int dy, int maxTime);
+
+    /**
+     * The tile does a move in a given direction
+     *
+     * @param dir direction to move in
+     * @return true if tile was able to move
+     */
+    boolean moveOneStep(Direction dir);
 
     /**
      * Set the coordinates of this class to the given parameters
