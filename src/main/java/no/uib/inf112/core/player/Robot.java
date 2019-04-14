@@ -14,9 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Robot extends AbstractRequirementTile implements Entity {
 
-    /**
-     * A lock for flagging that this robot should not be doing more of its current movement
-     */
     private boolean stopMoving = false;
     private Direction direction;
     private boolean update;
@@ -158,7 +155,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
             kill();
             update();
-            stopMoving = true;
+            stopMoving();
             return true;
         }
 
@@ -271,5 +268,10 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 ", direction=" + direction +
                 ", color=" + color +
                 '}';
+    }
+
+    @Override
+    public void stopMoving() {
+        stopMoving = true;
     }
 }

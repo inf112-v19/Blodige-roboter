@@ -37,4 +37,9 @@ public interface MovableTile extends SingleDirectionalTile {
      * If it can move it can die!
      */
     void kill();
+
+    /**
+     * This tile should not finish its current movement
+     */
+    void stopMoving();
 }
