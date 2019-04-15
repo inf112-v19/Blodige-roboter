@@ -26,8 +26,6 @@ public class PowerButton extends ImageTextButton {
                 getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
                 updateImage();
 
-//                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? 0.50f : -0.50f;
-//                getColor().a += state;
                 GameGraphics.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
 
