@@ -2,8 +2,10 @@ package no.uib.inf112.core.ui;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -65,6 +67,10 @@ public class UIHandler implements Disposable {
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
     private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
 
+    // Font generator and parameter for card font
+    public static FreeTypeFontGenerator card_font_generator;
+    public static FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
+
     static {
         //temp textures, to be replaced with real textures
         //TODO Issue #52 find/create real textures for control panel
@@ -97,6 +103,14 @@ public class UIHandler implements Disposable {
     public UIHandler() {
         stage = new Stage(new FitViewport(1920, 1080));
         GameGraphics.getInputMultiplexer().addProcessor(stage);
+
+        card_font_generator = new FreeTypeFontGenerator(Gdx.files.internal("card_font.ttf"));
+        card_font_parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        // Setting color and border for font since this should be the same even though the size and padding can vary
+        card_font_parameter.borderWidth = 1;
+        card_font_parameter.borderColor = Color.BLACK;
+        card_font_parameter.color = Color.valueOf("#f1c232");
 
 //        stage.setDebugAll(true);
 

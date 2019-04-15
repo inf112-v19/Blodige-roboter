@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.MapHandler;
@@ -34,7 +33,6 @@ public class GameGraphics extends Game {
     public static int flagCount;
 
     private SpriteBatch batch;
-    public static BitmapFont font;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -45,8 +43,6 @@ public class GameGraphics extends Game {
     public void create() {
 
         batch = new SpriteBatch();
-
-        font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -82,7 +78,7 @@ public class GameGraphics extends Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        font.dispose();
+        //font.dispose();
         uiHandler.dispose();
     }
 
