@@ -2,6 +2,8 @@ package no.uib.inf112.core.round;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.player.IPlayer;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.round.phase.Phase;
 
 import java.util.List;
@@ -22,7 +24,6 @@ public class Round {
     }
 
     public void startRound() {
-
         GameGraphics.getRoboRally().getDeck().shuffle();
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
@@ -35,6 +36,13 @@ public class Round {
                 GameGraphics.scheduleSync(() -> phase.startPhase(map), finalTotalDelay);
 
                 totalDelay += phase.getRunTime();
+
+                PlayerHandler playerHandler = GameGraphics.getRoboRally().getPlayerHandler();
+                for (IPlayer player : playerHandler.getPlayers()) {
+                    if (player.getFlags() == playerHandler.getFlagCount()) {
+
+                    }
+                }
             }
         }
 
