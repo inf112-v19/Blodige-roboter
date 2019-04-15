@@ -25,10 +25,10 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     public static int flagCount;
@@ -163,7 +163,7 @@ public class GameGraphics extends Game {
         MapHandler map = getRoboRally().getCurrentMap();
         for (int y = 0; y < map.getMapHeight(); y++) {
             for (int x = 0; x < map.getMapWidth(); x++) {
-                if (map.getTile("flags", x, y) != null) {
+                if (map.getTile(MapHandler.FLAG_LAYER_NAME, x, y) != null) {
                     flagCount++;
                 }
             }

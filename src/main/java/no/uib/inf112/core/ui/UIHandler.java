@@ -2,8 +2,6 @@ package no.uib.inf112.core.ui;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,12 +28,8 @@ import java.util.stream.Stream;
 
 public class UIHandler implements Disposable {
 
-    public static final String SKIN_NAME = "neutralizer-ui-skin";
-    public static final String SKIN_FOLDER = "skins" + File.separator + SKIN_NAME + File.separator;
-    public static final String SKIN_JSON_FILE = SKIN_FOLDER + SKIN_NAME + ".json";
-
+    // The different card textures
     public static final TextureRegion UI_BACKGROUND_TEXTURE;
-    //public static final TextureRegion CARDS_TEXTURE;
     public static final TextureRegion CARDS_SLOT_TEXTURE;
     public static final TextureRegion MOVE1_TEXTURE;
     public static final TextureRegion MOVE2_TEXTURE;
@@ -45,7 +39,6 @@ public class UIHandler implements Disposable {
     public static final TextureRegion TURN_RIGHT_TEXTURE;
     public static final TextureRegion U_TURN_TEXTURE;
 
-
     public static final TextureRegion POWER_DOWN_TEXTURE;
     public static final TextureRegion NOT_POWER_DOWN_TEXTURE;
 
@@ -54,6 +47,7 @@ public class UIHandler implements Disposable {
 
     private static final TextureRegion DAMAGE_TOKEN_TEXTURE;
     private static final TextureRegion NOT_DAMAGE_TOKEN_TEXTURE;
+
     private static final TextureRegion FLAG_TAKEN_TEXTURE;
     private static final TextureRegion NOT_FLAG_TAKEN_TEXTURE;
 
@@ -67,58 +61,38 @@ public class UIHandler implements Disposable {
     private final DragAndDrop dad;
     private final Table cardDrawTable;
 
+    private static final String UI_FOLDER = "ui" + File.separatorChar;
+    private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
+    private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
+
     static {
         //temp textures, to be replaced with real textures
         //TODO Issue #52 find/create real textures for control panel
 
-        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture("ui/background.png"), 600, 190);
+        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 601, 198);
 
-        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/emptySlot.png"));
-        MOVE1_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move1.png"));
-        MOVE2_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move2.png"));
-        MOVE3_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/move3.png"));
-        BACK_UP_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/backUp.png"));
-        TURN_LEFT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/turnLeft.png"));
-        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/turnRight.png"));
-        U_TURN_TEXTURE = new TextureRegion(new Texture("ui/cardSkins/uTurn.png"));
+        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "emptySlot.png"));
+        MOVE1_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move1.png"));
+        MOVE2_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move2.png"));
+        MOVE3_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move3.png"));
+        BACK_UP_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "backUp.png"));
+        TURN_LEFT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "turnLeft.png"));
+        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "turnRight.png"));
+        U_TURN_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "uTurn.png"));
 
-        POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/buttons/power_down.png"));
-        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_power_down.png"));
+        POWER_DOWN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "power_down.png"));
+        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_power_down.png"));
 
-        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/life.png"));
-        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_life.png"));
+        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "life.png"));
+        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_life.png"));
 
-        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/damage.png"));
-        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_damage.png"));
+        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "damage.png"));
+        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_damage.png"));
 
-        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/flag.png"));
-        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture("ui/buttons/not_flag.png"));
+        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "flag.png"));
+        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_flag.png"));
     }
 
-    /*
-     * Size CANNOT be dividable by two, as it will make the returning texture look cut off
-     */
-    private static TextureRegion createTempCircleTexture(int size, Color color) {
-        final Pixmap pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
-        pixmap.setColor(color);
-        pixmap.fillCircle(pixmap.getWidth() / 2, pixmap.getWidth() / 2, size / 2);
-        return new TextureRegion(new Texture(pixmap));
-    }
-
-    private static TextureRegion createTempRectTexture(int width, int height, Color color) {
-        final Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pixmap.setColor(color);
-        pixmap.fill();
-        return new TextureRegion(new Texture(pixmap));
-    }
-
-    private static TextureRegion createTempFlagTexture(int width, int height, Color color) {
-        final Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pixmap.setColor(color);
-        pixmap.fillTriangle(width, height / 4, 0, height / 2, 0, 0);
-        pixmap.fillRectangle(0, 0, width / 6, height);
-        return new TextureRegion(new Texture(pixmap));
-    }
 
     public UIHandler() {
         stage = new Stage(new FitViewport(1920, 1080));
@@ -151,14 +125,12 @@ public class UIHandler implements Disposable {
     private void create() {
 
         cardDrawTable.setTransform(false);
-        //cardDrawTable.setBackground(new TextureRegionDrawable(createTempRectTexture(1, 1, Color.LIGHT_GRAY)));
-        cardDrawTable.getColor().a = 0.9f;
         cardDrawTable.pad(DEFAULT_SPACING);
         cardDrawTable.setVisible(false);
 
         //set background to extend a bit out of the table
         controlPanelTable.setBackground(new TextureRegionDrawable(UI_BACKGROUND_TEXTURE));
-        controlPanelTable.pad(DEFAULT_SPACING * 2, DEFAULT_SPACING * 4, DEFAULT_SPACING * 2, DEFAULT_SPACING * 4);
+        controlPanelTable.pad(DEFAULT_SPACING * 2, DEFAULT_SPACING * 4, DEFAULT_SPACING * 4, DEFAULT_SPACING * 4);
         controlPanelTable.setTransform(false); //optimization
 
 
