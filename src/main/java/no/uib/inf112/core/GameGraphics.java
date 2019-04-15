@@ -34,7 +34,7 @@ public class GameGraphics extends Game {
     public static int flagCount;
 
     private SpriteBatch batch;
-    private BitmapFont font;
+    public static BitmapFont font;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -45,8 +45,8 @@ public class GameGraphics extends Game {
     public void create() {
 
         batch = new SpriteBatch();
-        font = new BitmapFont();
 
+        font = new BitmapFont();
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
