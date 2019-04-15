@@ -22,7 +22,7 @@ public class RobotPushTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 2);
         map = roboRally.getCurrentMap();
     }
 
@@ -36,6 +36,24 @@ public class RobotPushTest extends TestGraphics {
 
         for (int i = 0; i < players.size(); i++) {
             assertEquals(new Vector2Int(i + 6, 0), new Vector2Int(players.get(i).getX(), players.get(i).getY()));
+        }
+    }
+
+    @Test
+    public void pushingEightRobotsAndMovingThemThreeTimesAndPushingThemAgain() {
+        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
+        for (int i = 0; i < 3; i++) {
+            IPlayer player = players.get(0);
+            player.setDirection(Direction.EAST);
+            player.move(Movement.MOVE_3);
+            for (int j = 0; j < players.size(); j++) {
+                System.out.println(i);
+                assertEquals(new Vector2Int(j + (i*3)+3, 0 + i), new Vector2Int(players.get(j).getX(), players.get(j).getY()));
+            }
+            for (IPlayer playerElem : players) {
+                playerElem.setDirection(Direction.NORTH);
+                playerElem.move(Movement.MOVE_1);
+            }
         }
     }
 
