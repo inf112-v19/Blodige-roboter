@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public class CardActor extends ImageTextButton {
 
     private Card card;
-    private String offset = "\n\n\n\n\n\n";
+    private String offset = "\n\n\n\n\n\n"; // This is to push the text up (by default it is in the middle of the card)
 
     CardActor() {
         super("", createSkin());
@@ -39,9 +39,12 @@ public class CardActor extends ImageTextButton {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("card_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 20;
+
+        // Centering text in the display window
         parameter.padRight = 5;
         parameter.padTop = 3;
-        parameter.color = Color.valueOf("#f1c232");
+
+        parameter.color = Color.valueOf("#f1c232"); // Same color as the numbers on the cards
         return generator.generateFont(parameter);
     }
 
@@ -56,8 +59,6 @@ public class CardActor extends ImageTextButton {
             setText("");
             getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE); // Empty slot
         } else {
-
-            // TODO fix this, this is ugly
             setText(card.getPriority() + offset);
             getStyle().imageUp = new TextureRegionDrawable(card.getRegionTexture());
             getLabelCell().padLeft(-card.getRegionTexture().getRegionWidth()); //make sure the text is within the card
