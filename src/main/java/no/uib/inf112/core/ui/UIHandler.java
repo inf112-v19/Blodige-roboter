@@ -69,7 +69,7 @@ public class UIHandler implements Disposable {
         //temp textures, to be replaced with real textures
         //TODO Issue #52 find/create real textures for control panel
 
-        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 601, 198);
+        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
 
         CARDS_SLOT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "emptySlot.png"));
         MOVE1_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move1.png"));
