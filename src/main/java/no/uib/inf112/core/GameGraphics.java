@@ -1,21 +1,15 @@
 package no.uib.inf112.core;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class GameGraphics extends Game {
 
@@ -30,13 +24,16 @@ public class GameGraphics extends Game {
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
-    private SpriteBatch batch;
+    public SpriteBatch batch;
     private BitmapFont font;
 
-    private static InputMultiplexer inputMultiplexer;
-    private static UIHandler uiHandler;
-    private static ControlPanelEventHandler cpEventHandler;
-    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    GameScreen screen;
+
+//    private static InputMultiplexer inputMultiplexer;
+//    private static UIHandler uiHandler;
+//    private static ControlPanelEventHandler cpEventHandler;
+//    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
 
     @Override
     public void create() {
@@ -44,35 +41,39 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+//        inputMultiplexer = new InputMultiplexer();
+//        Gdx.input.setInputProcessor(inputMultiplexer);
+//
+//        cpEventHandler = new ControlPanelEventHandler();
+//
+//
+//        getRoboRally();
+//        uiHandler = new UIHandler();
+//        new InputHandler(); //this must be after UIHandler to allow dragging of cards
+//        getRoboRally().getPlayerHandler().startTurn();
 
-        inputMultiplexer = new InputMultiplexer();
-        Gdx.input.setInputProcessor(inputMultiplexer);
-
-        cpEventHandler = new ControlPanelEventHandler();
-
-
-        getRoboRally();
-        uiHandler = new UIHandler();
-        new InputHandler(); //this must be after UIHandler to allow dragging of cards
-        getRoboRally().getPlayerHandler().startTurn();
+        screen = new GameScreen(this);
+        setScreen(screen);
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
         super.render();
-
-        batch.begin();
-
-        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
-        roboRally.getCurrentMap().render(batch);
-
-        uiHandler.update();
-
-        batch.end();
     }
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
+//                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+//
+//        super.render();
+//
+//        batch.begin();
+//
+//        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
+//        roboRally.getCurrentMap().render(batch);
+//
+//        uiHandler.update();
+//
+//        batch.end();
+//    }
 
 
     @Override
@@ -80,29 +81,29 @@ public class GameGraphics extends Game {
         super.dispose();
         batch.dispose();
         font.dispose();
-        uiHandler.dispose();
+//        uiHandler.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        roboRally.getCurrentMap().resize(width, height);
-        uiHandler.resize();
+//        roboRally.getCurrentMap().resize(width, height);
+//        uiHandler.resize();
     }
 
     @NotNull
     public static InputMultiplexer getInputMultiplexer() {
-        return inputMultiplexer;
+        return GameScreen.getInputMultiplexer();
     }
 
     @NotNull
     public static ControlPanelEventHandler getCPEventHandler() {
-        return cpEventHandler;
+        return GameScreen.getCPEventHandler();
     }
 
     @NotNull
     public static UIHandler getUiHandler() {
-        return uiHandler;
+        return GameScreen.getUiHandler();
     }
 
     public static SoundPlayer getSoundPlayer() {
@@ -135,12 +136,13 @@ public class GameGraphics extends Game {
      * @param msDelay  How long, in milliseconds, to wait before executing the runnable
      */
     public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
-        if (msDelay <= 0) {
-            Gdx.app.postRunnable(runnable);
-        } else {
-            GameGraphics.executorService.schedule(() ->
-                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
-        }
+//        if (msDelay <= 0) {
+//            Gdx.app.postRunnable(runnable);
+//        } else {
+//            GameGraphics.executorService.schedule(() ->
+//                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
+//        }
+        GameScreen.scheduleSync(runnable, msDelay);
     }
 
     /**
@@ -148,7 +150,8 @@ public class GameGraphics extends Game {
      * @param msDelay  How long, in milliseconds, to wait before executing the runnable
      */
     public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
-        GameGraphics.executorService.schedule(() ->
-                runnable, msDelay, TimeUnit.MILLISECONDS);
+//        GameGraphics.executorService.schedule(() ->
+//                runnable, msDelay, TimeUnit.MILLISECONDS);
+        GameScreen.scheduleAsync(runnable, msDelay);
     }
 }
