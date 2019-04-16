@@ -6,12 +6,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.io.File;
+
 
 public class TitleScreen implements Screen {
 
-    private Texture header = new Texture("header.png");
-    private Texture play_on = new Texture("play_on.png");
-    private Texture play_off = new Texture("play_off.png");
+    private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
+
+    private final Texture HEADER = new Texture(TITLE_SCREEN_FOLDER + "header.png");
+    private final Texture PLAY_ON = new Texture(TITLE_SCREEN_FOLDER + "play_on.png");
+    private final Texture PLAY_OFF = new Texture(TITLE_SCREEN_FOLDER + "play_off.png");
+    private final Texture QUIT_ON = new Texture(TITLE_SCREEN_FOLDER + "quit_on.png");
+    private final Texture QUIT_OFF = new Texture(TITLE_SCREEN_FOLDER + "quit_off.png");
 
     private GameGraphics game;
     private OrthographicCamera camera;
@@ -46,25 +52,39 @@ public class TitleScreen implements Screen {
 
         game.batch.begin();
 
-        game.batch.draw(header, 0, camera.viewportHeight / 2 + header.getHeight() / 3f);
+        game.batch.draw(HEADER, 0, camera.viewportHeight / 2 + HEADER.getHeight() / 3f);
 
-        float playX = -(play_on.getWidth() / 2f);
-        float playY = -(play_on.getHeight() / 2f);
-
-
-        if (Gdx.input.getX() >= width / 2 + playX && Gdx.input.getX() <= width / 2 + playX + play_on.getWidth() &&
-                Gdx.input.getY() >= height / 2 + playY && Gdx.input.getY() <= height / 2 + playY + play_on.getHeight()) {
-
-            game.batch.draw(play_on, camera.viewportWidth / 2 + playX, camera.viewportHeight / 2 + playY);
+        if (mouseOn(PLAY_ON, 0)) {
+            game.batch.draw(PLAY_ON, camera.viewportWidth / 2 - (PLAY_ON.getWidth() / 2f), camera.viewportHeight / 2 - (PLAY_ON.getHeight() / 2f));
             if (Gdx.input.justTouched()) {
                 game.setScreen(game.gameScreen);
             }
         } else {
-            game.batch.draw(play_off, camera.viewportWidth / 2 + playX, camera.viewportHeight / 2 + playY);
+            game.batch.draw(PLAY_OFF, camera.viewportWidth / 2 - (PLAY_OFF.getWidth() / 2f), camera.viewportHeight / 2 - (PLAY_OFF.getHeight() / 2f));
         }
+
+        if (mouseOn(QUIT_ON, 2)) {
+            game.batch.draw(QUIT_ON, camera.viewportWidth / 2 - (QUIT_ON.getWidth() / 2f), camera.viewportHeight / 2 - ((5 * QUIT_ON.getHeight()) / 2f));
+            if (Gdx.input.justTouched()) {
+                System.exit(0);
+            }
+        } else {
+            game.batch.draw(QUIT_OFF, camera.viewportWidth / 2 - (QUIT_OFF.getWidth() / 2f), camera.viewportHeight / 2 - ((5 * QUIT_OFF.getHeight()) / 2f));
+        }
+
 
         game.batch.end();
 
+    }
+
+    private boolean mouseOn(Texture currChoice, int placement) {
+        float playX = currChoice.getWidth() / 2f;
+        float playY = currChoice.getHeight() / 2f;
+
+        return Gdx.input.getX() >= width / 2 - playX &&
+                Gdx.input.getX() <= width / 2 + playX &&
+                Gdx.input.getY() >= (placement * currChoice.getHeight()) + height / 2 - playY &&
+                Gdx.input.getY() <= (placement * currChoice.getHeight()) + height / 2 + playY;
     }
 
     @Override
