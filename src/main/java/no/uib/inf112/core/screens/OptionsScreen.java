@@ -19,8 +19,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import no.uib.inf112.core.GameGraphics;
 
+import java.io.File;
+
 public class OptionsScreen implements Screen {
 
+    private final String OPTIONS_FOLDER = "optionsscreen" + File.separatorChar;
     private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private GameGraphics game;
     Stage stage;
@@ -77,7 +80,7 @@ public class OptionsScreen implements Screen {
 
 
         game.batch.begin();
-        Texture mapImg = new Texture(GameGraphics.mapName + ".png");
+        Texture mapImg = new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png");
         game.batch.draw(mapImg, 0, 0);
 
         game.batch.end();
