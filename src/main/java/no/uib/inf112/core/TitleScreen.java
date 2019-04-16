@@ -1,7 +1,6 @@
 package no.uib.inf112.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,10 +41,6 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game));
-        }
-
         game.batch.setTransformMatrix(camera.view);
         game.batch.setProjectionMatrix(camera.projection);
 
@@ -61,6 +56,9 @@ public class TitleScreen implements Screen {
                 Gdx.input.getY() >= height / 2 + playY && Gdx.input.getY() <= height / 2 + playY + play_on.getHeight()) {
 
             game.batch.draw(play_on, camera.viewportWidth / 2 + playX, camera.viewportHeight / 2 + playY);
+            if (Gdx.input.justTouched()) {
+                game.setScreen(game.gameScreen);
+            }
         } else {
             game.batch.draw(play_off, camera.viewportWidth / 2 + playX, camera.viewportHeight / 2 + playY);
         }
