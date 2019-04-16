@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -25,7 +27,7 @@ public class GameGraphics extends Game {
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     public SpriteBatch batch;
-    private BitmapFont font;
+    public BitmapFont font;
 
     public GameScreen gameScreen;
 

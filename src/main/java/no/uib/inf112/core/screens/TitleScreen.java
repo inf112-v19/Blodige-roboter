@@ -1,10 +1,11 @@
-package no.uib.inf112.core;
+package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
 
@@ -63,10 +64,11 @@ public class TitleScreen implements Screen {
             draw(PLAY_OFF, 1);
         }
 
+
         if (mouseOn(OPTIONS_ON, 1)) {
             draw(OPTIONS_ON, 3);
             if (Gdx.input.justTouched()) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(new OptionsScreen(game));
             }
         } else {
             draw(OPTIONS_OFF, 3);
