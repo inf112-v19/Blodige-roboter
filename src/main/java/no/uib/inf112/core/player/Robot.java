@@ -8,6 +8,7 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -122,7 +123,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 Math.round((maxTime * 1f) / max);
         for (int i = 0; i < max; i++) {
 
-            GameGraphics.scheduleSync(() -> {
+            GameScreen.scheduleSync(() -> {
                 // Collision with wall on the same tile as robot
                 if (willCollide(this, 0, 0, dir)) {
                     return;
@@ -156,7 +157,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                         }
                     }
                     if (pushed) {
-                        GameGraphics.scheduleSync(() -> {
+                        GameScreen.scheduleSync(() -> {
                             if (!willCollide(this, sdx, sdy, dir)) {
                                 pos.x += sdx;
                                 pos.y += sdy;

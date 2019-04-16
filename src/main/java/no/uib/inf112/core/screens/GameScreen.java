@@ -32,7 +32,6 @@ public class GameScreen implements Screen {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-
         roboRally = GameGraphics.getRoboRally();
 
         uiHandler = new UIHandler();

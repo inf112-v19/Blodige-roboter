@@ -58,7 +58,7 @@ public class TitleScreen implements Screen {
         if (mouseOn(PLAY_ON, 0)) {
             draw(PLAY_ON, 1);
             if (Gdx.input.justTouched()) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(new GameScreen(game));
             }
         } else {
             draw(PLAY_OFF, 1);

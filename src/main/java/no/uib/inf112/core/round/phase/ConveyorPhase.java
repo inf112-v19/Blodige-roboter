@@ -1,12 +1,12 @@
 package no.uib.inf112.core.round.phase;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.ConveyorTile;
+import no.uib.inf112.core.screens.GameScreen;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class ConveyorPhase extends AbstractPhase {
     public void startPhase(@NotNull MapHandler map) {
         subPhase(map, false);
         //the next sub-phase must be after a bit of delay for it to properly work
-        GameGraphics.scheduleSync(() -> subPhase(map, true), getRunTime() / 2);
+        GameScreen.scheduleSync(() -> subPhase(map, true), getRunTime() / 2);
     }
 
     private void subPhase(MapHandler map, boolean allConveyors) {

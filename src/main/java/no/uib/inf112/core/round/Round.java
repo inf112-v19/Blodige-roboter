@@ -3,6 +3,7 @@ package no.uib.inf112.core.round;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.round.phase.Phase;
+import no.uib.inf112.core.screens.GameScreen;
 
 import java.util.List;
 
@@ -32,19 +33,19 @@ public class Round {
             for (Phase phase : registerPhases) {
 
                 final long finalTotalDelay = totalDelay;
-                GameGraphics.scheduleSync(() -> phase.startPhase(map), finalTotalDelay);
+                GameScreen.scheduleSync(() -> phase.startPhase(map), finalTotalDelay);
 
                 totalDelay += phase.getRunTime();
             }
         }
 
         for (Phase phase : cleanupPhases) {
-            GameGraphics.scheduleSync(() -> {
+            GameScreen.scheduleSync(() -> {
                 phase.startPhase(map);
             }, totalDelay + 10);
         }
 
-        GameGraphics.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+        GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
 
     }
 }

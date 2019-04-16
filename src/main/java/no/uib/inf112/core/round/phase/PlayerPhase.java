@@ -5,6 +5,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.ComparableTuple;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +35,7 @@ public class PlayerPhase extends AbstractPhase {
 
             List<ComparableTuple<Card, IPlayer>> roundList = new ArrayList<>();
             for (IPlayer p : players) {
-                if(!p.isPoweredDown()){
+                if (!p.isPoweredDown()) {
                     roundList.add(p.getNextCard(i));
                 }
             }
@@ -50,7 +51,7 @@ public class PlayerPhase extends AbstractPhase {
 
         for (int i = 0; i < phaseCards.size(); i++) {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
-            GameGraphics.scheduleSync(() -> tuple.value.move(tuple.key.getAction(), delayPerPlayer), delayPerPlayer * (i + 1));
+            GameScreen.scheduleSync(() -> tuple.value.move(tuple.key.getAction(), delayPerPlayer), delayPerPlayer * (i + 1));
         }
     }
 }

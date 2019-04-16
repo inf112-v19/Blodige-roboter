@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
 
@@ -23,7 +24,7 @@ public class PowerButton extends ImageTextButton {
             public void clicked(InputEvent event, float x, float y) {
                 float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? 0.50f : -0.50f;
                 getColor().a += state;
-                GameGraphics.getCPEventHandler().fireEvent(new PowerDownEvent());
+                GameScreen.getCPEventHandler().fireEvent(new PowerDownEvent());
             }
 
             @Override

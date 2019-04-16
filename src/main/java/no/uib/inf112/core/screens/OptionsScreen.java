@@ -49,9 +49,10 @@ public class OptionsScreen implements Screen {
         selectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println(selectBox.getSelected());
+                game.setMap(selectBox.getSelected());
             }
         });
+
         selectBox.setItems(MAP_LIST);
         selectBox.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         selectBox.setPosition(0, Gdx.graphics.getHeight() - selectBox.getHeight());

@@ -1,15 +1,11 @@
 package no.uib.inf112.core;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.SoundPlayer;
-import no.uib.inf112.core.ui.UIHandler;
-import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -20,7 +16,7 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
@@ -36,6 +32,26 @@ public class GameGraphics extends Game {
 //    private static ControlPanelEventHandler cpEventHandler;
 //    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
+    public void setMap(String mapName) {
+        switch (mapName) {
+            case "Risky Exchange":
+                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+                return;
+            case "Checkmate":
+                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
+                return;
+            case "Dizzy Dash":
+                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
+                return;
+            case "Island Hop":
+                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+                return;
+            case "Chop Shop Challenge":
+                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
+                return;
+            default:
+        }
+    }
 
     @Override
     public void create() {
@@ -54,7 +70,7 @@ public class GameGraphics extends Game {
 //        new InputHandler(); //this must be after UIHandler to allow dragging of cards
 //        getRoboRally().getPlayerHandler().startTurn();
 
-        gameScreen = new GameScreen(this);
+//        gameScreen = new GameScreen(this);
 //        setScreen(gameScreen);
 
         setScreen(new TitleScreen(this));
@@ -64,20 +80,6 @@ public class GameGraphics extends Game {
     public void render() {
         super.render();
     }
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-//                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-//
-//        super.render();
-//
-//        batch.begin();
-//
-//        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
-//        roboRally.getCurrentMap().render(batch);
-//
-//        uiHandler.update();
-//
-//        batch.end();
-//    }
 
 
     @Override
@@ -85,30 +87,13 @@ public class GameGraphics extends Game {
         super.dispose();
         batch.dispose();
         font.dispose();
-//        uiHandler.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-//        roboRally.getCurrentMap().resize(width, height);
-//        uiHandler.resize();
     }
 
-    @NotNull
-    public static InputMultiplexer getInputMultiplexer() {
-        return GameScreen.getInputMultiplexer();
-    }
-
-    @NotNull
-    public static ControlPanelEventHandler getCPEventHandler() {
-        return GameScreen.getCPEventHandler();
-    }
-
-    @NotNull
-    public static UIHandler getUiHandler() {
-        return GameScreen.getUiHandler();
-    }
 
     public static SoundPlayer getSoundPlayer() {
         if (null == soundPlayer) {
@@ -133,29 +118,4 @@ public class GameGraphics extends Game {
         return roboRally;
     }
 
-    /**
-     * This method will always run the runnable on the main thread
-     *
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
-//        if (msDelay <= 0) {
-//            Gdx.app.postRunnable(runnable);
-//        } else {
-//            GameGraphics.executorService.schedule(() ->
-//                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
-//        }
-        GameScreen.scheduleSync(runnable, msDelay);
-    }
-
-    /**
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
-//        GameGraphics.executorService.schedule(() ->
-//                runnable, msDelay, TimeUnit.MILLISECONDS);
-        GameScreen.scheduleAsync(runnable, msDelay);
-    }
 }
