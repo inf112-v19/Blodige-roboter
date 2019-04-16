@@ -68,8 +68,8 @@ public class UIHandler implements Disposable {
     private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
 
     // Font generator and parameter for card font
-    public static FreeTypeFontGenerator card_font_generator;
-    public static FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
+    public static final FreeTypeFontGenerator card_font_generator;
+    public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
 
     static {
         //temp textures, to be replaced with real textures
@@ -97,15 +97,15 @@ public class UIHandler implements Disposable {
 
         FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "flag.png"));
         NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_flag.png"));
+
+        card_font_generator = new FreeTypeFontGenerator(Gdx.files.internal("card_font.ttf"));
+        card_font_parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
     }
 
 
     public UIHandler() {
         stage = new Stage(new FitViewport(1920, 1080));
         GameGraphics.getInputMultiplexer().addProcessor(stage);
-
-        card_font_generator = new FreeTypeFontGenerator(Gdx.files.internal("card_font.ttf"));
-        card_font_parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         // Setting color and border for font since this should be the same even though the size and padding can vary
         card_font_parameter.borderWidth = 1;
