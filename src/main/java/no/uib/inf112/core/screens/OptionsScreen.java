@@ -42,22 +42,24 @@ public class OptionsScreen implements Screen {
         style.listStyle = new List.ListStyle(style.font, Color.RED, Color.BLACK, img);
 
         final SelectBox<String> selectBox = new SelectBox<>(style);
-        selectBox.setAlignment(Align.right);
-        selectBox.getList().setAlignment(Align.right);
-        selectBox.getStyle().listStyle.selection.setRightWidth(10);
-        selectBox.getStyle().listStyle.selection.setLeftWidth(20);
+        selectBox.setAlignment(Align.left);
+        selectBox.getList().setAlignment(Align.left);
+        selectBox.getStyle().listStyle.selection.setRightWidth(20);
+        selectBox.getStyle().listStyle.selection.setLeftWidth(10);
         selectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setMap(selectBox.getSelected());
+
             }
         });
 
         selectBox.setItems(MAP_LIST);
-        selectBox.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+        selectBox.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 20f);
         selectBox.setPosition(0, Gdx.graphics.getHeight() - selectBox.getHeight());
 
         stage.addActor(selectBox);
+
     }
 
     @Override
@@ -72,6 +74,13 @@ public class OptionsScreen implements Screen {
 
         stage.act(v);
         stage.draw();
+
+
+        game.batch.begin();
+        Texture mapImg = new Texture(GameGraphics.mapName + ".png");
+        game.batch.draw(mapImg, 0, 0);
+
+        game.batch.end();
     }
 
     @Override

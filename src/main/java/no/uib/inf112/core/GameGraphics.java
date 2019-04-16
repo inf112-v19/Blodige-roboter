@@ -16,6 +16,7 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
+    public static String mapName = "risky_exchange";
     public static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
@@ -32,22 +33,27 @@ public class GameGraphics extends Game {
 //    private static ControlPanelEventHandler cpEventHandler;
 //    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    public void setMap(String mapName) {
-        switch (mapName) {
+    public void setMap(String newMapName) {
+        switch (newMapName) {
             case "Risky Exchange":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+                mapName = "risky_exchange";
                 return;
             case "Checkmate":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
+                mapName = "checkmate";
                 return;
             case "Dizzy Dash":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
+                mapName = "dizzy_dash";
                 return;
             case "Island Hop":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+                mapName = "island_hop";
                 return;
             case "Chop Shop Challenge":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
+                mapName = "chop_shop_challenge";
                 return;
             default:
         }
