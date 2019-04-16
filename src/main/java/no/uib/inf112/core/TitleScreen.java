@@ -34,7 +34,7 @@ public class TitleScreen implements Screen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(width, height);//width * (height / width));
+        camera = new OrthographicCamera(width, height);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
@@ -47,8 +47,8 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.batch.setTransformMatrix(camera.view);
-        game.batch.setProjectionMatrix(camera.projection);
+//        game.batch.setTransformMatrix(camera.view);
+//        game.batch.setProjectionMatrix(camera.projection);
 
         game.batch.begin();
 
