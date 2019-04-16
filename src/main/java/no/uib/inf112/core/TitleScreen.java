@@ -18,6 +18,8 @@ public class TitleScreen implements Screen {
     private final Texture PLAY_OFF = new Texture(TITLE_SCREEN_FOLDER + "play_off.png");
     private final Texture QUIT_ON = new Texture(TITLE_SCREEN_FOLDER + "quit_on.png");
     private final Texture QUIT_OFF = new Texture(TITLE_SCREEN_FOLDER + "quit_off.png");
+    private final Texture OPTIONS_ON = new Texture(TITLE_SCREEN_FOLDER + "options_on.png");
+    private final Texture OPTIONS_OFF = new Texture(TITLE_SCREEN_FOLDER + "options_off.png");
 
     private GameGraphics game;
     private OrthographicCamera camera;
@@ -47,34 +49,46 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        game.batch.setTransformMatrix(camera.view);
-//        game.batch.setProjectionMatrix(camera.projection);
-
         game.batch.begin();
 
         game.batch.draw(HEADER, 0, camera.viewportHeight / 2 + HEADER.getHeight() / 3f);
 
+        // Doing play button logic
         if (mouseOn(PLAY_ON, 0)) {
-            game.batch.draw(PLAY_ON, camera.viewportWidth / 2 - (PLAY_ON.getWidth() / 2f), camera.viewportHeight / 2 - (PLAY_ON.getHeight() / 2f));
+            draw(PLAY_ON, 1);
             if (Gdx.input.justTouched()) {
                 game.setScreen(game.gameScreen);
             }
         } else {
-            game.batch.draw(PLAY_OFF, camera.viewportWidth / 2 - (PLAY_OFF.getWidth() / 2f), camera.viewportHeight / 2 - (PLAY_OFF.getHeight() / 2f));
+            draw(PLAY_OFF, 1);
         }
 
+        if (mouseOn(OPTIONS_ON, 1)) {
+            draw(OPTIONS_ON, 3);
+            if (Gdx.input.justTouched()) {
+                game.setScreen(game.gameScreen);
+            }
+        } else {
+            draw(OPTIONS_OFF, 3);
+        }
+
+        // Doing quit button logic
         if (mouseOn(QUIT_ON, 2)) {
-            game.batch.draw(QUIT_ON, camera.viewportWidth / 2 - (QUIT_ON.getWidth() / 2f), camera.viewportHeight / 2 - ((5 * QUIT_ON.getHeight()) / 2f));
+            draw(QUIT_ON, 5);
             if (Gdx.input.justTouched()) {
                 System.exit(0);
             }
         } else {
-            game.batch.draw(QUIT_OFF, camera.viewportWidth / 2 - (QUIT_OFF.getWidth() / 2f), camera.viewportHeight / 2 - ((5 * QUIT_OFF.getHeight()) / 2f));
+            draw(QUIT_OFF, 5);
         }
 
 
         game.batch.end();
 
+    }
+
+    private void draw(Texture toDraw, int scaler) {
+        game.batch.draw(toDraw, camera.viewportWidth / 2 - (toDraw.getWidth() / 2f), camera.viewportHeight / 2 - ((scaler * toDraw.getHeight()) / 2f));
     }
 
     private boolean mouseOn(Texture currChoice, int placement) {
