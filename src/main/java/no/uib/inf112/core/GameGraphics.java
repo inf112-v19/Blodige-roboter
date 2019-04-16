@@ -27,7 +27,7 @@ public class GameGraphics extends Game {
     public SpriteBatch batch;
     private BitmapFont font;
 
-    GameScreen screen;
+    public GameScreen gameScreen;
 
 //    private static InputMultiplexer inputMultiplexer;
 //    private static UIHandler uiHandler;
@@ -52,8 +52,10 @@ public class GameGraphics extends Game {
 //        new InputHandler(); //this must be after UIHandler to allow dragging of cards
 //        getRoboRally().getPlayerHandler().startTurn();
 
-        screen = new GameScreen(this);
-        setScreen(screen);
+        gameScreen = new GameScreen(this);
+//        setScreen(gameScreen);
+
+        setScreen(new TitleScreen(this));
     }
 
     @Override
