@@ -1,6 +1,7 @@
 package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,6 +21,7 @@ import no.uib.inf112.core.GameGraphics;
 
 public class OptionsScreen implements Screen {
 
+    private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private GameGraphics game;
     Stage stage;
 
@@ -50,7 +52,7 @@ public class OptionsScreen implements Screen {
                 System.out.println(selectBox.getSelected());
             }
         });
-        selectBox.setItems("XYZ", "ABC", "PQR", "LMN");
+        selectBox.setItems(MAP_LIST);
         selectBox.setSize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         selectBox.setPosition(0, Gdx.graphics.getHeight() - selectBox.getHeight());
 
@@ -63,10 +65,12 @@ public class OptionsScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            game.setScreen(new TitleScreen(game));
+        }
+
         stage.act(v);
         stage.draw();
-
-        //selectBox.draw(game.batch, v);
     }
 
     @Override
