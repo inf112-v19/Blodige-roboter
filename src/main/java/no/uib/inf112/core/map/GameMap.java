@@ -170,8 +170,6 @@ public abstract class GameMap implements MapHandler {
                     entityLaserLayer.setCell(laser.getX(), laser.getY(), new TiledMapTileLayer.Cell().setTile(TileGraphic.LASER_CROSS.getTile()));
                     return;
                 } else {
-                    /* We should probably have a count for when this happens, cleanup will try and remove non existing tile since we didn't add it.
-                       I just handles this by allowing to get a tile thats null in remove, but this might not be healty*/
                     return;
                 }
             }
@@ -180,8 +178,7 @@ public abstract class GameMap implements MapHandler {
         entityLasers.add(laser);
     }
 
-    @Override
-    public boolean removeEntityLaser(Tile entityLaser) {
+    private boolean removeEntityLaser(Tile entityLaser) {
         Tile tile = getTile(entityLaserLayer, entityLaser.getX(), entityLaser.getY());
         if (tile != null && tile.getTile().getId() == TileGraphic.LASER_CROSS.getId()) {
             //There is two lasers here remove only the one we want and restore tile to the other
@@ -199,6 +196,16 @@ public abstract class GameMap implements MapHandler {
         }
         entityLaserLayer.setCell(entityLaser.getX(), entityLaser.getY(), null);
         return entityLasers.remove(entityLaser);
+    }
+
+    @Override
+    public void removeEntityLasers() {
+        for (int y = 0; y < getMapHeight(); y++) {
+            for (int x = 0; x < getMapWidth(); x++) {
+                entityLaserLayer.setCell(x, y, null);
+            }
+        }
+        entityLasers.clear();
     }
 
     /**
