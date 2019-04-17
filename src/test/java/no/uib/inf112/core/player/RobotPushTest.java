@@ -21,7 +21,7 @@ public class RobotPushTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 2);
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class RobotPushTest extends TestGraphics {
     public void pushingEightRobotsAndMovingThemThreeTimesAndPushingThemAgain() {
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             IPlayer player = players.get(0);
             player.setDirection(Direction.EAST);
             player.move(Movement.MOVE_3);
