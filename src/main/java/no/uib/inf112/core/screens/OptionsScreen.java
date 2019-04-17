@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -31,18 +32,17 @@ public class OptionsScreen implements Screen {
 
     private GameGraphics game;
     Stage stage;
+    private OrthographicCamera camera;
 
     private BitmapFont listFont;
     private BitmapFont selectedFont;
-
-    private float width;
-    private float height;
 
     private SelectBox<String> selectBox;
 
     public OptionsScreen(GameGraphics game) {
         this.game = game;
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        camera = new OrthographicCamera();
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
 
         listFont = game.generateFont("screen_font.ttf", 20);
@@ -51,8 +51,6 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void show() {
-        width = Gdx.graphics.getWidth();
-        height = Gdx.graphics.getHeight();
 
         SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
         style.font = selectedFont;
@@ -100,18 +98,17 @@ public class OptionsScreen implements Screen {
         stage.act(v);
         stage.draw();
 
+        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        mapImg.draw(game.batch, stage.getWidth() / 4f, stage.getHeight() / 6f, stage.getWidth() / 4 - 10, 2 * (stage.getHeight() / 3));
+        mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
         game.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
 
-        this.width = width;
-        this.height = height;
-
         stage.getViewport().update(width, height, true);
+        camera.update();
 
     }
 
