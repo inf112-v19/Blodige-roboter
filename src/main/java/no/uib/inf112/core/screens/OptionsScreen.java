@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,15 +40,15 @@ public class OptionsScreen implements Screen {
     @Override
     public void show() {
 
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myfont.ttf"));
-//        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-//        parameter.size = 12;
-//        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
-//        generator.dispose();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("screen_font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 14;
+        BitmapFont font = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
 
 
         SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
-        style.font = new BitmapFont();
+        style.font = font;
         style.fontColor = Color.BLUE;
         style.scrollStyle = new ScrollPane.ScrollPaneStyle();
         Drawable img = new TextureRegionDrawable(new Texture("titlescreen/header.png"));
