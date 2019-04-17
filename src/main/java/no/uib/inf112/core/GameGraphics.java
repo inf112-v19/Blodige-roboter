@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,6 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS;
-    private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
     //  public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
@@ -97,17 +95,6 @@ public class GameGraphics extends Game {
     @NotNull
     public static UIHandler getUiHandler() {
         return uiHandler;
-    }
-
-    public static SoundPlayer getSoundPlayer() {
-        if (null == soundPlayer) {
-            createSoundPlayer();
-        }
-        return soundPlayer;
-    }
-
-    private static synchronized void createSoundPlayer() {
-        soundPlayer = new SoundPlayer();
     }
 
     public static RoboRally getRoboRally() {

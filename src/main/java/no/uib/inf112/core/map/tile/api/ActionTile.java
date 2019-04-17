@@ -1,5 +1,6 @@
 package no.uib.inf112.core.map.tile.api;
 
+import no.uib.inf112.core.ui.Sound;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,11 +17,13 @@ public interface ActionTile<T extends Tile> extends RequirementTile {
      *
      * @param tile The tile to do the action on.
      */
-    void action(@NotNull T tile);
+    boolean action(@NotNull T tile);
 
     /**
      * The sound played when the action is executed
+     *
+     * @return the Sound enum to be the action sound for this tile
      */
-    void playActionSound();
+    Sound getActionSound();
 
 }
