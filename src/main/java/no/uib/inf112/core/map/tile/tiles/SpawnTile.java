@@ -14,7 +14,7 @@ public class SpawnTile extends AbstractTile implements DockableTile {
     public SpawnTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
         this.tg = tg;
-        spawnNr = Integer.parseInt(tg.toString().replace("SPAWN", ""));
+        spawnNr = Integer.parseInt(tg.name().replace("SPAWN", ""));
     }
 
     @Override
@@ -24,6 +24,6 @@ public class SpawnTile extends AbstractTile implements DockableTile {
 
     @Override
     public String toString() {
-        return "SpawnTile{" + tg.toString() + "}";
+        return "SpawnTile{" + tg.name() + "}";
     }
 }
