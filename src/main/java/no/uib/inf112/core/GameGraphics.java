@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.ui.SoundPlayer;
@@ -31,7 +30,6 @@ public class GameGraphics extends Game {
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     private SpriteBatch batch;
-    private BitmapFont font;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -42,14 +40,11 @@ public class GameGraphics extends Game {
     public void create() {
 
         batch = new SpriteBatch();
-        font = new BitmapFont();
-
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         cpEventHandler = new ControlPanelEventHandler();
-
 
         getRoboRally();
         uiHandler = new UIHandler();
@@ -79,7 +74,6 @@ public class GameGraphics extends Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        font.dispose();
         uiHandler.dispose();
     }
 
@@ -151,4 +145,5 @@ public class GameGraphics extends Game {
         GameGraphics.executorService.schedule(() ->
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }
+
 }

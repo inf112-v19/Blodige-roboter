@@ -106,13 +106,6 @@ public interface MapHandler {
     void addEntityLaser(@NotNull Tile laser);
 
     /**
-     * Removes the laserTile in the laserEntities layer, if this tile is not on the map it is ignored
-     *
-     * @param entityLaser laserTile to remove
-     */
-    boolean removeEntityLaser(Tile entityLaser);
-
-    /**
      * @param x The x coordinate to test
      * @param y The y coordinate to test
      * @return If the given {@code x} and {@code y} is outside this map
@@ -171,4 +164,6 @@ public interface MapHandler {
      */
     @NotNull
     List<Tile> getAllTiles(int x, int y);
+
+    void removeEntityLasers();
 }
