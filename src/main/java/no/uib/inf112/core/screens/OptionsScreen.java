@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -37,6 +39,13 @@ public class OptionsScreen implements Screen {
     @Override
     public void show() {
 
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myfont.ttf"));
+//        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+//        parameter.size = 12;
+//        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+//        generator.dispose();
+
+
         SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
         style.font = new BitmapFont();
         style.fontColor = Color.BLUE;
@@ -47,7 +56,7 @@ public class OptionsScreen implements Screen {
         final SelectBox<String> selectBox = new SelectBox<>(style);
         selectBox.setAlignment(Align.left);
         selectBox.getList().setAlignment(Align.left);
-        selectBox.getStyle().listStyle.selection.setRightWidth(20);
+        selectBox.getStyle().listStyle.selection.setRightWidth(10);
         selectBox.getStyle().listStyle.selection.setLeftWidth(10);
         selectBox.addListener(new ChangeListener() {
             @Override
@@ -56,11 +65,16 @@ public class OptionsScreen implements Screen {
 
             }
         });
+        selectBox.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                selectBox.showList();
+            }
+        });
 
         selectBox.setItems(MAP_LIST);
-        selectBox.setSize(Gdx.graphics.getWidth() / 4f, Gdx.graphics.getHeight() / 20f);
-        selectBox.setPosition(0, Gdx.graphics.getHeight() - selectBox.getHeight());
-
+        selectBox.setSize(Gdx.graphics.getWidth() / 8f, Gdx.graphics.getHeight() / 20f);
+        selectBox.setPosition(10, (Gdx.graphics.getHeight() - selectBox.getHeight()) / 2);
         stage.addActor(selectBox);
 
     }
@@ -81,7 +95,7 @@ public class OptionsScreen implements Screen {
 
         game.batch.begin();
         Texture mapImg = new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png");
-        game.batch.draw(mapImg, 0, 0);
+        game.batch.draw(mapImg, 200, Gdx.graphics.getHeight() / 2f - mapImg.getHeight() / 2f);
 
         game.batch.end();
     }
