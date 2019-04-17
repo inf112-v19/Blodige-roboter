@@ -21,13 +21,13 @@ public class ConveyorPhaseTest extends TestGraphics {
     @Before
     public void setUp() {
         roboRally = GameGraphics
-            .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
+                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         phase = new ConveyorPhase(0);
     }
 
 
-    private void runPhase(){
+    private void runPhase() {
         phase.startPhase(roboRally.getCurrentMap());
     }
 
@@ -71,6 +71,7 @@ public class ConveyorPhaseTest extends TestGraphics {
         assertEquals(2, player.getY());
         assertEquals(SOUTH, player.getDirection());
     }
+
     @Test
     public void rotateRightCircleNormal() {
         player.teleport(3, 2);
@@ -180,32 +181,32 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void fromWestGoNorth() {
         //normal conveyors
         testPhase(2, 4, SOUTH, 2, 5, SOUTH);
-        testPhase(1, 5, WEST, 2, 5, NORTH);
+        testPhase(1, 5, WEST, 2, 5, SOUTH);
 
         //express conveyors
         testPhase(2, 9, SOUTH, 2, 10, SOUTH);
-        testPhase(1, 10, WEST, 2, 10, NORTH);
+        testPhase(1, 9, WEST, 2, 10, SOUTH);
     }
 
     @Test
     public void fromEastGoNorth() {
         //normal conveyors
         testPhase(3, 4, SOUTH, 3, 5, SOUTH);
-        testPhase(4, 5, EAST, 3, 5, NORTH);
+        testPhase(4, 5, EAST, 3, 5, SOUTH);
 
         //express conveyors
         testPhase(3, 9, SOUTH, 3, 10, SOUTH);
-        testPhase(4, 10, EAST, 3, 10, NORTH);
+        testPhase(4, 9, EAST, 3, 10, SOUTH);
     }
 
     @Test
     public void fromHorizontalGoNorth() {
         //normal conveyors
-        testPhase(20, 5, WEST, 21, 5, NORTH);
-        testPhase(22, 5, EAST, 21, 5, NORTH);
+        testPhase(20, 5, WEST, 21, 5, SOUTH);
+        testPhase(22, 5, EAST, 21, 5, SOUTH);
 
         //express conveyors
-        testPhase(20, 9, WEST, 21, 10, NORTH);
-        testPhase(22, 9, EAST, 21, 10, NORTH);
+        testPhase(20, 9, WEST, 21, 10, SOUTH);
+        testPhase(22, 9, EAST, 21, 10, SOUTH);
     }
 }

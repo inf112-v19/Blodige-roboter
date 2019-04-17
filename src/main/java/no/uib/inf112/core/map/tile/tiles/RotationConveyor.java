@@ -31,40 +31,36 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
             int dx = tile.getX() - prevPos.x;
             int dy = tile.getY() - prevPos.y;
 
-            Direction dir = Direction.fromDelta(dx, dy);
+            Direction dir = Direction.fromDelta(dx, dy).inverse();
             if (dir == null) {
                 return false;
             }
             switch (dir) {
                 case NORTH:
-                    if (hasAttribute(EAST_NORTH)) {
+                    if (hasAttribute(NORTH_WEST)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    }
-                    else if (hasAttribute(WEST_NORTH)) {
+                    } else if (hasAttribute(NORTH_EAST)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
                 case EAST:
                     if (hasAttribute(Attribute.EAST_SOUTH)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    }
-                    else if (hasAttribute(Attribute.EAST_NORTH)) {
+                    } else if (hasAttribute(Attribute.EAST_NORTH)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
                 case SOUTH:
                     if (hasAttribute(SOUTH_WEST)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    }
-                    else if (hasAttribute(Attribute.SOUTH_EAST)) {
+                    } else if (hasAttribute(Attribute.SOUTH_EAST)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
                 case WEST:
-                    if (hasAttribute(Attribute.WEST_NORTH)) {
+                    if (hasAttribute(WEST_NORTH)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    }
-                    else if (hasAttribute(Attribute.WEST_SOUTH)) {
+                    } else if (hasAttribute(WEST_SOUTH)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
