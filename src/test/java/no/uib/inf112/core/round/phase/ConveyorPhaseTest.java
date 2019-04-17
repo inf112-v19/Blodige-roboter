@@ -180,33 +180,44 @@ public class ConveyorPhaseTest extends TestGraphics {
     @Test
     public void fromWestGoNorth() {
         //normal conveyors
-        testPhase(2, 4, SOUTH, 2, 5, SOUTH);
-        testPhase(1, 5, WEST, 2, 5, SOUTH);
+        testPhase(2, 4, NORTH, 2, 5, NORTH);
+        testPhase(1, 5, WEST, 2, 5, NORTH);
 
         //express conveyors
-        testPhase(2, 9, SOUTH, 2, 10, SOUTH);
-        testPhase(1, 9, WEST, 2, 10, SOUTH);
+        testPhase(2, 9, SOUTH, 2, 10, NORTH);
+        testPhase(1, 9, WEST, 2, 10, NORTH);
     }
 
     @Test
     public void fromEastGoNorth() {
         //normal conveyors
-        testPhase(3, 4, SOUTH, 3, 5, SOUTH);
-        testPhase(4, 5, EAST, 3, 5, SOUTH);
+        testPhase(3, 4, NORTH, 3, 5, NORTH);
+        testPhase(4, 5, EAST, 3, 5, NORTH);
 
         //express conveyors
-        testPhase(3, 9, SOUTH, 3, 10, SOUTH);
-        testPhase(4, 9, EAST, 3, 10, SOUTH);
+        testPhase(3, 9, NORTH, 3, 10, NORTH);
+        testPhase(4, 9, EAST, 3, 10, NORTH);
     }
 
     @Test
     public void fromHorizontalGoNorth() {
         //normal conveyors
-        testPhase(20, 5, WEST, 21, 5, SOUTH);
-        testPhase(22, 5, EAST, 21, 5, SOUTH);
+        testPhase(20, 5, WEST, 21, 5, NORTH);
+        testPhase(22, 5, EAST, 21, 5, NORTH);
 
         //express conveyors
-        testPhase(20, 9, WEST, 21, 10, SOUTH);
-        testPhase(22, 9, EAST, 21, 10, SOUTH);
+        testPhase(20, 9, WEST, 21, 10, NORTH);
+        testPhase(22, 9, EAST, 21, 10, NORTH);
+    }
+
+    @Test
+    public void fromHorizontalGoSouth() {
+        //normal conveyors
+        testPhase(20, 4, WEST, 21, 4, SOUTH);
+        testPhase(22, 4, EAST, 21, 4, SOUTH);
+
+        //express conveyors
+        testPhase(20, 8, WEST, 21, 3, SOUTH);
+        testPhase(22, 8, EAST, 21, 3, SOUTH);
     }
 }
