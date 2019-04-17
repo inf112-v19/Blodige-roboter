@@ -7,16 +7,19 @@ import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
 public class SpawnTile extends AbstractTile implements DockableTile {
-    private TileGraphic tg;
+
+    private final int SPAWN_NR;
+    private final TileGraphic tg;
 
     public SpawnTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
         this.tg = tg;
+        SPAWN_NR = Integer.parseInt(tg.toString().replace("SPAWN", ""));
     }
 
     @Override
     public int getSpawnNumber() {
-        return Integer.parseInt(tg.toString().replace("SPAWN", ""));
+        return SPAWN_NR;
     }
 
     @Override
