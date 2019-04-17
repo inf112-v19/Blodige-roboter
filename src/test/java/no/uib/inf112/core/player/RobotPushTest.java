@@ -18,12 +18,10 @@ import static junit.framework.TestCase.assertEquals;
 public class RobotPushTest extends TestGraphics {
 
     private static RoboRally roboRally;
-    private static MapHandler map;
 
     @Before
     public void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 2);
-        map = roboRally.getCurrentMap();
     }
 
     @Test
@@ -41,7 +39,7 @@ public class RobotPushTest extends TestGraphics {
 
     @Test
     public void pushingEightRobotsAndMovingThemThreeTimesAndPushingThemAgain() {
-        MapHandler map1 = map;
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         for (int i = 0; i < 3; i++) {
             IPlayer player = players.get(0);
