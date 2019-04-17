@@ -1,7 +1,5 @@
 package no.uib.inf112.core;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
@@ -24,12 +22,6 @@ public class RoboRally {
         } else {
             map = new TiledMapHandler(mapPath);
         }
-
-        //TODO refactor #123
-        Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.1f);
-        backgroundMusic.play();
 
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);

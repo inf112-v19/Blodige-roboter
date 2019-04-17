@@ -68,14 +68,10 @@ public class UIHandler implements Disposable {
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
     private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
 
-    // Font generator and parameter for card font
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
 
     static {
-        //temp textures, to be replaced with real textures
-        //TODO Issue #52 find/create real textures for control panel
-
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
 
         CARDS_SLOT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "emptySlot.png"));

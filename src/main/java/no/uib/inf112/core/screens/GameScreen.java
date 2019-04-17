@@ -43,9 +43,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
         roboRally.getPlayerHandler().startTurn();
-
     }
 
     @Override
@@ -67,7 +65,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
         roboRally.getCurrentMap().resize(width, height);
         uiHandler.resize();
     }
@@ -90,7 +87,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         uiHandler.dispose();
-
     }
 
     /**
