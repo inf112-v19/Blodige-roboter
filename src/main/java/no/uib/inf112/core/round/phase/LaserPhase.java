@@ -13,7 +13,10 @@ import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static no.uib.inf112.core.map.MapHandler.*;
 
@@ -34,7 +37,11 @@ public class LaserPhase extends AbstractPhase {
                 }
                 Tile entitiesTile = map.getTile(ENTITY_LAYER_NAME, x, y);
                 if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER) && !((IPlayer) (entitiesTile)).isPoweredDown()) {
+<<<<<<< HEAD
                     GameScreen.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
+=======
+                    GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
+>>>>>>> 52-control-panel-texture
                 }
             }
 
@@ -70,19 +77,20 @@ public class LaserPhase extends AbstractPhase {
             damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
         final LaserTile[] clone = activatedLasers.toArray(new LaserTile[0]);
+<<<<<<< HEAD
         GameScreen.scheduleSync(() -> cleanUpLasers(Arrays.asList(clone), map), getRunTime() * 2);
+=======
+        GameGraphics.scheduleSync(() -> cleanUpLasers(map), getRunTime() * 2);
+>>>>>>> 52-control-panel-texture
     }
 
     /**
      * Removes the trace of the activated lasers on the map (those in the entityLaser layer)
      *
-     * @param activatedLasers lasers to clean up after
-     * @param map             map to clean up on
+     * @param map map to clean up on
      */
-    private void cleanUpLasers(List<LaserTile> activatedLasers, MapHandler map) {
-        for (LaserTile laserTile : activatedLasers) {
-            map.removeEntityLaser(laserTile);
-        }
+    private void cleanUpLasers(MapHandler map) {
+        map.removeEntityLasers();
     }
 
     /**

@@ -2,7 +2,13 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
+<<<<<<< HEAD
 import no.uib.inf112.core.screens.GameScreen;
+=======
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.tiles.SpawnTile;
+>>>>>>> 52-control-panel-texture
 import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
@@ -15,6 +21,7 @@ import static no.uib.inf112.core.GameGraphics.HEADLESS;
 public class PlayerHandler implements IPlayerHandler {
 
     private int playerCount;
+    private int flagCount;
     private List<IPlayer> players;
     private IPlayer user;
 
@@ -31,24 +38,9 @@ public class PlayerHandler implements IPlayerHandler {
             throw new IllegalArgumentException("Too many players");
         }
         this.playerCount = playerCount;
+        flagCount = 0;
         players = new ArrayList<>(playerCount);
-
-        user = new Player(0, 0, Direction.NORTH, map);
-        players.add(user);
-
-        for (int i = 1; i < playerCount; i++) {
-            players.add(new StaticPlayer(i, 0, Direction.NORTH, map));
-        }
-
-        Stack<Integer> docks = new Stack<>();
-        for (int i = 1; i <= playerCount; i++) {
-            docks.push(i);
-        }
-        Collections.shuffle(docks);
-
-        for (IPlayer player : players) {
-            player.setDock(docks.pop());
-        }
+        analyseMap(map);
     }
 
     @Override
@@ -58,8 +50,12 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
+<<<<<<< HEAD
 
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
+=======
+        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
+>>>>>>> 52-control-panel-texture
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
@@ -85,6 +81,48 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
+    @Override
+    public void analyseMap(MapHandler map) {
+        Stack<SpawnTile> spawnTiles = new Stack<>();
+        for (int x = 0; x < map.getMapWidth(); x++) {
+            for (int y = 0; y < map.getMapHeight(); y++) {
+                Tile boardTile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
+                Tile flagTile = map.getTile(MapHandler.FLAG_LAYER_NAME, x, y);
+
+                if (boardTile != null && boardTile.getTileType() == TileType.SPAWN) {
+                    SpawnTile spawnTile = (SpawnTile) boardTile;
+                    if (spawnTile.getSpawnNumber() <= playerCount) {
+                        spawnTiles.add(spawnTile);
+                    }
+                }
+
+                if (flagTile != null && flagTile.getTileType() == TileType.FLAG) {
+                    flagCount++;
+                }
+            }
+        }
+        if (!spawnTiles.empty()) {
+            Collections.shuffle(spawnTiles);
+            SpawnTile spawnTile = spawnTiles.pop();
+            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map);
+            user.setDock(spawnTile.getSpawnNumber());
+            players.add(user);
+
+            for (int i = 1; i < playerCount; i++) {
+                SpawnTile tile = spawnTiles.pop();
+                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map);
+                staticPlayer.setDock(tile.getSpawnNumber());
+                players.add(staticPlayer);
+            }
+        } else {
+            for (int i = 0; i < playerCount; i++) {
+                StaticPlayer staticPlayer = new StaticPlayer(i % map.getMapWidth(), 0 + i % map.getMapWidth(), Direction.NORTH, map);
+                staticPlayer.setDock(i);
+                players.add(staticPlayer);
+            }
+        }
+    }
+
     public IPlayer testPlayer() {
         if (!HEADLESS) {
             throw new IllegalStateException("Game is not headless");
@@ -98,6 +136,11 @@ public class PlayerHandler implements IPlayerHandler {
             throw new IllegalStateException("Game is headless");
         }
         return players.get(0);
+    }
+
+    @Override
+    public int getFlagCount() {
+        return flagCount;
     }
 
     @Override

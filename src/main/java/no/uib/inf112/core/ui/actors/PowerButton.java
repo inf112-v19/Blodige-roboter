@@ -1,6 +1,7 @@
 package no.uib.inf112.core.ui.actors;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -22,9 +23,13 @@ public class PowerButton extends ImageTextButton {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                float state = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? 0.50f : -0.50f;
-                getColor().a += state;
+
+                TextureRegion buttonTexture = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer().willPowerDown() ? UIHandler.NOT_POWER_DOWN_TEXTURE : UIHandler.POWER_DOWN_TEXTURE;
+                getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
+                updateImage();
+
                 GameScreen.getCPEventHandler().fireEvent(new PowerDownEvent());
+
             }
 
             @Override
@@ -45,7 +50,7 @@ public class PowerButton extends ImageTextButton {
 
     private static ImageTextButton.ImageTextButtonStyle createStyle() {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.imageUp = new TextureRegionDrawable(UIHandler.POWER_DOWN_TEXTURE);
+        style.imageUp = new TextureRegionDrawable(UIHandler.NOT_POWER_DOWN_TEXTURE);
         style.font = new BitmapFont();
         return style;
     }
