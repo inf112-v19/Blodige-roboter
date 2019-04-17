@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.screens.TitleScreen;
-import no.uib.inf112.core.ui.SoundPlayer;
 
 import java.io.File;
 
@@ -13,7 +12,6 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS;
-    private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
     public static String mapName = "risky_exchange";
@@ -99,17 +97,6 @@ public class GameGraphics extends Game {
         super.resize(width, height);
     }
 
-
-    public static SoundPlayer getSoundPlayer() {
-        if (null == soundPlayer) {
-            createSoundPlayer();
-        }
-        return soundPlayer;
-    }
-
-    private static synchronized void createSoundPlayer() {
-        soundPlayer = new SoundPlayer();
-    }
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {

@@ -15,17 +15,17 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Coordinates for impotant tiles on the test map for the testing of conveyors:
- * - (1,0) : single step north conveyor
- * - (1,1) : single step south conveyor
- * - (2,0) : singel step east conveyor
- * - (2,1) : singel step west conveyor
- * - (1,6) : singel step right turn conveyor (robot should be rotated)
- * - (5,0)-(5,1) : double step north conveyor
- * - (5,3)-(5,2) : double step south conveyor
- * - (7,1)-(6,1) : double step west conveyor
- * - (6,0)-(7,0) : double step east conveyor
- * - (6,2) : double step north conveyor moving onto normal board tile (robot should only move one step)
- * - (5,6) : double step right turn conveyor (robot should be rotated)
+ * - (1,0) : single step north CONVEYOR
+ * - (1,1) : single step south CONVEYOR
+ * - (2,0) : singel step east CONVEYOR
+ * - (2,1) : singel step west CONVEYOR
+ * - (1,6) : singel step right turn CONVEYOR (robot should be rotated)
+ * - (5,0)-(5,1) : double step north CONVEYOR
+ * - (5,3)-(5,2) : double step south CONVEYOR
+ * - (7,1)-(6,1) : double step west CONVEYOR
+ * - (6,0)-(7,0) : double step east CONVEYOR
+ * - (6,2) : double step north CONVEYOR moving onto normal board tile (robot should only move one step)
+ * - (5,6) : double step right turn CONVEYOR (robot should be rotated)
  */
 
 public class ConveyorTileTest extends TestGraphics {

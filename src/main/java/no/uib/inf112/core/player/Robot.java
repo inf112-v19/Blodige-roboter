@@ -9,6 +9,7 @@ import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -132,6 +133,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 // Robot walks out of map
                 if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + sdx, pos.y + sdy)) {
                     kill();
+                    Sound.ROBOT_FALLING.play();
                     update();
                     return;
                 }
@@ -168,7 +170,6 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 }
             }, maxTimePerMovement * i);
         }
-        GameGraphics.getSoundPlayer().playRobotMoving();
     }
 
     private boolean push(MovableTile mTile, int dx, int dy, Direction dir) {
