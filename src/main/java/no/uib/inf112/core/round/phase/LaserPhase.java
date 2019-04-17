@@ -37,11 +37,7 @@ public class LaserPhase extends AbstractPhase {
                 }
                 Tile entitiesTile = map.getTile(ENTITY_LAYER_NAME, x, y);
                 if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER) && !((IPlayer) (entitiesTile)).isPoweredDown()) {
-<<<<<<< HEAD
                     GameScreen.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
-=======
-                    GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
->>>>>>> 52-control-panel-texture
                 }
             }
 
@@ -77,11 +73,9 @@ public class LaserPhase extends AbstractPhase {
             damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
         final LaserTile[] clone = activatedLasers.toArray(new LaserTile[0]);
-<<<<<<< HEAD
-        GameScreen.scheduleSync(() -> cleanUpLasers(Arrays.asList(clone), map), getRunTime() * 2);
-=======
-        GameGraphics.scheduleSync(() -> cleanUpLasers(map), getRunTime() * 2);
->>>>>>> 52-control-panel-texture
+
+        GameScreen.scheduleSync(() -> cleanUpLasers(map), getRunTime() * 2);
+
     }
 
     /**

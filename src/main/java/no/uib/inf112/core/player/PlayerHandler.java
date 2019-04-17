@@ -2,13 +2,10 @@ package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-<<<<<<< HEAD
-import no.uib.inf112.core.screens.GameScreen;
-=======
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
->>>>>>> 52-control-panel-texture
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
@@ -50,12 +47,8 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-<<<<<<< HEAD
 
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
-=======
-        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
->>>>>>> 52-control-panel-texture
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
