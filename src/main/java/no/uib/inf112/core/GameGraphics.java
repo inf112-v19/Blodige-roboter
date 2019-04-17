@@ -3,7 +3,6 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.SoundPlayer;
 
@@ -21,13 +20,6 @@ public class GameGraphics extends Game {
 
     public SpriteBatch batch;
     public BitmapFont font;
-
-    public GameScreen gameScreen;
-
-//    private static InputMultiplexer inputMultiplexer;
-//    private static UIHandler uiHandler;
-//    private static ControlPanelEventHandler cpEventHandler;
-//    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public void setMap(String newMapName) {
         switch (newMapName) {
@@ -61,21 +53,6 @@ public class GameGraphics extends Game {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
-
-//        inputMultiplexer = new InputMultiplexer();
-//        Gdx.input.setInputProcessor(inputMultiplexer);
-//
-//        cpEventHandler = new ControlPanelEventHandler();
-//
-//
-//        getRoboRally();
-//        uiHandler = new UIHandler();
-//        new InputHandler(); //this must be after UIHandler to allow dragging of cards
-//        getRoboRally().getPlayerHandler().startTurn();
-
-//        gameScreen = new GameScreen(this);
-//        setScreen(gameScreen);
-
         setScreen(new TitleScreen(this));
 
     }
