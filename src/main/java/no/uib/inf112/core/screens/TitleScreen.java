@@ -4,16 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
@@ -24,19 +22,12 @@ public class TitleScreen implements Screen {
     private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
 
     private final Texture HEADER = new Texture(TITLE_SCREEN_FOLDER + "header.png");
-    private final Texture PLAY_ON = new Texture(TITLE_SCREEN_FOLDER + "play_on.png");
-    private final Texture PLAY_OFF = new Texture(TITLE_SCREEN_FOLDER + "play_off.png");
-    private final Texture QUIT_ON = new Texture(TITLE_SCREEN_FOLDER + "quit_on.png");
-    private final Texture QUIT_OFF = new Texture(TITLE_SCREEN_FOLDER + "quit_off.png");
-    private final Texture OPTIONS_ON = new Texture(TITLE_SCREEN_FOLDER + "options_on.png");
-    private final Texture OPTIONS_OFF = new Texture(TITLE_SCREEN_FOLDER + "options_off.png");
 
     private GameGraphics game;
-    private OrthographicCamera camera;
     private Stage stage;
 
-    BitmapFont screenFont;
-    BitmapFont screenFontBold;
+    private BitmapFont screenFont;
+    private BitmapFont screenFontBold;
 
     private float width;
     private float height;
@@ -46,27 +37,17 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(GameGraphics game) {
         this.game = game;
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
-        screenFont = generateFont("screen_font.ttf");
-        screenFontBold = generateFont("screen_font_bold.ttf");
+        screenFont = game.generateFont("screen_font.ttf", 70);
+        screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
     }
 
-    private BitmapFont generateFont(String fontFile) {
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 70;
-        return fontGenerator.generateFont(parameter);
-    }
 
     @Override
     public void show() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-
-        camera = new OrthographicCamera(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-        camera.update();
 
         TextButton play = creatButton("PLAY", 1);
         play.addListener(new ClickListener() {
@@ -95,7 +76,6 @@ public class TitleScreen implements Screen {
         stage.addActor(play);
         stage.addActor(options);
         stage.addActor(quit);
-
 
     }
 
@@ -136,7 +116,7 @@ public class TitleScreen implements Screen {
         stage.draw();
 
         game.batch.begin();
-        game.batch.draw(HEADER, 0, camera.viewportHeight / 2 + HEADER.getHeight() / 3f);
+        game.batch.draw(HEADER, 0, stage.getHeight() / 2 + HEADER.getHeight() / 3f);
         game.batch.end();
 
         if (startGame) {
@@ -152,7 +132,8 @@ public class TitleScreen implements Screen {
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
-        camera.update();
+
+        stage.getViewport().update(width, height, true);
     }
 
 

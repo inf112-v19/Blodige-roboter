@@ -3,7 +3,9 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.SoundPlayer;
 
@@ -106,4 +108,12 @@ public class GameGraphics extends Game {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
+
+    public BitmapFont generateFont(String fontFile, int size) {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        return fontGenerator.generateFont(parameter);
+    }
+
 }
