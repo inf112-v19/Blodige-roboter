@@ -70,7 +70,9 @@ public class TitleScreen implements Screen {
             }
         });
 
-        TextButton quit = creatButton("QUIT", 5);
+        TextButton credits = creatButton("CREDITS", 5);
+
+        TextButton quit = creatButton("QUIT", 7);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -80,6 +82,7 @@ public class TitleScreen implements Screen {
 
         stage.addActor(play);
         stage.addActor(options);
+        stage.addActor(credits);
         stage.addActor(quit);
 
     }
@@ -101,10 +104,8 @@ public class TitleScreen implements Screen {
                 style.font = screenFont;
                 button.setStyle(style);
             }
-
-
         });
-
+        button.setHeight(screenFont.getLineHeight());
         button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
         button.pad(2);
         return button;
