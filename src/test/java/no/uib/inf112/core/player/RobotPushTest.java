@@ -41,19 +41,21 @@ public class RobotPushTest extends TestGraphics {
 
     @Test
     public void pushingEightRobotsAndMovingThemThreeTimesAndPushingThemAgain() {
+        MapHandler map1 = map;
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         for (int i = 0; i < 3; i++) {
             IPlayer player = players.get(0);
             player.setDirection(Direction.EAST);
             player.move(Movement.MOVE_3);
             for (int j = 0; j < players.size(); j++) {
-                System.out.println(i);
-                assertEquals(new Vector2Int(j + (i*3)+3, 0 + i), new Vector2Int(players.get(j).getX(), players.get(j).getY()));
+                //System.out.println(i);
+                assertEquals(new Vector2Int(j + (i * 3) + 3, 0 + i), new Vector2Int(players.get(j).getX(), players.get(j).getY()));
             }
             for (IPlayer playerElem : players) {
                 playerElem.setDirection(Direction.NORTH);
                 playerElem.move(Movement.MOVE_1);
             }
+            map.update(0);
         }
     }
 

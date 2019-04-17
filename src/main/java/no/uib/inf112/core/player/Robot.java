@@ -124,11 +124,11 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                 Math.round((maxTime * 1f) / max);
 
         if (moveOneStep(dir) && !stopMoving) {
+            update();
+            GameGraphics.getSoundPlayer().playRobotMoving();
             if (dx - sdx != 0 || dy - sdy != 0) {
                 GameGraphics.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
             }
-            update();
-            GameGraphics.getSoundPlayer().playRobotMoving();
         }
     }
 
