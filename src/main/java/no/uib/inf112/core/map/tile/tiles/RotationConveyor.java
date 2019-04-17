@@ -8,6 +8,8 @@ import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
+import static no.uib.inf112.core.map.tile.Attribute.*;
+
 /**
  * A conveyor which conditionally rotates a tile standing on it
  *
@@ -28,30 +30,44 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
         } else {
             int dx = tile.getX() - prevPos.x;
             int dy = tile.getY() - prevPos.y;
-            if (dx == Direction.NORTH.getDx() && dy == Direction.NORTH.getDy()) {
-                if (hasAttribute(Attribute.NORTH_EAST)) {
-                    return tile.setDirection(tile.getDirection().turnLeft());
-                } else if (hasAttribute(Attribute.NORTH_WEST)) {
-                    return tile.setDirection(tile.getDirection().turnRight());
-                }
-            } else if (dx == Direction.EAST.getDx() && dy == Direction.EAST.getDy()) {
-                if (hasAttribute(Attribute.EAST_SOUTH)) {
-                    return tile.setDirection(tile.getDirection().turnLeft());
-                } else if (hasAttribute(Attribute.EAST_NORTH)) {
-                    return tile.setDirection(tile.getDirection().turnRight());
-                }
-            } else if (dx == Direction.SOUTH.getDx() && dy == Direction.SOUTH.getDy()) {
-                if (hasAttribute(Attribute.SOUTH_WEST)) {
-                    return tile.setDirection(tile.getDirection().turnLeft());
-                } else if (hasAttribute(Attribute.SOUTH_EAST)) {
-                    return tile.setDirection(tile.getDirection().turnRight());
-                }
-            } else if (dx == Direction.WEST.getDx() && dy == Direction.WEST.getDy()) {
-                if (hasAttribute(Attribute.WEST_NORTH)) {
-                    return tile.setDirection(tile.getDirection().turnLeft());
-                } else if (hasAttribute(Attribute.WEST_SOUTH)) {
-                    return tile.setDirection(tile.getDirection().turnRight());
-                }
+
+            Direction dir = Direction.fromDelta(dx, dy);
+            if (dir == null) {
+                return false;
+            }
+            switch (dir) {
+                case NORTH:
+                    if (hasAttribute(EAST_NORTH)) {
+                        return tile.setDirection(tile.getDirection().turnLeft());
+                    }
+                    else if (hasAttribute(WEST_NORTH)) {
+                        return tile.setDirection(tile.getDirection().turnRight());
+                    }
+                    break;
+                case EAST:
+                    if (hasAttribute(Attribute.EAST_SOUTH)) {
+                        return tile.setDirection(tile.getDirection().turnLeft());
+                    }
+                    else if (hasAttribute(Attribute.EAST_NORTH)) {
+                        return tile.setDirection(tile.getDirection().turnRight());
+                    }
+                    break;
+                case SOUTH:
+                    if (hasAttribute(SOUTH_WEST)) {
+                        return tile.setDirection(tile.getDirection().turnLeft());
+                    }
+                    else if (hasAttribute(Attribute.SOUTH_EAST)) {
+                        return tile.setDirection(tile.getDirection().turnRight());
+                    }
+                    break;
+                case WEST:
+                    if (hasAttribute(Attribute.WEST_NORTH)) {
+                        return tile.setDirection(tile.getDirection().turnLeft());
+                    }
+                    else if (hasAttribute(Attribute.WEST_SOUTH)) {
+                        return tile.setDirection(tile.getDirection().turnRight());
+                    }
+                    break;
             }
             return false;
         }

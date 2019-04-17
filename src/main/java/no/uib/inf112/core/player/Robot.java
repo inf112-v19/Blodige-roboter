@@ -114,7 +114,9 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
-
+        if (dir == null) {
+            throw new IllegalArgumentException("Unknown direction (" + dx + ", " + dy + ")");
+        }
 
         int sdx = (int) Math.signum(dx);
         int sdy = (int) Math.signum(dy);

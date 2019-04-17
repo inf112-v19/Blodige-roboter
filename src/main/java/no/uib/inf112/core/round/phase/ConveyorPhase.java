@@ -1,6 +1,5 @@
 package no.uib.inf112.core.round.phase;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileType;
@@ -32,17 +31,17 @@ public class ConveyorPhase extends AbstractPhase {
     //TODO ISSUE #118 test, first all express CONVEYOR moves, then **all** conveyors move
     @Override
     public void startPhase(@NotNull MapHandler map) {
-        subPhase(map, false, 0);
-        //the next sub-phase must be after a bit of delay for it to properly work
-        GameGraphics.scheduleSync(() -> subPhase(map, true, getRunTime() / 4), getRunTime() / 2);
+        subPhase(map, false);
+        map.update(0);
+        subPhase(map, true);
+        map.update(0);
     }
 
-    private void subPhase(MapHandler map, boolean allConveyors, long delayForRotation) {
+    private void subPhase(MapHandler map, boolean allConveyors) {
         Map<MovableTile, Vector2Int> movedTiles = new HashMap<>();
         for (int x = 0; x < map.getMapWidth(); x++) {
             for (int y = 0; y < map.getMapHeight(); y++) {
                 Tile tile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
-
 
                 //get a tile of the correct type
                 if (tile != null &&
@@ -63,11 +62,11 @@ public class ConveyorPhase extends AbstractPhase {
                 }
             }
         }
-        GameGraphics.scheduleSync(() -> rotateMoved(map, movedTiles), delayForRotation);
+        map.update(0);
+        rotateMoved(map, movedTiles);
     }
 
     private void rotateMoved(MapHandler map, Map<MovableTile, Vector2Int> movedTiles) {
-        System.out.println("Called");
         for (Map.Entry<MovableTile, Vector2Int> entry : movedTiles.entrySet()) {
             if (entry.getKey().getX() != entry.getValue().x || entry.getKey().getY() != entry.getValue().y) {
                 //Entity moved
