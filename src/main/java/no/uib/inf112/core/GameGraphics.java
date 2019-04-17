@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -30,8 +29,6 @@ public class GameGraphics extends Game {
     public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
-    public static int flagCount;
-
     private SpriteBatch batch;
 
     private static InputMultiplexer inputMultiplexer;
@@ -50,7 +47,6 @@ public class GameGraphics extends Game {
         cpEventHandler = new ControlPanelEventHandler();
 
         getRoboRally();
-        findFlags();
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
         getRoboRally().getPlayerHandler().startTurn();
@@ -151,18 +147,4 @@ public class GameGraphics extends Game {
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     * Looks through every tile in 'flags' layer to count the number of flags in map
-     * Assumes that the flag layer is called 'flags' and that there are no other tiles in flag layer that flags and null
-     */
-    private void findFlags() {
-        MapHandler map = getRoboRally().getCurrentMap();
-        for (int y = 0; y < map.getMapHeight(); y++) {
-            for (int x = 0; x < map.getMapWidth(); x++) {
-                if (map.getTile(MapHandler.FLAG_LAYER_NAME, x, y) != null) {
-                    flagCount++;
-                }
-            }
-        }
-    }
 }
