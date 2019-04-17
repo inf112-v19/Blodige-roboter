@@ -34,6 +34,7 @@ public class ConveyorPhase extends AbstractPhase {
         subPhase(map, false);
         map.update(0);
         subPhase(map, true);
+        map.update(0);
     }
 
     private void subPhase(MapHandler map, boolean allConveyors) {
