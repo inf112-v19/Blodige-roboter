@@ -39,10 +39,10 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
             }
             switch (dir) {
                 case NORTH:
-                    if (hasAttribute(NORTH_EAST)) {
+                    if (hasAttribute(EAST_NORTH)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
                     }
-                    else if (hasAttribute(NORTH_WEST)) {
+                    else if (hasAttribute(WEST_NORTH)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
