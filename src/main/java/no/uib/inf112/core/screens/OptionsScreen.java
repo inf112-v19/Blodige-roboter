@@ -8,14 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -29,15 +28,15 @@ public class OptionsScreen implements Screen {
     private final String OPTIONS_FOLDER = "optionsscreen" + File.separatorChar;
     private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private Drawable mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png"));
+    private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
 
     private GameGraphics game;
-    Stage stage;
+    private Stage stage;
     private OrthographicCamera camera;
 
     private BitmapFont listFont;
     private BitmapFont selectedFont;
 
-    private SelectBox<String> selectBox;
 
     public OptionsScreen(GameGraphics game) {
         this.game = game;
@@ -51,38 +50,7 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void show() {
-
-        SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
-        style.font = selectedFont;
-        style.fontColor = Color.BLACK;
-        style.scrollStyle = new ScrollPane.ScrollPaneStyle();
-        Drawable img = new TextureRegionDrawable(new Texture("drop_down_background.png"));
-        style.listStyle = new List.ListStyle(listFont, Color.RED, Color.WHITE, img);
-
-        selectBox = new SelectBox<>(style);
-        selectBox.setAlignment(Align.center);
-        selectBox.getList().setAlignment(Align.left);
-        selectBox.getStyle().listStyle.selection.setRightWidth(5);
-        selectBox.getStyle().listStyle.selection.setLeftWidth(15);
-        selectBox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setMap(selectBox.getSelected());
-                mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png"));
-            }
-        });
-        selectBox.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                selectBox.showList();
-            }
-        });
-
-        selectBox.setItems(MAP_LIST);
-        selectBox.setSize(stage.getWidth() / 4f - 10, stage.getHeight() / 20f);
-        selectBox.setPosition(10, (3 * stage.getHeight() / 4));
-        stage.addActor(selectBox);
-
+        stage.addActor(createMapSelectBox());
     }
 
     @Override
@@ -130,5 +98,43 @@ public class OptionsScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    private SelectBox<String> createMapSelectBox() {
+
+        SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
+        style.font = selectedFont;
+        style.fontColor = Color.BLACK;
+        style.scrollStyle = new ScrollPane.ScrollPaneStyle();
+        style.listStyle = new List.ListStyle(listFont, Color.RED, Color.WHITE, SELECT_BOX_BACKGROUND);
+
+        SelectBox<String> selectBox = new SelectBox<>(style);
+
+        selectBox.setAlignment(Align.center);
+        selectBox.getStyle().listStyle.selection.setLeftWidth(20);
+
+        // Add listener for if selected map changes
+        selectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setMap(selectBox.getSelected());
+                mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png"));
+            }
+        });
+        // Selection box should always show list (it looks nicer)
+        selectBox.addAction(new Action() {
+            @Override
+            public boolean act(float v) {
+                selectBox.showList();
+                return false;
+            }
+        });
+
+        selectBox.setItems(MAP_LIST);
+        selectBox.setSize(stage.getWidth() / 4f - 10, stage.getHeight() / 20f);
+        selectBox.setPosition(5, (4 * stage.getHeight() / 5));
+
+        return selectBox;
+
     }
 }
