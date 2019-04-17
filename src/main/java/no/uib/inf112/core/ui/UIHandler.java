@@ -67,7 +67,6 @@ public class UIHandler implements Disposable {
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
     private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
 
-    // Font generator and parameter for card font
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
 

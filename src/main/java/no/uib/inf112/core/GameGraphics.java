@@ -74,7 +74,6 @@ public class GameGraphics extends Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        //font.dispose();
         uiHandler.dispose();
     }
 
