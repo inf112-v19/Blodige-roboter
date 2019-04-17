@@ -5,6 +5,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.Direction;
 
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
+
+        GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());

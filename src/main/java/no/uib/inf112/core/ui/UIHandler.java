@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
@@ -101,7 +102,7 @@ public class UIHandler implements Disposable {
 
     public UIHandler() {
         stage = new Stage(new FitViewport(1920, 1080));
-        GameGraphics.getInputMultiplexer().addProcessor(stage);
+        GameScreen.getInputMultiplexer().addProcessor(stage);
 
         // Setting color and border for font since this should be the same even though the size and padding can vary
         card_font_parameter.borderWidth = 1;

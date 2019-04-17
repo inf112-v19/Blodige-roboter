@@ -8,6 +8,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.screens.GameScreen;
 
 import java.util.Stack;
 
@@ -16,7 +17,7 @@ public class InputHandler extends InputAdapter {
     private Stack<Integer> logger = new Stack<>();
 
     public InputHandler() {
-        GameGraphics.getInputMultiplexer().addProcessor(this);
+        GameScreen.getInputMultiplexer().addProcessor(this);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class InputHandler extends InputAdapter {
 
             Player player = (Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
 
-            if (GameGraphics.getUiHandler().isDrawnCardsVisible()) {
+            if (GameScreen.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();
             }
             return true;
