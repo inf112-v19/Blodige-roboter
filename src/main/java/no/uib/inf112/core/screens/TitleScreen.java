@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
@@ -21,10 +24,11 @@ public class TitleScreen implements Screen {
 
     private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
 
-    private final Texture HEADER = new Texture(TITLE_SCREEN_FOLDER + "header.png");
+    private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
     private GameGraphics game;
     private Stage stage;
+    private OrthographicCamera camera;
 
     private BitmapFont screenFont;
     private BitmapFont screenFontBold;
@@ -37,7 +41,8 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(GameGraphics game) {
         this.game = game;
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        camera = new OrthographicCamera();
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
         screenFont = game.generateFont("screen_font.ttf", 70);
         screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
@@ -115,8 +120,9 @@ public class TitleScreen implements Screen {
         stage.act(v);
         stage.draw();
 
+        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(HEADER, 0, stage.getHeight() / 2 + HEADER.getHeight() / 3f);
+        HEADER.draw(game.batch, 0, 2 * camera.viewportHeight / 3f - 20, camera.viewportWidth, camera.viewportHeight / 4f);
         game.batch.end();
 
         if (startGame) {
@@ -134,6 +140,7 @@ public class TitleScreen implements Screen {
         this.height = height;
 
         stage.getViewport().update(width, height, true);
+        camera.update();
     }
 
 

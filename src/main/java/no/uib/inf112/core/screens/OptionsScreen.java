@@ -101,7 +101,7 @@ public class OptionsScreen implements Screen {
         stage.draw();
 
         game.batch.begin();
-        mapImg.draw(game.batch, stage.getWidth() / 4f, stage.getHeight() / 6f, width / 4 - 10, 2 * (stage.getHeight() / 3));
+        mapImg.draw(game.batch, stage.getWidth() / 4f, stage.getHeight() / 6f, stage.getWidth() / 4 - 10, 2 * (stage.getHeight() / 3));
         game.batch.end();
     }
 
