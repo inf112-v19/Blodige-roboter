@@ -1,5 +1,7 @@
 package no.uib.inf112.core.player;
 
+import no.uib.inf112.core.map.MapHandler;
+
 import java.util.List;
 
 /**
@@ -28,6 +30,20 @@ public interface IPlayerHandler {
      * @return the number of players playing
      */
     int getPlayerCount();
+
+    /**
+     * Move players to given spawning docks
+     * Count number of flags in map
+     *
+     * @param map
+     */
+    void analyseMap(MapHandler map);
+
+    /**
+     *
+     * @return number of flags to catch
+     */
+    int getFlagCount();
 }
 
 

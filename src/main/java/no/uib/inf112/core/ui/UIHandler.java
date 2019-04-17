@@ -151,7 +151,7 @@ public class UIHandler implements Disposable {
             });
         }
 
-        int flags = 8;
+        int flags = GameGraphics.getRoboRally().getPlayerHandler().getFlagCount();
 
         HorizontalGroup flagsTaken = new HorizontalGroup().space(DEFAULT_SPACING).padRight(DEFAULT_SPACING);
         topRow.add(flagsTaken);

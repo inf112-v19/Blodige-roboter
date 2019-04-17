@@ -24,10 +24,10 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    //  public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     private SpriteBatch batch;
@@ -118,7 +118,7 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 8);
         }
         return roboRally;
     }
