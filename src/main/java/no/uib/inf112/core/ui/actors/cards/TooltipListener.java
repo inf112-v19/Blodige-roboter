@@ -1,11 +1,10 @@
 package no.uib.inf112.core.ui.actors.cards;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
+import no.uib.inf112.core.ui.UIHandler;
 
 /**
  * @author Elg
@@ -20,8 +19,9 @@ public class TooltipListener extends Tooltip<Label> {
         this.parent = parent;
 
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = new BitmapFont();
-        style.fontColor = Color.LIGHT_GRAY;
+
+        UIHandler.card_font_parameter.size = 16;
+        style.font = UIHandler.card_font_generator.generateFont(UIHandler.card_font_parameter);
 
         label = new Label("", style);
         setActor(label);

@@ -67,6 +67,20 @@
             <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-freetype -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype</artifactId>
+            <version>1.9.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>1.9.9</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
+
     </dependencies>
 
     <build>
