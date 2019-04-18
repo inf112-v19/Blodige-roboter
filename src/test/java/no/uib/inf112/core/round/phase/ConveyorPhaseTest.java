@@ -25,7 +25,7 @@ public class ConveyorPhaseTest extends TestGraphics {
     @Before
     public void setUp() {
         roboRally = GameGraphics
-            .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
+                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         phase = new ConveyorPhase(0);
     }
@@ -185,11 +185,11 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void fromWestGoNorth() {
         //normal conveyors
         testPhase(2, 4, NORTH, 2, 5, NORTH);
-        testPhase(1, 5, WEST, 2, 5, NORTH);
+        testPhase(1, 5, WEST, 2, 5, NORTH); //TODO should be south or orgDir should be EAST
 
         //express conveyors
-        testPhase(2, 9, SOUTH, 2, 10, NORTH);
-        testPhase(1, 10, WEST, 2, 10, NORTH);
+        testPhase(2, 9, SOUTH, 2, 10, NORTH); //TODO maybe start at 2,8 and no rotation happening?
+        testPhase(1, 10, WEST, 2, 10, NORTH); // TODO should be startY 9 and either endDir South or startDir east.
     }
 
 
@@ -223,7 +223,7 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //normal conveyors
         testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);//TODO Should be north or fromDir should be east
 
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
@@ -247,14 +247,14 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //normal conveyors
         testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH); //TODO this should end with a north orientation, or fromDir should be west
 
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  ttd);
+                ttd);
     }
 
     @Test
@@ -271,15 +271,15 @@ public class ConveyorPhaseTest extends TestGraphics {
         int dy2 = 0; //delta y 2
 
         //normal conveyors
-        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
-
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH); // TODO error this should be west at the end
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH); //TODO error this should not rotate at all
+        //TODO same for tthe express conveyors
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  ttd);
+                ttd);
     }
 
     @Test
