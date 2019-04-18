@@ -185,11 +185,11 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void fromWestGoNorth() {
         //normal conveyors
         testPhase(2, 4, NORTH, 2, 5, NORTH);
-        testPhase(1, 5, WEST, 2, 5, NORTH); //TODO should be south or orgDir should be EAST
+        testPhase(1, 5, EAST, 2, 5, NORTH);
 
         //express conveyors
-        testPhase(2, 9, SOUTH, 2, 10, NORTH); //TODO maybe start at 2,8 and no rotation happening?
-        testPhase(1, 10, WEST, 2, 10, NORTH); // TODO should be startY 9 and either endDir South or startDir east.
+        testPhase(2, 8, NORTH, 2, 10, NORTH);
+        testPhase(1, 9, EAST, 2, 10, NORTH);
     }
 
 
@@ -200,7 +200,7 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //normal conveyors
         testPhase(ttx + 0, tty - 1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + 1, tty + 0, EAST, ttx, tty, SOUTH);
+        testPhase(ttx + 1, tty + 0, WEST, ttx, tty, NORTH);
 
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
@@ -213,7 +213,6 @@ public class ConveyorPhaseTest extends TestGraphics {
         int ttx = 8; //testing tile x
         int tty = 4; //testing tile y
         Direction ttd = SOUTH; //testing tile direction
-        Direction fromDir = WEST;
 
         int dx1 = 0; //delta x 1
         int dy1 = 1; //delta y 1
@@ -223,13 +222,13 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //normal conveyors
         testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);//TODO Should be north or fromDir should be east
+        testPhase(ttx + dx2, tty + dy2, EAST, ttx, tty, SOUTH);
 
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         int expressDelta = EXPRESS_DIST + ttd.getDy() + ttd.getDx();
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx, tty + expressDelta, NORTH);
-        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx, tty + expressDelta, SOUTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, EAST, ttx, tty + expressDelta, SOUTH);
     }
 
     @Test
@@ -237,7 +236,6 @@ public class ConveyorPhaseTest extends TestGraphics {
         int ttx = 10; //testing tile x
         int tty = 4; //testing tile y
         Direction ttd = SOUTH; //testing tile direction
-        Direction fromDir = EAST;
 
         int dx1 = 0; //delta x 1
         int dy1 = 1; //delta y 1
@@ -247,14 +245,13 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //normal conveyors
         testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH); //TODO this should end with a north orientation, or fromDir should be west
+        testPhase(ttx + dx2, tty + dy2, WEST, ttx, tty, SOUTH);
 
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
                 NORTH);
-        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                ttd);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, WEST, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 
     @Test
@@ -262,24 +259,89 @@ public class ConveyorPhaseTest extends TestGraphics {
         int ttx = 14; //testing tile x
         int tty = 4; //testing tile y
         Direction ttd = EAST; //testing tile direction
-        Direction fromDir = NORTH;
 
-        int dx1 = 0; //delta x 1
-        int dy1 = 1; //delta y 1
+        int dx1 = -1; //delta x 1
+        int dy1 = 0; //delta y 1
 
-        int dx2 = -1; //delta x 2
-        int dy2 = 0; //delta y 2
+        int dx2 = 0; //delta x 2
+        int dy2 = 1; //delta y 2
 
         //normal conveyors
-        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH); // TODO error this should be west at the end
-        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH); //TODO error this should not rotate at all
-        //TODO same for tthe express conveyors
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, SOUTH, ttx, tty, ttd);
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
                 NORTH);
-        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                ttd);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, SOUTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
+    }
+
+    @Test
+    public void fromSouthGoEast() {
+        int ttx = 17; //testing tile x
+        int tty = 5; //testing tile y
+        Direction ttd = EAST; //testing tile direction
+        Direction from = NORTH;
+
+        int dx1 = -1; //delta x 1
+        int dy1 = 0; //delta y 1
+
+        int dx2 = 0; //delta x 2
+        int dy2 = -1; //delta y 2
+
+        //normal conveyors
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, from, ttx, tty, ttd);
+        //express conveyors
+        //the added +1 in endY is there as the express conveyor wil run twice
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  NORTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
+    }
+
+    @Test
+    public void fromSouthGoWest() {
+        int ttx = 19; //testing tile x
+        int tty = 5; //testing tile y
+        Direction ttd = WEST; //testing tile direction
+        Direction from = NORTH;
+
+        int dx1 = 1; //delta x 1
+        int dy1 = 0; //delta y 1
+
+        int dx2 = 0; //delta x 2
+        int dy2 = -1; //delta y 2
+
+        //normal conveyors
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, from, ttx, tty, ttd);
+        //express conveyors
+        //the added +1 in endY is there as the express conveyor wil run twice
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  NORTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
+    }
+
+    @Test
+    public void fromNorthGoWest() {
+        int ttx = 22; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = WEST; //testing tile direction
+        Direction to = SOUTH;
+
+        int dx1 = 1; //delta x 1
+        int dy1 = 0; //delta y 1
+
+        int dx2 = 0; //delta x 2
+        int dy2 = 1; //delta y 2
+
+        //normal conveyors
+        testPhase(ttx + dx1, tty + dy1, ttd, ttx, tty, ttd);
+        testPhase(ttx + dx2, tty + dy2, to, ttx, tty, ttd);
+
+        //express conveyors
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, ttd, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, to, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 
     @Test
