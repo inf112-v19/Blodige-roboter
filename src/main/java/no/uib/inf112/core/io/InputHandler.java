@@ -8,7 +8,6 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.screens.EndScreen;
 import no.uib.inf112.core.screens.GameScreen;
 
 import java.util.Stack;
@@ -49,10 +48,6 @@ public class InputHandler extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if(Input.Keys.E == keycode) {
-            new EndScreen();
-        }
-
         if (Input.Keys.ENTER == keycode) {
 
             Player player = (Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
