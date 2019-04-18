@@ -13,15 +13,19 @@ import java.io.File;
 import static no.uib.inf112.core.util.Direction.*;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("PointlessArithmeticExpression")
 public class ConveyorPhaseTest extends TestGraphics {
+
     private RoboRally roboRally;
     private IPlayer player;
     private ConveyorPhase phase;
 
+    private static final int EXPRESS_DIST = 4;
+
     @Before
     public void setUp() {
         roboRally = GameGraphics
-                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
+            .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         phase = new ConveyorPhase(0);
     }
@@ -38,9 +42,9 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         runPhase();
 
-        assertEquals(endX, player.getX());
-        assertEquals(endY, player.getY());
-        assertEquals(endDir, player.getDirection());
+        assertEquals("Different x", endX, player.getX());
+        assertEquals("Different y", endY, player.getY());
+        assertEquals("Different direction", endDir, player.getDirection());
     }
 
     @Test
@@ -185,39 +189,156 @@ public class ConveyorPhaseTest extends TestGraphics {
 
         //express conveyors
         testPhase(2, 9, SOUTH, 2, 10, NORTH);
-        testPhase(1, 9, WEST, 2, 10, NORTH);
+        testPhase(1, 10, WEST, 2, 10, NORTH);
     }
+
 
     @Test
     public void fromEastGoNorth() {
+        int ttx = 4; //testing tile x
+        int tty = 5; //testing tile y
+
         //normal conveyors
-        testPhase(3, 4, NORTH, 3, 5, NORTH);
-        testPhase(4, 5, EAST, 3, 5, NORTH);
+        testPhase(ttx + 0, tty - 1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + 1, tty + 0, EAST, ttx, tty, SOUTH);
 
         //express conveyors
-        testPhase(3, 9, NORTH, 3, 10, NORTH);
-        testPhase(4, 9, EAST, 3, 10, NORTH);
+        //the added +1 in endY is there as the express conveyor wil run twice
+        testPhase(ttx + 0, tty - 1 + EXPRESS_DIST, NORTH, ttx, tty + EXPRESS_DIST + 1, NORTH);
+        testPhase(ttx + 1, tty + 0 + EXPRESS_DIST, EAST, ttx, tty + EXPRESS_DIST + 1, SOUTH);
     }
 
     @Test
-    public void fromHorizontalGoNorth() {
+    public void fromWestGoSouth() {
+        int ttx = 8; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = SOUTH; //testing tile direction
+        Direction fromDir = WEST;
+
+        int dx1 = 0; //delta x 1
+        int dy1 = 1; //delta y 1
+
+        int dx2 = -1; //delta x 2
+        int dy2 = 0; //delta y 2
+
         //normal conveyors
-        testPhase(20, 5, WEST, 21, 5, NORTH);
-        testPhase(22, 5, EAST, 21, 5, NORTH);
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
 
         //express conveyors
-        testPhase(20, 9, WEST, 21, 10, NORTH);
-        testPhase(22, 9, EAST, 21, 10, NORTH);
+        //the added +1 in endY is there as the express conveyor wil run twice
+        int expressDelta = EXPRESS_DIST + ttd.getDy() + ttd.getDx();
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx, tty + expressDelta, NORTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx, tty + expressDelta, SOUTH);
     }
 
     @Test
-    public void fromHorizontalGoSouth() {
+    public void fromEastGoSouth() {
+        int ttx = 10; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = SOUTH; //testing tile direction
+        Direction fromDir = EAST;
+
+        int dx1 = 0; //delta x 1
+        int dy1 = 1; //delta y 1
+
+        int dx2 = 1; //delta x 2
+        int dy2 = 0; //delta y 2
+
         //normal conveyors
-        testPhase(20, 4, WEST, 21, 4, SOUTH);
-        testPhase(22, 4, EAST, 21, 4, SOUTH);
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
 
         //express conveyors
-        testPhase(20, 8, WEST, 21, 3, SOUTH);
-        testPhase(22, 8, EAST, 21, 3, SOUTH);
+        //the added +1 in endY is there as the express conveyor wil run twice
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  NORTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  ttd);
+    }
+
+    @Test
+    public void fromNorthGoEast() {
+        int ttx = 14; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = EAST; //testing tile direction
+        Direction fromDir = NORTH;
+
+        int dx1 = 0; //delta x 1
+        int dy1 = 1; //delta y 1
+
+        int dx2 = -1; //delta x 2
+        int dy2 = 0; //delta y 2
+
+        //normal conveyors
+        testPhase(ttx + dx1, tty + dy1, NORTH, ttx, tty, NORTH);
+        testPhase(ttx + dx2, tty + dy2, fromDir, ttx, tty, SOUTH);
+
+        //express conveyors
+        //the added +1 in endY is there as the express conveyor wil run twice
+        testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  NORTH);
+        testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, fromDir, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
+                  ttd);
+    }
+
+    @Test
+    public void horizontalGoNorth() {
+        int ttx = 11; //testing tile x
+        int tty = 1; //testing tile y
+        Direction ttd = NORTH;
+
+        //normal conveyors
+        testPhase(ttx - 1, tty, EAST, ttx, tty, ttd);
+        testPhase(ttx + 1, tty, WEST, ttx, tty, ttd);
+
+        //express conveyors
+        testPhase(ttx - 1 + EXPRESS_DIST, tty, EAST, ttx + EXPRESS_DIST, tty + ttd.getDy(), ttd);
+        testPhase(ttx + 1 + EXPRESS_DIST, tty, WEST, ttx + EXPRESS_DIST, tty + ttd.getDy(), ttd);
+    }
+
+    @Test
+    public void horizontalGoSouth() {
+        int ttx = 19; //testing tile x
+        int tty = 1; //testing tile y
+        Direction ttd = SOUTH;
+
+        //normal conveyors
+        testPhase(ttx - 1, tty, EAST, ttx, tty, ttd);
+        testPhase(ttx + 1, tty, WEST, ttx, tty, ttd);
+
+        //express conveyors
+        testPhase(ttx - 1 + EXPRESS_DIST, tty, EAST, ttx + EXPRESS_DIST, tty + ttd.getDy(), ttd);
+        testPhase(ttx + 1 + EXPRESS_DIST, tty, WEST, ttx + EXPRESS_DIST, tty + ttd.getDy(), ttd);
+    }
+
+    @Test
+    public void verticalGoWest() {
+        int ttx = 25; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = WEST;
+
+        //normal conveyors
+        testPhase(ttx, tty + 1, SOUTH, ttx, tty, ttd);
+        testPhase(ttx, tty - 1, NORTH, ttx, tty, ttd);
+
+        //express conveyors
+        testPhase(ttx, tty + 1 + EXPRESS_DIST, SOUTH, ttx + ttd.getDx(), tty + EXPRESS_DIST, ttd);
+        testPhase(ttx, tty - 1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST, ttd);
+    }
+
+    @Test
+    public void verticalGoEast() {
+        int ttx = 27; //testing tile x
+        int tty = 4; //testing tile y
+        Direction ttd = EAST;
+
+        //normal conveyors
+        testPhase(ttx, tty + 1, SOUTH, ttx, tty, ttd);
+        testPhase(ttx, tty - 1, NORTH, ttx, tty, ttd);
+
+        //express conveyors
+        testPhase(ttx, tty + 1 + EXPRESS_DIST, SOUTH, ttx + ttd.getDx(), tty + EXPRESS_DIST, ttd);
+        testPhase(ttx, tty - 1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST, ttd);
     }
 }
