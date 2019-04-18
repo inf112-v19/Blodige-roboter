@@ -109,5 +109,4 @@ public class GameGraphics extends Game {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
-
 }
