@@ -1,9 +1,11 @@
 package no.uib.inf112.core;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import no.uib.inf112.core.screens.GameScreen;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import no.uib.inf112.core.screens.TitleScreen;
 
 import java.io.File;
@@ -15,18 +17,47 @@ public class GameGraphics extends Game {
 
     public static final String MAP_FOLDER = "maps";
     public static String mapName = "risky_exchange";
-    public static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+
+    public Music backgroundMusic;
 
     public SpriteBatch batch;
-    public BitmapFont font;
 
-    public GameScreen gameScreen;
 
-//    private static InputMultiplexer inputMultiplexer;
-//    private static UIHandler uiHandler;
-//    private static ControlPanelEventHandler cpEventHandler;
-//    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        setScreen(new TitleScreen(this));
 
+        //TODO refactor #123
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.1f);
+        backgroundMusic.play();
+    }
+
+    @Override
+    public void render() {
+        super.render(); // Calling the render method of the active screen
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        batch.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
+
+    /**
+     * Method to change the map that will be used to create roborally. The parameter string comes from the selectbox in
+     * OptionsScreen and can therefore not have other values than the cases deal with.
+     *
+     * @param newMapName The name of the map (not file name) that we want to use
+     */
     public void setMap(String newMapName) {
         switch (newMapName) {
             case "Risky Exchange":
@@ -53,51 +84,6 @@ public class GameGraphics extends Game {
         }
     }
 
-
-    @Override
-    public void create() {
-
-        batch = new SpriteBatch();
-        font = new BitmapFont();
-
-//        inputMultiplexer = new InputMultiplexer();
-//        Gdx.input.setInputProcessor(inputMultiplexer);
-//
-//        cpEventHandler = new ControlPanelEventHandler();
-//
-//
-//        getRoboRally();
-//        uiHandler = new UIHandler();
-//        new InputHandler(); //this must be after UIHandler to allow dragging of cards
-//        getRoboRally().getPlayerHandler().startTurn();
-
-//        gameScreen = new GameScreen(this);
-//        setScreen(gameScreen);
-
-        setScreen(new TitleScreen(this));
-
-    }
-
-    @Override
-    public void render() {
-        super.render();
-    }
-
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        batch.dispose();
-        font.dispose();
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
             createRoboRally(FALLBACK_MAP_FILE_PATH, 8);
@@ -109,4 +95,12 @@ public class GameGraphics extends Game {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
     }
+
+    public BitmapFont generateFont(String fontFile, int size) {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        return fontGenerator.generateFont(parameter);
+    }
+
 }

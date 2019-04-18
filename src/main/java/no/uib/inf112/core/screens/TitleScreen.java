@@ -2,9 +2,19 @@ package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
@@ -14,35 +24,93 @@ public class TitleScreen implements Screen {
 
     private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
 
-    private final Texture HEADER = new Texture(TITLE_SCREEN_FOLDER + "header.png");
-    private final Texture PLAY_ON = new Texture(TITLE_SCREEN_FOLDER + "play_on.png");
-    private final Texture PLAY_OFF = new Texture(TITLE_SCREEN_FOLDER + "play_off.png");
-    private final Texture QUIT_ON = new Texture(TITLE_SCREEN_FOLDER + "quit_on.png");
-    private final Texture QUIT_OFF = new Texture(TITLE_SCREEN_FOLDER + "quit_off.png");
-    private final Texture OPTIONS_ON = new Texture(TITLE_SCREEN_FOLDER + "options_on.png");
-    private final Texture OPTIONS_OFF = new Texture(TITLE_SCREEN_FOLDER + "options_off.png");
+    private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
     private GameGraphics game;
+    private Stage stage;
     private OrthographicCamera camera;
+
+    private BitmapFont screenFont;
+    private BitmapFont screenFontBold;
 
     private float width;
     private float height;
 
+    private boolean startGame = false;
+    private boolean optionsScreen = false;
+
     public TitleScreen(GameGraphics game) {
         this.game = game;
+        camera = new OrthographicCamera();
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
+        Gdx.input.setInputProcessor(stage);
+        screenFont = game.generateFont("screen_font.ttf", 70);
+        screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
     }
+
 
     @Override
     public void show() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-        camera.update();
+        TextButton play = creatButton("PLAY", 1);
+        play.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                startGame = true;
+            }
+        });
 
+        TextButton options = creatButton("OPTIONS", 3);
+        options.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                optionsScreen = true;
+            }
+        });
+
+        TextButton credits = creatButton("CREDITS", 5);
+
+        TextButton quit = creatButton("QUIT", 7);
+        quit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.exit(0);
+            }
+        });
+
+        stage.addActor(play);
+        stage.addActor(options);
+        stage.addActor(credits);
+        stage.addActor(quit);
 
     }
+
+    private TextButton creatButton(String name, int relativePosition) {
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = screenFont;
+        style.fontColor = Color.BLACK;
+        TextButton button = new TextButton(name, style);
+        button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = screenFontBold;
+                button.setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = screenFont;
+                button.setStyle(style);
+            }
+        });
+        button.setHeight(screenFont.getLineHeight());
+        button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
+        button.pad(2);
+        return button;
+    }
+
 
     @Override
     public void render(float v) {
@@ -50,63 +118,29 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        stage.act(v);
+        stage.draw();
+
+        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-
-        game.batch.draw(HEADER, 0, camera.viewportHeight / 2 + HEADER.getHeight() / 3f);
-
-        // Doing play button logic
-        if (mouseOn(PLAY_ON, 0)) {
-            draw(PLAY_ON, 1);
-            if (Gdx.input.justTouched()) {
-                game.setScreen(new GameScreen(game));
-            }
-        } else {
-            draw(PLAY_OFF, 1);
-        }
-
-
-        if (mouseOn(OPTIONS_ON, 1)) {
-            draw(OPTIONS_ON, 3);
-            if (Gdx.input.justTouched()) {
-                game.setScreen(new OptionsScreen(game));
-            }
-        } else {
-            draw(OPTIONS_OFF, 3);
-        }
-
-        // Doing quit button logic
-        if (mouseOn(QUIT_ON, 2)) {
-            draw(QUIT_ON, 5);
-            if (Gdx.input.justTouched()) {
-                System.exit(0);
-            }
-        } else {
-            draw(QUIT_OFF, 5);
-        }
-
-
+        HEADER.draw(game.batch, 0, 2 * camera.viewportHeight / 3f - 20, camera.viewportWidth, camera.viewportHeight / 4f);
         game.batch.end();
 
+        if (startGame) {
+            game.setScreen(new GameScreen(game));
+        }
+        if (optionsScreen) {
+            game.setScreen(new OptionsScreen(game));
+        }
     }
 
-    private void draw(Texture toDraw, int scaler) {
-        game.batch.draw(toDraw, camera.viewportWidth / 2 - (toDraw.getWidth() / 2f), camera.viewportHeight / 2 - ((scaler * toDraw.getHeight()) / 2f));
-    }
-
-    private boolean mouseOn(Texture currChoice, int placement) {
-        float playX = currChoice.getWidth() / 2f;
-        float playY = currChoice.getHeight() / 2f;
-
-        return Gdx.input.getX() >= width / 2 - playX &&
-                Gdx.input.getX() <= width / 2 + playX &&
-                Gdx.input.getY() >= (placement * currChoice.getHeight()) + height / 2 - playY &&
-                Gdx.input.getY() <= (placement * currChoice.getHeight()) + height / 2 + playY;
-    }
 
     @Override
     public void resize(int width, int height) {
         this.width = width;
         this.height = height;
+
+        stage.getViewport().update(width, height, true);
         camera.update();
     }
 
@@ -128,6 +162,6 @@ public class TitleScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
