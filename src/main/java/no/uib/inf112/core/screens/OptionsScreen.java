@@ -55,7 +55,6 @@ public class OptionsScreen extends AbstractMenuScreen {
     }
 
     private SelectBox<String> createMapSelectBox() {
-
         SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle();
         style.font = selectedFont;
         style.fontColor = Color.BLACK;
