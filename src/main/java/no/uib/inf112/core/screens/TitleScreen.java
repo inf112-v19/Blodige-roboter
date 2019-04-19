@@ -1,20 +1,12 @@
 package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
@@ -39,7 +31,7 @@ public class TitleScreen extends AbstractMenuScreen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        TextButton play = creatButton("PLAY", 1);
+        TextButton play = createButton("PLAY", 1);
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -47,7 +39,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton options = creatButton("OPTIONS", 3);
+        TextButton options = createButton("OPTIONS", 3);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -55,9 +47,9 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton credits = creatButton("CREDITS", 5);
+        TextButton credits = createButton("CREDITS", 5);
 
-        TextButton quit = creatButton("QUIT", 7);
+        TextButton quit = createButton("QUIT", 7);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

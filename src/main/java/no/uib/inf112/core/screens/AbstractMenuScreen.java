@@ -75,7 +75,7 @@ public abstract class AbstractMenuScreen implements Screen {
         stage.dispose();
     }
 
-    protected TextButton creatButton(String name, int relativePosition) {
+    protected TextButton createButton(String name, int relativePosition) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = screenFont;
         style.fontColor = Color.BLACK;
