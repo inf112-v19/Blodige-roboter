@@ -6,8 +6,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import no.uib.inf112.core.screens.EndScreen;
 import no.uib.inf112.core.screens.TitleScreen;
+import no.uib.inf112.core.ui.Sound;
+
 
 import java.io.File;
 
@@ -20,8 +21,6 @@ public class GameGraphics extends Game {
     public static String mapName = "risky_exchange";
     private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 
-    public Music backgroundMusic;
-
     public SpriteBatch batch;
 
 
@@ -30,10 +29,9 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         setScreen(new TitleScreen(this));
 
-        //TODO refactor #123
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.1f);
+        //TODO #93 move this to a reasonable and easy to handle place
+        Music backgroundMusic = Sound.getBackgroundMusic();
+        backgroundMusic.setVolume(1f);
         backgroundMusic.play();
     }
 
