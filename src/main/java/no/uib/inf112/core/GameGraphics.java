@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import no.uib.inf112.core.screens.EndScreen;
 import no.uib.inf112.core.screens.TitleScreen;
 
 import java.io.File;
@@ -102,5 +103,4 @@ public class GameGraphics extends Game {
         parameter.size = size;
         return fontGenerator.generateFont(parameter);
     }
-
 }
