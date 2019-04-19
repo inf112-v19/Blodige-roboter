@@ -1,6 +1,5 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.ConditionalRotateEffectTile;
 import no.uib.inf112.core.map.tile.api.MovableTile;
@@ -23,18 +22,21 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
 
     @Override
     public boolean rotate(@NotNull MovableTile tile, Vector2Int prevPos) {
-        if (hasAttribute(Attribute.LEFT)) {
+        if (hasAttribute(LEFT)) {
             return tile.setDirection(tile.getDirection().turnLeft());
-        } else if (hasAttribute(Attribute.RIGHT)) {
+        }
+        else if (hasAttribute(RIGHT)) {
             return tile.setDirection(tile.getDirection().turnRight());
         } else {
             int dx = tile.getX() - prevPos.x;
             int dy = tile.getY() - prevPos.y;
 
-            Direction dir = Direction.fromDelta(dx, dy).inverse();
+            Direction dir = Direction.fromDelta(dx, dy);
             if (dir == null) {
                 return false;
             }
+            dir = dir.inverse();
+
             switch (dir) {
                 case NORTH:
                     if (hasAttribute(NORTH_EAST)) {
@@ -44,16 +46,18 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
                     }
                     break;
                 case EAST:
-                    if (hasAttribute(Attribute.EAST_SOUTH)) {
+                    if (hasAttribute(EAST_SOUTH)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    } else if (hasAttribute(Attribute.EAST_NORTH)) {
+                    }
+                    else if (hasAttribute(EAST_NORTH)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
                 case SOUTH:
                     if (hasAttribute(SOUTH_WEST)) {
                         return tile.setDirection(tile.getDirection().turnLeft());
-                    } else if (hasAttribute(Attribute.SOUTH_EAST)) {
+                    }
+                    else if (hasAttribute(SOUTH_EAST)) {
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
@@ -64,6 +68,8 @@ public class RotationConveyor extends ConveyorTile implements ConditionalRotateE
                         return tile.setDirection(tile.getDirection().turnRight());
                     }
                     break;
+                default:
+                    return false;
             }
             return false;
         }
