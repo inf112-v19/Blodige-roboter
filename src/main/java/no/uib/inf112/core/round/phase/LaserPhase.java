@@ -1,7 +1,6 @@
 package no.uib.inf112.core.round.phase;
 
 import com.badlogic.gdx.graphics.Color;
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
@@ -9,6 +8,7 @@ import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.map.tile.tiles.LaserTile;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +68,7 @@ public class LaserPhase extends AbstractPhase {
             }
         }
         if (onTile != null && !onTile.equals(tile) && onTile.hasSuperClass(DamageableTile.class)) {
-            GameGraphics.getSoundPlayer().playShootLaser();
+            Sound.SHOOT_LASER.play();
             DamageableTile damageableTile = (DamageableTile) onTile;
             damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
@@ -117,7 +117,7 @@ public class LaserPhase extends AbstractPhase {
             }
         }
         if (onPos != null && onPos.hasSuperClass(DamageableTile.class)) {
-            GameGraphics.getSoundPlayer().playShootLaser();
+            Sound.SHOOT_LASER.play();
             DamageableTile damageableTile = (DamageableTile) onPos;
             damageableTile.damage(originTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         } else if (onPos != null) {

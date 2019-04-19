@@ -23,6 +23,8 @@ public class RoboRally {
             map = new TiledMapHandler(mapPath);
         }
 
+
+
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);
         for (IPlayer player : playerHandler.getPlayers()) {
@@ -57,4 +59,5 @@ public class RoboRally {
     public PlayerHandler getPlayerHandler() {
         return playerHandler;
     }
+
 }

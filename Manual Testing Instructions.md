@@ -1,4 +1,4 @@
-# Manuel Testing Instructions
+# Manuel's Testing Instructions
 
 ### Test Window Resizing
 
@@ -48,3 +48,17 @@
 * This followed by choosing cards and playing the following round should put the robot in a power down mode the next round
 * No movement cards used but robot is still interactive, but does not move nor shoot lasers, the player should also be fully healed.
 * After the power down round the player should not be in a power down state anymore
+
+### Sounds
+
+* All sounds sound correct
+* When robot power down `robotShutdown` plays
+* When robots shoot each robot plays `shootLaser`
+* All tiles play correct sound
+  * `GearTile` plays `conveyor`
+  * `ConveyorTile` plays `conveyor`
+  * `FlagTile` plays `flag`
+  * `DeathTile` plays `robotFalling`
+  * `Robot` plays `robotMoving`
+  * `WrenchTile` and `WrenchAndHammerTile`  plays `robotUpdateBackup`
+  * `LaserTile` plays `shootLaser` when hitting a robot with a laser

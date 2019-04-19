@@ -30,4 +30,9 @@ public class LaserTile extends AbstractMultiDirectionalTile implements Colorable
     public void setColor(@NotNull Color color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return "laserTile{dir=" + getDirections() + " color= " + getColor() + "}";
+    }
 }
