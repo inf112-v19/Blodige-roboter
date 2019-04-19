@@ -20,32 +20,17 @@ import no.uib.inf112.core.GameGraphics;
 import java.io.File;
 
 
-public class TitleScreen implements Screen {
+public class TitleScreen extends AbstractMenuScreen {
 
     private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
 
     private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
-    private GameGraphics game;
-    private Stage stage;
-    private OrthographicCamera camera;
-
-    private BitmapFont screenFont;
-    private BitmapFont screenFontBold;
-
-    private float width;
-    private float height;
-
     private boolean startGame = false;
     private boolean optionsScreen = false;
 
     public TitleScreen(GameGraphics game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
-        Gdx.input.setInputProcessor(stage);
-        screenFont = game.generateFont("screen_font.ttf", 70);
-        screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
+        super(game);
     }
 
 
@@ -87,34 +72,8 @@ public class TitleScreen implements Screen {
 
     }
 
-    private TextButton creatButton(String name, int relativePosition) {
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = screenFont;
-        style.fontColor = Color.BLACK;
-        TextButton button = new TextButton(name, style);
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFontBold;
-                button.setStyle(style);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFont;
-                button.setStyle(style);
-            }
-        });
-        button.setHeight(screenFont.getLineHeight());
-        button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
-        button.pad(2);
-        return button;
-    }
-
-
     @Override
     public void render(float v) {
-
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -132,36 +91,5 @@ public class TitleScreen implements Screen {
         if (optionsScreen) {
             game.setScreen(new OptionsScreen(game));
         }
-    }
-
-
-    @Override
-    public void resize(int width, int height) {
-        this.width = width;
-        this.height = height;
-
-        stage.getViewport().update(width, height, true);
-        camera.update();
-    }
-
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 }

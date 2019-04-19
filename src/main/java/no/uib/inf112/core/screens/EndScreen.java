@@ -14,23 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
-public class EndScreen implements Screen {
-
-    private final BitmapFont screenFont;
-    private final BitmapFont screenFontBold;
-    private GameGraphics game;
-    private int width;
-    private int height;
-    private Stage stage;
-    private OrthographicCamera camera;
+public class EndScreen extends AbstractMenuScreen {
 
     public EndScreen(GameGraphics game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
-        Gdx.input.setInputProcessor(stage);
-        screenFont = game.generateFont("screen_font.ttf", 70);
-        screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
+        super(game);
     }
 
     @Override
@@ -70,57 +57,5 @@ public class EndScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        this.width = width;
-        this.height = height;
-        stage.getViewport().update(width, height, true);
-        camera.update();
-    }
-
-     private TextButton creatButton(String name, int relativePosition) {
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = screenFont;
-        style.fontColor = Color.BLACK;
-        TextButton button = new TextButton(name, style);
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFontBold;
-                button.setStyle(style);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFont;
-                button.setStyle(style);
-            }
-        });
-        button.setHeight(screenFont.getLineHeight());
-        button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
-        button.pad(2);
-        return button;
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 }

@@ -2,15 +2,12 @@ package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
@@ -18,32 +15,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
 
-public class OptionsScreen implements Screen {
+public class OptionsScreen extends AbstractMenuScreen {
 
     private final String OPTIONS_FOLDER = "optionsscreen" + File.separatorChar;
     private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private Drawable mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + GameGraphics.mapName + ".png"));
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
-
-    private GameGraphics game;
-    private Stage stage;
-    private OrthographicCamera camera;
-
     private BitmapFont listFont;
     private BitmapFont selectedFont;
 
 
     public OptionsScreen(GameGraphics game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
-        Gdx.input.setInputProcessor(stage);
-
+        super(game);
         listFont = game.generateFont("screen_font.ttf", 20);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
     }
@@ -55,7 +42,6 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void render(float v) {
-
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -70,29 +56,6 @@ public class OptionsScreen implements Screen {
         game.batch.begin();
         mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
         game.batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-        stage.getViewport().update(width, height, true);
-        camera.update();
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 
     @Override
