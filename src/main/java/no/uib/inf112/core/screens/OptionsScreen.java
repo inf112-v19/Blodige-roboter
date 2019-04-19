@@ -10,11 +10,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -51,6 +54,29 @@ public class OptionsScreen implements Screen {
     @Override
     public void show() {
         stage.addActor(createMapSelectBox());
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = listFont;
+        style.fontColor = Color.BLACK;
+        TextButton back = new TextButton("Back to menu", style);
+        back.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = selectedFont;
+                back.setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = listFont;
+                back.setStyle(style);
+            }
+        });
+        back.setHeight(listFont.getLineHeight());
+        back.setPosition(stage.getWidth() / 2 - (back.getWidth() / 2), 5);
+        back.pad(2);
+
+        stage.addActor(back);
     }
 
     @Override
