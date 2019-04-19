@@ -2,12 +2,10 @@ package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -54,7 +52,8 @@ public class TitleScreen implements Screen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        TextButton play = creatButton("PLAY", 1);
+        TextButton play = game.createButton("PLAY", 70);
+        positionButton(play, 1);
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,7 +61,8 @@ public class TitleScreen implements Screen {
             }
         });
 
-        TextButton options = creatButton("OPTIONS", 3);
+        TextButton options = game.createButton("OPTIONS", 70);
+        positionButton(options, 3);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,9 +70,10 @@ public class TitleScreen implements Screen {
             }
         });
 
-        TextButton credits = creatButton("CREDITS", 5);
-
-        TextButton quit = creatButton("QUIT", 7);
+        TextButton credits = game.createButton("CREDITS", 70);
+        positionButton(credits, 5);
+        TextButton quit = game.createButton("QUIT", 70);
+        positionButton(quit, 7);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,30 +88,10 @@ public class TitleScreen implements Screen {
 
     }
 
-    private TextButton creatButton(String name, int relativePosition) {
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = screenFont;
-        style.fontColor = Color.BLACK;
-        TextButton button = new TextButton(name, style);
-        button.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFontBold;
-                button.setStyle(style);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFont;
-                button.setStyle(style);
-            }
-        });
-        button.setHeight(screenFont.getLineHeight());
+    private void positionButton(TextButton button, int relativePosition) {
         button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
-        button.pad(2);
-        return button;
     }
-
+    
 
     @Override
     public void render(float v) {

@@ -3,9 +3,14 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.SoundPlayer;
 
@@ -18,7 +23,7 @@ public class GameGraphics extends Game {
     private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    public static String mapName = "risky_exchange";
+    public static String mapName = "Risky Exchange";
     private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 
     public Music backgroundMusic;
@@ -36,6 +41,7 @@ public class GameGraphics extends Game {
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.1f);
         backgroundMusic.play();
+
     }
 
     @Override
@@ -60,27 +66,27 @@ public class GameGraphics extends Game {
      *
      * @param newMapName The name of the map (not file name) that we want to use
      */
-    public void setMap(String newMapName) {
+    public static void setMap(String newMapName) {
         switch (newMapName) {
             case "Risky Exchange":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
-                mapName = "risky_exchange";
+                mapName = newMapName;
                 return;
             case "Checkmate":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
-                mapName = "checkmate";
+                mapName = newMapName;
                 return;
             case "Dizzy Dash":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-                mapName = "dizzy_dash";
+                mapName = newMapName;
                 return;
             case "Island Hop":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
-                mapName = "island_hop";
+                mapName = newMapName;
                 return;
             case "Chop Shop Challenge":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
-                mapName = "chop_shop_challenge";
+                mapName = newMapName;
                 return;
             default:
         }
@@ -115,5 +121,31 @@ public class GameGraphics extends Game {
         parameter.size = size;
         return fontGenerator.generateFont(parameter);
     }
+
+    public TextButton createButton(String name, int fontSize) {
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        BitmapFont onFont = generateFont("screen_font_bold.ttf", fontSize);
+        BitmapFont offFont = generateFont("screen_font.ttf", fontSize);
+        style.font = offFont;
+        style.fontColor = Color.BLACK;
+        TextButton button = new TextButton(name, style);
+        button.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = onFont;
+                button.setStyle(style);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                style.font = offFont;
+                button.setStyle(style);
+            }
+        });
+        button.setHeight(onFont.getLineHeight());
+        button.pad(2);
+        return button;
+    }
+
 
 }
