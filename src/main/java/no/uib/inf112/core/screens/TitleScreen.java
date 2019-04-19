@@ -74,11 +74,7 @@ public class TitleScreen extends AbstractMenuScreen {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(0.5f, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.act(v);
-        stage.draw();
+        super.render(v);
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();

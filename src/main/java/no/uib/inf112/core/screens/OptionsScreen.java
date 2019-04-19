@@ -42,25 +42,16 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(0.5f, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render(v);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             game.setScreen(new TitleScreen(game));
         }
 
-        stage.act(v);
-        stage.draw();
-
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
         game.batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 
     private SelectBox<String> createMapSelectBox() {

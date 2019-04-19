@@ -3,6 +3,7 @@ package no.uib.inf112.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -39,7 +40,11 @@ public abstract class AbstractMenuScreen implements Screen {
 
     @Override
     public void render(float v) {
+        Gdx.gl.glClearColor(0.5f, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        stage.act(v);
+        stage.draw();
     }
 
     @Override
