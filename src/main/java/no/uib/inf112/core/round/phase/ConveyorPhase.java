@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * The phase where conveyor move the {@link MovableTile}. If a conveyor has the {@link Attribute#HIGH_PRIORITY} it is considered
- * an express conveyor.
+ * The phase where CONVEYOR move the {@link MovableTile}. If a CONVEYOR has the {@link Attribute#HIGH_PRIORITY} it is considered
+ * an express CONVEYOR.
  * <p>
- * In reality it this phase is two phases. First one where only the express conveyor moves, then one where every conveyor moves.
+ * In reality it this phase is two phases. First one where only the express CONVEYOR moves, then one where every CONVEYOR moves.
  *
  * @author Elg
  */
@@ -25,7 +25,7 @@ public class ConveyorPhase extends AbstractPhase {
         super(totalRunTime);
     }
 
-    //TODO ISSUE #118 test, first all express conveyor moves, then **all** conveyors move
+    //TODO ISSUE #118 test, first all express CONVEYOR moves, then **all** conveyors move
     @Override
     public void startPhase(@NotNull MapHandler map) {
         subPhase(map, false);
@@ -44,8 +44,9 @@ public class ConveyorPhase extends AbstractPhase {
                     ConveyorTile conveyor = (ConveyorTile) tile;
                     List<Tile> tiles = map.getAllTiles(x, y);
                     for (Tile otherTile : tiles) {
-                        if (conveyor.canDoAction(otherTile)) {
-                            conveyor.action((MovableTile) otherTile);
+                        if (conveyor.canDoAction(otherTile) &&
+                                conveyor.action((MovableTile) otherTile)) {
+                            conveyor.getActionSound().play();
                         }
                     }
                 }
