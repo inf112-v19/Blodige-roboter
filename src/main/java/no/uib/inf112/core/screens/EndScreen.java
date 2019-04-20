@@ -1,15 +1,23 @@
 package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
 
 public class EndScreen extends AbstractMenuScreen {
 
+    private final BitmapFont listFont;
+
     public EndScreen(GameGraphics game) {
         super(game);
+        listFont = game.generateFont("screen_font.ttf", 30);
     }
 
     @Override
@@ -43,20 +51,21 @@ public class EndScreen extends AbstractMenuScreen {
         super.render(v);
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        //TODO Add game over header
         game.batch.end();
     }
 
-    private Table createHighScoreList() {
-//        List.ListStyle style = new List.ListStyle(screenFont, Color.BLACK, Color.BLACK, new TextureRegionDrawable(new Texture(10, 10, Pixmap.Format.Alpha)));
-//        style.
-//        List<String> list = new List<>(style);
-//        list.setItems(new String[]{"Riskyfasf", "Player 1", "fgasdhfjkhasdklfhakj"});
-//
-//        list.setPosition(stage.getWidth()/2, stage.getHeight());
-//        return list;
-//        Table table = new Table();
-//        table.add(new Label("Hey", new Skin()));
-//        return table;
-        return null;
+    private List<String> createHighScoreList() {
+        int listWidth = (int) (stage.getWidth()/8);
+        int listHeigth = (int) stage.getHeight()/8;
+
+        List.ListStyle style = new List.ListStyle(listFont, Color.WHITE, Color.WHITE, new TextureRegionDrawable(new Texture(listWidth, listHeigth, Pixmap.Format.Intensity)));
+        List<String> list = new List<>(style);
+        list.setItems(new String[]{"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8"});
+        list.setWidth(listWidth);
+        list.setHeight(listHeigth);
+        list.setPosition((stage.getWidth() - listWidth) / 2, stage.getHeight()-300);
+
+        return list;
     }
 }
