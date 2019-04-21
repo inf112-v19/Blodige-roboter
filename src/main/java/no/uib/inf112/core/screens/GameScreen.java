@@ -57,6 +57,8 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new EndScreen(game));
+        } else if(GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
+            game.setScreen(new EndScreen(game));
         }
 
 

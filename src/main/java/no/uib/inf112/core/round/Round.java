@@ -38,12 +38,7 @@ public class Round {
 
                 totalDelay += phase.getRunTime();
 
-                PlayerHandler playerHandler = GameGraphics.getRoboRally().getPlayerHandler();
-                for (IPlayer player : playerHandler.getPlayers()) {
-                    if (player.getFlags() == playerHandler.getFlagCount()) {
-
-                    }
-                }
+                GameGraphics.getRoboRally().getPlayerHandler().checkGameOver();
             }
         }
 

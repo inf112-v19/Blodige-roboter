@@ -10,14 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.player.IPlayer;
+
 
 public class EndScreen extends AbstractMenuScreen {
 
     private final BitmapFont listFont;
+    private String[] rankList;
 
     public EndScreen(GameGraphics game) {
         super(game);
         listFont = game.generateFont("screen_font.ttf", 30);
+        java.util.List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        rankList = new String[players.size()];
+        for (int i = 0; i < players.size(); i++) {
+            rankList[i] = players.get(i).getDock() + ": " + players.get(i).getFlags() + " flags";
+        }
     }
 
     @Override
@@ -56,15 +64,15 @@ public class EndScreen extends AbstractMenuScreen {
     }
 
     private List<String> createHighScoreList() {
-        int listWidth = (int) (stage.getWidth()/8);
-        int listHeigth = (int) stage.getHeight()/8;
+        int listWidth = (int) (stage.getWidth() / 2);
+        int listHeigth = (int) stage.getHeight() / 8;
 
         List.ListStyle style = new List.ListStyle(listFont, Color.WHITE, Color.WHITE, new TextureRegionDrawable(new Texture(listWidth, listHeigth, Pixmap.Format.Intensity)));
         List<String> list = new List<>(style);
-        list.setItems(new String[]{"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8"});
+        list.setItems(rankList);
         list.setWidth(listWidth);
         list.setHeight(listHeigth);
-        list.setPosition((stage.getWidth() - listWidth) / 2, stage.getHeight()-300);
+        list.setPosition((stage.getWidth() - listWidth) / 2, stage.getHeight() - 300);
 
         return list;
     }

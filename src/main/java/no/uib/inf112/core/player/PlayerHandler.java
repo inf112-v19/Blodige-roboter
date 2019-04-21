@@ -21,6 +21,7 @@ public class PlayerHandler implements IPlayerHandler {
     private int flagCount;
     private List<IPlayer> players;
     private IPlayer user;
+    private boolean gameOver;
 
     /**
      * @param playerCount
@@ -37,6 +38,7 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         flagCount = 0;
         players = new ArrayList<>(playerCount);
+        gameOver = false;
         analyseMap(map);
     }
 
@@ -47,7 +49,6 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
@@ -114,6 +115,25 @@ public class PlayerHandler implements IPlayerHandler {
                 players.add(staticPlayer);
             }
         }
+    }
+
+    public void checkGameOver() {
+        for (IPlayer player : players) {
+            if (player.getFlags() == flagCount) {
+                gameOver = true;
+            }
+        }
+
+        for (IPlayer player : players) {
+            if(!player.isDestroyed()) {
+                return;
+            }
+        }
+        gameOver = true;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     public IPlayer testPlayer() {
