@@ -32,7 +32,8 @@ public class Round {
             for (Phase phase : registerPhases) {
 
                 final long finalTotalDelay = totalDelay;
-                GameGraphics.scheduleSync(() -> phase.startPhase(map), finalTotalDelay);
+                int phaseNr = i;
+                GameGraphics.scheduleSync(() -> phase.startPhase(map, phaseNr), finalTotalDelay);
 
                 totalDelay += phase.getRunTime();
             }

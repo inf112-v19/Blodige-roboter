@@ -34,7 +34,7 @@ public class ActionPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         for (int x = 0; x < map.getMapWidth(); x++) {
             for (int y = 0; y < map.getMapHeight(); y++) {
                 List<Tile> tiles = map.getAllTiles(x, y);

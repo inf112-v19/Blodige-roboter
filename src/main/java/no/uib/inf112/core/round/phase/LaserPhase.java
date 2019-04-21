@@ -27,7 +27,7 @@ public class LaserPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
 
         for (int y = 0; y < map.getMapHeight(); y++) {
             for (int x = 0; x < map.getMapWidth(); x++) {
