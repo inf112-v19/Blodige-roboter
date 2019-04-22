@@ -14,20 +14,22 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * Coordinates for impotant tiles on the test map for the testing of conveyors:
- * - (1,0) : single step north CONVEYOR
- * - (1,1) : single step south CONVEYOR
- * - (2,0) : singel step east CONVEYOR
- * - (2,1) : singel step west CONVEYOR
- * - (1,6) : singel step right turn CONVEYOR (robot should be rotated)
- * - (5,0)-(5,1) : double step north CONVEYOR
- * - (5,3)-(5,2) : double step south CONVEYOR
- * - (7,1)-(6,1) : double step west CONVEYOR
- * - (6,0)-(7,0) : double step east CONVEYOR
- * - (6,2) : double step north CONVEYOR moving onto normal board tile (robot should only move one step)
- * - (5,6) : double step right turn CONVEYOR (robot should be rotated)
+ * Coordinates for important tiles on the test map for the testing of conveyors:
+ * <ul>
+ *  <li>(1,0) : single step north CONVEYOR</li>
+ *  <li>(1,1) : single step south CONVEYOR</li>
+ *  <li>(2,0) : single step east CONVEYOR</li>
+ *  <li>(2,1) : single step west CONVEYOR</li>
+ *  <li>(1,4) to (1,5) : single step left turn CONVEYOR (robot should be rotated)</li>
+ *  <li>(1,6) to (1,7) : single step right turn CONVEYOR (robot should be rotated)</li>
+ *  <li>(5,0)-(5,1) : double step north CONVEYOR</li>
+ *  <li>(5,3)-(5,2) : double step south CONVEYOR</li>
+ *  <li>(7,1)-(6,1) : double step west CONVEYOR</li>
+ *  <li>(6,0)-(7,0) : double step east CONVEYOR</li>
+ *  <li>(6,2) : double step north CONVEYOR moving onto normal board tile (robot should only move one step)</li>
+ *  <li>(5,6) : double step right turn CONVEYOR (robot should be rotated)</li>
+ * </ul>
  */
-
 public class ConveyorTileTest extends TestGraphics {
 
 

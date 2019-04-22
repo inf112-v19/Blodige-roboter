@@ -117,7 +117,7 @@ public class GameGraphics extends Game {
      */
     public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
         if (msDelay <= 0) {
-            Gdx.app.postRunnable(runnable);
+            runnable.run();
         } else {
             GameGraphics.executorService.schedule(() ->
                     Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);

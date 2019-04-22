@@ -29,6 +29,7 @@ public class RoboRally {
         Music backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
         backgroundMusic.play();
+        backgroundMusic.setLooping(true);
 
         deck = new MovementDeck();
         playerHandler = new PlayerHandler(playerCount, map);
