@@ -92,7 +92,7 @@ public class ActionPhase extends AbstractPhase {
 
     private void runActionOnTiles(@NotNull ActionTile tile, List<Tile> tiles) {
         for (Tile otherTile : tiles) {
-            if (otherTile != tile && tile.canDoAction(otherTile)) {
+            if (!tile.equals(tile) && tile.canDoAction(otherTile)) {
                 //noinspection unchecked checked in actionTile.canDoAction
                 boolean success = tile.action(otherTile);
                 if (success) {
