@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 public interface ConditionalRotateEffectTile extends Tile {
 
     /**
-     * TODO write this
+     * Rotates the given MovableTile
      *
-     * @param tile
-     * @param prevPos
-     * @return
+     * @param tile    tile to rotate
+     * @param prevPos receives a vector of the previous position so that the implementation can take this into consideration
+     * @return true if the tile is able to rotate the provided tile (also true if the tile is set to the already set direction)
      */
     boolean rotate(@NotNull MovableTile tile, Vector2Int prevPos);
 }

@@ -10,14 +10,14 @@ import static org.junit.Assert.fail;
 public class TileGraphicTest {
 
     @Test
-    public void idsOnlyAppearOnce(){
+    public void idsOnlyAppearOnce() {
         TileGraphic[] values = TileGraphic.values();
         Set<Integer> known = new HashSet<>();
 
         for (TileGraphic value : values) {
-            if(known.contains(value.getId())){
-                fail("id "+value.getId()+" found twice");
-            }else{
+            if (known.contains(value.getId())) {
+                fail("id " + value.getId() + " found twice");
+            } else {
                 known.add(value.getId());
             }
         }
