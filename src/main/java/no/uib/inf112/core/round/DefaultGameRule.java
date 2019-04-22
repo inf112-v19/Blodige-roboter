@@ -16,7 +16,7 @@ public class DefaultGameRule {
         round.addRegisterPhase(new PlayerPhase(300));
 
         round.addRegisterPhase(new ConveyorPhase(200));
-//        round.addRegisterPhase(new ActionPhase(TileType.PUSHER, 100));
+        round.addRegisterPhase(new PusherPhase(1000));
         round.addRegisterPhase(new ActionPhase(TileType.GEAR, 100));
 
         round.addRegisterPhase(new LaserPhase(250));
