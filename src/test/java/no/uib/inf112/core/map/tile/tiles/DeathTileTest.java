@@ -51,6 +51,6 @@ public class DeathTileTest extends TestGraphics {
         Vector2Int backup = player.getBackup();
         assertEquals(backup.x, player.getX());
         assertEquals(backup.y, player.getY());
-        assertEquals(nLives - 1, player.getLives());
+        assertEquals("Player probably continued to move after death", nLives - 1, player.getLives());
     }
 }
