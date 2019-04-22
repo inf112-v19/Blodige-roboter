@@ -1,6 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
@@ -18,43 +18,48 @@ import java.util.List;
 /**
  * @author Elg
  */
-public class GearTile extends AbstractRequirementTile implements ActionTile<SingleDirectionalTile>, SingleDirectionalTile {
+public class GearTile extends AbstractRequirementTile implements ActionTile<SingleDirectionalTile> {
 
-    private Direction rotation;
+    private Attribute dir;
 
     public GearTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
-        rotation = Direction.getDirectionsFromTile(this).iterator().next();
+
+        if (hasAttribute(Attribute.RIGHT)) {
+            dir = Attribute.RIGHT;
+        }
+        if (hasAttribute(Attribute.LEFT)) {
+            if (dir != null) {
+                throw new IllegalStateException("Gear " + tg.name() + " rotates both to the right and to the left");
+            }
+            dir = Attribute.LEFT;
+        }
+        if (dir == null) {
+            throw new IllegalStateException("Gear " + tg.name() + " does not rotate");
+        }
+
     }
 
     @Override
     public boolean action(@NotNull SingleDirectionalTile tile) {
         Direction orgRotation = tile.getDirection();
         Direction newDirection;
-        switch (rotation) {
-            case NORTH:
-                newDirection = orgRotation;
-                break;
-            case EAST:
+        switch (dir) {
+            case RIGHT:
                 newDirection = orgRotation.turnRight();
                 break;
-            case SOUTH:
-                newDirection = orgRotation.inverse();
-                break;
-            case WEST:
+            case LEFT:
                 newDirection = orgRotation.turnLeft();
                 break;
             default:
-                throw new IllegalArgumentException("Unknown direction");
+                throw new IllegalArgumentException("Unknown direction " + dir);
         }
-        tile.setDirection(newDirection);
-        return orgRotation != tile.getDirection();
+        return tile.setDirection(newDirection);
     }
 
     @NotNull
     @Override
     public Sound getActionSound() {
-
         return Sound.CONVEYOR;
     }
 
@@ -64,37 +69,8 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
         return Collections.singletonList(SingleDirectionalTile.class);
     }
 
-    @NotNull
-    @Override
-    public TiledMapTile getTile() {
-        //This will sadly not update the graphic, so this could be fixed in the future
-        switch (rotation) {
-            case WEST:
-                return TileGraphic.ROTATE_COUNTERCLOCKWISE.getTile();
-            case EAST:
-                return TileGraphic.ROTATE_CLOCKWISE.getTile();
-            default:
-                throw new IllegalStateException("Cannot display gear that rotates in the direction " + rotation);
-        }
-    }
-
-    @NotNull
-    @Override
-    public Direction getDirection() {
-        return rotation;
-    }
-
-    @Override
-    public boolean setDirection(@NotNull Direction direction) {
-        if (direction != Direction.WEST && direction != Direction.EAST) {
-            throw new IllegalArgumentException("Gears can only spin in the WEST and EAST directions.");
-        }
-        this.rotation = direction;
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "GearTile{" + "rotation=" + rotation + '}';
+        return "GearTile{" + "dir=" + dir + '}';
     }
 }
