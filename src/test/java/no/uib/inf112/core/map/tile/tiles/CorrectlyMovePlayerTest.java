@@ -71,7 +71,7 @@ public class CorrectlyMovePlayerTest extends TestGraphics {
             assertFalse(robot.shouldUpdate());
 
             tile = GameGraphics.getRoboRally().getCurrentMap().getTile(MapHandler.ENTITY_LAYER_NAME, x + i, y);
-            assertTrue("Failed to find robot at " + x + ", " + y, tile instanceof Robot);
+            assertTrue("Failed to find robot at " + (x + i) + ", " + y, tile instanceof Robot);
             assertEquals(robot, tile);
 
             assertEquals(x + i, robot.getX());
