@@ -1,9 +1,9 @@
 package no.uib.inf112.core.map.tile.tiles;
 
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -30,13 +30,15 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     }
 
     @Override
-    public void action(@NotNull MovableTile tile) {
+    public boolean action(@NotNull MovableTile tile) {
         tile.move(dir.getDx(), dir.getDy(), 0);
+        return true;
     }
 
+    @NotNull
     @Override
-    public void playActionSound() {
-        GameGraphics.getSoundPlayer().playRobotMoving();
+    public Sound getActionSound() {
+        return Sound.CONVEYOR;
     }
 
     @NotNull
@@ -46,8 +48,9 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
-        //The directions of a conveyor cannot be changed
+    public boolean setDirection(@NotNull Direction direction) {
+        //The directions of a CONVEYOR cannot be changed
+        return false;
     }
 
     @Nullable
@@ -60,4 +63,6 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     public String toString() {
         return "ConveyorTile{dir=" + getDirection() + " express= " + hasAttribute(Attribute.HIGH_PRIORITY) + "}";
     }
+
+
 }

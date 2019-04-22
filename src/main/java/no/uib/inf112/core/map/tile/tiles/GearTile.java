@@ -1,12 +1,12 @@
 package no.uib.inf112.core.map.tile.tiles;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.SingleDirectionalTile;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -28,13 +28,34 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     }
 
     @Override
-    public void action(@NotNull SingleDirectionalTile tile) {
-        tile.rotate(rotation);
+    public boolean action(@NotNull SingleDirectionalTile tile) {
+        Direction orgRotation = tile.getDirection();
+        Direction newDirection;
+        switch (rotation) {
+            case NORTH:
+                newDirection = orgRotation;
+                break;
+            case EAST:
+                newDirection = orgRotation.turnRight();
+                break;
+            case SOUTH:
+                newDirection = orgRotation.inverse();
+                break;
+            case WEST:
+                newDirection = orgRotation.turnLeft();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown direction");
+        }
+        tile.setDirection(newDirection);
+        return orgRotation != tile.getDirection();
     }
 
+    @NotNull
     @Override
-    public void playActionSound() {
-        GameGraphics.getSoundPlayer().playRobotMoving();
+    public Sound getActionSound() {
+
+        return Sound.CONVEYOR;
     }
 
     @Nullable
@@ -64,11 +85,12 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         if (direction != Direction.WEST && direction != Direction.EAST) {
             throw new IllegalArgumentException("Gears can only spin in the WEST and EAST directions.");
         }
         this.rotation = direction;
+        return true;
     }
 
     @Override

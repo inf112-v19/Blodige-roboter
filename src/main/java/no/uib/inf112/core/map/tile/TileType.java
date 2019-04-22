@@ -20,6 +20,7 @@ public enum TileType {
 
 
     CONVEYOR(MapHandler.BOARD_LAYER_NAME, ConveyorTile.class),
+    ROTATION_CONVEYOR(MapHandler.BOARD_LAYER_NAME, RotationConveyor.class),
     PUSHER(MapHandler.BOARD_LAYER_NAME),
     DEFAULT(MapHandler.BOARD_LAYER_NAME),
     FLAG(MapHandler.FLAG_LAYER_NAME, FlagTile.class),
