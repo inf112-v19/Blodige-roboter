@@ -21,9 +21,9 @@ public class PusherTile extends AbstractRequirementTile implements ActionTile<Mo
 
     public PusherTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
-        wall = new WallTile(pos,tg);
-        if(wall.getDirections().size() != 1){
-            throw new IllegalStateException("A pusher must have exactly one direction. Found "+wall.getDirections());
+        wall = new WallTile(pos, tg);
+        if (wall.getDirections().size() != 1) {
+            throw new IllegalStateException("A pusher must have exactly one direction. Found " + wall.getDirections());
         }
         //push in opposite direction of where it blocks
         pushDir = wall.getDirections().iterator().next().inverse();
@@ -31,10 +31,11 @@ public class PusherTile extends AbstractRequirementTile implements ActionTile<Mo
 
     @Override
     public boolean action(@NotNull MovableTile tile) {
-
+        tile.move(pushDir);
         return true;
     }
 
+    @NotNull
     @Override
     public Sound getActionSound() {
         return Sound.PUSHER;
