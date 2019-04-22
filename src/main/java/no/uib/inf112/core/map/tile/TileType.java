@@ -27,7 +27,7 @@ public enum TileType {
     HAMMER_AND_WRENCH(MapHandler.BOARD_LAYER_NAME, WrenchAndHammerTile.class),
     ROBOT(MapHandler.ENTITY_LAYER_NAME, Robot.class, PUSHABLE, LAYS_DOWN_LASER),
     GEAR(MapHandler.BOARD_LAYER_NAME, GearTile.class),
-    SPAWN(MapHandler.BOARD_LAYER_NAME),
+    SPAWN(MapHandler.BOARD_LAYER_NAME, SpawnTile.class),
     VOID(MapHandler.BOARD_LAYER_NAME, DeathTile.class, ACTIVE_ONLY_ON_STEP),
     WALL(MapHandler.COLLIDABLES_LAYER_NAME, WallTile.class),
     LASER(MapHandler.LASERS_LAYER_NAME, LaserTile.class),
