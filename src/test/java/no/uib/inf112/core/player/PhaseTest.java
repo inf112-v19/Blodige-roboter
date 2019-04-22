@@ -4,20 +4,15 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.Tile;
-import no.uib.inf112.core.round.phase.ActionPhase;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
 
 public class PhaseTest extends TestGraphics {
 
@@ -30,17 +25,7 @@ public class PhaseTest extends TestGraphics {
         map = roboRally.getCurrentMap();
     }
 
-    @Test
-    public void movabletest() {
-        Roboimpl robot = new Roboimpl(new Vector2Int(0,0), Direction.NORTH, Color.BLACK);
-        new ActionPhase(TileType.ROBOT, 0).startPhase(map);
-        assertEquals(robot.getX(), 1);
-        assertEquals(robot.getY(), 0);
-
-    }
-
     class Roboimpl extends Robot implements ActionTile<Tile> {
-
 
 
         /**
@@ -84,7 +69,7 @@ public class PhaseTest extends TestGraphics {
 
         @Override
         public void action(@NotNull Tile tile) {
-            move(1,0,0);
+            move(1, 0, 0);
         }
 
         @Override
