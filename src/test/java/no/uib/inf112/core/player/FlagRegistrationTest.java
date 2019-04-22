@@ -31,6 +31,11 @@ public class FlagRegistrationTest extends TestGraphics {
     }
 
     @Test
+    public void analyzingTestMapShouldReturnFlagCountIs4() {
+        assertEquals(4, roborally.getPlayerHandler().getFlagCount());
+    }
+
+    @Test
     public void playerHasNoFlags() {
         assertEquals(0, player.getFlags());
     }

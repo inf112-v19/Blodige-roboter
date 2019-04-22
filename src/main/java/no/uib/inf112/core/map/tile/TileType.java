@@ -26,7 +26,7 @@ public enum TileType {
     HAMMER_AND_WRENCH(WrenchAndHammerTile.class),
     ROBOT(Robot.class, PUSHABLE),
     GEAR(GearTile.class),
-    SPAWN,
+    SPAWN(SpawnTile.class),
     VOID(DeathTile.class, ACTIVE_ONLY_ON_STEP),
     WALL(WallTile.class),
     LASER(LaserTile.class),

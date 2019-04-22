@@ -27,8 +27,10 @@ public class SlotSource extends DragAndDrop.Source {
         }
         GameGraphics.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
-        final CardActor dragActor = new CardActor();
-        dragActor.setCard(sourceSlot.getCard());
+        final CardSlot dragActor = sourceSlot.copy();
+        sourceSlot.setCard(null);
+        sourceSlot.updateCard();
+
 
         final Payload payload = new Payload();
         payload.setObject(sourceSlot);
@@ -42,24 +44,26 @@ public class SlotSource extends DragAndDrop.Source {
     @Override
     public void dragStop(final InputEvent event, final float x, final float y, final int pointer, final Payload payload,
                          final DragAndDrop.Target target) {
-        final CardSlot payloadSlot = (CardSlot) payload.getObject();
+        final CardSlot payloadSlot = (CardSlot) payload.getDragActor();
+        CardSlot source = (CardSlot) payload.getObject();
         if (target != null) {
             final CardSlot targetSlot = (CardSlot) target.getActor();
 
             if (targetSlot.isDisabled()) {
                 //do not allow dropping on disabled slots (both drawn and hand)
+                source.setCard(payloadSlot.getCard());
                 return;
             }
 
             if (targetSlot.getCard() == null) {
                 //move the payload to the target slot
                 targetSlot.setCard(payloadSlot.getCard());
-                payloadSlot.setCard(null);
+
             } else {
                 //swap the two items
                 final Card payloadCard = payloadSlot.getCard();
 
-                payloadSlot.setCard(targetSlot.getCard());
+                source.setCard(targetSlot.getCard());
                 targetSlot.setCard(payloadCard);
             }
 
@@ -72,6 +76,9 @@ public class SlotSource extends DragAndDrop.Source {
             inputEvent.setStageX(tempCoords.x);
             inputEvent.setStageY(tempCoords.y);
             targetSlot.fire(inputEvent);
+        } else {
+            // If card is dropped outside a card slot we put it back to its original slot
+            source.setCard(payloadSlot.getCard());
         }
     }
 }
