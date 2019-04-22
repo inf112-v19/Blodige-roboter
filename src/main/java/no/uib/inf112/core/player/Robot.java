@@ -8,6 +8,7 @@ import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -125,7 +126,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
 
         if (move(dir) && !stopMoving) {
             update();
-            GameGraphics.getSoundPlayer().playRobotMoving();
+            Sound.ROBOT_FALLING.play();
             if (dx - sdx != 0 || dy - sdy != 0) {
                 GameGraphics.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
             }
@@ -155,6 +156,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         if (GameGraphics.getRoboRally().getCurrentMap().isOutsideBoard(pos.x + dx, pos.y + dy)) {
             kill();
             update();
+            Sound.ROBOT_FALLING.play();
             stopMoving();
             return true;
         }
