@@ -65,9 +65,10 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         this.direction = direction;
         update();
+        return true;
     }
 
     /**
@@ -115,7 +116,9 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
             return;
         }
         Direction dir = Direction.fromDelta(dx, dy);
-
+        if (dir == null) {
+            throw new IllegalArgumentException("Unknown direction (" + dx + ", " + dy + ")");
+        }
 
         int sdx = dir.getDx();
         int sdy = dir.getDy();

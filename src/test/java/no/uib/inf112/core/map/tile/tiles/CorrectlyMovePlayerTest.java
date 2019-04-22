@@ -66,7 +66,6 @@ public class CorrectlyMovePlayerTest extends TestGraphics {
 
         for (int i = 1; i < length; i++) {
             phase.startPhase(map);
-            assertTrue(robot.shouldUpdate());
             map.update(0);
             assertFalse(robot.shouldUpdate());
 

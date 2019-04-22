@@ -19,6 +19,7 @@ public enum TileType {
 
 
     CONVEYOR(ConveyorTile.class),
+    ROTATION_CONVEYOR(RotationConveyor.class),
     PUSHER,
     DEFAULT,
     FLAG(FlagTile.class),

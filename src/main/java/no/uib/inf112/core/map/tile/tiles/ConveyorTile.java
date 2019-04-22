@@ -47,8 +47,9 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     }
 
     @Override
-    public void setDirection(@NotNull Direction direction) {
+    public boolean setDirection(@NotNull Direction direction) {
         //The directions of a CONVEYOR cannot be changed
+        return false;
     }
 
     @Nullable
@@ -61,4 +62,6 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
     public String toString() {
         return "ConveyorTile{dir=" + getDirection() + " express= " + hasAttribute(Attribute.HIGH_PRIORITY) + "}";
     }
+
+
 }

@@ -29,7 +29,24 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
     @Override
     public boolean action(@NotNull SingleDirectionalTile tile) {
         Direction orgRotation = tile.getDirection();
-        tile.rotate(rotation);
+        Direction newDirection;
+        switch (rotation) {
+            case NORTH:
+                newDirection = orgRotation;
+                break;
+            case EAST:
+                newDirection = orgRotation.turnRight();
+                break;
+            case SOUTH:
+                newDirection = orgRotation.inverse();
+                break;
+            case WEST:
+                newDirection = orgRotation.turnLeft();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown direction");
+        }
+        tile.setDirection(newDirection);
         return orgRotation != tile.getDirection();
     }
 
