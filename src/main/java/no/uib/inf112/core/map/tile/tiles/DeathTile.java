@@ -30,6 +30,7 @@ public class DeathTile extends AbstractRequirementTile implements ActionTile<Mov
         return true;
     }
 
+    @NotNull
     @Override
     public Sound getActionSound() {
         return Sound.ROBOT_FALLING;

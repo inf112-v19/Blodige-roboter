@@ -2,7 +2,6 @@ package no.uib.inf112.core.map.tile.tiles;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
-import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -41,8 +40,8 @@ public class DockTileTest extends TestGraphics {
     public void testPlayerDocks() {
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         for (IPlayer player : players) {
-            Entity entity = (Entity) player;
-            assertEquals(dockPositions.get(player.getDock()), new Vector2Int(entity.getX(), entity.getY()));
+            int dock = player.getDock();
+            assertEquals("dock: " + dock, dockPositions.get(dock), new Vector2Int(player.getX(), player.getY()));
         }
     }
 }

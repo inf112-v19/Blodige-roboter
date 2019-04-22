@@ -35,6 +35,7 @@ public class ConveyorTile extends AbstractRequirementTile implements ActionTile<
         return true;
     }
 
+    @NotNull
     @Override
     public Sound getActionSound() {
         return Sound.CONVEYOR;

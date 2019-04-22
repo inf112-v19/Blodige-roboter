@@ -1,5 +1,6 @@
 package no.uib.inf112.core.map.tile.tiles;
 
+import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
@@ -19,40 +20,46 @@ import java.util.List;
  */
 public class GearTile extends AbstractRequirementTile implements ActionTile<SingleDirectionalTile> {
 
-    private Direction rotation;
+    private Attribute dir;
 
     public GearTile(@NotNull Vector2Int pos, @NotNull TileGraphic tg) {
         super(pos, tg);
-        rotation = Direction.getDirectionsFromTile(this).iterator().next();
+
+        if (hasAttribute(Attribute.RIGHT)) {
+            dir = Attribute.RIGHT;
+        }
+        if (hasAttribute(Attribute.LEFT)) {
+            if (dir != null) {
+                throw new IllegalStateException("Gear " + tg.name() + " rotates both to the right and to the left");
+            }
+            dir = Attribute.LEFT;
+        }
+        if (dir == null) {
+            throw new IllegalStateException("Gear " + tg.name() + " does not rotate");
+        }
+
     }
 
     @Override
     public boolean action(@NotNull SingleDirectionalTile tile) {
         Direction orgRotation = tile.getDirection();
         Direction newDirection;
-        switch (rotation) {
-            case NORTH:
-                newDirection = orgRotation;
-                break;
-            case EAST:
+        switch (dir) {
+            case RIGHT:
                 newDirection = orgRotation.turnRight();
                 break;
-            case SOUTH:
-                newDirection = orgRotation.inverse();
-                break;
-            case WEST:
+            case LEFT:
                 newDirection = orgRotation.turnLeft();
                 break;
             default:
-                throw new IllegalArgumentException("Unknown direction");
+                throw new IllegalArgumentException("Unknown direction " + dir);
         }
-        tile.setDirection(newDirection);
-        return orgRotation != tile.getDirection();
+        return tile.setDirection(newDirection);
     }
 
+    @NotNull
     @Override
     public Sound getActionSound() {
-
         return Sound.CONVEYOR;
     }
 
@@ -64,8 +71,6 @@ public class GearTile extends AbstractRequirementTile implements ActionTile<Sing
 
     @Override
     public String toString() {
-        return "GearTile{" +
-                "rotation=" + rotation +
-                '}';
+        return "GearTile{" + "dir=" + dir + '}';
     }
 }

@@ -30,6 +30,7 @@ public class WrenchTile extends AbstractRequirementTile implements ActionTile<Ba
         return !orgBackup.equals(tile.getBackup());
     }
 
+    @NotNull
     @Override
     public Sound getActionSound() {
         return Sound.ROBOT_UPDATES_BACKUP;
