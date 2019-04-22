@@ -25,14 +25,15 @@ public class PusherPhase extends AbstractStaticTilePhase {
 
             //TODO test correct pusher does push (and no incorrect pushers push)
             if ((phaseNr % 2 == 0 && tile.hasAttribute(Attribute.PUSH_ODD)) ||
-                (phaseNr % 2 != 0 && tile.hasAttribute(Attribute.PUSH_EVEN))) {
+                    (phaseNr % 2 != 0 && tile.hasAttribute(Attribute.PUSH_EVEN))) {
                 continue;
             }
 
             Tile entTile = map.getTile(MapHandler.ENTITY_LAYER_NAME, pos.x, pos.y);
 
             if (tile.canDoAction(entTile)) {
-                boolean pushed = tile.action((MovableTile) tile);
+                //noinspection ConstantConditions
+                boolean pushed = tile.action((MovableTile) entTile);
                 if (pushed) {
                     tile.getActionSound().play();
                 }
