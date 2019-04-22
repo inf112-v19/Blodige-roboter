@@ -46,9 +46,11 @@ public class DeathTileTest extends TestGraphics {
     @Test
     public void movingOverAHoleShouldTeleportRobotToBackup() {
         //Hole is one step from robot, default tile is two tiles from robot
+        int nLives = player.getLives();
         player.move(Movement.MOVE_2);
         Vector2Int backup = player.getBackup();
         assertEquals(backup.x, player.getX());
         assertEquals(backup.y, player.getY());
+        assertEquals(nLives - 1, player.getLives());
     }
 }
