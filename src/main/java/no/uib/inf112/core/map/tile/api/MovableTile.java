@@ -18,12 +18,12 @@ public interface MovableTile extends SingleDirectionalTile {
     void move(int dx, int dy, int maxTime);
 
     /**
-     * The tile does a move in a given direction
+     * The tile does a step in a given direction. The Absolute value sum for change in position for both axis will be one.
      *
      * @param dir direction to move in
      * @return true if tile was able to move
      */
-    boolean moveOneStep(Direction dir);
+    boolean move(Direction dir);
 
     /**
      * Set the coordinates of this class to the given parameters

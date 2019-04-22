@@ -123,7 +123,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
         int maxTimePerMovement =
                 Math.round((maxTime * 1f) / max);
 
-        if (moveOneStep(dir) && !stopMoving) {
+        if (move(dir) && !stopMoving) {
             update();
             GameGraphics.getSoundPlayer().playRobotMoving();
             if (dx - sdx != 0 || dy - sdy != 0) {
@@ -133,17 +133,17 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     }
 
     private boolean push(MovableTile mTile, Direction dir) {
-        if (mTile.moveOneStep(dir)) {
+        if (mTile.move(dir)) {
             ((Entity) mTile).update();
             GameGraphics.getRoboRally().getCurrentMap().update(0);
-            moveOneStep(dir);
+            move(dir);
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean moveOneStep(@NotNull Direction dir) {
+    public boolean move(@NotNull Direction dir) {
         int dx = dir.getDx();
         int dy = dir.getDy();
 
