@@ -30,7 +30,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH, map));
+        container = new CardContainer(new NonPlayer(0, 0, Direction.NORTH, map));
 
         DragAndDrop dad = new DragAndDrop();
 
