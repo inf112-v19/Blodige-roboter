@@ -75,11 +75,11 @@ public class OptionsScreen extends AbstractMenuScreen {
     private TextButton createMusicButton() {
         TextButton musicButton;
         if (GameGraphics.backgroundMusic.isPlaying()) {
-            musicButton = createButton("Music on", -4);
+            musicButton = createButton("Music on", -6);
         } else {
-            musicButton = createButton("Music off", -4);
+            musicButton = createButton("Music off", -6);
         }
-        musicButton.setPosition(3 * stage.getWidth() / 4, 4 * stage.getHeight() / 5);
+        musicButton.setPosition(3 * stage.getWidth() / 4 - (musicButton.getWidth() / 2), musicButton.getY());
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
