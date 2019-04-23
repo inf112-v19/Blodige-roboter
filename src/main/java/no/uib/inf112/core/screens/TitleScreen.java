@@ -32,6 +32,8 @@ public class TitleScreen extends AbstractMenuScreen {
         height = Gdx.graphics.getHeight();
 
         TextButton play = createButton("PLAY", 1);
+        positionButton(play, 1);
+
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -40,6 +42,7 @@ public class TitleScreen extends AbstractMenuScreen {
         });
 
         TextButton options = createButton("OPTIONS", 3);
+        positionButton(options, 3);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -48,8 +51,9 @@ public class TitleScreen extends AbstractMenuScreen {
         });
 
         TextButton credits = createButton("CREDITS", 5);
-
+        positionButton(credits, 5);
         TextButton quit = createButton("QUIT", 7);
+        positionButton(quit, 7);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,6 +66,11 @@ public class TitleScreen extends AbstractMenuScreen {
         stage.addActor(credits);
         stage.addActor(quit);
 
+    }
+
+
+    private void positionButton(TextButton button, int relativePosition) {
+        button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
     }
 
     @Override

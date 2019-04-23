@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.Sound;
 
-
 import java.io.File;
 
 public class GameGraphics extends Game {
@@ -18,8 +17,9 @@ public class GameGraphics extends Game {
     public static boolean HEADLESS;
 
     public static final String MAP_FOLDER = "maps";
-    public static String mapName = "risky_exchange";
+    public static String mapName = "Risky Exchange";
     private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static Music backgroundMusic;
 
     public SpriteBatch batch;
 
@@ -29,10 +29,10 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         setScreen(new TitleScreen(this));
 
-        //TODO #93 move this to a reasonable and easy to handle place
-        Music backgroundMusic = Sound.getBackgroundMusic();
+        backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
         backgroundMusic.play();
+
     }
 
     @Override
@@ -57,27 +57,27 @@ public class GameGraphics extends Game {
      *
      * @param newMapName The name of the map (not file name) that we want to use
      */
-    public void setMap(String newMapName) {
+    public static void setMap(String newMapName) {
         switch (newMapName) {
             case "Risky Exchange":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
-                mapName = "risky_exchange";
+                mapName = newMapName;
                 return;
             case "Checkmate":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
-                mapName = "checkmate";
+                mapName = newMapName;
                 return;
             case "Dizzy Dash":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-                mapName = "dizzy_dash";
+                mapName = newMapName;
                 return;
             case "Island Hop":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
-                mapName = "island_hop";
+                mapName = newMapName;
                 return;
             case "Chop Shop Challenge":
                 FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
-                mapName = "chop_shop_challenge";
+                mapName = newMapName;
                 return;
             default:
         }
@@ -101,4 +101,5 @@ public class GameGraphics extends Game {
         parameter.size = size;
         return fontGenerator.generateFont(parameter);
     }
+
 }
