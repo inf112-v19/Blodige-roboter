@@ -34,6 +34,7 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     public OptionsScreen(GameGraphics game) {
         super(game);
+        mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
         listFont = game.generateFont("screen_font.ttf", 20);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
     }
