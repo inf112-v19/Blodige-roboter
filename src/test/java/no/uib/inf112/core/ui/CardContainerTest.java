@@ -7,7 +7,7 @@ import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.NonPlayer;
+import no.uib.inf112.core.player.StaticPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -27,12 +27,15 @@ public class CardContainerTest extends TestGraphics {
 
     private CardContainer container;
     private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
+    private DragAndDrop dad;
+    private IPlayer player;
 
     @Before
     public void setUp() {
-        container = new CardContainer(new NonPlayer(0, 0, Direction.NORTH, map));
+        player = new StaticPlayer(0, 0, Direction.NORTH, map);
+        container = new CardContainer(player);
 
-        DragAndDrop dad = new DragAndDrop();
+        dad = new DragAndDrop();
 
         for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
@@ -227,4 +230,33 @@ public class CardContainerTest extends TestGraphics {
         assertEquals(hp, container.getPlayer().getHealth());
         assertTrue(container.handCard[hp].isDisabled());
     }
+
+    @Test
+    public void enabledWhenFullHealth() {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            CardSlot slot = new CardSlot(i, SlotType.HAND, container, dad);
+            assertFalse("i: " + i, slot.isDisabled());
+        }
+    }
+
+    @Test
+    public void disabledWhenOneHealth() {
+        player.damage(IPlayer.MAX_HEALTH - 1);
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            CardSlot slot = new CardSlot(i, SlotType.HAND, container, dad);
+            assertTrue("i: " + i, slot.isDisabled());
+        }
+    }
+
+    @Test
+    public void firstDisabledCard() {
+        player.damage(5);
+        assertTrue(new CardSlot(IPlayer.MAX_PLAYER_CARDS - 1, SlotType.HAND, container, dad).isDisabled());
+        assertFalse(new CardSlot(IPlayer.MAX_PLAYER_CARDS - 2, SlotType.HAND, container, dad).isDisabled());
+
+        assertTrue(new CardSlot(IPlayer.MAX_PLAYER_CARDS - 1, SlotType.DRAWN, container, dad).isDisabled());
+        assertFalse(new CardSlot(IPlayer.MAX_PLAYER_CARDS - 2, SlotType.DRAWN, container, dad).isDisabled());
+    }
+
+
 }
