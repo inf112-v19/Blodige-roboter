@@ -56,7 +56,7 @@ public class OptionsScreen implements Screen {
     @Override
     public void show() {
 
-        TextButton backButton = game.createButton("Back to menu", 40);
+        TextButton backButton = game.createButton("BACK", 40);
         backButton.setPosition(stage.getWidth() / 2 - (backButton.getWidth() / 2), 20);
         backButton.addListener(new ClickListener() {
             @Override
@@ -66,6 +66,7 @@ public class OptionsScreen implements Screen {
         });
 
         stage.addActor(backButton);
+        stage.addActor(createMusicButton());
         stage.addActor(createMapSelectBox());
 
     }
@@ -117,6 +118,29 @@ public class OptionsScreen implements Screen {
         stage.dispose();
     }
 
+    private TextButton createMusicButton() {
+        TextButton musicButton;
+        if (game.backgroundMusic.isPlaying()) {
+            musicButton = game.createButton("Music on", 40);
+        } else {
+            musicButton = game.createButton("Music off", 40);
+        }
+        musicButton.setPosition(3 * stage.getWidth() / 4, 4 * stage.getHeight() / 5);
+        musicButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (musicButton.getText().toString().equals("Music on")) {
+                    musicButton.setText("Music off");
+                    game.backgroundMusic.pause();
+                } else {
+                    musicButton.setText("Music on");
+                    game.backgroundMusic.play();
+                }
+            }
+        });
+        return musicButton;
+    }
+
 
     private SelectBox<String> createMapSelectBox() {
 
@@ -159,9 +183,7 @@ public class OptionsScreen implements Screen {
     }
 
     private String fileifyName(String mapName) {
-
         return mapName.replace(" ", "_").toLowerCase();
-
-
     }
+
 }

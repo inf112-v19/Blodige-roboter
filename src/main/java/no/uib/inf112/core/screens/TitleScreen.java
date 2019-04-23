@@ -91,7 +91,7 @@ public class TitleScreen implements Screen {
     private void positionButton(TextButton button, int relativePosition) {
         button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
     }
-    
+
 
     @Override
     public void render(float v) {
