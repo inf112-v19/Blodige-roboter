@@ -117,6 +117,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
     }
 
+    @Override
     public void checkGameOver() {
         for (IPlayer player : players) {
             if (player.getFlags() == flagCount) {
@@ -125,7 +126,7 @@ public class PlayerHandler implements IPlayerHandler {
         }
 
         for (IPlayer player : players) {
-            if(!player.isDestroyed()) {
+            if (!player.isDestroyed()) {
                 return;
             }
         }
