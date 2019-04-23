@@ -104,7 +104,7 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
 
     /**
      * @param flagNr The flags number
-     * @return If player can get given flag or not
+     * @return If player can get given FLAG or not
      */
     boolean canGetFlag(int flagNr);
 

@@ -12,7 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.screens.TitleScreen;
-import no.uib.inf112.core.ui.SoundPlayer;
+import no.uib.inf112.core.ui.Sound;
+
 
 import java.io.File;
 
@@ -20,13 +21,10 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS;
-    private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
     public static String mapName = "Risky Exchange";
     private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
-
-    public Music backgroundMusic;
 
     public SpriteBatch batch;
 
@@ -36,10 +34,9 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         setScreen(new TitleScreen(this));
 
-        //TODO refactor #123
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/backgroundMusic.wav"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.1f);
+        //TODO #93 move this to a reasonable and easy to handle place
+        Music backgroundMusic = Sound.getBackgroundMusic();
+        backgroundMusic.setVolume(1f);
         backgroundMusic.play();
 
     }
@@ -90,17 +87,6 @@ public class GameGraphics extends Game {
                 return;
             default:
         }
-    }
-
-    public static SoundPlayer getSoundPlayer() {
-        if (null == soundPlayer) {
-            createSoundPlayer();
-        }
-        return soundPlayer;
-    }
-
-    private static synchronized void createSoundPlayer() {
-        soundPlayer = new SoundPlayer();
     }
 
     public static RoboRally getRoboRally() {

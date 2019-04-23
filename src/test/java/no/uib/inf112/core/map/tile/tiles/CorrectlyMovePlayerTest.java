@@ -54,7 +54,7 @@ public class CorrectlyMovePlayerTest extends TestGraphics {
         final int x = 0;
         final int y = 0;
 
-        //length of conveyor track
+        //length of CONVEYOR track
         final int length = 5;
 
         robot.teleport(x, y);

@@ -142,7 +142,7 @@ public enum TileGraphic {
     /**
      * CONVEYOR TILES
      * (TileType Conveyor)
-     * GO_"Direction" is the conveyors that turn into an already straight conveyor
+     * GO_"Direction" is the conveyors that turn into an already straight CONVEYOR
      * ROTATE_"direction" rotate the player in given direction
      * EXPRESS prefix is the express (blue) conveyors
      */
