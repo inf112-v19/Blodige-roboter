@@ -120,7 +120,7 @@ public class OptionsScreen implements Screen {
 
     private TextButton createMusicButton() {
         TextButton musicButton;
-        if (game.backgroundMusic.isPlaying()) {
+        if (GameGraphics.backgroundMusic.isPlaying()) {
             musicButton = game.createButton("Music on", 40);
         } else {
             musicButton = game.createButton("Music off", 40);
@@ -131,10 +131,10 @@ public class OptionsScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if (musicButton.getText().toString().equals("Music on")) {
                     musicButton.setText("Music off");
-                    game.backgroundMusic.pause();
+                    GameGraphics.backgroundMusic.pause();
                 } else {
                     musicButton.setText("Music on");
-                    game.backgroundMusic.play();
+                    GameGraphics.backgroundMusic.play();
                 }
             }
         });

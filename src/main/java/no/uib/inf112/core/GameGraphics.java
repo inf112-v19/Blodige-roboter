@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.Sound;
 
-
 import java.io.File;
 
 public class GameGraphics extends Game {
@@ -25,6 +24,7 @@ public class GameGraphics extends Game {
     public static final String MAP_FOLDER = "maps";
     public static String mapName = "Risky Exchange";
     private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static Music backgroundMusic;
 
     public SpriteBatch batch;
 
@@ -35,7 +35,7 @@ public class GameGraphics extends Game {
         setScreen(new TitleScreen(this));
 
         //TODO #93 move this to a reasonable and easy to handle place
-        Music backgroundMusic = Sound.getBackgroundMusic();
+        backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
         backgroundMusic.play();
 
