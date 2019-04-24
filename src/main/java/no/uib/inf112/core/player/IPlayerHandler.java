@@ -41,6 +41,8 @@ public interface IPlayerHandler {
 
     void checkGameOver();
 
+    String[] rankPlayers();
+
     /**
      *
      * @return number of flags to catch
