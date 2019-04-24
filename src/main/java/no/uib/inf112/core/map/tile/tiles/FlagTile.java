@@ -3,7 +3,6 @@ package no.uib.inf112.core.map.tile.tiles;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractRequirementTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
-import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Vector2Int;
@@ -29,7 +28,10 @@ public class FlagTile extends AbstractRequirementTile implements ActionTile<IPla
     public boolean action(@NotNull IPlayer player) {
         if (player.canGetFlag(flagNr)) {
             player.registerFlagVisit();
-            return player.getFlags() >= flagNr;
+            if (player.getFlags() >= flagNr) {
+                player.setBackup(getX(), getY());
+                return true;
+            }
         }
         return false;
     }
