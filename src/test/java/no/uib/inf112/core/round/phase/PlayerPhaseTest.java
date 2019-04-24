@@ -1,0 +1,38 @@
+package no.uib.inf112.core.round.phase;
+
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
+import no.uib.inf112.core.player.IPlayer;
+import no.uib.inf112.core.util.Direction;
+import no.uib.inf112.desktop.TestGraphics;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+
+public class PlayerPhaseTest extends TestGraphics {
+
+    private RoboRally roboRally;
+    private IPlayer player1;
+    private IPlayer player0;
+
+    @Before
+    public void setUp() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 2);
+        player0 = roboRally.getPlayerHandler().testPlayer();
+        player1 = roboRally.getPlayerHandler().getPlayers().get(1);
+    }
+    
+    @Test
+    public void runningPhaseShouldRotateBothPlayers5Times() {
+        Direction player1Dir = player1.getDirection();
+        Direction player0Dir = player0.getDirection();
+        PlayerPhase playerPhase = new PlayerPhase(0);
+        playerPhase.startPhase(roboRally.getCurrentMap());
+        assertEquals(player0Dir.turnRight(), player0.getDirection());
+        assertEquals(player1Dir.turnRight(), player1.getDirection());
+    }
+
+}
