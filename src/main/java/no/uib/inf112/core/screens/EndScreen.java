@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.IPlayer;
 
+import java.util.Map;
+
 
 public class EndScreen extends AbstractMenuScreen {
 
@@ -21,10 +23,11 @@ public class EndScreen extends AbstractMenuScreen {
     public EndScreen(GameGraphics game) {
         super(game);
         listFont = game.generateFont("screen_font.ttf", 30);
-        java.util.List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
-        rankList = new String[players.size()];
-        for (int i = 0; i < players.size(); i++) {
-            rankList[i] = players.get(i).getDock() + ": " + players.get(i).getFlags() + " flags";
+        rankList = GameGraphics.getRoboRally().getPlayerHandler().rankPlayers();
+        for (int i = 0; i < rankList.length; i++) {
+            if (rankList[i] == null) {
+                rankList[i] = "";
+            }
         }
     }
 

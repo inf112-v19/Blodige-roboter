@@ -38,9 +38,9 @@ public class Round {
 
                 totalDelay += phase.getRunTime();
 
-                GameGraphics.getRoboRally().getPlayerHandler().checkGameOver();
             }
         }
+        GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().checkGameOver(), totalDelay + 10);
 
         for (Phase phase : cleanupPhases) {
             GameScreen.scheduleSync(() -> {
@@ -49,6 +49,5 @@ public class Round {
         }
 
         GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
-
     }
 }

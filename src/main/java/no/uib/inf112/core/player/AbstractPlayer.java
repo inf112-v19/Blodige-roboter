@@ -9,6 +9,8 @@ import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author Elg
  */
@@ -26,6 +28,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     private int health;
 
     protected int flags;
+    protected String name;
 
     private boolean poweredDown;
     private boolean willPowerDown;
@@ -44,6 +47,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         }
         backup = new Vector2Int(x, y);
 
+        name = "No name";
         flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
@@ -71,6 +75,12 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         }
         health = MAX_HEALTH;
         teleport(backup.x, backup.y);
+    }
+
+    @Override
+    public void destroy() {
+        lives = 0;
+        GameGraphics.getRoboRally().getCurrentMap().removeEntity(this);
     }
 
     @Override
@@ -102,6 +112,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    public void registerFlagVisits(int n) {
+        flags += n;
+    }
+
+    @Override
     public int getLives() {
         return lives;
     }
@@ -109,6 +124,16 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     @Override
     public int getHealth() {
         return health;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
