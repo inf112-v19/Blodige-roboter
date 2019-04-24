@@ -121,6 +121,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         return willPowerDown;
     }
 
+    @Override
     public void setPoweredDown(boolean poweredDown) {
         if (poweredDown) {
             Sound.ROBOT_SHUTDOWN.play();
@@ -128,6 +129,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         this.poweredDown = poweredDown;
     }
 
+    @Override
     public void setWillPowerDown(boolean willPowerDown) {
         this.willPowerDown = willPowerDown;
     }
@@ -138,6 +140,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    @NotNull
     public Vector2Int getBackup() {
         return backup;
     }
