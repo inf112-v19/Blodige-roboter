@@ -24,6 +24,7 @@ public interface ActionTile<T extends Tile> extends RequirementTile {
      *
      * @return the Sound enum to be the action sound for this tile
      */
+    @NotNull
     Sound getActionSound();
 
 }

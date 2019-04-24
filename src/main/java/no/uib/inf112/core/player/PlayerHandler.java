@@ -112,7 +112,7 @@ public class PlayerHandler implements IPlayerHandler {
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i % map.getMapWidth(), 0 + i % map.getMapWidth(), Direction.NORTH, map);
+                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map);
                 staticPlayer.setDock(i);
                 players.add(staticPlayer);
             }
