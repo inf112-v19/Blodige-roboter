@@ -21,11 +21,11 @@ public class OptionsScreen extends AbstractMenuScreen {
     private TextButton createMusicButton() {
         TextButton musicButton;
         if (GameGraphics.backgroundMusic.isPlaying()) {
-            musicButton = createButton("Music on", -6);
+            musicButton = createButton("Music on", -3);
         } else {
-            musicButton = createButton("Music off", -6);
+            musicButton = createButton("Music off", -3);
         }
-        musicButton.setPosition(3 * stage.getWidth() / 4 - (musicButton.getWidth() / 2), musicButton.getY());
+        // musicButton.setPosition(3 * stage.getWidth() / 4 - (musicButton.getWidth() / 2), musicButton.getY());
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -40,5 +40,6 @@ public class OptionsScreen extends AbstractMenuScreen {
         });
         return musicButton;
     }
+
 
 }

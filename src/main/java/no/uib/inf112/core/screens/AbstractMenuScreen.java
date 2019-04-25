@@ -94,7 +94,7 @@ public abstract class AbstractMenuScreen implements Screen {
             }
         });
         button.setHeight(screenFont.getLineHeight());
-        button.setPosition(width / 2 - (button.getWidth() / 2), height / 2 - (relativePosition * button.getHeight() / 2));
+        button.setPosition(stage.getWidth() / 2 - (button.getWidth() / 2), stage.getHeight() / 2 - (relativePosition * button.getHeight() / 2));
         button.pad(2);
         return button;
     }
