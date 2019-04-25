@@ -35,9 +35,11 @@ public class SetupScreen extends AbstractMenuScreen {
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
     private BitmapFont listFont;
     private BitmapFont selectedFont;
+    private FrameBuffer fb;
 
     private static final String MAP_IMG_FOLDER = GameGraphics.MAP_FOLDER + "mapImages" + File.separatorChar;
     private static final String MAP_IMG_EXTENSION = ".png";
+
 
 
     public SetupScreen(GameGraphics game) {
@@ -48,6 +50,8 @@ public class SetupScreen extends AbstractMenuScreen {
         mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
         listFont = game.generateFont("screen_font.ttf", 20);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
+
+        fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 
     @Override
@@ -88,11 +92,7 @@ public class SetupScreen extends AbstractMenuScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 GameGraphics.setMap(fileifyName(selectBox.getSelected()));
-
-                TextureRegion texture = tmxToTexture(GameGraphics.MAP_FOLDER + GameGraphics.mapFileName + GameGraphics.MAP_EXTENSION);
-
-                mapImg = new TextureRegionDrawable(texture);
-
+                setMapPreview();
             }
         });
         // Selection box should always show list (it looks nicer)
@@ -125,10 +125,8 @@ public class SetupScreen extends AbstractMenuScreen {
         return builder.toString().substring(0, builder.length() - 1);
     }
 
-    private TextureRegion tmxToTexture(String mapName) {
-        FrameBuffer fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-
-        TiledMap map = new TmxMapLoader().load(mapName);
+    private void setMapPreview() {
+        TiledMap map = new TmxMapLoader().load(GameGraphics.MAP_FOLDER + GameGraphics.mapFileName + GameGraphics.MAP_EXTENSION);
         fb.begin();
         TiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map);
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -152,7 +150,15 @@ public class SetupScreen extends AbstractMenuScreen {
 
         TextureRegion tr = new TextureRegion(fb.getColorBufferTexture());
         tr.flip(false, true);
-        return tr;
+        mapImg = new TextureRegionDrawable(tr);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        fb.dispose();
+        fb = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, true);
+        setMapPreview();
     }
 }
 
