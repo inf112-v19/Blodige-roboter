@@ -26,7 +26,7 @@ public class FlagRegistrationTest extends TestGraphics {
     public void setUp() {
         roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
         map = GameGraphics.getRoboRally().getCurrentMap();
-        player = roborally.getPlayerHandler().testPlayer();
+        player = roborally.getPlayerHandler().mainPlayer();
         phase = new ActionPhase(TileType.FLAG, 0);
     }
 

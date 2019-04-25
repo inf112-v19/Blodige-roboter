@@ -21,7 +21,7 @@ public class DeathTileTest extends TestGraphics {
     @Before
     public void setUp() {
         RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_hole_test_map.tmx", 1);
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         player.teleport(0, 0);
         player.setDirection(Direction.NORTH);
         player.setBackup(0, 0);

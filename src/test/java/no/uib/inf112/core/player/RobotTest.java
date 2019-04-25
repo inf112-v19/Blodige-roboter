@@ -38,7 +38,7 @@ public class RobotTest extends TestGraphics {
     @Before
     public void setUp() {
         //roboRally.getPlayerHandler().generateOnePlayer();
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         player.teleport(HEIGHT / 2, WIDTH / 2);
         player.setDirection(Direction.NORTH);
 

@@ -38,14 +38,14 @@ public class CorrectlyMovePlayerTest extends TestGraphics {
     public void mapHandlerHaveCorrectPlayer() {
         //noinspection SuspiciousMethodCalls
         assertTrue(GameGraphics.getRoboRally().getPlayerHandler().getPlayers().contains(robot));
-        assertEquals(GameGraphics.getRoboRally().getPlayerHandler().testPlayer(), robot);
+        assertEquals(GameGraphics.getRoboRally().getPlayerHandler().mainPlayer(), robot);
 
         phase.startPhase(map);
         map.update(0);
 
         //noinspection SuspiciousMethodCalls
         assertTrue(GameGraphics.getRoboRally().getPlayerHandler().getPlayers().contains(robot));
-        assertEquals(GameGraphics.getRoboRally().getPlayerHandler().testPlayer(), robot);
+        assertEquals(GameGraphics.getRoboRally().getPlayerHandler().mainPlayer(), robot);
     }
 
     @Test

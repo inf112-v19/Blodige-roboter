@@ -26,7 +26,7 @@ public class RobotWallTest extends TestGraphics {
     @Before
     public void setUp() {
         //roboRally.getPlayerHandler().generateOnePlayer();
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         player.teleport(0, 0);
         player.setBackup(0, 0);
     }
