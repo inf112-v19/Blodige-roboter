@@ -19,6 +19,7 @@ public class GameGraphics extends Game {
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
     public static final String MAP_EXTENSION = ".tmx";
 
+
     public static String mapFileName = "risky_exchange";
 
     public static Music backgroundMusic;
