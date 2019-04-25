@@ -22,7 +22,7 @@ import java.io.File;
 
 public class SetupScreen extends AbstractMenuScreen {
 
-    private final String OPTIONS_FOLDER = "optionsscreen" + File.separatorChar;
+    private final String MAP_IMG_FOLDER = "maps" + File.separatorChar + "mapImages" + File.separatorChar;
     private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private Drawable mapImg;
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
@@ -34,7 +34,7 @@ public class SetupScreen extends AbstractMenuScreen {
 
     public SetupScreen(GameGraphics game) {
         super(game);
-        mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
+        mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
         listFont = game.generateFont("screen_font.ttf", 20);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
     }
@@ -116,7 +116,7 @@ public class SetupScreen extends AbstractMenuScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 GameGraphics.setMap(selectBox.getSelected());
-                mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
+                mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
             }
         });
         // Selection box should always show list (it looks nicer)
