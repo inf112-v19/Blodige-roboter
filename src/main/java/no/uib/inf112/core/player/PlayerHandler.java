@@ -176,18 +176,7 @@ public class PlayerHandler implements IPlayerHandler {
         return gameOver;
     }
 
-    public IPlayer testPlayer() {
-        if (!HEADLESS) {
-            throw new IllegalStateException("Game is not headless");
-        }
-        return players.get(0);
-    }
-
-
     public IPlayer mainPlayer() {
-        if (HEADLESS) {
-            throw new IllegalStateException("Game is headless");
-        }
         return players.get(0);
     }
 

@@ -32,7 +32,7 @@ public class PlayerTest extends TestGraphics {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
 
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
     }

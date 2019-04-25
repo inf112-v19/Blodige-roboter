@@ -25,7 +25,7 @@ public class TestSetupTest extends TestGraphics {
 
     @Test
     public void moveShouldMovePlayer() {
-        IPlayer robot = GameGraphics.getRoboRally().getPlayerHandler().testPlayer();
+        IPlayer robot = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         robot.move(Movement.MOVE_1, 0);
 
@@ -34,7 +34,7 @@ public class TestSetupTest extends TestGraphics {
 
     @Test
     public void mapShouldGetLoaded() {
-        IPlayer robot = roboRally.getPlayerHandler().testPlayer();
+        IPlayer robot = roboRally.getPlayerHandler().mainPlayer();
         Vector2Int pos = new Vector2Int(robot.getX(), robot.getY());
         Tile tile = roboRally.getCurrentMap().getTile(MapHandler.BOARD_LAYER_NAME, pos.x, pos.y);
         assertNotNull("Could not find any tile at " + pos, tile);

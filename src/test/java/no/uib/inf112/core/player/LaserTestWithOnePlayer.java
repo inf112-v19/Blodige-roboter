@@ -24,7 +24,7 @@ public class LaserTestWithOnePlayer extends TestGraphics {
     public void setUp() {
         RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "laser_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
         map.update(0);

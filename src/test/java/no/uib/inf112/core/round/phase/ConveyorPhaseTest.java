@@ -26,7 +26,7 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void setUp() {
         roboRally = GameGraphics
                 .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         phase = new ConveyorPhase(0);
     }
 
