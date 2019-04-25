@@ -42,9 +42,6 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private BitmapFont selectedFont;
     private FrameBuffer fb;
 
-    private static final String MAP_IMG_FOLDER = GameGraphics.MAP_FOLDER + "mapImages" + File.separatorChar;
-    private static final String MAP_IMG_EXTENSION = ".png";
-
     private boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
@@ -55,7 +52,6 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
             mapList.add(nameifyFile(file.nameWithoutExtension()));
         }
 
-        mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
         listFont = game.generateFont("screen_font.ttf", 16);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
 
@@ -79,6 +75,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         stage.addActor(startButton);
         stage.addActor(createMapSelectBox());
 
+        setMapPreview();
     }
 
     @Override
