@@ -41,7 +41,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton options = createButton("OPTIONS", 3);
+        TextButton options = createButton("SETUP", 3);
         positionButton(options, 3);
         options.addListener(new ClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton credits = createButton("CREDITS", 5);
+        TextButton credits = createButton("OPTIONS", 5);
         positionButton(credits, 5);
         TextButton quit = createButton("QUIT", 7);
         positionButton(quit, 7);
@@ -86,7 +86,7 @@ public class TitleScreen extends AbstractMenuScreen {
             game.setScreen(new GameScreen(game));
         }
         if (optionsScreen) {
-            game.setScreen(new OptionsScreen(game));
+            game.setScreen(new SetupScreen(game));
         }
     }
 }

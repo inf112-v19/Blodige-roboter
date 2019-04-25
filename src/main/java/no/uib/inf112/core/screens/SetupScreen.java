@@ -18,10 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import no.uib.inf112.core.GameGraphics;
 
-
 import java.io.File;
 
-public class OptionsScreen extends AbstractMenuScreen {
+public class SetupScreen extends AbstractMenuScreen {
 
     private final String OPTIONS_FOLDER = "optionsscreen" + File.separatorChar;
     private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
@@ -33,7 +32,7 @@ public class OptionsScreen extends AbstractMenuScreen {
     private boolean returnToMenu;
 
 
-    public OptionsScreen(GameGraphics game) {
+    public SetupScreen(GameGraphics game) {
         super(game);
         mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
         listFont = game.generateFont("screen_font.ttf", 20);
