@@ -24,19 +24,20 @@ public class GameGraphics extends Game {
 
     public static Music backgroundMusic;
     public static boolean soundMuted = false;
+    public static int players;
 
     public SpriteBatch batch;
 
 
     @Override
     public void create() {
+        players = 2;
         batch = new SpriteBatch();
         setScreen(new TitleScreen(this));
 
         backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
         backgroundMusic.play();
-
     }
 
     @Override
@@ -62,7 +63,7 @@ public class GameGraphics extends Game {
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, 2);
+            createRoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, players);
         }
         return roboRally;
     }
