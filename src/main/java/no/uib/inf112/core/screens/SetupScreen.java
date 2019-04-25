@@ -43,17 +43,16 @@ public class SetupScreen extends AbstractMenuScreen {
     private static final String MAP_IMG_EXTENSION = ".png";
 
 
-
     public SetupScreen(GameGraphics game) {
         super(game);
 
-        FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list();
+        FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list(".tmx");
         for (FileHandle file : files) {
             mapList.add(nameifyFile(file.nameWithoutExtension()));
         }
 
         mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
-        listFont = game.generateFont("screen_font.ttf", 20);
+        listFont = game.generateFont("screen_font.ttf", 16);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
 
         fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -111,7 +110,7 @@ public class SetupScreen extends AbstractMenuScreen {
         });
 
         selectBox.setSize(stage.getWidth() / 4f - 10, stage.getHeight() / 20f);
-        selectBox.setPosition(5, (4 * stage.getHeight() / 5));
+        selectBox.setPosition(5, 14 * stage.getHeight() / 15);
 
         return selectBox;
 
