@@ -5,21 +5,16 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.PostConstruct;
 
 /**
  * @author Elg
  */
 public abstract class AbstractPlayer extends Robot implements IPlayer {
-
-    public static final int MAX_LIVES = 3;
-    public static final int MAX_HEALTH = 10;
-    public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
 
     private Vector2Int backup;
 
@@ -40,14 +35,14 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
      * @param direction Start direction
      * @param map       Current map
      */
-    public AbstractPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull Color color) {
+    public AbstractPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull ComparableTuple<String, Color> color) {
         super(new Vector2Int(x, y), direction, color);
         if (map.isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Cant set backup outside of the map");
         }
         backup = new Vector2Int(x, y);
 
-        name = "No name";
+        name = color.key;
         flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;

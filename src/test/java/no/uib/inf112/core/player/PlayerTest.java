@@ -70,7 +70,7 @@ public class PlayerTest extends TestGraphics {
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
         testPlayer.damage(testPlayer.getHealth() + 1);
-        assertEquals(AbstractPlayer.MAX_HEALTH, testPlayer.getHealth());
+        assertEquals(IPlayer.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -81,7 +81,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
-        testPlayer.heal(AbstractPlayer.MAX_HEALTH);
+        testPlayer.heal(IPlayer.MAX_HEALTH);
         int health = testPlayer.getHealth();
         testPlayer.heal(10);
         assertEquals(health, testPlayer.getHealth());
@@ -97,7 +97,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
 
         //noinspection unchecked
         ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
@@ -189,7 +189,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map, Color.ORANGE);
+            super(x, y, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
         }
 
         @Override

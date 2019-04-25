@@ -6,6 +6,7 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -116,7 +117,7 @@ public class RobotTest extends TestGraphics {
 
     @Test
     public void turningRightTwiceShouldHaveTheSameResultAsAUTurn() {
-        Robot player2 = new RobotImpl(new Vector2Int(2, 2), player.getDirection(), Color.BLUE);
+        Robot player2 = new RobotImpl(new Vector2Int(2, 2), player.getDirection(), new ComparableTuple<>("Blue", Color.BLUE));
         player.move(Movement.RIGHT_TURN);
         player.move(Movement.RIGHT_TURN);
         player.move(Movement.U_TURN);
@@ -173,14 +174,14 @@ public class RobotTest extends TestGraphics {
 
         assertTrue(player.shouldUpdate());
 
-        assertEquals(AbstractPlayer.MAX_HEALTH, player.getHealth());
-        assertEquals(AbstractPlayer.MAX_LIVES - 1, player.getLives());
+        assertEquals(IPlayer.MAX_HEALTH, player.getHealth());
+        assertEquals(IPlayer.MAX_LIVES - 1, player.getLives());
 
     }
 
     private class RobotImpl extends Robot {
 
-        public RobotImpl(Vector2Int pos, Direction direction, Color color) {
+        public RobotImpl(Vector2Int pos, Direction direction, ComparableTuple<String, Color> color) {
             super(pos, direction, color);
         }
 

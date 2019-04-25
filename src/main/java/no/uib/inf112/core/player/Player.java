@@ -18,8 +18,8 @@ public class Player extends AbstractPlayer {
 
     private CardContainer cards;
 
-    public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
-        super(x, y, direction, map, Color.RED);
+    public Player(int x, int y, @NotNull Direction direction, MapHandler map, ComparableTuple<String, Color> color) {
+        super(x, y, direction, map, color);
 
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {
