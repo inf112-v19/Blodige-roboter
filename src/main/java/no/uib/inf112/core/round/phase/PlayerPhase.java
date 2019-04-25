@@ -4,7 +4,6 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.ComparableTuple;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +30,7 @@ public class PlayerPhase extends AbstractPhase {
         List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
 
         cards = new ArrayList<>();
-        for (int i = 0; i < Player.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
 
             List<ComparableTuple<Card, IPlayer>> roundList = new ArrayList<>();
             for (IPlayer p : players) {
