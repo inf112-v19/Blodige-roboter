@@ -19,8 +19,6 @@ public class TitleScreen extends AbstractMenuScreen {
     private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
     private boolean startGame = false;
-    private boolean setupScreen = false;
-    private boolean optionsScreen = false;
 
     public TitleScreen(GameGraphics game) {
         super(game);
@@ -44,7 +42,7 @@ public class TitleScreen extends AbstractMenuScreen {
         setup.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setupScreen = true;
+                game.setScreen(new SetupScreen(game));
             }
         });
 
@@ -52,7 +50,7 @@ public class TitleScreen extends AbstractMenuScreen {
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                optionsScreen = true;
+                game.setScreen(new OptionsScreen(game));
             }
         });
 
@@ -80,14 +78,8 @@ public class TitleScreen extends AbstractMenuScreen {
         HEADER.draw(game.batch, 0, 2 * camera.viewportHeight / 3f - 20, camera.viewportWidth, camera.viewportHeight / 4f);
         game.batch.end();
 
-        if (startGame) {
+        if (startGame) { // Using this solution because we can't start game from clicked method
             game.setScreen(new GameScreen(game));
-        }
-        if (setupScreen) {
-            game.setScreen(new SetupScreen(game));
-        }
-        if (optionsScreen) {
-            game.setScreen(new OptionsScreen(game));
         }
     }
 }

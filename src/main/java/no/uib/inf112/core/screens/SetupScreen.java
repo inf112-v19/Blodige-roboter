@@ -29,8 +29,6 @@ public class SetupScreen extends AbstractMenuScreen {
     private BitmapFont listFont;
     private BitmapFont selectedFont;
 
-    private boolean returnToMenu;
-
 
     public SetupScreen(GameGraphics game) {
         super(game);
@@ -42,17 +40,16 @@ public class SetupScreen extends AbstractMenuScreen {
     @Override
     public void show() {
 
-        TextButton backButton = createButton("BACK", 8);
+        TextButton backButton = createButton("BACK", 6);
         backButton.setPosition(stage.getWidth() / 2 - (backButton.getWidth() / 2), 20);
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                returnToMenu = true;
+                game.setScreen(new TitleScreen(game));
             }
         });
 
         stage.addActor(backButton);
-        stage.addActor(createMusicButton());
         stage.addActor(createMapSelectBox());
 
     }
@@ -61,38 +58,10 @@ public class SetupScreen extends AbstractMenuScreen {
     public void render(float v) {
         super.render(v);
 
-        if (returnToMenu) {
-            game.setScreen(new TitleScreen(game));
-        }
-
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
         game.batch.end();
-    }
-
-
-    private TextButton createMusicButton() {
-        TextButton musicButton;
-        if (GameGraphics.backgroundMusic.isPlaying()) {
-            musicButton = createButton("Music on", -6);
-        } else {
-            musicButton = createButton("Music off", -6);
-        }
-        musicButton.setPosition(3 * stage.getWidth() / 4 - (musicButton.getWidth() / 2), musicButton.getY());
-        musicButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (musicButton.getText().toString().equals("Music on")) {
-                    musicButton.setText("Music off");
-                    GameGraphics.backgroundMusic.pause();
-                } else {
-                    musicButton.setText("Music on");
-                    GameGraphics.backgroundMusic.play();
-                }
-            }
-        });
-        return musicButton;
     }
 
 
