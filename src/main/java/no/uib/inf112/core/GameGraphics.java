@@ -16,9 +16,11 @@ public class GameGraphics extends Game {
     private static RoboRally roboRally;
     public static boolean HEADLESS;
 
-    public static final String MAP_FOLDER = "maps";
-    public static String mapName = "Risky Exchange";
-    private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static final String MAP_FOLDER = "maps" + File.separatorChar;
+    private static final String MAP_EXTENSION = ".tmx";
+
+    public static String mapFileName = "risky_exchange";
+
     public static Music backgroundMusic;
     public static boolean soundMuted = false;
 
@@ -37,11 +39,6 @@ public class GameGraphics extends Game {
     }
 
     @Override
-    public void render() {
-        super.render(); // Calling the render method of the active screen
-    }
-
-    @Override
     public void dispose() {
         super.dispose();
         batch.dispose();
@@ -56,37 +53,15 @@ public class GameGraphics extends Game {
      * Method to change the map that will be used to create roborally. The parameter string comes from the selectbox in
      * SetupScreen and can therefore not have other values than the cases deal with.
      *
-     * @param newMapName The name of the map (not file name) that we want to use
+     * @param newMapFile The name of the map (not file name) that we want to use
      */
-    public static void setMap(String newMapName) {
-        switch (newMapName) {
-            case "Risky Exchange":
-                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
-                mapName = newMapName;
-                return;
-            case "Checkmate":
-                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
-                mapName = newMapName;
-                return;
-            case "Dizzy Dash":
-                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-                mapName = newMapName;
-                return;
-            case "Island Hop":
-                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
-                mapName = newMapName;
-                return;
-            case "Chop Shop Challenge":
-                FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
-                mapName = newMapName;
-                return;
-            default:
-        }
+    public static void setMap(String newMapFile) {
+        mapFileName = newMapFile;
     }
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
+            createRoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, 2);
         }
         return roboRally;
     }

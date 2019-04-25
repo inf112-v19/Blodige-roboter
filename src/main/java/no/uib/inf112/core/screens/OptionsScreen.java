@@ -1,5 +1,6 @@
 package no.uib.inf112.core.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,10 +15,30 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
+        TextButton fullscreenButton = createButton("Fullscreen", 1);
+        fullscreenButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (Gdx.graphics.isFullscreen()) {
+                    Gdx.graphics.setWindowedMode(1280, 720);
+                } else {
+                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                }
+            }
+        });
+
         stage.addActor(createReturnButton());
         stage.addActor(createMusicButton());
+        stage.addActor(fullscreenButton);
         stage.addActor(createSoundButton());
     }
+
+    @Override
+    public void render(float v) {
+        super.render(v);
+
+    }
+
 
     private TextButton createMusicButton() {
         TextButton musicButton;

@@ -19,17 +19,23 @@ import java.io.File;
 
 public class SetupScreen extends AbstractMenuScreen {
 
-    private final String MAP_IMG_FOLDER = "maps" + File.separatorChar + "mapImages" + File.separatorChar;
-    private final String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
+
+    private String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
     private Drawable mapImg;
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
     private BitmapFont listFont;
     private BitmapFont selectedFont;
 
+    private static final String MAP_IMG_FOLDER = GameGraphics.MAP_FOLDER + "mapImages" + File.separatorChar;
+    private static final String MAP_IMG_EXTENSION = ".png";
+
 
     public SetupScreen(GameGraphics game) {
         super(game);
-        mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
+
+        //MAP_LIST = Gdx.files.internal(MAP_IMG_FOLDER.toString())
+
+        mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
         listFont = game.generateFont("screen_font.ttf", 20);
         selectedFont = game.generateFont("screen_font_bold.ttf", 25);
     }
@@ -65,14 +71,14 @@ public class SetupScreen extends AbstractMenuScreen {
         selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 
         selectBox.setItems(MAP_LIST);
-        selectBox.setSelected(GameGraphics.mapName);
+        selectBox.setSelected(nameifyFile(GameGraphics.mapFileName));
 
         // Add listener for if selected map changes
         selectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameGraphics.setMap(selectBox.getSelected());
-                mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
+                GameGraphics.setMap(fileifyName(selectBox.getSelected()));
+                mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
             }
         });
         // Selection box should always show list (it looks nicer)
@@ -95,4 +101,14 @@ public class SetupScreen extends AbstractMenuScreen {
         return mapName.replace(" ", "_").toLowerCase();
     }
 
+    private String nameifyFile(String mapFile) {
+        String[] name = mapFile.split("_");
+        StringBuilder builder = new StringBuilder();
+        for (String s : name) {
+            builder.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+        }
+        return builder.toString().substring(0, builder.length() - 1);
+    }
 }
+
+

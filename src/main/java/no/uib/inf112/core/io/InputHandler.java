@@ -70,6 +70,7 @@ public class InputHandler extends InputAdapter {
                 logger.elementAt(logger.size() - 2) == Input.Keys.B &&
                 logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
+            GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/My-Fat-Cat-Speeded.wav"));
             CustomOrthogonalTiledMapRenderer.PARTY = true;
 
         }
