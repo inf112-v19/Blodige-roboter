@@ -2,6 +2,7 @@ package no.uib.inf112.core.screens;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,11 +27,12 @@ import com.badlogic.gdx.utils.Align;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class SetupScreen extends AbstractMenuScreen {
 
 
-    private String[] MAP_LIST = new String[]{"Risky Exchange", "Checkmate", "Dizzy Dash", "Island Hop", "Chop Shop Challenge"};
+    private ArrayList<String> mapList = new ArrayList<>();
     private Drawable mapImg;
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
     private BitmapFont listFont;
@@ -43,7 +45,10 @@ public class SetupScreen extends AbstractMenuScreen {
     public SetupScreen(GameGraphics game) {
         super(game);
 
-        //MAP_LIST = Gdx.files.internal(MAP_IMG_FOLDER.toString())
+        FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list();
+        for (FileHandle file : files) {
+            mapList.add(nameifyFile(file.nameWithoutExtension()));
+        }
 
         mapImg = new TextureRegionDrawable(new Texture(MAP_IMG_FOLDER + GameGraphics.mapFileName + MAP_IMG_EXTENSION));
         listFont = game.generateFont("screen_font.ttf", 20);
@@ -80,7 +85,8 @@ public class SetupScreen extends AbstractMenuScreen {
         selectBox.setAlignment(Align.center);
         selectBox.getStyle().listStyle.selection.setLeftWidth(20);
 
-        selectBox.setItems(MAP_LIST);
+        String[] mapListArray = new String[mapList.size()];
+        selectBox.setItems(mapList.toArray(mapListArray));
         selectBox.setSelected(nameifyFile(GameGraphics.mapFileName));
 
         // Add listener for if selected map changes
