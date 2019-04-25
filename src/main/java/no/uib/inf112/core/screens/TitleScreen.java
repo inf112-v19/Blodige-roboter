@@ -18,7 +18,6 @@ public class TitleScreen extends AbstractMenuScreen {
 
     private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
-    private boolean startGame = false;
 
     public TitleScreen(GameGraphics game) {
         super(game);
@@ -30,7 +29,7 @@ public class TitleScreen extends AbstractMenuScreen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        TextButton play = createButton("SINGLE PLAYER", 1);
+        TextButton play = createButton("SINGLE PLAYER", 0);
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -38,7 +37,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton join = createButton("JOIN GAME", 3);
+        TextButton join = createButton("JOIN GAME", 2);
         join.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -46,7 +45,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton host = createButton("HOST GAME", 5);
+        TextButton host = createButton("HOST GAME", 4);
         host.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -54,7 +53,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton options = createButton("OPTIONS", 7);
+        TextButton options = createButton("OPTIONS", 6);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,7 +61,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton quit = createButton("QUIT", 9);
+        TextButton quit = createButton("QUIT", 8);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,8 +86,5 @@ public class TitleScreen extends AbstractMenuScreen {
         HEADER.draw(game.batch, 0, 2 * camera.viewportHeight / 3f - 20, camera.viewportWidth, camera.viewportHeight / 4f);
         game.batch.end();
 
-        if (startGame) { // Using this solution because we can't start game from clicked method
-            game.setScreen(new GameScreen(game));
-        }
     }
 }

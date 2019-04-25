@@ -17,10 +17,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -42,6 +45,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private static final String MAP_IMG_FOLDER = GameGraphics.MAP_FOLDER + "mapImages" + File.separatorChar;
     private static final String MAP_IMG_EXTENSION = ".png";
 
+    private boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
         super(game);
@@ -60,7 +64,19 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        stage.addActor(createReturnButton());
+        TextButton returnButton = createReturnButton();
+        returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
+        TextButton startButton = createButton("START", 0);
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                startGame = true;
+            }
+        });
+        startButton.setPosition(3 * stage.getWidth() / 4 + 10, stage.getHeight() / 20);
+
+        stage.addActor(returnButton);
+        stage.addActor(startButton);
         stage.addActor(createMapSelectBox());
 
     }
@@ -73,6 +89,10 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         game.batch.begin();
         mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
         game.batch.end();
+
+        if (startGame) { // Using this solution because we can't start game from clicked method
+            game.setScreen(new GameScreen(game));
+        }
     }
 
 

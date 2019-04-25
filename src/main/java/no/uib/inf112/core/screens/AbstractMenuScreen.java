@@ -106,7 +106,6 @@ public abstract class AbstractMenuScreen implements Screen {
      */
     protected TextButton createReturnButton() {
         TextButton returnButton = createButton("RETURN", 0);
-        returnButton.setPosition(stage.getWidth() / 2 - (returnButton.getWidth() / 2), 20);
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
