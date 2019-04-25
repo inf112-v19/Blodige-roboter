@@ -57,7 +57,7 @@ public enum Direction {
         } else if (newDx == SOUTH.dx && newDy == SOUTH.dy) {
             return SOUTH;
         }
-        throw new IllegalArgumentException("Unknown direction (" + newDx + ", " + newDy + ")");
+        return null;
     }
 
     /**

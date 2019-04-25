@@ -59,6 +59,22 @@ public enum Attribute {
     SHOOTS_LASER,
 
     /**
+     * This tile rotates to the right
+     */
+    RIGHT(),
+
+    /**
+     * This tile rotates to the left
+     */
+    LEFT(),
+
+    /**
+     * This tile has some special directional condition to be fullfilled
+     * e.g multi-directional conveyors
+     */
+    WEST_NORTH(), NORTH_EAST(), EAST_SOUTH(), SOUTH_WEST(), EAST_NORTH(), SOUTH_EAST(), WEST_SOUTH(), NORTH_WEST(),
+
+    /**
      * This tile lays down a new  laser trail, its an extension for shoot_laser and should not occur together with it
      * meaning it puts down laser on the entitylaser layer
      * e.g robots

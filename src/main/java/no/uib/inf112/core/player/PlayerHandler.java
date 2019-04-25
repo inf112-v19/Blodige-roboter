@@ -8,10 +8,7 @@ import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.Direction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
 
@@ -20,8 +17,10 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private int flagCount;
     private List<IPlayer> players;
+    private Map<IPlayer, Long> wonPlayers;
     private IPlayer user;
     private boolean gameOver;
+    private long startTime;
 
     /**
      * @param playerCount
@@ -39,6 +38,8 @@ public class PlayerHandler implements IPlayerHandler {
         flagCount = 0;
         players = new ArrayList<>(playerCount);
         gameOver = false;
+        startTime = System.currentTimeMillis();
+        wonPlayers = new TreeMap<>();
         analyseMap(map);
     }
 
@@ -49,6 +50,7 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
+        if (gameOver) return;
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
@@ -110,26 +112,67 @@ public class PlayerHandler implements IPlayerHandler {
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i % map.getMapWidth(), 0 + i % map.getMapWidth(), Direction.NORTH, map);
+                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map);
                 staticPlayer.setDock(i);
                 players.add(staticPlayer);
             }
         }
     }
 
+    @Override
     public void checkGameOver() {
+        List<IPlayer> scheduleRemove = new ArrayList<>();
         for (IPlayer player : players) {
-            if (player.getFlags() == flagCount) {
-                gameOver = true;
+            if (player.getFlags() == flagCount || player.isDestroyed()) {
+                scheduleRemove.add(player);
+                wonPlayers.put(player, Math.abs(System.currentTimeMillis() - startTime));
             }
+        }
+        for (IPlayer player : scheduleRemove) {
+            players.remove(player);
+        }
+        if (players.size() == 1) {
+            wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
+            gameOver = true;
+            return;
         }
 
         for (IPlayer player : players) {
-            if(!player.isDestroyed()) {
+            if (!player.isDestroyed()) {
                 return;
             }
         }
         gameOver = true;
+    }
+
+    @Override
+    public String[] rankPlayers() {
+        String[] playersInRankingOrder = new String[playerCount];
+        List<IPlayer> playerStackWon = new ArrayList<>();
+        for (IPlayer player : wonPlayers.keySet()) {
+            playerStackWon.add(player);
+        }
+        playerStackWon.sort((p1, p2) -> {
+            if (p1.getFlags() == p2.getFlags()) {
+                if (p1.isDestroyed() && p2.isDestroyed()) {
+                    return wonPlayers.get(p2).compareTo(wonPlayers.get(p1));
+                } else {
+                    return wonPlayers.get(p1).compareTo(wonPlayers.get(p2));
+                }
+            } else {
+                return Integer.compare(p2.getFlags(), p1.getFlags());
+            }
+        });
+
+        int i = 0;
+        for (IPlayer player : playerStackWon) {
+            playersInRankingOrder[i++] = player.getName() + ": " + player.getFlags() + " flags";
+        }
+        return playersInRankingOrder;
+    }
+
+    public Map<IPlayer, Long> getWonPlayers() {
+        return wonPlayers;
     }
 
     public boolean isGameOver() {
