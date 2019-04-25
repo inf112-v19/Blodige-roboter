@@ -1,9 +1,19 @@
 package no.uib.inf112.core.screens;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -116,7 +126,10 @@ public class SetupScreen extends AbstractMenuScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 GameGraphics.setMap(selectBox.getSelected());
-                mapImg = new TextureRegionDrawable(new Texture(OPTIONS_FOLDER + fileifyName(GameGraphics.mapName) + ".png"));
+
+                TextureRegion texture = tmxToTexture(GameGraphics.FALLBACK_MAP_FILE_PATH);
+
+                mapImg = new TextureRegionDrawable(texture);
             }
         });
         // Selection box should always show list (it looks nicer)
@@ -139,4 +152,34 @@ public class SetupScreen extends AbstractMenuScreen {
         return mapName.replace(" ", "_").toLowerCase();
     }
 
+
+    private TextureRegion tmxToTexture(String mapName) {
+        FrameBuffer fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        TiledMap map = new TmxMapLoader().load(mapName);
+        fb.begin();
+        TiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        int mapWidth = map.getProperties().get("width", int.class);
+        int mapHeight = map.getProperties().get("height", int.class);
+        int tileWidth = map.getProperties().get("tilewidth", int.class);
+        int tileHeight = map.getProperties().get("tileheight", int.class);
+
+        int width = tileWidth * mapWidth;
+        int height = tileHeight * mapHeight;
+        Matrix4 m = new Matrix4();
+        m.setToOrtho2D(0, 0, width, height);
+        renderer.setView(m, 0, 0, width, height);
+        renderer.render();
+        fb.end();
+
+        map.dispose();
+
+        TextureRegion tr = new TextureRegion(fb.getColorBufferTexture());
+        tr.flip(false, true);
+        return tr;
+    }
 }

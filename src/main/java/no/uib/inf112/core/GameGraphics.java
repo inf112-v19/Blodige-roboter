@@ -18,7 +18,7 @@ public class GameGraphics extends Game {
 
     public static final String MAP_FOLDER = "maps";
     public static String mapName = "Risky Exchange";
-    private static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
     public static Music backgroundMusic;
 
     public SpriteBatch batch;
