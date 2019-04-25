@@ -29,7 +29,7 @@ import no.uib.inf112.core.GameGraphics;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SetupScreen extends AbstractMenuScreen {
+public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
 
     private ArrayList<String> mapList = new ArrayList<>();
@@ -43,7 +43,7 @@ public class SetupScreen extends AbstractMenuScreen {
     private static final String MAP_IMG_EXTENSION = ".png";
 
 
-    public SetupScreen(GameGraphics game) {
+    public AbstractSetupScreen(GameGraphics game) {
         super(game);
 
         FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list(".tmx");

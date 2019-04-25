@@ -52,7 +52,7 @@ public class GameGraphics extends Game {
 
     /**
      * Method to change the map that will be used to create roborally. The parameter string comes from the selectbox in
-     * SetupScreen and can therefore not have other values than the cases deal with.
+     * AbstractSetupScreen and can therefore not have other values than the cases deal with.
      *
      * @param newMapFile The name of the map (not file name) that we want to use
      */
