@@ -99,5 +99,20 @@ public abstract class AbstractMenuScreen implements Screen {
         return button;
     }
 
-//    protected TextButton createReturnButton(String name, )
+    /**
+     * This method is to create a return button for submenu screens (like setup screen and options screen)
+     *
+     * @return A TextButton that returns to title screen. Will be centered horizontally and at the bottom vertically
+     */
+    protected TextButton createReturnButton() {
+        TextButton returnButton = createButton("RETURN", 0);
+        returnButton.setPosition(stage.getWidth() / 2 - (returnButton.getWidth() / 2), 20);
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new TitleScreen(game));
+            }
+        });
+        return returnButton;
+    }
 }

@@ -14,15 +14,7 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-//        TextButton backButton = createButton("BACK", 6);
-//        backButton.setPosition(stage.getWidth() / 2 - (backButton.getWidth() / 2), 20);
-//        backButton.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                returnToMenu = true;
-//            }
-//        });
-
+        stage.addActor(createReturnButton());
         stage.addActor(createMusicButton());
     }
 
