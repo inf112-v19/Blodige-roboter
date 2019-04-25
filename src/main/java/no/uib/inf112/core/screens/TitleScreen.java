@@ -34,7 +34,7 @@ public class TitleScreen extends AbstractMenuScreen {
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbstractSetupScreen(game));
+                game.setScreen(new SinglePlayerSetup(game));
             }
         });
 
@@ -42,7 +42,7 @@ public class TitleScreen extends AbstractMenuScreen {
         join.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbstractSetupScreen(game));
+                game.setScreen(new JoinScreen(game));
             }
         });
 
@@ -50,7 +50,7 @@ public class TitleScreen extends AbstractMenuScreen {
         host.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbstractSetupScreen(game));
+                game.setScreen(new HostSetup(game));
             }
         });
 
