@@ -17,7 +17,7 @@ public class GameGraphics extends Game {
     public static boolean HEADLESS;
 
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
-    private static final String MAP_EXTENSION = ".tmx";
+    public static final String MAP_EXTENSION = ".tmx";
 
     public static String mapFileName = "risky_exchange";
 
