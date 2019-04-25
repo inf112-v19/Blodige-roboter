@@ -97,7 +97,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
 
         //noinspection unchecked
         ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];

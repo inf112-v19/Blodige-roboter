@@ -21,8 +21,8 @@ public class StaticPlayer extends AbstractPlayer {
      * @param direction Start direction
      * @param map       Current map
      */
-    public StaticPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map) {
-        super(x, y, direction, map, new ComparableTuple<>("Green", Color.GREEN));
+    public StaticPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, ComparableTuple<String, Color> color) {
+        super(x, y, direction, map, color);
     }
 
     @Override

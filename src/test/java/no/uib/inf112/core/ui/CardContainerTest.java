@@ -1,5 +1,6 @@
 package no.uib.inf112.core.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
@@ -12,6 +13,7 @@ import no.uib.inf112.core.player.NonPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardActor;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -31,7 +33,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH, map));
+        container = new CardContainer(new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK)));
 
         DragAndDrop dad = new DragAndDrop();
 

@@ -1,11 +1,13 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 
 import java.util.*;
@@ -18,6 +20,7 @@ public class PlayerHandler implements IPlayerHandler {
     private int flagCount;
     private List<IPlayer> players;
     private Map<IPlayer, Long> wonPlayers;
+    private Stack<ComparableTuple<String, Color>> colors;
     private IPlayer user;
     private boolean gameOver;
     private long startTime;
@@ -40,7 +43,20 @@ public class PlayerHandler implements IPlayerHandler {
         gameOver = false;
         startTime = System.currentTimeMillis();
         wonPlayers = new TreeMap<>();
+        colors = new Stack<>();
+        addColors();
         analyseMap(map);
+    }
+
+    private void addColors() {
+        colors.push(new ComparableTuple<>("Pink", Color.PINK));
+        colors.push(new ComparableTuple<>("Green", Color.GREEN));
+        colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
+        colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
+        colors.push(new ComparableTuple<>("Orange", Color.ORANGE));
+        colors.push(new ComparableTuple<>("Brown", Color.BROWN));
+        colors.push(new ComparableTuple<>("Red", Color.RED));
+        colors.push(new ComparableTuple<>("Blue", Color.BLUE));
     }
 
     @Override
@@ -100,19 +116,19 @@ public class PlayerHandler implements IPlayerHandler {
         if (!spawnTiles.empty()) {
             Collections.shuffle(spawnTiles);
             SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map);
+            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, colors.pop());
             user.setDock(spawnTile.getSpawnNumber());
             players.add(user);
 
             for (int i = 1; i < playerCount; i++) {
                 SpawnTile tile = spawnTiles.pop();
-                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map);
+                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
                 staticPlayer.setDock(tile.getSpawnNumber());
                 players.add(staticPlayer);
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map);
+                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
                 staticPlayer.setDock(i);
                 players.add(staticPlayer);
             }
