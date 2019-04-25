@@ -121,16 +121,13 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void checkGameOver() {
-        List<IPlayer> scheduleRemove = new ArrayList<>();
-        for (IPlayer player : players) {
+        players.removeIf(player -> {
             if (player.getFlags() == flagCount || player.isDestroyed()) {
-                scheduleRemove.add(player);
-                wonPlayers.put(player, Math.abs(System.currentTimeMillis() - startTime));
+                wonPlayers.put(player, System.currentTimeMillis());
+                return true;
             }
-        }
-        for (IPlayer player : scheduleRemove) {
-            players.remove(player);
-        }
+            return false;
+        });
         if (players.size() == 1) {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
             gameOver = true;
