@@ -16,24 +16,24 @@ public class OptionsScreen extends AbstractMenuScreen {
     public void show() {
         stage.addActor(createReturnButton());
         stage.addActor(createMusicButton());
+        stage.addActor(createSoundButton());
     }
 
     private TextButton createMusicButton() {
         TextButton musicButton;
         if (GameGraphics.backgroundMusic.isPlaying()) {
-            musicButton = createButton("Music on", -3);
+            musicButton = createButton("Disable Music", -3);
         } else {
-            musicButton = createButton("Music off", -3);
+            musicButton = createButton("Enable Music", -3);
         }
-        // musicButton.setPosition(3 * stage.getWidth() / 4 - (musicButton.getWidth() / 2), musicButton.getY());
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (musicButton.getText().toString().equals("Music on")) {
-                    musicButton.setText("Music off");
+                if (musicButton.getText().toString().equals("Disable Music")) {
+                    musicButton.setText("Enable Music");
                     GameGraphics.backgroundMusic.pause();
                 } else {
-                    musicButton.setText("Music on");
+                    musicButton.setText("Disable Music");
                     GameGraphics.backgroundMusic.play();
                 }
             }
@@ -41,5 +41,26 @@ public class OptionsScreen extends AbstractMenuScreen {
         return musicButton;
     }
 
+    private TextButton createSoundButton() {
+        TextButton soundButton;
+        if (GameGraphics.soundMuted) {
+            soundButton = createButton("Enable Sound", -1);
+        } else {
+            soundButton = createButton("Disable Sound", -1);
+        }
+        soundButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (soundButton.getText().toString().equals("Disable Sound")) {
+                    soundButton.setText("Enable Sound");
+                    GameGraphics.soundMuted = true;
+                } else {
+                    soundButton.setText("Disable Music");
+                    GameGraphics.soundMuted = false;
+                }
+            }
+        });
+        return soundButton;
+    }
 
 }
