@@ -16,11 +16,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractPlayer extends Robot implements IPlayer {
 
-    public static final int MAX_LIVES = 3;
-    public static final int MAX_HEALTH = 10;
-    public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
-
     private Vector2Int backup;
 
     private int dock;
