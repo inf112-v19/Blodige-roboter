@@ -10,6 +10,7 @@ import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     private boolean stopMoving = false;
     private Direction direction;
     private boolean update;
-    private Color color;
+    private ComparableTuple<String, Color> color;
     private Vector2Int pos;
 
     /**
@@ -30,7 +31,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(Vector2Int pos, Direction direction, Color color) {
+    public Robot(Vector2Int pos, Direction direction, ComparableTuple<String, Color> color) {
         super(pos, TileGraphic.ROBOT_TILE_NORTH);
         this.color = color;
         this.pos = pos;
@@ -234,12 +235,12 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     @NotNull
     @Override
     public Color getColor() {
-        return color;
+        return color.value;
     }
 
     @Override
     public void setColor(@NotNull Color color) {
-        this.color = color;
+        this.color.value = color;
     }
 
     @Override

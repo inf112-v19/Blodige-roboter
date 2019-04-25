@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 public class ComparableTuple<K extends Comparable<K>, V> implements Comparable<ComparableTuple<K, V>> {
 
     @NotNull
-    public final K key;
+    public K key;
     @NotNull
-    public final V value;
+    public V value;
 
     /**
      * Creates a new pair

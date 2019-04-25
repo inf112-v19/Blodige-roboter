@@ -14,7 +14,7 @@ public class NonPlayer extends AbstractPlayer {
     private Card[] deck;
 
     public NonPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map) {
-        super(x, y, direction, map, Color.BLUE);
+        super(x, y, direction, map, new ComparableTuple<>("Blue", Color.BLUE));
     }
 
 

@@ -189,7 +189,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map, Color.ORANGE);
+            super(x, y, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
         }
 
         @Override

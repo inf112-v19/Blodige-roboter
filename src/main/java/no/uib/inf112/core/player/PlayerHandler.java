@@ -163,8 +163,12 @@ public class PlayerHandler implements IPlayerHandler {
 
         int i = 0;
         for (IPlayer player : playerStackWon) {
-            playersInRankingOrder[i++] = player.getName() + ": " + player.getFlags() + " flags";
+            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
         }
+        for (IPlayer player : players) {
+            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
+        }
+
         return playersInRankingOrder;
     }
 
