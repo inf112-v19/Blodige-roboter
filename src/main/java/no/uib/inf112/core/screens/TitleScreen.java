@@ -30,7 +30,7 @@ public class TitleScreen extends AbstractMenuScreen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        TextButton play = createButton("PLAY", 1);
+        TextButton play = createButton("SINGLE PLAYER", 1);
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -38,15 +38,23 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton setup = createButton("SETUP", 3);
-        setup.addListener(new ClickListener() {
+        TextButton join = createButton("JOIN GAME", 3);
+        join.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new SetupScreen(game));
             }
         });
 
-        TextButton options = createButton("OPTIONS", 5);
+        TextButton host = createButton("HOST GAME", 5);
+        host.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SetupScreen(game));
+            }
+        });
+
+        TextButton options = createButton("OPTIONS", 7);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -54,7 +62,7 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton quit = createButton("QUIT", 7);
+        TextButton quit = createButton("QUIT", 9);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -63,7 +71,8 @@ public class TitleScreen extends AbstractMenuScreen {
         });
 
         stage.addActor(play);
-        stage.addActor(setup);
+        stage.addActor(join);
+        stage.addActor(host);
         stage.addActor(options);
         stage.addActor(quit);
 
