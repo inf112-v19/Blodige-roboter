@@ -19,6 +19,7 @@ public class TitleScreen extends AbstractMenuScreen {
     private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
 
     private boolean startGame = false;
+    private boolean setupScreen = false;
     private boolean optionsScreen = false;
 
     public TitleScreen(GameGraphics game) {
@@ -41,8 +42,17 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton options = createButton("SETUP", 3);
-        positionButton(options, 3);
+        TextButton setup = createButton("SETUP", 3);
+        positionButton(setup, 3);
+        setup.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setupScreen = true;
+            }
+        });
+
+        TextButton options = createButton("OPTIONS", 5);
+        positionButton(options, 5);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -50,8 +60,6 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton credits = createButton("OPTIONS", 5);
-        positionButton(credits, 5);
         TextButton quit = createButton("QUIT", 7);
         positionButton(quit, 7);
         quit.addListener(new ClickListener() {
@@ -62,8 +70,8 @@ public class TitleScreen extends AbstractMenuScreen {
         });
 
         stage.addActor(play);
+        stage.addActor(setup);
         stage.addActor(options);
-        stage.addActor(credits);
         stage.addActor(quit);
 
     }
@@ -85,8 +93,11 @@ public class TitleScreen extends AbstractMenuScreen {
         if (startGame) {
             game.setScreen(new GameScreen(game));
         }
-        if (optionsScreen) {
+        if (setupScreen) {
             game.setScreen(new SetupScreen(game));
+        }
+        if (optionsScreen) {
+            game.setScreen(new OptionsScreen(game));
         }
     }
 }
