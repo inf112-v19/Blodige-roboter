@@ -78,7 +78,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
-        health = Math.min(MAX_HEALTH, health + healAmount);
+        health += Math.min(healAmount, MAX_HEALTH - health);
     }
 
     @Override
@@ -173,6 +173,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
             poweredDown = true;
             heal();
         }
+    }
+
+    @Override
+    public boolean canRunOnSelf() {
+        return true;
     }
 
     @Override
