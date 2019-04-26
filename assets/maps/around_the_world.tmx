@@ -3,7 +3,7 @@
  <properties>
   <property name="Length" value="long"/>
   <property name="FlagCount" type="int" value="3"/>
-  <property name="Level" value="beginner - hard"/>
+  <property name="Type" value="beginner course - hard"/>
  </properties>
  <tileset firstgid="1" source="../tiles_tileset.tsx"/>
  <tileset firstgid="137" source="../player_tileset.tsx"/>

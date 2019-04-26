@@ -34,12 +34,17 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     private ArrayList<String> mapList = new ArrayList<>();
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
+
     private BitmapFont listFont;
     private BitmapFont selectedFont;
+
     private FrameBuffer fb;
     private Drawable mapImg;
     private float mapImgHeight;
     private float mapImgWidth;
+    private Label type;
+    private Label length;
+    private Label flagCount;
 
     private boolean startGame = false;
 
@@ -70,15 +75,18 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         });
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
 
-        Label difficulty = createLabel("Difficulty: ", camera.viewportWidth / 4f, camera.viewportHeight / 6f, 30);
-        difficulty.setColor(Color.WHITE);
-        Label nbOfFlags = createLabel("# flags: ", camera.viewportWidth / 4f, camera.viewportHeight / 6f - difficulty.getPrefHeight(), 30);
-        nbOfFlags.setColor(Color.WHITE);
+        type = createLabel("Map type: ", camera.viewportWidth / 4f, 4 * camera.viewportHeight / 20, 20);
+        type.setColor(Color.WHITE);
+        length = createLabel("Length: ", camera.viewportWidth / 4f, 3 * camera.viewportHeight / 20, 20);
+        length.setColor(Color.WHITE);
+        flagCount = createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
+        flagCount.setColor(Color.WHITE);
 
         stage.addActor(returnButton);
         stage.addActor(startButton);
-        stage.addActor(difficulty);
-        stage.addActor(nbOfFlags);
+        stage.addActor(type);
+        stage.addActor(length);
+        stage.addActor(flagCount);
         stage.addActor(createMapSelectBox());
 
         setMapPreview();
@@ -176,6 +184,9 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         renderer.render();
         fb.end();
 
+        type.setText("Map type: " + map.getProperties().get("Type"));
+        length.setText("Length: " + map.getProperties().get("Length"));
+        flagCount.setText("# flags: " + map.getProperties().get("FlagCount"));
         map.dispose();
 
         TextureRegion tr = new TextureRegion(fb.getColorBufferTexture());
