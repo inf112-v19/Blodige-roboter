@@ -29,7 +29,8 @@ public class TitleScreen extends AbstractMenuScreen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        TextButton play = createButton("SINGLE PLAYER", 0);
+        TextButton play = createButton("SINGLE PLAYER", 70);
+        setPositionCentered(play, 1, 0);
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -37,7 +38,8 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton join = createButton("JOIN GAME", 2);
+        TextButton join = createButton("JOIN GAME", 70);
+        setPositionCentered(join, 1, 3);
         join.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -45,7 +47,8 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton host = createButton("HOST GAME", 4);
+        TextButton host = createButton("HOST GAME", 70);
+        setPositionCentered(host, 1, 6);
         host.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -53,7 +56,8 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton options = createButton("OPTIONS", 6);
+        TextButton options = createButton("OPTIONS", 70);
+        setPositionCentered(options, 1, 9);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -61,7 +65,8 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton quit = createButton("QUIT", 8);
+        TextButton quit = createButton("QUIT", 70);
+        setPositionCentered(quit, 1, 12);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

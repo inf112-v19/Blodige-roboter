@@ -15,7 +15,8 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        TextButton fullscreenButton = createButton("Fullscreen", 1);
+        TextButton fullscreenButton = createButton("Fullscreen", 70);
+        setPositionCentered(fullscreenButton, 1, 1);
         fullscreenButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -27,7 +28,7 @@ public class OptionsScreen extends AbstractMenuScreen {
             }
         });
 
-        TextButton returnButton = createReturnButton();
+        TextButton returnButton = createReturnButton(70);
         returnButton.setPosition(stage.getWidth() / 2 - (returnButton.getWidth() / 2), 20);
         stage.addActor(returnButton);
         stage.addActor(createMusicButton());
@@ -45,10 +46,11 @@ public class OptionsScreen extends AbstractMenuScreen {
     private TextButton createMusicButton() {
         TextButton musicButton;
         if (GameGraphics.backgroundMusic.isPlaying()) {
-            musicButton = createButton("Disable Music", -3);
+            musicButton = createButton("Disable Music", 70);
         } else {
-            musicButton = createButton("Enable Music", -3);
+            musicButton = createButton("Enable Music", 70);
         }
+        setPositionCentered(musicButton, 1, -3);
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -67,10 +69,11 @@ public class OptionsScreen extends AbstractMenuScreen {
     private TextButton createSoundButton() {
         TextButton soundButton;
         if (GameGraphics.soundMuted) {
-            soundButton = createButton("Enable Sound", -1);
+            soundButton = createButton("Enable Sound", 70);
         } else {
-            soundButton = createButton("Disable Sound", -1);
+            soundButton = createButton("Disable Sound", 70);
         }
+        setPositionCentered(soundButton, 1, -1);
         soundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

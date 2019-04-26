@@ -60,16 +60,16 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        TextButton returnButton = createReturnButton();
+        TextButton returnButton = createReturnButton(50);
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
-        TextButton startButton = createButton("START", 0);
+        TextButton startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 startGame = true;
             }
         });
-        startButton.setPosition(3 * stage.getWidth() / 4 + 10, stage.getHeight() / 20);
+        startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
 
         stage.addActor(returnButton);
         stage.addActor(startButton);

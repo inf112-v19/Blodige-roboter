@@ -75,28 +75,33 @@ public abstract class AbstractMenuScreen implements Screen {
         stage.dispose();
     }
 
-    protected TextButton createButton(String name, int relativePosition) {
+    protected TextButton createButton(String name, int fontSize) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = screenFont;
+        BitmapFont font = game.generateFont("screen_font.ttf", fontSize);
+        BitmapFont boldFont = game.generateFont("screen_font_bold.ttf", fontSize);
+        style.font = font;
         style.fontColor = Color.BLACK;
         TextButton button = new TextButton(name, style);
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFontBold;
+                style.font = boldFont;
                 button.setStyle(style);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = screenFont;
+                style.font = font;
                 button.setStyle(style);
             }
         });
-        button.setHeight(screenFont.getLineHeight());
-        button.setPosition(stage.getWidth() / 2 - (button.getWidth() / 2), stage.getHeight() / 2 - (relativePosition * button.getHeight() / 2));
-        button.pad(2);
+        button.setHeight(font.getCapHeight());
+        button.padBottom(5);
         return button;
+    }
+
+    public void setPositionCentered(TextButton button, int relativeXPosition, int relativeYPosition) {
+        button.setPosition(stage.getWidth() / 2 - (relativeXPosition * button.getWidth() / 2), stage.getHeight() / 2 - (relativeYPosition * button.getHeight() / 2));
     }
 
     /**
@@ -104,8 +109,8 @@ public abstract class AbstractMenuScreen implements Screen {
      *
      * @return A TextButton that returns to title screen. Will be centered horizontally and at the bottom vertically
      */
-    protected TextButton createReturnButton() {
-        TextButton returnButton = createButton("RETURN", 0);
+    protected TextButton createReturnButton(int fontSize) {
+        TextButton returnButton = createButton("RETURN", fontSize);
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

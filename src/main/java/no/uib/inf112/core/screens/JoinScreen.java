@@ -3,6 +3,7 @@ package no.uib.inf112.core.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -21,7 +22,14 @@ public class JoinScreen extends AbstractMenuScreen {
     @Override
     public void show() {
         super.show();
+        TextButton returnButton = createReturnButton(70);
+        returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth(), stage.getHeight() / 20);
 
+        stage.addActor(returnButton);
+        stage.addActor(createNameInputField());
+    }
+
+    private TextField createNameInputField() {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = game.generateFont("screen_font.ttf", 50);
         textFieldStyle.fontColor = Color.WHITE;
@@ -38,8 +46,6 @@ public class JoinScreen extends AbstractMenuScreen {
         nameField.setMaxLength(13);
         nameField.setPosition(stage.getWidth() / 2 - nameField.getWidth() / 2, stage.getHeight() / 2 - nameField.getHeight() / 2);
 
-        stage.addActor(nameField);
-
-
+        return nameField;
     }
 }
