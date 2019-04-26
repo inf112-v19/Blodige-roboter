@@ -5,10 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -118,5 +120,19 @@ public abstract class AbstractMenuScreen implements Screen {
             }
         });
         return returnButton;
+    }
+
+    protected Label createLabel(String text, float x, float y) {
+            Label.LabelStyle labelStyle = new Label.LabelStyle();
+            Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.fillRectangle(0, 0, 10, 10);
+            labelStyle.font = screenFont;
+
+            Label label = new Label(text, labelStyle);
+            label.setColor(Color.BLACK);
+
+            label.setPosition(x,y);
+            return label;
     }
 }
