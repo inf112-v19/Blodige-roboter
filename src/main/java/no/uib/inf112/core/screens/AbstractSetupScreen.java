@@ -18,10 +18,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -41,7 +38,8 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private BitmapFont selectedFont;
     private FrameBuffer fb;
     private Drawable mapImg;
-    private float mapRatio;
+    private float mapImgHeight;
+    private float mapImgWidth;
 
     private boolean startGame = false;
 
@@ -53,8 +51,8 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
             mapList.add(nameifyFile(file.nameWithoutExtension()));
         }
 
-        listFont = game.generateFont("screen_font.ttf", 16);
-        selectedFont = game.generateFont("screen_font_bold.ttf", 25);
+        listFont = game.generateFont(GameGraphics.SCREEN_FONT, 16);
+        selectedFont = game.generateFont(GameGraphics.SCREEN_FONT_BOLD, 25);
 
         fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
@@ -72,8 +70,15 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         });
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
 
+        Label difficulty = createLabel("Difficulty: ", camera.viewportWidth / 4f, camera.viewportHeight / 6f, 30);
+        difficulty.setColor(Color.WHITE);
+        Label nbOfFlags = createLabel("# flags: ", camera.viewportWidth / 4f, camera.viewportHeight / 6f - difficulty.getPrefHeight(), 30);
+        nbOfFlags.setColor(Color.WHITE);
+
         stage.addActor(returnButton);
         stage.addActor(startButton);
+        stage.addActor(difficulty);
+        stage.addActor(nbOfFlags);
         stage.addActor(createMapSelectBox());
 
         setMapPreview();
@@ -85,11 +90,9 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         super.render(v);
 
         game.batch.begin();
-        if (mapRatio > 1) {
-            mapImg.draw(game.batch, camera.viewportWidth / 4f + 10, camera.viewportHeight / 6f, 2 * camera.viewportHeight / (3 * mapRatio), 2 * camera.viewportHeight / 3);
-        } else {
-            mapImg.draw(game.batch, camera.viewportWidth / 4f + 10, camera.viewportHeight / 6f, camera.viewportWidth / 4, mapRatio * camera.viewportWidth / 4);
-        }
+
+        mapImg.draw(game.batch, (5 * camera.viewportWidth / 12f) - mapImgWidth / 2, (7 * camera.viewportHeight / 12f) - mapImgHeight / 2, mapImgWidth, mapImgHeight);
+
         game.batch.end();
 
         if (startGame) { // Using this solution because we can't start game from clicked method
@@ -177,7 +180,16 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         TextureRegion tr = new TextureRegion(fb.getColorBufferTexture());
         tr.flip(false, true);
-        mapRatio = (float) mapHeight / mapWidth;
+        float mapRatio = (float) mapHeight / mapWidth;
+
+        if (mapRatio > 1) {
+            mapImgHeight = 2 * camera.viewportHeight / 3;
+            mapImgWidth = mapImgHeight / mapRatio;
+        } else {
+            mapImgWidth = camera.viewportWidth / 3;
+            mapImgHeight = mapRatio * mapImgWidth;
+        }
+
         mapImg = new TextureRegionDrawable(tr);
     }
 
