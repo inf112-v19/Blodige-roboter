@@ -173,8 +173,8 @@ public class RobotTest extends TestGraphics {
 
         assertTrue(player.shouldUpdate());
 
-        assertEquals(AbstractPlayer.MAX_HEALTH, player.getHealth());
-        assertEquals(AbstractPlayer.MAX_LIVES - 1, player.getLives());
+        assertEquals(IPlayer.MAX_HEALTH, player.getHealth());
+        assertEquals(IPlayer.MAX_LIVES - 1, player.getLives());
 
     }
 

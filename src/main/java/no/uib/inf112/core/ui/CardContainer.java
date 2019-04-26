@@ -2,7 +2,6 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -38,8 +37,8 @@ public class CardContainer {
         this.holder = holder;
         random = new Random();
 
-        handCard = new CardSlot[AbstractPlayer.MAX_PLAYER_CARDS];
-        drawnCard = new CardSlot[AbstractPlayer.MAX_DRAW_CARDS];
+        handCard = new CardSlot[IPlayer.MAX_PLAYER_CARDS];
+        drawnCard = new CardSlot[IPlayer.MAX_DRAW_CARDS];
     }
 
     /**
@@ -52,10 +51,10 @@ public class CardContainer {
             }
         }
 
-        int amount = AbstractPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
+        int amount = IPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
         Card[] draw = GameGraphics.getRoboRally().getDeck().draw(amount);
 
-        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < IPlayer.MAX_DRAW_CARDS; i++) {
             if (i >= amount) {
                 drawnCard[i].setCard(null);
                 drawnCard[i].getColor().a = 0.70f;
@@ -94,7 +93,7 @@ public class CardContainer {
             throw new IllegalStateException("handcards not properly cleared!");
         }
 
-        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
             int randomCard = random.nextInt(drawnCard.length);
             if (drawnCard[randomCard].getCard() == null) {
                 //if there are no more valid cards return

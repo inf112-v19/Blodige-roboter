@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;
@@ -152,7 +152,7 @@ public class UIHandler implements Disposable {
         //display life tokens
         HorizontalGroup lifeTokens = new HorizontalGroup().space(0);
         topRow.add(lifeTokens).expandX().align(Align.left); //make sure the life tokens are to the left
-        for (int i = 0; i < Player.MAX_LIVES; i++) {
+        for (int i = 0; i < IPlayer.MAX_LIVES; i++) {
             int id = i;
             lifeTokens.addActor(new ControlPanelElement(LIFE_TOKEN_TEXTURE) {
                 @Override
@@ -208,7 +208,7 @@ public class UIHandler implements Disposable {
         controlPanelTable.add(damageRow).align(Align.left).padBottom(DEFAULT_SPACING);
         controlPanelTable.row();
 
-        for (int i = 0; i < AbstractPlayer.MAX_HEALTH; i++) {
+        for (int i = 0; i < IPlayer.MAX_HEALTH; i++) {
             int id = i;
             damageRow.addActor(new ControlPanelElement(DAMAGE_TOKEN_TEXTURE) {
                 @Override
@@ -235,13 +235,13 @@ public class UIHandler implements Disposable {
         controlPanelTable.add(cardsRow);
         CardContainer container = ((Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()).getCards();
 
-        for (int i = 0; i < AbstractPlayer.MAX_PLAYER_CARDS; i++) {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.HAND, container, dad);
             container.handCard[i] = cardSlot;
             cardsRow.addActor(cardSlot);
         }
 
-        for (int i = 0; i < AbstractPlayer.MAX_DRAW_CARDS; i++) {
+        for (int i = 0; i < IPlayer.MAX_DRAW_CARDS; i++) {
             CardSlot cardSlot = new CardSlot(i, SlotType.DRAWN, container, dad);
             container.drawnCard[i] = cardSlot;
             cardDrawTable.add(cardSlot).space(DEFAULT_SPACING);
