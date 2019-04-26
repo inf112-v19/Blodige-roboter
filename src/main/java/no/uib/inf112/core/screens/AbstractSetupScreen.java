@@ -36,11 +36,12 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
 
     private ArrayList<String> mapList = new ArrayList<>();
-    private Drawable mapImg;
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
     private BitmapFont listFont;
     private BitmapFont selectedFont;
     private FrameBuffer fb;
+    private Drawable mapImg;
+    private float mapRatio;
 
     private boolean startGame = false;
 
@@ -76,15 +77,19 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         stage.addActor(createMapSelectBox());
 
         setMapPreview();
+        game.batch.setProjectionMatrix(camera.combined);
     }
 
     @Override
     public void render(float v) {
         super.render(v);
 
-        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        mapImg.draw(game.batch, camera.viewportWidth / 4f, camera.viewportHeight / 6f, camera.viewportWidth / 4 - 10, 2 * (camera.viewportHeight / 3));
+        if (mapRatio > 1) {
+            mapImg.draw(game.batch, camera.viewportWidth / 4f + 10, camera.viewportHeight / 6f, 2 * camera.viewportHeight / (3 * mapRatio), 2 * camera.viewportHeight / 3);
+        } else {
+            mapImg.draw(game.batch, camera.viewportWidth / 4f + 10, camera.viewportHeight / 6f, camera.viewportWidth / 4, mapRatio * camera.viewportWidth / 4);
+        }
         game.batch.end();
 
         if (startGame) { // Using this solution because we can't start game from clicked method
@@ -172,6 +177,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         TextureRegion tr = new TextureRegion(fb.getColorBufferTexture());
         tr.flip(false, true);
+        mapRatio = (float) mapHeight / mapWidth;
         mapImg = new TextureRegionDrawable(tr);
     }
 
