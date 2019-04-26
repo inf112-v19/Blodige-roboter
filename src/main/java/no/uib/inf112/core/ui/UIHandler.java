@@ -4,7 +4,6 @@ package no.uib.inf112.core.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -136,44 +135,10 @@ public class UIHandler implements Disposable {
         nestingTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
 
         backgroundTable.add(robotStatusTable).center().left().uniform();
-        backgroundTable.add(nestingTable).expandX().bottom();
-        backgroundTable.add().uniform();
+        backgroundTable.add(nestingTable).expand().bottom();
+        backgroundTable.add().uniform(); // Adding this column to center the control panel and cards.
 
         create();
-    }
-
-    private void addRobotStatus() {
-        List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
-        VerticalGroup playerStatus = new VerticalGroup().space(2);
-        for (int i = 0; i < players.size(); i++) {
-
-            String playerString = players.get(i).getName() +
-                    "\nFlags: " + players.get(i).getFlags() +
-                    "\nHealth: " + players.get(i).getHealth() +
-                    "\nLives: " + players.get(i).getLives();
-
-            Label playerLabel = createLabel(playerString, 30);
-            playerLabel.setColor(players.get(i).getColor());
-            playerStatus.addActor(playerLabel);
-        }
-
-        robotStatusTable.add(playerStatus);
-
-    }
-
-    public BitmapFont generateFont(String fontFile, int size) {
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = size;
-        return fontGenerator.generateFont(parameter);
-    }
-
-
-    public Label createLabel(String text, int fontSize) {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = generateFont(GameGraphics.SCREEN_FONT, fontSize);
-
-        return new Label(text, labelStyle);
     }
 
     /**
@@ -297,6 +262,32 @@ public class UIHandler implements Disposable {
         }
     }
 
+    private void addRobotStatus() {
+        robotStatusTable.clear();
+        List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        VerticalGroup playerStatus = new VerticalGroup().space(2);
+        for (int i = 0; i < players.size(); i++) {
+
+            String playerString = players.get(i).getName() +
+                    "\nFlags: " + players.get(i).getFlags() +
+                    "\nHealth: " + players.get(i).getHealth() +
+                    "\nLives: " + players.get(i).getLives();
+
+            Label playerLabel = createLabel(playerString, 30);
+            playerLabel.setColor(players.get(i).getColor());
+            playerStatus.addActor(playerLabel);
+        }
+
+        robotStatusTable.add(playerStatus);
+
+    }
+
+    public Label createLabel(String text, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, fontSize);
+        return new Label(text, labelStyle);
+    }
+
 
     /**
      * Show the drawn cards table of the main player.
@@ -328,6 +319,7 @@ public class UIHandler implements Disposable {
     }
 
     public void update() {
+        addRobotStatus();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         stage.draw(); //Draw the ui
     }

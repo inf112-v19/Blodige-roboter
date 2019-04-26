@@ -76,7 +76,7 @@ public class GameGraphics extends Game {
         return roboRally;
     }
 
-    public BitmapFont generateFont(String fontFile, int size) {
+    public static BitmapFont generateFont(String fontFile, int size) {
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;

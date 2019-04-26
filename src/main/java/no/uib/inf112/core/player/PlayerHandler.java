@@ -49,7 +49,7 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     private void addColors() {
-        colors.push(new ComparableTuple<>("Pink", Color.PINK));
+        //colors.push(new ComparableTuple<>("Pink", Color.PINK));
         colors.push(new ComparableTuple<>("Green", Color.GREEN));
         colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
         colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
@@ -66,7 +66,9 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-        if (gameOver) return;
+        if (gameOver) {
+            return;
+        }
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
@@ -116,7 +118,7 @@ public class PlayerHandler implements IPlayerHandler {
         if (!spawnTiles.empty()) {
             Collections.shuffle(spawnTiles);
             SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, colors.pop());
+            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>("Rikkii", Color.MAGENTA));
             user.setDock(spawnTile.getSpawnNumber());
             players.add(user);
 
