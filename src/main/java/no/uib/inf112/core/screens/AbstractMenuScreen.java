@@ -2,15 +2,16 @@ package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
 
@@ -115,4 +116,25 @@ public abstract class AbstractMenuScreen implements Screen {
         });
         return returnButton;
     }
+
+    TextField createNameInputField() {
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
+        textFieldStyle.fontColor = Color.BLACK;
+
+        Pixmap myPixMap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        myPixMap.setColor(1, 1, 1, 0.5f);
+        myPixMap.fillRectangle(0, 0, 1, 1);
+        textFieldStyle.cursor = new TextureRegionDrawable(new Texture(myPixMap));
+        textFieldStyle.disabledFontColor = Color.GRAY;
+        textFieldStyle.background = new TextureRegionDrawable(new Texture(myPixMap));
+        TextField nameField = new TextField("Enter name", textFieldStyle);
+        nameField.setWidth(stage.getWidth() / 5);
+        nameField.setAlignment(Align.center);
+        nameField.setMaxLength(13);
+
+
+        return nameField;
+    }
+
 }

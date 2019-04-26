@@ -118,7 +118,7 @@ public class PlayerHandler implements IPlayerHandler {
         if (!spawnTiles.empty()) {
             Collections.shuffle(spawnTiles);
             SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>("Rikkii", Color.MAGENTA));
+            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA));
             user.setDock(spawnTile.getSpawnNumber());
             players.add(user);
 

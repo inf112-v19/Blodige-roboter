@@ -46,6 +46,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private Label length;
     private Label flagCount;
 
+    TextField nameField;
     private boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
@@ -56,8 +57,8 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
             mapList.add(nameifyFile(file.nameWithoutExtension()));
         }
 
-        listFont = game.generateFont(GameGraphics.SCREEN_FONT, 16);
-        selectedFont = game.generateFont(GameGraphics.SCREEN_FONT_BOLD, 25);
+        listFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 16);
+        selectedFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 25);
 
         fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
@@ -82,6 +83,10 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         flagCount = game.createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
         flagCount.setColor(Color.WHITE);
 
+        nameField = createNameInputField();
+        nameField.setPosition(7 * stage.getWidth() / 10, 3 * stage.getHeight() / 4);
+
+        stage.addActor(nameField);
         stage.addActor(returnButton);
         stage.addActor(startButton);
         stage.addActor(type);
@@ -104,6 +109,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         game.batch.end();
 
         if (startGame) { // Using this solution because we can't start game from clicked method
+            GameGraphics.mainPlayerName = nameField.getText();
             game.setScreen(new GameScreen(game));
         }
     }
