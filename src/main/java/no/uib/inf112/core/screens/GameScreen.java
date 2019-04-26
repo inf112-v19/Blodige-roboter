@@ -26,6 +26,7 @@ public class GameScreen implements Screen {
     private static ControlPanelEventHandler cpEventHandler;
     private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
+
     public GameScreen(GameGraphics game) {
 
         inputMultiplexer = new InputMultiplexer();
@@ -45,6 +46,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         roboRally.getPlayerHandler().startTurn();
+
     }
 
     @Override
@@ -54,13 +56,11 @@ public class GameScreen implements Screen {
                 (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new EndScreen(game));
-        } else if(GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
+        } else if (GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
             game.setScreen(new EndScreen(game));
         }
-
 
         game.batch.begin();
 
@@ -137,5 +137,6 @@ public class GameScreen implements Screen {
     public static UIHandler getUiHandler() {
         return uiHandler;
     }
+
 
 }

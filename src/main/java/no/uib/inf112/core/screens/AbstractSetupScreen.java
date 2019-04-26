@@ -75,11 +75,11 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         });
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
 
-        type = createLabel("Map type: ", camera.viewportWidth / 4f, 4 * camera.viewportHeight / 20, 20);
+        type = game.createLabel("Map type: ", camera.viewportWidth / 4f, 4 * camera.viewportHeight / 20, 20);
         type.setColor(Color.WHITE);
-        length = createLabel("Length: ", camera.viewportWidth / 4f, 3 * camera.viewportHeight / 20, 20);
+        length = game.createLabel("Length: ", camera.viewportWidth / 4f, 3 * camera.viewportHeight / 20, 20);
         length.setColor(Color.WHITE);
-        flagCount = createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
+        flagCount = game.createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
         flagCount.setColor(Color.WHITE);
 
         stage.addActor(returnButton);

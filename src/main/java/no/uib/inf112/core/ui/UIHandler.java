@@ -4,11 +4,14 @@ package no.uib.inf112.core.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -25,6 +28,7 @@ import no.uib.inf112.core.ui.actors.cards.SlotType;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -63,6 +67,7 @@ public class UIHandler implements Disposable {
 
     private final DragAndDrop dad;
     private final Table cardDrawTable;
+    private final Table robotStatusTable;
 
     private static final String UI_FOLDER = "ui" + File.separatorChar;
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
@@ -122,18 +127,61 @@ public class UIHandler implements Disposable {
 
         controlPanelTable = new Table();
         cardDrawTable = new Table();
+        robotStatusTable = new Table();
 
-        backgroundTable.add(cardDrawTable).row();
-        backgroundTable.add(controlPanelTable).space(DEFAULT_SPACING);
-        backgroundTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
+        Table nestingTable = new Table();
+        nestingTable.add(cardDrawTable).align(Align.bottom);
+        nestingTable.row();
+        nestingTable.add(controlPanelTable).space(DEFAULT_SPACING);
+        nestingTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
+
+        backgroundTable.add(robotStatusTable).center().left().uniform();
+        backgroundTable.add(nestingTable).expandX().bottom();
+        backgroundTable.add().uniform();
 
         create();
+    }
+
+    private void addRobotStatus() {
+        List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        VerticalGroup playerStatus = new VerticalGroup().space(2);
+        for (int i = 0; i < players.size(); i++) {
+
+            String playerString = players.get(i).getName() +
+                    "\nFlags: " + players.get(i).getFlags() +
+                    "\nHealth: " + players.get(i).getHealth() +
+                    "\nLives: " + players.get(i).getLives();
+
+            Label playerLabel = createLabel(playerString, 30);
+            playerLabel.setColor(players.get(i).getColor());
+            playerStatus.addActor(playerLabel);
+        }
+
+        robotStatusTable.add(playerStatus);
+
+    }
+
+    public BitmapFont generateFont(String fontFile, int size) {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        return fontGenerator.generateFont(parameter);
+    }
+
+
+    public Label createLabel(String text, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = generateFont(GameGraphics.SCREEN_FONT, fontSize);
+
+        return new Label(text, labelStyle);
     }
 
     /**
      * Initiate ui
      */
     private void create() {
+
+        addRobotStatus();
 
         cardDrawTable.setTransform(false);
         cardDrawTable.pad(DEFAULT_SPACING);

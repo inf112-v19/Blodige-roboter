@@ -3,9 +3,11 @@ package no.uib.inf112.core;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.ui.Sound;
 
@@ -79,6 +81,18 @@ public class GameGraphics extends Game {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         return fontGenerator.generateFont(parameter);
+    }
+
+
+    public Label createLabel(String text, float x, float y, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = generateFont(GameGraphics.SCREEN_FONT, fontSize);
+
+        Label label = new Label(text, labelStyle);
+        label.setColor(Color.BLACK);
+
+        label.setPosition(x, y);
+        return label;
     }
 
 }

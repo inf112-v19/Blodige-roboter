@@ -80,13 +80,14 @@ public class TitleScreen extends AbstractMenuScreen {
         stage.addActor(options);
         stage.addActor(quit);
 
+        game.batch.setProjectionMatrix(camera.combined);
     }
 
     @Override
     public void render(float v) {
         super.render(v);
 
-        game.batch.setProjectionMatrix(camera.combined);
+
         game.batch.begin();
         HEADER.draw(game.batch, 0, 2 * camera.viewportHeight / 3f - 20, camera.viewportWidth, camera.viewportHeight / 4f);
         game.batch.end();
