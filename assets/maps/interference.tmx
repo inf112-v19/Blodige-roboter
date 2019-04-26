@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="16" tilewidth="300" tileheight="300" infinite="0" nextlayerid="6" nextobjectid="1">
+ <properties>
+  <property name="Length" value="medium"/>
+  <property name="FlagCount" type="int" value="3"/>
+  <property name="Type" value="expert course"/>
+ </properties>
  <tileset firstgid="1" source="../tiles_tileset.tsx"/>
  <tileset firstgid="137" source="../player_tileset.tsx"/>
  <layer id="1" name="board" width="12" height="16">

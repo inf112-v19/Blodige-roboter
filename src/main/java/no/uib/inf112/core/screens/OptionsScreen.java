@@ -16,7 +16,7 @@ public class OptionsScreen extends AbstractMenuScreen {
     @Override
     public void show() {
         TextButton fullscreenButton = createButton("Fullscreen", 70);
-        setPositionCentered(fullscreenButton, 1, 1);
+        setPositionCentered(fullscreenButton, 1, 4);
         fullscreenButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -50,7 +50,7 @@ public class OptionsScreen extends AbstractMenuScreen {
         } else {
             musicButton = createButton("Enable Music", 70);
         }
-        setPositionCentered(musicButton, 1, -3);
+        setPositionCentered(musicButton, 1, -4);
         musicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -73,7 +73,7 @@ public class OptionsScreen extends AbstractMenuScreen {
         } else {
             soundButton = createButton("Disable Sound", 70);
         }
-        setPositionCentered(soundButton, 1, -1);
+        setPositionCentered(soundButton, 1, 0);
         soundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

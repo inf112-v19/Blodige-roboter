@@ -30,7 +30,6 @@ public class GameGraphics extends Game {
 
     public SpriteBatch batch;
 
-
     @Override
     public void create() {
         players = 2;
