@@ -18,8 +18,6 @@ import no.uib.inf112.core.GameGraphics;
 
 public abstract class AbstractMenuScreen implements Screen {
 
-    protected final BitmapFont screenFont;
-    protected final BitmapFont screenFontBold;
     protected final GameGraphics game;
     protected int width;
     protected int height;
@@ -31,8 +29,6 @@ public abstract class AbstractMenuScreen implements Screen {
         camera = new OrthographicCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
-        screenFont = game.generateFont("screen_font.ttf", 70);
-        screenFontBold = game.generateFont("screen_font_bold.ttf", 70);
     }
 
     @Override
@@ -77,10 +73,10 @@ public abstract class AbstractMenuScreen implements Screen {
         stage.dispose();
     }
 
-    protected TextButton createButton(String name, int fontSize) {
+    TextButton createButton(String name, int fontSize) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        BitmapFont font = game.generateFont("screen_font.ttf", fontSize);
-        BitmapFont boldFont = game.generateFont("screen_font_bold.ttf", fontSize);
+        BitmapFont font = game.generateFont(GameGraphics.SCREEN_FONT, fontSize);
+        BitmapFont boldFont = game.generateFont(GameGraphics.SCREEN_FONT_BOLD, fontSize);
         style.font = font;
         style.fontColor = Color.BLACK;
         TextButton button = new TextButton(name, style);
@@ -102,7 +98,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return button;
     }
 
-    public void setPositionCentered(TextButton button, int relativeXPosition, int relativeYPosition) {
+    void setPositionCentered(TextButton button, int relativeXPosition, int relativeYPosition) {
         button.setPosition(stage.getWidth() / 2 - (relativeXPosition * button.getWidth() / 2), stage.getHeight() / 2 - (relativeYPosition * button.getHeight() / 2));
     }
 
@@ -111,7 +107,7 @@ public abstract class AbstractMenuScreen implements Screen {
      *
      * @return A TextButton that returns to title screen. Will be centered horizontally and at the bottom vertically
      */
-    protected TextButton createReturnButton(int fontSize) {
+    TextButton createReturnButton(int fontSize) {
         TextButton returnButton = createButton("RETURN", fontSize);
         returnButton.addListener(new ClickListener() {
             @Override
@@ -122,17 +118,17 @@ public abstract class AbstractMenuScreen implements Screen {
         return returnButton;
     }
 
-    protected Label createLabel(String text, float x, float y) {
-            Label.LabelStyle labelStyle = new Label.LabelStyle();
-            Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
-            pixmap.fillRectangle(0, 0, 10, 10);
-            labelStyle.font = screenFont;
+    Label createLabel(String text, float x, float y, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(0f, 0f, 0f, 1f);
+        pixmap.fillRectangle(0, 0, 10, 10);
+        labelStyle.font = game.generateFont(GameGraphics.SCREEN_FONT, fontSize);
 
-            Label label = new Label(text, labelStyle);
-            label.setColor(Color.BLACK);
+        Label label = new Label(text, labelStyle);
+        label.setColor(Color.BLACK);
 
-            label.setPosition(x,y);
-            return label;
+        label.setPosition(x, y);
+        return label;
     }
 }

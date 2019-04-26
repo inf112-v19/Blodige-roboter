@@ -21,8 +21,8 @@ public class SinglePlayerSetup extends AbstractSetupScreen {
     @Override
     public void show() {
         super.show();
-        Label playerLabel = createLabel("Number of players", 7*stage.getWidth() /10, stage.getHeight()/2+75);
-        Label numberLabel = createLabel(GameGraphics.players + "", 4 * stage.getWidth() / 5, (stage.getHeight() / 2) - 75);
+        Label playerLabel = createLabel("Number of players", 7 * stage.getWidth() / 10, stage.getHeight() / 2 + 75, 30);
+        Label numberLabel = createLabel(GameGraphics.players + "", 4 * stage.getWidth() / 5, (stage.getHeight() / 2) - 75, 50);
         Slider slider = createSlider();
         slider.setValue((float) GameGraphics.players);
         slider.addListener(new ChangeListener() {
