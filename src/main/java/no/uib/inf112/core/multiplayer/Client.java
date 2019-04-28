@@ -50,6 +50,8 @@ public class Client {
     public void closeConnection(){
         try {
             clientSocket.close();
+            inFromServer.close();
+            outToServer.close();
         }catch (IOException e){
             System.out.println("IOExeption " + e);
         }

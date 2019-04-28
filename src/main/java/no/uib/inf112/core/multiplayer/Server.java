@@ -28,11 +28,13 @@ public class Server {
     class Handler extends Thread {
         ServerSocket handlerServSock;
         int threadNumber;
+        boolean connected;
 
         /** Construct a Handler. */
         Handler(ServerSocket s, int i) {
             handlerServSock = s;
             threadNumber = i;
+            connected = true;
             setName("Thread " + threadNumber);
         }
 
@@ -40,7 +42,7 @@ public class Server {
             /* Wait for a connection. Synchronized on the ServerSocket
              * while calling its accept() method.
              */
-            while (true) {
+            while (connected) {
                 try {
                     System.out.println(getName() + " waiting");
 
@@ -65,6 +67,7 @@ public class Server {
                     }
                 } catch (EOFException e){
                     System.out.println( getName() + " Disconnected");
+                    connected = false;
                     try {
                         handlerServSock.close();
                     } catch (IOException e1) {
