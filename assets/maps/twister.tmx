@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="16" tilewidth="300" tileheight="300" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="12" height="16" tilewidth="300" tileheight="300" infinite="0" nextlayerid="8" nextobjectid="1">
  <tileset firstgid="1" source="../tiles_tileset.tsx"/>
  <tileset firstgid="137" source="../player_tileset.tsx"/>
- <layer id="2" name="board" width="12" height="16">
+ <layer id="4" name="board" width="12" height="16">
   <data encoding="csv">
 5,5,5,5,5,5,5,5,5,5,5,5,
 5,19,14,14,20,5,5,19,14,14,20,5,
@@ -22,7 +22,7 @@
 5,5,41,52,52,121,122,51,51,44,5,5
 </data>
  </layer>
- <layer id="4" name="lasers" width="12" height="16">
+ <layer id="5" name="lasers" width="12" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
@@ -42,7 +42,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="collidables" width="12" height="16">
+ <layer id="6" name="collidables" width="12" height="16">
   <data encoding="csv">
 0,0,31,0,31,0,0,31,0,31,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
@@ -62,20 +62,20 @@
 0,0,0,0,0,0,30,0,0,0,0,0
 </data>
  </layer>
- <layer id="1" name="flags" width="12" height="16">
+ <layer id="7" name="flags" width="12" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,55,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,71,0,0,0,0,0,0,0,0,0,0,
+0,0,0,63,0,0,0,0,0,71,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,63,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,55,0,0,0,0,0,79,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
