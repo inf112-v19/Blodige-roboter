@@ -31,11 +31,6 @@ public abstract class AbstractMenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float v) {
         Gdx.gl.glClearColor(0.5f, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -54,17 +49,17 @@ public abstract class AbstractMenuScreen implements Screen {
 
     @Override
     public void pause() {
-
+        //No standard implementation
     }
 
     @Override
     public void resume() {
-
+        //No standard implementation
     }
 
     @Override
     public void hide() {
-
+        //No standard implementation
     }
 
     @Override
@@ -72,7 +67,7 @@ public abstract class AbstractMenuScreen implements Screen {
         stage.dispose();
     }
 
-    TextButton createButton(String name, int fontSize) {
+    protected TextButton createButton(String name, int fontSize) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         BitmapFont font = game.generateFont(GameGraphics.SCREEN_FONT, fontSize);
         BitmapFont boldFont = game.generateFont(GameGraphics.SCREEN_FONT_BOLD, fontSize);
@@ -97,7 +92,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return button;
     }
 
-    void setPositionCentered(TextButton button, int relativeXPosition, int relativeYPosition) {
+    protected void setPositionCentered(TextButton button, int relativeXPosition, int relativeYPosition) {
         button.setPosition(stage.getWidth() / 2 - (relativeXPosition * button.getWidth() / 2), stage.getHeight() / 2 - (relativeYPosition * button.getHeight() / 2));
     }
 
@@ -106,7 +101,7 @@ public abstract class AbstractMenuScreen implements Screen {
      *
      * @return A TextButton that returns to title screen. Will be centered horizontally and at the bottom vertically
      */
-    TextButton createReturnButton(int fontSize) {
+    protected TextButton createReturnButton(int fontSize) {
         TextButton returnButton = createButton("RETURN", fontSize);
         returnButton.addListener(new ClickListener() {
             @Override
@@ -117,7 +112,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return returnButton;
     }
 
-    TextField createNameInputField() {
+    protected TextField createNameInputField() {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
         textFieldStyle.fontColor = Color.BLACK;
@@ -136,5 +131,4 @@ public abstract class AbstractMenuScreen implements Screen {
 
         return nameField;
     }
-
 }

@@ -16,7 +16,6 @@ public class JoinScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        super.show();
         TextButton returnButton = createReturnButton(70);
         returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth(), stage.getHeight() / 20);
 

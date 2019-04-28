@@ -81,17 +81,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        //Should not do anything
     }
 
     @Override
     public void resume() {
-
+        //Should not do anything
     }
 
     @Override
     public void hide() {
-
+        //Should not do anything
     }
 
     @Override

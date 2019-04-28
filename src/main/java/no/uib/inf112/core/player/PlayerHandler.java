@@ -162,11 +162,14 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public String[] rankPlayers() {
+        //TODO Fix logic
+//        if(players.size() == 1) {
+//            players.remove(0);
+//        }
         String[] playersInRankingOrder = new String[playerCount];
         List<IPlayer> playerStackWon = new ArrayList<>();
-        for (IPlayer player : wonPlayers.keySet()) {
-            playerStackWon.add(player);
-        }
+        playerStackWon.addAll(wonPlayers.keySet());
+//        playerStackWon.addAll(players);
         playerStackWon.sort((p1, p2) -> {
             if (p1.getFlags() == p2.getFlags()) {
                 if (p1.isDestroyed() && p2.isDestroyed()) {
@@ -180,14 +183,10 @@ public class PlayerHandler implements IPlayerHandler {
         });
 
         int i = 0;
+        System.out.println(playerStackWon.size());
         for (IPlayer player : playerStackWon) {
             playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
         }
-//        for (IPlayer player : players) {
-//            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
-//        }
-        //TODO FIX THIS
-
         return playersInRankingOrder;
     }
 
