@@ -54,7 +54,7 @@ public class PlayerHandler implements IPlayerHandler {
         colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
         colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
         colors.push(new ComparableTuple<>("Orange", Color.ORANGE));
-        colors.push(new ComparableTuple<>("Brown", Color.BROWN));
+        colors.push(new ComparableTuple<>("Cyan", Color.CYAN));
         colors.push(new ComparableTuple<>("Red", Color.RED));
         colors.push(new ComparableTuple<>("Blue", Color.BLUE));
     }
