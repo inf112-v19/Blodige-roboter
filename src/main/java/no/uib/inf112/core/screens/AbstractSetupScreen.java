@@ -31,7 +31,6 @@ import java.util.ArrayList;
 
 public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
-
     private ArrayList<String> mapList = new ArrayList<>();
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
 
@@ -47,7 +46,8 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private Label flagCount;
 
     private TextField nameField;
-    private boolean startGame = false;
+    TextButton startButton;
+    boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
         super(game);
@@ -67,7 +67,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     public void show() {
         TextButton returnButton = createReturnButton(50);
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
-        TextButton startButton = createButton("START", 80);
+        startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -258,6 +258,14 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         pixmap.dispose();
         return slider;
+    }
+
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        listFont.dispose();
+        selectedFont.dispose();
     }
 
 }

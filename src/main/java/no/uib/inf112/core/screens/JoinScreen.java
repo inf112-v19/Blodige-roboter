@@ -1,16 +1,19 @@
 package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 
 
 public class JoinScreen extends AbstractMenuScreen {
 
     private GameGraphics game;
-    TextButton joinButton;
-    TextField portField;
+    private TextButton joinButton;
+    private TextField portField;
+    private boolean joinGame;
 
     public JoinScreen(GameGraphics game) {
         super(game);
@@ -19,12 +22,18 @@ public class JoinScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        TextButton returnButton = createReturnButton(70);
+        TextButton returnButton = createReturnButton(60);
         returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
-        joinButton = createButton("JOIN", 70);
-        joinButton.getStyle().disabledFontColor = Color.GRAY;
+        joinButton = createButton("JOIN", 80);
+        joinButton.getStyle().disabledFontColor = new Color(0, 0, 0, 0.4f);
         joinButton.setDisabled(true);
+        joinButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                joinGame = true;
+            }
+        });
         joinButton.setPosition(stage.getWidth() / 2 + 10, stage.getHeight() / 20);
 
         TextField nameField = createInputField("Enter name", 13);
@@ -44,16 +53,12 @@ public class JoinScreen extends AbstractMenuScreen {
     public void render(float v) {
         super.render(v);
 
-        int portNb;
-        try {
-            portNb = Integer.parseInt(portField.getText().toString());
-        } catch (NumberFormatException e) {
-            portNb = -1;
-        }
-        if (49152 <= portNb && 65535 >= portNb) {
-            joinButton.setDisabled(false);
+        joinButton.setDisabled(!checkValidPort(portField.getText()));
+
+        if (joinGame && !joinButton.isDisabled()) {
+            // TODO join game at port portNb
         } else {
-            joinButton.setDisabled(true);
+            joinGame = false;
         }
     }
 
