@@ -44,7 +44,6 @@ public class PlayerHandler implements IPlayerHandler {
         startTime = System.currentTimeMillis();
         wonPlayers = new TreeMap<>();
         colors = new Stack<>();
-        addColors();
         analyseMap(map);
     }
 
@@ -115,6 +114,7 @@ public class PlayerHandler implements IPlayerHandler {
                 }
             }
         }
+        addColors();
         if (!spawnTiles.empty()) {
             Collections.shuffle(spawnTiles);
             SpawnTile spawnTile = spawnTiles.pop();
