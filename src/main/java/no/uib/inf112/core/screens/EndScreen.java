@@ -75,7 +75,7 @@ public class EndScreen extends AbstractMenuScreen {
         list.setItems(rankList);
         list.setWidth(listWidth);
         list.setHeight(listHeigth);
-        list.setPosition((stage.getWidth() - listWidth) / 2, stage.getHeight() - 300);
+        list.setPosition((3*stage.getWidth()/4) / 2, stage.getHeight() - 300);
 
         return list;
     }
