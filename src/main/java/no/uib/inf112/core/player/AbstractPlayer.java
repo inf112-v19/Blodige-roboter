@@ -107,11 +107,6 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
-    public void registerFlagVisits(int n) {
-        flags += n;
-    }
-
-    @Override
     public int getLives() {
         return lives;
     }

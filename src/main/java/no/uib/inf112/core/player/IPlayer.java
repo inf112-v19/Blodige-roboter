@@ -41,6 +41,10 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     @Override
     void kill();
 
+    /**
+     * Remove all lives
+     * and remove from map
+     */
     void destroy();
 
     /**
@@ -67,8 +71,6 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
         move(cardAction, 0);
     }
 
-    void registerFlagVisits(int n);
-
     /**
      * @return lives
      */
@@ -79,8 +81,16 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      */
     int getHealth();
 
+    /**
+     * Changes name
+     * @param name new name
+     */
     void setName(String name);
 
+    /**
+     *
+     * @return name of player
+     */
     String getName();
 
     /**
