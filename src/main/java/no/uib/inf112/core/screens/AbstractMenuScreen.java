@@ -59,18 +59,19 @@ public abstract class AbstractMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        //No standard implementation
+        dispose();
     }
 
     @Override
     public void dispose() {
+        stage.clear();
         stage.dispose();
     }
 
     protected TextButton createButton(String name, int fontSize) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        BitmapFont font = game.generateFont(GameGraphics.SCREEN_FONT, fontSize);
-        BitmapFont boldFont = game.generateFont(GameGraphics.SCREEN_FONT_BOLD, fontSize);
+        BitmapFont font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, fontSize);
+        BitmapFont boldFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, fontSize);
         style.font = font;
         style.fontColor = Color.BLACK;
         TextButton button = new TextButton(name, style);
@@ -89,6 +90,7 @@ public abstract class AbstractMenuScreen implements Screen {
         });
         button.setHeight(font.getCapHeight());
         button.padBottom(5);
+
         return button;
     }
 
@@ -127,7 +129,7 @@ public abstract class AbstractMenuScreen implements Screen {
         nameField.setWidth(stage.getWidth() / 5);
         nameField.setAlignment(Align.center);
         nameField.setMaxLength(13);
-
+        myPixMap.dispose();
 
         return nameField;
     }
