@@ -39,6 +39,10 @@ public interface IPlayerHandler {
      */
     void analyseMap(MapHandler map);
 
+    void checkGameOver();
+
+    String[] rankPlayers();
+
     /**
      *
      * @return number of flags to catch

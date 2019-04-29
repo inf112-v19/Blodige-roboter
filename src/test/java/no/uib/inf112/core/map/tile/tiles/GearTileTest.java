@@ -27,7 +27,7 @@ public class GearTileTest extends TestGraphics {
     @Before
     public void setUp() {
         //roboRally.getPlayerHandler().generateOnePlayer();
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
     }
 
     @Test

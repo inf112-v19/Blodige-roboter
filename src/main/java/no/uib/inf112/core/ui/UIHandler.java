@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.actors.ControlPanelElement;
 import no.uib.inf112.core.ui.actors.PowerButton;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
@@ -24,6 +27,7 @@ import no.uib.inf112.core.ui.actors.cards.SlotType;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -62,6 +66,7 @@ public class UIHandler implements Disposable {
 
     private final DragAndDrop dad;
     private final Table cardDrawTable;
+    private final Table robotStatusTable;
 
     private static final String UI_FOLDER = "ui" + File.separatorChar;
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
@@ -101,7 +106,7 @@ public class UIHandler implements Disposable {
 
     public UIHandler() {
         stage = new Stage(new FitViewport(1920, 1080));
-        GameGraphics.getInputMultiplexer().addProcessor(stage);
+        GameScreen.getInputMultiplexer().addProcessor(stage);
 
         // Setting color and border for font since this should be the same even though the size and padding can vary
         card_font_parameter.borderWidth = 1;
@@ -121,10 +126,17 @@ public class UIHandler implements Disposable {
 
         controlPanelTable = new Table();
         cardDrawTable = new Table();
+        robotStatusTable = new Table();
 
-        backgroundTable.add(cardDrawTable).row();
-        backgroundTable.add(controlPanelTable).space(DEFAULT_SPACING);
-        backgroundTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
+        Table nestingTable = new Table();
+        nestingTable.add(cardDrawTable).align(Align.bottom);
+        nestingTable.row();
+        nestingTable.add(controlPanelTable).space(DEFAULT_SPACING);
+        nestingTable.align(Align.bottom).padBottom(DEFAULT_SPACING);
+
+        backgroundTable.add(robotStatusTable).center().left().uniform();
+        backgroundTable.add(nestingTable).expand().bottom();
+        backgroundTable.add().uniform(); // Adding this column to center the control panel and cards.
 
         create();
     }
@@ -133,6 +145,8 @@ public class UIHandler implements Disposable {
      * Initiate ui
      */
     private void create() {
+
+        addRobotStatus();
 
         cardDrawTable.setTransform(false);
         cardDrawTable.pad(DEFAULT_SPACING);
@@ -248,6 +262,32 @@ public class UIHandler implements Disposable {
         }
     }
 
+    private void addRobotStatus() {
+        robotStatusTable.clear();
+        List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
+        VerticalGroup playerStatus = new VerticalGroup().space(2);
+        for (int i = 0; i < players.size(); i++) {
+
+            String playerString = players.get(i).getName() +
+                    "\nFlags: " + players.get(i).getFlags() +
+                    "\nHealth: " + players.get(i).getHealth() +
+                    "\nLives: " + players.get(i).getLives();
+
+            Label playerLabel = createLabel(playerString, 30);
+            playerLabel.setColor(players.get(i).getColor());
+            playerStatus.addActor(playerLabel);
+        }
+
+        robotStatusTable.add(playerStatus);
+
+    }
+
+    public Label createLabel(String text, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, fontSize);
+        return new Label(text, labelStyle);
+    }
+
 
     /**
      * Show the drawn cards table of the main player.
@@ -279,6 +319,7 @@ public class UIHandler implements Disposable {
     }
 
     public void update() {
+        addRobotStatus();
         stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
         stage.draw(); //Draw the ui
     }

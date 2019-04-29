@@ -5,9 +5,11 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
+
 
 /**
  * @author Elg
@@ -21,6 +23,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     private int health;
 
     protected int flags;
+    protected String name;
 
     private boolean poweredDown;
     private boolean willPowerDown;
@@ -32,13 +35,14 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
      * @param direction Start direction
      * @param map       Current map
      */
-    public AbstractPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull Color color) {
+    public AbstractPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull ComparableTuple<String, Color> color) {
         super(new Vector2Int(x, y), direction, color);
         if (map.isOutsideBoard(x, y)) {
             throw new IllegalArgumentException("Cant set backup outside of the map");
         }
         backup = new Vector2Int(x, y);
 
+        name = color.key;
         flags = 0;
         lives = MAX_LIVES;
         health = MAX_HEALTH;
@@ -66,6 +70,12 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         }
         health = MAX_HEALTH;
         teleport(backup.x, backup.y);
+    }
+
+    @Override
+    public void destroy() {
+        lives = 0;
+        GameGraphics.getRoboRally().getCurrentMap().removeEntity(this);
     }
 
     @Override
@@ -97,6 +107,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    public void registerFlagVisits(int n) {
+        flags += n;
+    }
+
+    @Override
     public int getLives() {
         return lives;
     }
@@ -104,6 +119,16 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     @Override
     public int getHealth() {
         return health;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

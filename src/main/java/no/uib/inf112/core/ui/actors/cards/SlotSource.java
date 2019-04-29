@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
-import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.screens.GameScreen;
 
 /**
  * @author Elg
@@ -22,10 +22,10 @@ public class SlotSource extends DragAndDrop.Source {
 
     @Override
     public Payload dragStart(final InputEvent event, final float x, final float y, final int pointer) {
-        if (sourceSlot == null || sourceSlot.getCard() == null || !GameGraphics.getUiHandler().isDrawnCardsVisible() || sourceSlot.isDisabled()) {
+        if (sourceSlot == null || sourceSlot.getCard() == null || !GameScreen.getUiHandler().isDrawnCardsVisible() || sourceSlot.isDisabled()) {
             return null;
         }
-        GameGraphics.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
+        GameScreen.getUiHandler().getDad().setDragActorPosition(sourceSlot.getCard().getRegionTexture().getRegionWidth() - x, -y);
 
         final CardSlot dragActor = sourceSlot.copy();
         sourceSlot.setCard(null);
@@ -69,7 +69,7 @@ public class SlotSource extends DragAndDrop.Source {
 
             //fire an enter event to display tooltip when dropping the card
             Vector2 tempCoords = new Vector2();
-            GameGraphics.getUiHandler().getStage().screenToStageCoordinates(tempCoords.set(Gdx.input.getX(), Gdx.input.getY()));
+            GameScreen.getUiHandler().getStage().screenToStageCoordinates(tempCoords.set(Gdx.input.getX(), Gdx.input.getY()));
             InputEvent inputEvent = new InputEvent();
             inputEvent.setType(InputEvent.Type.enter);
             inputEvent.setPointer(-1);

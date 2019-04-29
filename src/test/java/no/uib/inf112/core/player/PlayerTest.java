@@ -32,7 +32,7 @@ public class PlayerTest extends TestGraphics {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
 
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
     }
@@ -97,7 +97,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
 
         //noinspection unchecked
         ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
@@ -189,7 +189,7 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map, Color.ORANGE);
+            super(x, y, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
         }
 
         @Override

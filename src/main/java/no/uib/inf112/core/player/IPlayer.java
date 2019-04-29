@@ -41,6 +41,8 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     @Override
     void kill();
 
+    void destroy();
+
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
      */
@@ -65,6 +67,8 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
         move(cardAction, 0);
     }
 
+    void registerFlagVisits(int n);
+
     /**
      * @return lives
      */
@@ -74,6 +78,10 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      * @return health
      */
     int getHealth();
+
+    void setName(String name);
+
+    String getName();
 
     /**
      * @return if powered down or not
