@@ -19,11 +19,11 @@ public class JoinScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        TextButton returnButton = createReturnButton(70);
+        TextButton returnButton = createReturnButton(60);
         returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
-        joinButton = createButton("JOIN", 70);
-        joinButton.getStyle().disabledFontColor = Color.GRAY;
+        joinButton = createButton("JOIN", 80);
+        joinButton.getStyle().disabledFontColor = new Color(0, 0, 0, 0.4f);
         joinButton.setDisabled(true);
         joinButton.setPosition(stage.getWidth() / 2 + 10, stage.getHeight() / 20);
 
@@ -46,7 +46,7 @@ public class JoinScreen extends AbstractMenuScreen {
 
         int portNb;
         try {
-            portNb = Integer.parseInt(portField.getText().toString());
+            portNb = Integer.parseInt(portField.getText());
         } catch (NumberFormatException e) {
             portNb = -1;
         }
