@@ -48,7 +48,7 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     private void addColors() {
-        //colors.push(new ComparableTuple<>("Pink", Color.PINK));
+        colors.push(new ComparableTuple<>("Coral", Color.CORAL));
         colors.push(new ComparableTuple<>("Green", Color.GREEN));
         colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
         colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
@@ -115,6 +115,7 @@ public class PlayerHandler implements IPlayerHandler {
             }
         }
         addColors();
+        Collections.shuffle(colors);
         if (!spawnTiles.empty()) {
             Collections.shuffle(spawnTiles);
             SpawnTile spawnTile = spawnTiles.pop();

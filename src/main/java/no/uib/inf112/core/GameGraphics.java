@@ -29,7 +29,7 @@ public class GameGraphics extends Game {
     public static Music backgroundMusic;
     public static boolean soundMuted = false;
     public static int players;
-    public static String mainPlayerName;
+    public static String mainPlayerName = "default name";
 
     public SpriteBatch batch;
 
