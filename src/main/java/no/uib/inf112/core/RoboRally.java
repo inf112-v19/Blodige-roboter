@@ -1,29 +1,23 @@
 package no.uib.inf112.core;
 
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
 import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.PlayerHandler;
+import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.round.DefaultGameRule;
-import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class RoboRally {
     private MapHandler map;
 
-    private PlayerHandler playerHandler;
+    private IPlayerHandler playerHandler;
     private Deck deck;
 
-    public RoboRally(String mapPath, int playerCount) {
-        if (GameGraphics.HEADLESS) {
-            map = new HeadlessMapHandler(mapPath);
-        } else {
-            map = new TiledMapHandler(mapPath);
-        }
+    public RoboRally(@NotNull MapHandler map, @NotNull IPlayerHandler playerHandler) {
+        this.map = map;
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(playerCount, map);
+        this.playerHandler = playerHandler;
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player);
         }
@@ -53,7 +47,7 @@ public class RoboRally {
 
 
     @NotNull
-    public PlayerHandler getPlayerHandler() {
+    public IPlayerHandler getPlayerHandler() {
         return playerHandler;
     }
 }

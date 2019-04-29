@@ -1,8 +1,14 @@
 package no.uib.inf112.core.player;
 
 import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.tile.TileType;
+import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.map.tile.tiles.SpawnTile;
+import no.uib.inf112.core.util.ComparableTuple;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * @author Daniel
@@ -37,17 +43,40 @@ public interface IPlayerHandler {
      *
      * @param map
      */
-    void analyseMap(MapHandler map);
+    default ComparableTuple<Integer, Stack<SpawnTile>> analyseMap(MapHandler map) {
+        Stack<SpawnTile> spawnTiles = new Stack<>();
+        int flagCount = 0;
+        for (int x = 0; x < map.getMapWidth(); x++) {
+            for (int y = 0; y < map.getMapHeight(); y++) {
+                Tile boardTile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
+                Tile flagTile = map.getTile(MapHandler.FLAG_LAYER_NAME, x, y);
+
+                if (boardTile != null && boardTile.getTileType() == TileType.SPAWN) {
+                    SpawnTile spawnTile = (SpawnTile) boardTile;
+                    spawnTiles.add(spawnTile);
+                }
+
+                if (flagTile != null && flagTile.getTileType() == TileType.FLAG) {
+                    flagCount++;
+                }
+            }
+        }
+        return new ComparableTuple<Integer, Stack<SpawnTile>>(flagCount, spawnTiles);
+    }
 
     void checkGameOver();
 
     String[] rankPlayers();
 
     /**
-     *
      * @return number of flags to catch
      */
     int getFlagCount();
-}
 
+    IPlayer mainPlayer();
+
+    boolean isGameOver();
+
+    Map<IPlayer, Long> getWonPlayers();
+}
 

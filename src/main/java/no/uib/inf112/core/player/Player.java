@@ -14,13 +14,17 @@ import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends AbstractPlayer {
 
     private CardContainer cards;
+    public final int id;
 
-    public Player(int x, int y, @NotNull Direction direction, MapHandler map, ComparableTuple<String, Color> color) {
+    public Player(int x, int y, @NotNull Direction direction, MapHandler map, ComparableTuple<String, Color> color, int id) {
         super(x, y, direction, map, color);
-
+        this.id = id;
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {
             ControlPanelEventHandler eventHandler = GameScreen.getCPEventHandler();
@@ -74,6 +78,15 @@ public class Player extends AbstractPlayer {
         return cards;
     }
 
+    @NotNull
+    public List<Card> getCardList() {
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            cards.add(this.cards.getCard(SlotType.HAND, i));
+        }
+        return cards;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -84,4 +97,6 @@ public class Player extends AbstractPlayer {
                 ", poweredDown=" + isPoweredDown() +
                 '}';
     }
+
+
 }

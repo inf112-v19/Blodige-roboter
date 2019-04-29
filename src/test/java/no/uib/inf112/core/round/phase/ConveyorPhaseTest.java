@@ -295,7 +295,7 @@ public class ConveyorPhaseTest extends TestGraphics {
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 
@@ -318,7 +318,7 @@ public class ConveyorPhaseTest extends TestGraphics {
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 

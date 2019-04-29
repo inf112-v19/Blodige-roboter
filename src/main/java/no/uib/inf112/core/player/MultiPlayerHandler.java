@@ -4,62 +4,62 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
+import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static no.uib.inf112.core.GameGraphics.HEADLESS;
-
-public class PlayerHandler implements IPlayerHandler {
+public class MultiPlayerHandler implements IPlayerHandler {
 
     private int playerCount;
     private int flagCount;
     private List<IPlayer> players;
     private Map<IPlayer, Long> wonPlayers;
     private Stack<ComparableTuple<String, Color>> colors;
-    private IPlayer user;
+    private Player user;
     private boolean gameOver;
     private long startTime;
+    private Client client;
 
-    /**
-     * @param playerCount
-     * @throws IllegalArgumentException if playerCount is invalid
-     */
-    public PlayerHandler(int playerCount, MapHandler map) {
-        if (playerCount < 2) {
-            if (!HEADLESS) {
-                throw new IllegalArgumentException("Not enough players");
-            }
-        } else if (playerCount > 8) {
-            throw new IllegalArgumentException("Too many players");
-        }
-        this.playerCount = playerCount;
+    public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, Client client) {
+        // Check enough players
+        playerCount = newGameDto.players.size();
         flagCount = 0;
         players = new ArrayList<>(playerCount);
         gameOver = false;
         startTime = System.currentTimeMillis();
         wonPlayers = new TreeMap<>();
-        colors = new Stack<>();
-        addColors();
-        addPlayers(map);
+        this.client = client;
+        //colors = new Stack<>();
+        //addColors();
+        addPlayers(map, newGameDto);
     }
 
-    private void addColors() {
-        colors.push(new ComparableTuple<>("Pink", Color.PINK));
-        colors.push(new ComparableTuple<>("Green", Color.GREEN));
-        colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
-        colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
-        colors.push(new ComparableTuple<>("Orange", Color.ORANGE));
-        colors.push(new ComparableTuple<>("Cyan", Color.CYAN));
-        colors.push(new ComparableTuple<>("Red", Color.RED));
-        colors.push(new ComparableTuple<>("Blue", Color.BLUE));
-    }
 
     @Override
     public void endTurn() {
+        StartRoundDto startRoundDto = client.setSelectedCards(user.getCardList(), user.id);
+        for (IPlayer player : players) {
+            if (!mainPlayer().equals(player)) {
+                OnlinePlayer onlinePlayer = (OnlinePlayer) player;
+                Iterator<PlayerDto> iterator = startRoundDto.players.iterator();
+                while (iterator.hasNext()) {
+                    PlayerDto playerDto = iterator.next();
+                    if (playerDto.id == onlinePlayer.getId()) {
+                        onlinePlayer.setCards(playerDto.cards);
+                    }
+                }
+            }
+        }
         GameGraphics.getRoboRally().round();
+        user.getCards().setDrawnCards(startRoundDto.drawnCards);
+        GameScreen.getUiHandler().showDrawnCards();
     }
 
     @Override
@@ -98,27 +98,23 @@ public class PlayerHandler implements IPlayerHandler {
      *
      * @param map
      */
-    private void addPlayers(MapHandler map) {
+    private void addPlayers(MapHandler map, NewGameDto newGameDto) {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
         flagCount = result.key;
         Stack<SpawnTile> spawnTiles = result.value;
-        if (!spawnTiles.empty()) {
-            Collections.shuffle(spawnTiles);
+
+        Collections.shuffle(spawnTiles);
+        for (PlayerDto player : newGameDto.players) {
             SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), 0);
-            user.setDock(spawnTile.getSpawnNumber());
-            players.add(user);
-            while (spawnTiles.isEmpty() && players.size() < playerCount) {
-                SpawnTile tile = spawnTiles.pop();
-                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(tile.getSpawnNumber());
-                players.add(staticPlayer);
-            }
-        } else {
-            for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(i);
-                players.add(staticPlayer);
+            if (player.id == newGameDto.userId) {
+                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), player.id);
+                user.setDock(spawnTile.getSpawnNumber());
+                players.add(user);
+            } else {
+                //Todo set colors
+                IPlayer onlinePlayer = new OnlinePlayer(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.BLUE), player.id);
+                onlinePlayer.setDock(spawnTile.getSpawnNumber());
+                players.add(onlinePlayer);
             }
         }
     }
@@ -143,7 +139,7 @@ public class PlayerHandler implements IPlayerHandler {
                 return;
             }
         }
-        gameOver = true;
+        gameOver = false;
     }
 
     @Override
@@ -177,8 +173,14 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public Map<IPlayer, Long> getWonPlayers() {
-        return wonPlayers;
+    public int getFlagCount() {
+        return flagCount;
+    }
+
+    @Override
+    @NotNull
+    public IPlayer mainPlayer() {
+        return user;
     }
 
     @Override
@@ -187,21 +189,7 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     @Override
-    public IPlayer mainPlayer() {
-        return players.get(0);
-    }
-
-    @Override
-    public int getFlagCount() {
-        return flagCount;
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerHandler{" +
-                "playerCount= " + playerCount +
-                ", players= " + players +
-                ", user= " + user +
-                "}";
+    public Map<IPlayer, Long> getWonPlayers() {
+        return wonPlayers;
     }
 }

@@ -6,8 +6,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.io.InputHandler;
+import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class GameScreen implements Screen {
 
     private GameGraphics game;
-    private RoboRally roboRally;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -34,8 +34,21 @@ public class GameScreen implements Screen {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-        roboRally = GameGraphics.getRoboRally();
+        
+        uiHandler = new UIHandler();
+        new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
+        this.game = game;
+    }
+
+    public GameScreen(GameGraphics game, NewGameDto setup, Client client) {
+
+        inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        cpEventHandler = new ControlPanelEventHandler();
+
+        GameGraphics.createRoboRallyMultiplayer(setup, client);
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
@@ -45,7 +58,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        roboRally.getPlayerHandler().startTurn();
+        GameGraphics.getRoboRally().getPlayerHandler().startTurn();
 
     }
 
@@ -64,8 +77,8 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 
-        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
-        roboRally.getCurrentMap().render(game.batch);
+        GameGraphics.getRoboRally().getCurrentMap().update(Gdx.graphics.getDeltaTime());
+        GameGraphics.getRoboRally().getCurrentMap().render(game.batch);
 
         uiHandler.update();
 
@@ -75,7 +88,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        roboRally.getCurrentMap().resize(width, height);
+        GameGraphics.getRoboRally().getCurrentMap().resize(width, height);
         uiHandler.resize();
     }
 

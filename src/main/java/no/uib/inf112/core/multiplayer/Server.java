@@ -1,6 +1,12 @@
 package no.uib.inf112.core.multiplayer;
 
-import no.uib.inf112.core.multiplayer.jsonClasses.PlayerJson;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
+import no.uib.inf112.core.player.IPlayer;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -11,12 +17,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class Server {
 
     List<ConnectedPlayer> players = new ArrayList<>();
+    private Integer hostId;
+
 
     public Server(int port, int numThreads) {
         ServerSocket servSock;
@@ -43,22 +52,15 @@ public class Server {
 
     }
 
-    public void startGame() {
-        for (ConnectedPlayer player : players) {
-            if (player.connected) {
-                player.sendMessage("Game started");
-            }
-        }
-    }
-
     /**
      * A Thread subclass to handle one client conversation.
      */
     class ConnectedPlayer extends Thread {
         ServerSocket handlerServSock;
         int threadNumber;
-        boolean connected;
-        PlayerJson player = new PlayerJson();
+        boolean connected = false;
+        boolean readyToStart = false;
+        PlayerDto player = new PlayerDto();
         private PrintWriter outToClient;
 
         /**
@@ -67,14 +69,15 @@ public class Server {
         ConnectedPlayer(ServerSocket s, int i) {
             handlerServSock = s;
             threadNumber = i;
-            connected = false;
             setName("Thread " + threadNumber);
+            player.id = i;
         }
 
-        public void sendMessage(String message) {
+        private void sendMessage(String message) {
             if (connected) {
                 if (handlerServSock.isBound()) {
-                    outToClient.print(message);
+                    outToClient.print(message + "\r\n");
+                    outToClient.flush();
                 }
             }
         }
@@ -120,15 +123,17 @@ public class Server {
         }
 
         private void handleInput(String line) {
-            String[] command = line.split(":");
+            System.out.println(line);
+            String command = line.substring(0, line.indexOf(":"));
+            String data = line.substring(line.indexOf(":") + 1);
             System.out.println("receiving " + line);
-            switch (command[0]) {
+            switch (command) {
                 case "getName":
                     outToClient.print(getName() + "\r\n");
                     outToClient.flush();
                     break;
                 case "setDisplayName":
-                    player.name = command[1];
+                    player.name = data;
                     outToClient.print("Name:" + player.name + "for" + getName() + "\r\n");
                     outToClient.flush();
                     break;
@@ -138,26 +143,85 @@ public class Server {
                     outToClient.flush();
                     break;
                 case "startGame":
-                    startGame();
-                    outToClient.print("Started game" + "\r\n");
-                    outToClient.flush();
+                    startGame(player.id);
+                    break;
+                case "setSelectedCards":
+                    setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
+                    readyToStart = true;
+                    checkAllPlayersReady();
+                    //user waits for rest of players
+                    break;
+                case "setHostId":
+                    hostId = player.id;
                 default:
                     System.out.println("Received from client " + threadNumber + ":" + line);
                     outToClient.print("Did not understand message" + "\r\n");
                     outToClient.flush();
+                    break;
 
             }
         }
+
+        private void setCards(SelectedCardsDto response) {
+            player.cards = response.cards;
+        }
     }
+
+    private void checkAllPlayersReady() {
+        for (ConnectedPlayer player : players) {
+            if (player.connected) {
+                if (!player.readyToStart) {
+                    return;
+                }
+            }
+        }
+        startRound();
+    }
+
+    private void startRound() {
+        List<PlayerDto> players = new ArrayList<>();
+        for (ConnectedPlayer player : this.players) {
+            players.add(player.player);
+        }
+        GameGraphics.getRoboRally().getDeck().shuffle();
+        for (ConnectedPlayer player : this.players) {
+            List<Card> cards = Arrays.asList(GameGraphics.getRoboRally().getDeck().draw(IPlayer.MAX_DRAW_CARDS));
+            player.sendMessage("startRound:" + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
+            player.readyToStart = false;
+        }
+    }
+
 
     private String getConnectedPlayers() {
         StringBuilder result = new StringBuilder();
         for (ConnectedPlayer connectedPlayer : players) {
-            if (connectedPlayer.handlerServSock.isBound()) {
-                result.append(connectedPlayer.player.name == null ? "Player with no name" : connectedPlayer.player.name);
+            if (connectedPlayer.player.name != null) {
+                result.append(connectedPlayer.player.name);
             }
         }
         System.out.println("Server:" + result.toString());
         return result.toString();
+    }
+
+    public void startGame(int id) {
+        List<PlayerDto> playerDtos = new ArrayList<>();
+        for (ConnectedPlayer player : players) {
+            if (player.player.name != null) {
+                playerDtos.add(player.player);
+            }
+        }
+
+
+        if (hostId == id) {
+            NewGameDto newGameDto = new NewGameDto(GameGraphics.mapFileName, playerDtos, hostId);
+            System.out.println("not hitting this");
+            for (ConnectedPlayer player : players) {
+                if (player.connected) {
+                    String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
+                    player.sendMessage(message);
+                }
+            }
+        }
+
     }
 }

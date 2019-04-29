@@ -2,12 +2,15 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.multiplayer.jsonClasses.CardDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -141,5 +144,16 @@ public class CardContainer {
      */
     public IPlayer getPlayer() {
         return holder;
+    }
+
+    public void setDrawnCards(List<CardDto> drawnCards) {
+        int amount = IPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
+        if (drawnCards.size() < amount) {
+            throw new IllegalArgumentException("Received drawn cards is to low");
+        }
+        List<Card> cards = SelectedCardsDto.mapFromDto(drawnCards);
+        for (int i = 0; i < amount; i++) {
+            drawnCard[i].setCard(cards.get(0));
+        }
     }
 }

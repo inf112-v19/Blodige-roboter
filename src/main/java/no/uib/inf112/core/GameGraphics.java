@@ -8,7 +8,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.google.gson.Gson;
+import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.player.MultiPlayerHandler;
+import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.screens.TitleScreen;
+import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import no.uib.inf112.core.ui.Sound;
 
 import java.io.File;
@@ -30,8 +38,16 @@ public class GameGraphics extends Game {
     public static boolean soundMuted = false;
     public static int players;
     public static String mainPlayerName;
+    public static Gson gson = new Gson();
 
     public SpriteBatch batch;
+
+    public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, Client client) {
+        String mapPath = MAP_FOLDER + setup.map + MAP_EXTENSION;
+        MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
+        roboRally = new RoboRally(mapHandler, new MultiPlayerHandler(setup, mapHandler, client));
+        return roboRally;
+    }
 
     @Override
     public void create() {
@@ -41,7 +57,7 @@ public class GameGraphics extends Game {
 
         backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
-        backgroundMusic.play();
+        //backgroundMusic.play();
     }
 
     @Override
@@ -73,7 +89,8 @@ public class GameGraphics extends Game {
     }
 
     public static synchronized RoboRally createRoboRally(String map, int playerCount) {
-        roboRally = new RoboRally(map, playerCount);
+        MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(map) : new HeadlessMapHandler(map);
+        roboRally = new RoboRally(mapHandler, new PlayerHandler(playerCount, mapHandler));
         return roboRally;
     }
 

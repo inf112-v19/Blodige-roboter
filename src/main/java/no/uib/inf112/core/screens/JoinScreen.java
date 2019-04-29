@@ -30,6 +30,7 @@ public class JoinScreen extends AbstractMenuScreen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                GameGraphics.mainPlayerName = nameField.getText();
                 game.setScreen(new LobbyScreen(game, false, ipField.getText(), 1100));
             }
         });
@@ -38,11 +39,6 @@ public class JoinScreen extends AbstractMenuScreen {
         stage.addActor(startButton);
         stage.addActor(returnButton);
         stage.addActor(nameField);
-    }
-
-    protected void startGame(String mainPlayerName) {
-        GameGraphics.mainPlayerName = mainPlayerName;
-        game.setScreen(new LobbyScreen(game, true, "localHost", 1100));
     }
 
 }

@@ -1,5 +1,11 @@
 package no.uib.inf112.core.multiplayer;
 
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
+import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -31,7 +37,7 @@ public class Client {
     public List<String> getConnectedPlayers() {
         String result = "";
         try {
-            outToServer.writeUTF("getConnectedPlayers");
+            outToServer.writeUTF("getConnectedPlayers:");
             result = inFromServer.readLine();
         } catch (IOException e) {
             System.out.println("IOExeption " + e);
@@ -40,11 +46,14 @@ public class Client {
     }
 
 
-    public String writeToServer(String text) {
+    public String writeToServer(String text, boolean expectedAnswer) {
         try {
             outToServer.writeUTF(text);
+            while (expectedAnswer && !inFromServer.ready()) {
+            }
+            //Når her
             String result = inFromServer.readLine();
-            System.out.println("FROM SERVER FOR " + clientName + ": ");
+            System.out.println("FROM SERVER FOR " + clientName + ": " + result);
             return result;
 
         } catch (IOException e) {
@@ -56,7 +65,7 @@ public class Client {
     public String getClientNameFromServer() {
         String result = "Error receiveing from server";
         try {
-            outToServer.writeUTF("getName");
+            outToServer.writeUTF("getName:");
             result = inFromServer.readLine();
         } catch (IOException e) {
             System.out.println("IOExeption " + e);
@@ -76,10 +85,24 @@ public class Client {
 
 
     public void setName(String name) {
-        writeToServer("setDisplayName:" + name);
+        writeToServer("setDisplayName:" + name, false);
     }
 
-    public void startGame() {
-        writeToServer("startGame");
+
+    public NewGameDto startGame() {
+        String response = writeToServer("startGame:", true);
+        response = response.substring(response.indexOf(":") + 1);
+        return GameGraphics.gson.fromJson(response, NewGameDto.class);
+    }
+
+    public StartRoundDto setSelectedCards(List<Card> cards, int id) {
+        SelectedCardsDto message = new SelectedCardsDto(cards);
+        String response = writeToServer("setSelectedCards:" + GameGraphics.gson.toJson(message, SelectedCardsDto.class), true);
+        response = response.substring(response.indexOf(":") + 1);
+        return GameGraphics.gson.fromJson(response, StartRoundDto.class);
+    }
+
+    public void setHost() {
+        writeToServer("setHostId:", false);
     }
 }

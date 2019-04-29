@@ -29,24 +29,24 @@ public abstract class MapCamera extends GameMap {
     }
 
     private void setupCamera() {
-        Gdx.app.postRunnable(() -> {
+        //Gdx.app.postRunnable(() -> {
 
-            defaultWidth = Gdx.graphics.getWidth();
-            defaultHeight = Gdx.graphics.getHeight();
+        defaultWidth = Gdx.graphics.getWidth();
+        defaultHeight = Gdx.graphics.getHeight();
 
-            camera = new OrthographicCamera();
+        camera = new OrthographicCamera();
 
-            zoomSensitivity = getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
-            maxZoom = getProperties().get(MAX_ZOOM_PATH, DEFAULT_MAX_ZOOM, float.class);
-            minZoom = getProperties().get(MIN_ZOOM_PATH, DEFAULT_MIN_ZOOM, float.class);
+        zoomSensitivity = getProperties().get(ZOOM_SENSITIVITY_PATH, DEFAULT_ZOOM_SENSITIVITY, float.class);
+        maxZoom = getProperties().get(MAX_ZOOM_PATH, DEFAULT_MAX_ZOOM, float.class);
+        minZoom = getProperties().get(MIN_ZOOM_PATH, DEFAULT_MIN_ZOOM, float.class);
 
-            if (maxZoom < minZoom) {
-                throw new IllegalArgumentException(
-                        "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
-            }
+        if (maxZoom < minZoom) {
+            throw new IllegalArgumentException(
+                    "Max (" + maxZoom + ") zoom cannot be less than min zoom (" + minZoom + ")");
+        }
 
-            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        });
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //});
 
     }
 
