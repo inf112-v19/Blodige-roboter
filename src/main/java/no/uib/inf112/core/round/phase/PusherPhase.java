@@ -31,6 +31,7 @@ public class PusherPhase extends AbstractStaticTilePhase {
 
             Tile entTile = map.getTile(MapHandler.ENTITY_LAYER_NAME, pos.x, pos.y);
 
+
             if (tile.canDoAction(entTile)) {
                 //noinspection ConstantConditions
                 boolean pushed = tile.action((MovableTile) entTile);
