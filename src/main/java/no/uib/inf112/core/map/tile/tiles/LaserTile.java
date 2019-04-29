@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.AbstractMultiDirectionalTile;
 import no.uib.inf112.core.map.tile.api.ColorableTile;
-import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 

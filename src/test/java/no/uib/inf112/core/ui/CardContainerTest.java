@@ -18,7 +18,6 @@ import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;

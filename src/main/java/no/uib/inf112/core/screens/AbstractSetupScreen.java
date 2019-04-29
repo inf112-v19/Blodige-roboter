@@ -46,7 +46,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private Label length;
     private Label flagCount;
 
-    TextField nameField;
+    private TextField nameField;
     private boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {

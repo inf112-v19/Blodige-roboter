@@ -2,8 +2,6 @@ package no.uib.inf112.core.round;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.round.phase.Phase;
 import no.uib.inf112.core.screens.GameScreen;
 
