@@ -16,5 +16,9 @@ public class SinglePlayerSetup extends AbstractSetupScreen {
         super.show();
     }
 
-
+    @Override
+    protected void startGame(String mainPlayerName) {
+        GameGraphics.mainPlayerName = mainPlayerName;
+        game.setScreen(new GameScreen(game));
+    }
 }
