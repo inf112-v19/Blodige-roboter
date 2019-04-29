@@ -2,6 +2,8 @@ package no.uib.inf112.core.multiplayer;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.Deck;
+import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
@@ -181,13 +183,17 @@ public class Server {
     private void startRound() {
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {
-            players.add(player.player);
+            if (player.player.name != null) {
+                players.add(player.player);
+            }
         }
         GameGraphics.getRoboRally().getDeck().shuffle();
         for (ConnectedPlayer player : this.players) {
-            List<Card> cards = Arrays.asList(GameGraphics.getRoboRally().getDeck().draw(IPlayer.MAX_DRAW_CARDS));
-            player.sendMessage("startRound:" + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
-            player.readyToStart = false;
+            if (player.player.name != null) {
+                List<Card> cards = Arrays.asList(GameGraphics.getRoboRally().getDeck().draw(IPlayer.MAX_DRAW_CARDS));
+                player.sendMessage("startRound:" + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
+                player.readyToStart = false;
+            }
         }
     }
 
@@ -214,9 +220,13 @@ public class Server {
 
         if (hostId == id) {
             NewGameDto newGameDto = new NewGameDto(GameGraphics.mapFileName, playerDtos, hostId);
-            System.out.println("not hitting this");
+            GameGraphics.HEADLESS = true;
+            Deck deck = new MovementDeck();
+            GameGraphics.HEADLESS = false;//TODO bad practice
+            deck.shuffle(); // using other deck first time, since no RoboRally initiated
             for (ConnectedPlayer player : players) {
                 if (player.connected) {
+                    newGameDto.cards = SelectedCardsDto.mapToDto(Arrays.asList(deck.draw(IPlayer.MAX_DRAW_CARDS)));
                     String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
                     player.sendMessage(message);
                 }

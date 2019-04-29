@@ -59,7 +59,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         }
         GameGraphics.getRoboRally().round();
         user.getCards().setDrawnCards(startRoundDto.drawnCards);
-        GameScreen.getUiHandler().showDrawnCards();
     }
 
     @Override
@@ -78,7 +77,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             p.setWillPowerDown(false);
             p.endDrawCards();
         } else {
-            p.beginDrawCards();
+            GameScreen.getUiHandler().showDrawnCards();
         }
     }
 
@@ -102,8 +101,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
         flagCount = result.key;
         Stack<SpawnTile> spawnTiles = result.value;
-
-        Collections.shuffle(spawnTiles);
         for (PlayerDto player : newGameDto.players) {
             SpawnTile spawnTile = spawnTiles.pop();
             if (player.id == newGameDto.userId) {

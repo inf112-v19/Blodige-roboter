@@ -9,6 +9,8 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +36,7 @@ public class GameScreen implements Screen {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-        
+
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
@@ -53,6 +55,8 @@ public class GameScreen implements Screen {
         new InputHandler(); //this must be after UIHandler to allow dragging of cards
 
         this.game = game;
+        CardContainer cardContainer = ((Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()).getCards();
+        cardContainer.setDrawnCards(setup.cards);
     }
 
 

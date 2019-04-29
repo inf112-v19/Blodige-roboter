@@ -40,7 +40,6 @@ public class LobbyScreen extends AbstractMenuScreen {
                 NewGameDto setup = client.startGame();
                 GameScreen.scheduleSync(() -> {
                     game.setScreen(new GameScreen(game, setup, client));
-                    System.out.println("Ran the inner thread");
                 }, 0);
 
             }).run();

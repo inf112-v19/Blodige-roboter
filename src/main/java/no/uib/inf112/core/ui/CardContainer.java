@@ -153,7 +153,7 @@ public class CardContainer {
         }
         List<Card> cards = SelectedCardsDto.mapFromDto(drawnCards);
         for (int i = 0; i < amount; i++) {
-            drawnCard[i].setCard(cards.get(0));
+            drawnCard[i].setCard(cards.get(i));
         }
     }
 }

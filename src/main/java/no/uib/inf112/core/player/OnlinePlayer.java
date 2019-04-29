@@ -9,7 +9,6 @@ import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OnlinePlayer extends AbstractPlayer {
@@ -39,13 +38,12 @@ public class OnlinePlayer extends AbstractPlayer {
     }
 
     public void setCards(List<CardDto> cards) {
-        List<MovementCard> result = new ArrayList<>();
-        for (CardDto card :
-                cards) {
-            result.add(new MovementCard(card.movement, card.priority));
+        for (int i = 0; i < cards.size(); i++) {
+            CardDto cardDto = cards.get(i);
+            this.cards[i] = new MovementCard(cardDto.movement, cardDto.priority);
         }
+        //SelectedCardsDto.mapFromDto(cards).toArray((this.cards));
         //To array places cards in the provided array
-        result.toArray(this.cards);
     }
 
     public int getId() {
