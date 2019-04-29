@@ -149,4 +149,19 @@ public abstract class AbstractMenuScreen implements Screen {
         digitField.setTextFieldFilter(digitFilter);
         return digitField;
     }
+
+
+    boolean checkValidPort(String portNumber) {
+        int portNb;
+        try {
+            portNb = Integer.parseInt(portNumber);
+        } catch (NumberFormatException e) {
+            portNb = -1;
+        }
+        if (GameGraphics.MIN_PORT <= portNb && GameGraphics.MAX_PORT >= portNb) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

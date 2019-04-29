@@ -31,6 +31,9 @@ public class GameGraphics extends Game {
     public static int players;
     public static String mainPlayerName = "default name";
 
+    public static final int MIN_PORT = 49152;
+    public static final int MAX_PORT = 65535;
+
     public SpriteBatch batch;
 
     @Override
