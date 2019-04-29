@@ -11,7 +11,8 @@ public class HostSetup extends AbstractSetupScreen {
     @Override
     protected void startGame(String mainPlayerName) {
         GameGraphics.mainPlayerName = mainPlayerName;
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new LobbyScreen(game, true, "localHost", 1100));
+
     }
 
 }
