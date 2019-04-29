@@ -17,12 +17,22 @@ public class JoinScreen extends AbstractMenuScreen {
     @Override
     public void show() {
         TextButton returnButton = createReturnButton(70);
-        returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth(), stage.getHeight() / 20);
+        returnButton.setPosition(stage.getWidth() / 2 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
-        TextField nameField = createNameInputField();
-        nameField.setPosition(stage.getWidth() / 2 - nameField.getWidth() / 2, stage.getHeight() / 2 - nameField.getHeight() / 2);
+        TextButton joinButton = createButton("JOIN", 70);
+        joinButton.setPosition(stage.getWidth() / 2 + 10, stage.getHeight() / 20);
+
+        TextField nameField = createInputField("Enter name", 13);
+        nameField.setPosition(stage.getWidth() / 2 - nameField.getWidth() / 2, stage.getHeight() / 2 + nameField.getHeight() / 2);
+
+        TextField portField = createDigitInputField("Enter port", 5);
+        portField.setPosition(stage.getWidth() / 2 - portField.getWidth() / 2, stage.getHeight() / 2 - portField.getHeight());
+
+
         stage.addActor(returnButton);
+        stage.addActor(joinButton);
         stage.addActor(nameField);
+        stage.addActor(portField);
     }
 
 }

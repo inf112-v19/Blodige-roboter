@@ -83,7 +83,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         flagCount = game.createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
         flagCount.setColor(Color.WHITE);
 
-        nameField = createNameInputField();
+        nameField = createInputField("Enter name", 13);
         nameField.setPosition(7 * stage.getWidth() / 10, 3 * stage.getHeight() / 4);
 
         Label playerLabel = game.createLabel("Number of players", 7 * stage.getWidth() / 10, stage.getHeight() / 2 + 50, 30);

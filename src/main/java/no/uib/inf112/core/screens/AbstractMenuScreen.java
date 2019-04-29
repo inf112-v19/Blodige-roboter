@@ -114,7 +114,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return returnButton;
     }
 
-    protected TextField createNameInputField() {
+    TextField createInputField(String startText, int maxLength) {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
         textFieldStyle.fontColor = Color.BLACK;
@@ -122,15 +122,31 @@ public abstract class AbstractMenuScreen implements Screen {
         Pixmap myPixMap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         myPixMap.setColor(1, 1, 1, 0.5f);
         myPixMap.fillRectangle(0, 0, 1, 1);
-        textFieldStyle.cursor = new TextureRegionDrawable(new Texture(myPixMap));
-        textFieldStyle.disabledFontColor = Color.GRAY;
+
         textFieldStyle.background = new TextureRegionDrawable(new Texture(myPixMap));
-        TextField nameField = new TextField("Enter name", textFieldStyle);
-        nameField.setWidth(stage.getWidth() / 5);
-        nameField.setAlignment(Align.center);
-        nameField.setMaxLength(13);
+        textFieldStyle.cursor = new TextureRegionDrawable(new Texture(myPixMap));
+
+        TextField textField = new TextField(startText, textFieldStyle);
+        textField.setWidth(stage.getWidth() / 5);
+        textField.setAlignment(Align.center);
+        textField.setMaxLength(maxLength);
         myPixMap.dispose();
 
-        return nameField;
+        return textField;
+    }
+
+    TextField createDigitInputField(String startText, int maxLength) {
+        TextField digitField = createInputField(startText, maxLength);
+
+        TextField.TextFieldFilter digitFilter = (textField, c) -> {
+            if (Character.isDigit(c)) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        digitField.setTextFieldFilter(digitFilter);
+        return digitField;
     }
 }
