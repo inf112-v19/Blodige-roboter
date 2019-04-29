@@ -66,7 +66,7 @@ public class PlayerHandlerTest extends TestGraphics {
         roboRally = GameGraphics.createRoboRally(MAP_FOLDER + File.separatorChar + "checkmate.tmx", 8);
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         for (IPlayer player : players) {
-            player.registerFlagVisits(roboRally.getPlayerHandler().getFlagCount());
+            registerFlagVisits(roboRally.getPlayerHandler().getFlagCount(), player);
         }
         roboRally.getPlayerHandler().checkGameOver();
         assertTrue(roboRally.getPlayerHandler().isGameOver());

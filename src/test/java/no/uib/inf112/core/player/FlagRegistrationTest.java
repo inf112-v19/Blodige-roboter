@@ -75,21 +75,13 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void registerFlagVisitFor2Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(2, player);
         assertEquals(2, player.getFlags());
     }
 
     @Test
     public void registerFlagVisitFor8Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(8, player);
         assertEquals(8, player.getFlags());
     }
 
@@ -112,54 +104,37 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void canGetFlag3Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(2, player);
         assertTrue(player.canGetFlag(3));
     }
 
     @Test
     public void canGetFlag4Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(3, player);
         assertTrue(player.canGetFlag(4));
     }
 
     @Test
     public void cantGetFlag5Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(3, player);
         assertFalse(player.canGetFlag(5));
     }
 
     @Test
     public void cantGetFlag6Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(4, player);
         assertFalse(player.canGetFlag(6));
     }
 
     @Test
     public void cantGetFlag7Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(5, player);
         assertFalse(player.canGetFlag(7));
     }
 
     @Test
     public void cantGetFlag8Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(6, player);
         assertFalse(player.canGetFlag(8));
     }
 }
