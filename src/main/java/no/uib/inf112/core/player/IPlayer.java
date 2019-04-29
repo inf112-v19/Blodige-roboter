@@ -7,6 +7,24 @@ import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
 public interface IPlayer extends Comparable<IPlayer>, Entity {
+
+    /**
+     * Max number of lives a player can have
+     */
+    int MAX_LIVES = 3;
+    /**
+     * Max number of health a player can have
+     */
+    int MAX_HEALTH = 10;
+    /**
+     * Max number of cards a player can draw.
+     */
+    int MAX_DRAW_CARDS = MAX_HEALTH - 1;
+    /**
+     * Max number of cards on the control panel
+     */
+    int MAX_PLAYER_CARDS = 5;
+
     /**
      * damage the player by the given amount and handles death if health is less than or equal to 0
      *
@@ -104,7 +122,7 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
 
     /**
      * @param flagNr The flags number
-     * @return If player can get given flag or not
+     * @return If player can get given FLAG or not
      */
     boolean canGetFlag(int flagNr);
 

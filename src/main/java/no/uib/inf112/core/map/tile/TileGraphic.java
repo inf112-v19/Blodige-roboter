@@ -5,6 +5,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,10 +27,10 @@ public enum TileGraphic {
      * THE ROBOT
      * (TileType ROBOT)
      */
-    ROBOT_TILE_NORTH(137, "player-robot", TileType.ROBOT, DIR_NORTH, LAYS_DOWN_LASER),
-    ROBOT_TILE_EAST(138, "player-robot", TileType.ROBOT, DIR_EAST, LAYS_DOWN_LASER),
-    ROBOT_TILE_SOUTH(139, "player-robot", TileType.ROBOT, DIR_WEST, LAYS_DOWN_LASER),
-    ROBOT_TILE_WEST(140, "player-robot", TileType.ROBOT, DIR_SOUTH, LAYS_DOWN_LASER),
+    ROBOT_TILE_NORTH(137, "player-robot", TileType.ROBOT, DIR_NORTH),
+    ROBOT_TILE_EAST(138, "player-robot", TileType.ROBOT, DIR_EAST),
+    ROBOT_TILE_SOUTH(139, "player-robot", TileType.ROBOT, DIR_WEST),
+    ROBOT_TILE_WEST(140, "player-robot", TileType.ROBOT, DIR_SOUTH),
 
     /**
      * THE TILES THAT ROBOTS CAN FALL THROUGH
@@ -134,15 +135,15 @@ public enum TileGraphic {
 
     /**
      * GEAR TILES
-     * (TileType Rotation)
+     * (TileType GEAR)
      */
-    ROTATE_CLOCKWISE(54, TileType.GEAR, DIR_EAST),
-    ROTATE_COUNTERCLOCKWISE(53, TileType.GEAR, DIR_WEST),
+    ROTATE_CLOCKWISE(54, TileType.GEAR, RIGHT),
+    ROTATE_COUNTERCLOCKWISE(53, TileType.GEAR, LEFT),
 
     /**
      * CONVEYOR TILES
-     * (TileType Conveyor)
-     * GO_"Direction" is the conveyors that turn into an already straight conveyor
+     * (TileType Conveyor or ROTATION_CONVEYOR)
+     * GO_"Direction" is the conveyors that turn into an already straight CONVEYOR
      * ROTATE_"direction" rotate the player in given direction
      * EXPRESS prefix is the express (blue) conveyors
      */
@@ -150,59 +151,61 @@ public enum TileGraphic {
     CONVEYOR_WEST(51, TileType.CONVEYOR, DIR_WEST),
     CONVEYOR_NORTH(49, TileType.CONVEYOR, DIR_NORTH),
     CONVEYOR_SOUTH(50, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_WEST_GO_NORTH(57, TileType.CONVEYOR, DIR_NORTH),
-    CONVEYOR_FROM_NORTH_GO_EAST(58, TileType.CONVEYOR, DIR_EAST),
-    CONVEYOR_FROM_EAST_GO_SOUTH(59, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_SOUTH_GO_WEST(60, TileType.CONVEYOR, DIR_WEST),
-    CONVEYOR_FROM_NORTH_AND_SOUTH_GO_EAST(61, TileType.CONVEYOR, DIR_EAST),
-    CONVEYOR_FROM_WEST_AND_EAST_GO_SOUTH(62, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_EAST_GO_NORTH(65, TileType.CONVEYOR, DIR_NORTH),
-    CONVEYOR_FROM_SOUTH_GO_EAST(66, TileType.CONVEYOR, DIR_EAST),
-    CONVEYOR_FROM_WEST_GO_SOUTH(67, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_NORTH_GO_WEST(68, TileType.CONVEYOR, DIR_WEST),
-    CONVEYOR_FROM_EAST_AND_WEST_GO_NORTH(69, TileType.CONVEYOR, DIR_NORTH),
-    CONVEYOR_FROM_NORTH_AND_SOUTH_GO_WEST(70, TileType.CONVEYOR, DIR_WEST),
-    CONVEYOR_FROM_EAST_ROTATE_SOUTH(33, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_NORTH_ROTATE_EAST(41, TileType.CONVEYOR, DIR_EAST),
-    CONVEYOR_FROM_WEST_ROTATE_NORTH(42, TileType.CONVEYOR, DIR_NORTH),
-    CONVEYOR_FROM_SOUTH_ROTATE_WEST(34, TileType.CONVEYOR, DIR_WEST),
-    CONVEYOR_FROM_SOUTH_ROTATE_EAST(35, TileType.CONVEYOR, DIR_EAST),
-    CONVEYOR_FROM_WEST_ROTATE_SOUTH(36, TileType.CONVEYOR, DIR_SOUTH),
-    CONVEYOR_FROM_NORTH_ROTATE_WEST(44, TileType.CONVEYOR, DIR_WEST),
-    CONVEYOR_FROM_EAST_ROTATE_NORTH(43, TileType.CONVEYOR, DIR_NORTH),
+    CONVEYOR_FROM_WEST_GO_NORTH(57, TileType.ROTATION_CONVEYOR, DIR_NORTH, WEST_NORTH),
+    CONVEYOR_FROM_NORTH_GO_EAST(58, TileType.ROTATION_CONVEYOR, DIR_EAST, NORTH_EAST),
+    CONVEYOR_FROM_EAST_GO_SOUTH(59, TileType.ROTATION_CONVEYOR, DIR_SOUTH, EAST_SOUTH),
+    CONVEYOR_FROM_SOUTH_GO_WEST(60, TileType.ROTATION_CONVEYOR, DIR_WEST, SOUTH_WEST),
+    CONVEYOR_FROM_NORTH_AND_SOUTH_GO_EAST(61, TileType.ROTATION_CONVEYOR, DIR_EAST, NORTH_EAST, SOUTH_EAST),
+    CONVEYOR_FROM_WEST_AND_EAST_GO_SOUTH(62, TileType.ROTATION_CONVEYOR, DIR_SOUTH, EAST_SOUTH, WEST_SOUTH),
+    CONVEYOR_FROM_EAST_GO_NORTH(65, TileType.ROTATION_CONVEYOR, DIR_NORTH, EAST_NORTH),
+    CONVEYOR_FROM_SOUTH_GO_EAST(66, TileType.ROTATION_CONVEYOR, DIR_EAST, SOUTH_EAST),
+    CONVEYOR_FROM_WEST_GO_SOUTH(67, TileType.ROTATION_CONVEYOR, DIR_SOUTH, WEST_SOUTH),
+    CONVEYOR_FROM_NORTH_GO_WEST(68, TileType.ROTATION_CONVEYOR, DIR_WEST, NORTH_WEST),
+    CONVEYOR_FROM_EAST_AND_WEST_GO_NORTH(69, TileType.ROTATION_CONVEYOR, DIR_NORTH, WEST_NORTH, EAST_NORTH),
+    CONVEYOR_FROM_NORTH_AND_SOUTH_GO_WEST(70, TileType.ROTATION_CONVEYOR, DIR_WEST, SOUTH_WEST, NORTH_WEST),
+    CONVEYOR_FROM_EAST_ROTATE_SOUTH(33, TileType.ROTATION_CONVEYOR, DIR_SOUTH, LEFT),
+    CONVEYOR_FROM_NORTH_ROTATE_EAST(41, TileType.ROTATION_CONVEYOR, DIR_EAST, LEFT),
+    CONVEYOR_FROM_WEST_ROTATE_NORTH(42, TileType.ROTATION_CONVEYOR, DIR_NORTH, LEFT),
+    CONVEYOR_FROM_SOUTH_ROTATE_WEST(34, TileType.ROTATION_CONVEYOR, DIR_WEST, LEFT),
+    CONVEYOR_FROM_SOUTH_ROTATE_EAST(35, TileType.ROTATION_CONVEYOR, DIR_EAST, RIGHT),
+    CONVEYOR_FROM_WEST_ROTATE_SOUTH(36, TileType.ROTATION_CONVEYOR, DIR_SOUTH, RIGHT),
+    CONVEYOR_FROM_NORTH_ROTATE_WEST(44, TileType.ROTATION_CONVEYOR, DIR_WEST, RIGHT),
+    CONVEYOR_FROM_EAST_ROTATE_NORTH(43, TileType.ROTATION_CONVEYOR, DIR_NORTH, RIGHT),
 
     //express
     EXPRESS_CONVEYOR_EAST(14, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
     EXPRESS_CONVEYOR_WEST(22, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
     EXPRESS_CONVEYOR_NORTH(13, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
     EXPRESS_CONVEYOR_SOUTH(21, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_WEST_GO_NORTH(73, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
-    EXPRESS_CONVEYOR_FROM_NORTH_GO_EAST(74, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
-    EXPRESS_CONVEYOR_FROM_EAST_GO_SOUTH(75, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_SOUTH_GO_WEST(76, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
-    EXPRESS_CONVEYOR_FROM_NORTH_AND_SOUTH_GO_EAST(81, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
-    EXPRESS_CONVEYOR_FROM_WEST_AND_EAST_GO_SOUTH(82, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_EAST_GO_NORTH(77, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
-    EXPRESS_CONVEYOR_FROM_SOUTH_GO_EAST(78, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
-    EXPRESS_CONVEYOR_FROM_WEST_GO_SOUTH(86, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_NORTH_GO_WEST(83, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
-    EXPRESS_CONVEYOR_FROM_EAST_AND_WEST_GO_NORTH(82, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
-    EXPRESS_CONVEYOR_FROM_NORTH_AND_SOUTH_GO_WEST(83, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
-    EXPRESS_CONVEYOR_FROM_EAST_ROTATE_SOUTH(19, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_NORTH_ROTATE_EAST(25, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
-    EXPRESS_CONVEYOR_FROM_WEST_ROTATE_NORTH(26, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
-    EXPRESS_CONVEYOR_FROM_SOUTH_ROTATE_WEST(18, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
-    EXPRESS_CONVEYOR_FROM_SOUTH_ROTATE_EAST(19, TileType.CONVEYOR, HIGH_PRIORITY, DIR_EAST),
-    EXPRESS_CONVEYOR_FROM_WEST_ROTATE_SOUTH(20, TileType.CONVEYOR, HIGH_PRIORITY, DIR_SOUTH),
-    EXPRESS_CONVEYOR_FROM_NORTH_ROTATE_WEST(28, TileType.CONVEYOR, HIGH_PRIORITY, DIR_WEST),
-    EXPRESS_CONVEYOR_FROM_EAST_ROTATE_NORTH(26, TileType.CONVEYOR, HIGH_PRIORITY, DIR_NORTH),
+    EXPRESS_CONVEYOR_FROM_WEST_GO_NORTH(73, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_NORTH, WEST_NORTH),
+    EXPRESS_CONVEYOR_FROM_NORTH_GO_EAST(74, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_EAST, NORTH_EAST),
+    EXPRESS_CONVEYOR_FROM_EAST_GO_SOUTH(75, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_SOUTH, EAST_SOUTH),
+    EXPRESS_CONVEYOR_FROM_SOUTH_GO_WEST(76, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_WEST, SOUTH_WEST),
+    EXPRESS_CONVEYOR_FROM_NORTH_AND_SOUTH_GO_EAST(81, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_EAST, NORTH_EAST, SOUTH_EAST),
+    EXPRESS_CONVEYOR_FROM_WEST_AND_EAST_GO_SOUTH(82, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_SOUTH, EAST_SOUTH, WEST_SOUTH),
+    EXPRESS_CONVEYOR_FROM_EAST_GO_NORTH(77, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_NORTH, EAST_NORTH),
+    EXPRESS_CONVEYOR_FROM_SOUTH_GO_EAST(78, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_EAST, SOUTH_EAST),
+    EXPRESS_CONVEYOR_FROM_WEST_GO_SOUTH(86, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_SOUTH, WEST_SOUTH),
+    EXPRESS_CONVEYOR_FROM_NORTH_GO_WEST(85, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_WEST, NORTH_WEST),
+    EXPRESS_CONVEYOR_FROM_EAST_AND_WEST_GO_NORTH(84, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_NORTH, WEST_NORTH, EAST_NORTH),
+    EXPRESS_CONVEYOR_FROM_NORTH_AND_SOUTH_GO_WEST(83, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_WEST, SOUTH_WEST, NORTH_WEST),
+    EXPRESS_CONVEYOR_FROM_EAST_ROTATE_SOUTH(17, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_SOUTH, LEFT),
+    EXPRESS_CONVEYOR_FROM_NORTH_ROTATE_EAST(25, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_EAST, LEFT),
+    EXPRESS_CONVEYOR_FROM_WEST_ROTATE_NORTH(26, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_NORTH, LEFT),
+    EXPRESS_CONVEYOR_FROM_SOUTH_ROTATE_WEST(18, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_WEST, LEFT),
+    EXPRESS_CONVEYOR_FROM_SOUTH_ROTATE_EAST(19, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_EAST, RIGHT),
+    EXPRESS_CONVEYOR_FROM_WEST_ROTATE_SOUTH(20, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_SOUTH, RIGHT),
+    EXPRESS_CONVEYOR_FROM_NORTH_ROTATE_WEST(28, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_WEST, RIGHT),
+    EXPRESS_CONVEYOR_FROM_EAST_ROTATE_NORTH(27, TileType.ROTATION_CONVEYOR, HIGH_PRIORITY, DIR_NORTH, RIGHT),
     ;
 
 
     private final int id;
+    @NotNull
     private String tilesetName;
     @NotNull
     private final TileType tileType;
+    @NotNull
     private Set<Attribute> attributes;
 
     private static HashMap<Integer, TileGraphic> TileIdMap = new HashMap<>();
@@ -213,15 +216,20 @@ public enum TileGraphic {
         }
     }
 
+    /**
+     * @param id The tiled id of the wanted TileGraphic
+     * @return The TileGraphic with the given id. Will be {@code null} if the given id is not known
+     */
+    @Nullable
     public static TileGraphic fromTiledId(int id) {
         return TileIdMap.get(id);
     }
 
-    TileGraphic(int id, TileType tileType, Attribute... attributes) {
+    TileGraphic(int id, @NotNull TileType tileType, Attribute... attributes) {
         this(id, "tiles", tileType, attributes);
     }
 
-    TileGraphic(int id, String tilesetName, TileType tileType, Attribute... attributes) {
+    TileGraphic(int id, @NotNull String tilesetName, @NotNull TileType tileType, Attribute... attributes) {
         this.id = id;
         this.tilesetName = tilesetName;
         this.tileType = tileType;
@@ -232,6 +240,10 @@ public enum TileGraphic {
         this.attributes = Collections.unmodifiableSet(tempSet);
     }
 
+    /**
+     * @return The graphic part of this tile
+     */
+    @NotNull
     public TiledMapTile getTile() {
         return GameGraphics.getRoboRally().getCurrentMap().getMapTileSets().getTileSet(tilesetName).getTile(id);
     }
@@ -248,26 +260,36 @@ public enum TileGraphic {
         return id;
     }
 
+    /**
+     * @return The more general type of tile this is
+     */
     @NotNull
     public TileType getTileType() {
         return tileType;
     }
 
+    /**
+     * @param x The x-coordinate of the tile
+     * @param y The y-coordinate of the tile
+     * @return Create a new instance of this TileGraphic at the given coordinates, or {@code null} if there is no implantation
+     * @throws IllegalStateException If the implementation does not fulfill the attributes criteria
+     */
+    @Nullable
     public Tile createInstance(int x, int y) {
         if (tileType.getImplClass() == null) {
             return null;
         }
 
-        if (!tileType.getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
+        if (!getAttributes().stream().allMatch(att -> att.verifyInterfaces(tileType.getImplClass()))) {
             throw new IllegalStateException("TileType class (" + tileType.getImplClass() + ") does not have the required interface " + tileType.getAttributes());
         }
-
         try {
             Constructor<? extends Tile> constructor = tileType.getImplClass().getDeclaredConstructor(Vector2Int.class, TileGraphic.class);
             return constructor.newInstance(new Vector2Int(x, y), this);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }

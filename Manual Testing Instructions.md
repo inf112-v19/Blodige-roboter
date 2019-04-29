@@ -1,4 +1,4 @@
-# Manuel Testing Instructions
+# Manuel's Testing Instructions
 
 ### Test Window Resizing
 
@@ -9,15 +9,16 @@
 
 ### Control Panel
 
-* Cards (the blue squares) and Power down (red circle) should darken when hovering over
-* Power down button should toggle (darken/lighten) when player is powered down (power down by clicking it)
-* Robot should move as specified by handcards
-* Cards should darken when at loss of  (locked down)
+* Power down should darken when hovering over
+* Power down button should toggle (white/yellow) when player is powered down (power down by clicking it)
+* Robot should move as specified by hand cards
+* Cards should not be displayed locked down
 * It should not be possible to change movement cards that are locked down
 * Dragging cards should be precise, somewhat snappy and work as intended
 * The correct tooltips should show for each card
 * Pressing enter should make the round start
-
+* Health (yellow) and lives (green) should correctly display the health and lives respectfully of the local player
+* Flags should be colored when captured (only in correct order)
 
 ### Camera Movement
 
@@ -44,8 +45,20 @@
 
 ### Power down
 
-* When pressing the power down button (red circle) it darkens.
 * This followed by choosing cards and playing the following round should put the robot in a power down mode the next round
-* No movementcards used but robot is still interactive, but does not move nor shoot lasers, the player should also be fully healed.
-
+* No movement cards used but robot is still interactive, but does not move nor shoot lasers, the player should also be fully healed.
 * After the power down round the player should not be in a power down state anymore
+
+### Sounds
+
+* All sounds sound correct
+* When robot power down `robotShutdown` plays
+* When robots shoot each robot plays `shootLaser`
+* All tiles play correct sound
+  * `GearTile` plays `conveyor`
+  * `ConveyorTile` plays `conveyor`
+  * `FlagTile` plays `flag`
+  * `DeathTile` plays `robotFalling`
+  * `Robot` plays `robotMoving`
+  * `WrenchTile` and `WrenchAndHammerTile`  plays `robotUpdateBackup`
+  * `LaserTile` plays `shootLaser` when hitting a robot with a laser

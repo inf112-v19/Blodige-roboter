@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -12,11 +13,6 @@ import org.jetbrains.annotations.NotNull;
  * @author Elg
  */
 public abstract class AbstractPlayer extends Robot implements IPlayer {
-
-    public static final int MAX_LIVES = 3;
-    public static final int MAX_HEALTH = 10;
-    public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
 
     private Vector2Int backup;
 
@@ -121,6 +117,9 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     public void setPoweredDown(boolean poweredDown) {
+        if (poweredDown) {
+            Sound.ROBOT_SHUTDOWN.play();
+        }
         this.poweredDown = poweredDown;
     }
 

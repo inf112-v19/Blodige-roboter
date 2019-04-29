@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class CardActor extends ImageTextButton {
 
     private Card card;
+    private String offset = "\n\n\n\n\n\n"; // This is to push the text up (by default it is in the middle of the card)
 
     CardActor() {
         super("", createSkin());
@@ -21,9 +22,24 @@ public class CardActor extends ImageTextButton {
 
     private static ImageTextButtonStyle createSkin() {
         ImageTextButtonStyle style = new ImageTextButtonStyle();
-        style.font = new BitmapFont();
-        style.imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);
+        style.font = createCardFont();
+        style.imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE);
         return style;
+    }
+
+    /**
+     * Setup of the font for the cards.
+     *
+     * @return The perfect card font
+     */
+    private static BitmapFont createCardFont() {
+        UIHandler.card_font_parameter.size = 20;
+
+        // Centering text in the display window
+        UIHandler.card_font_parameter.padRight = 5;
+        UIHandler.card_font_parameter.padTop = 3;
+
+        return UIHandler.card_font_generator.generateFont(UIHandler.card_font_parameter);
     }
 
     /**
@@ -35,9 +51,9 @@ public class CardActor extends ImageTextButton {
         }
         if (card == null) {
             setText("");
-            getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_TEXTURE);
+            getStyle().imageUp = new TextureRegionDrawable(UIHandler.CARDS_SLOT_TEXTURE); // Empty slot
         } else {
-            setText("pri " + card.getPriority() + "\n" + card.getAction().toString());
+            setText(card.getPriority() + offset);
             getStyle().imageUp = new TextureRegionDrawable(card.getRegionTexture());
             getLabelCell().padLeft(-card.getRegionTexture().getRegionWidth()); //make sure the text is within the card
         }
@@ -59,4 +75,6 @@ public class CardActor extends ImageTextButton {
                 "card=" + card +
                 '}';
     }
+
+
 }

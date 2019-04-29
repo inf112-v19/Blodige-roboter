@@ -4,10 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.ui.SoundPlayer;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -21,17 +19,16 @@ public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS;
-    private static SoundPlayer soundPlayer;
 
     public static final String MAP_FOLDER = "maps";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
+    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "frenetic_factory.tmx";
+    //  public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
 //    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
 
     private SpriteBatch batch;
-    private BitmapFont font;
 
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
@@ -42,14 +39,11 @@ public class GameGraphics extends Game {
     public void create() {
 
         batch = new SpriteBatch();
-        font = new BitmapFont();
-
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         cpEventHandler = new ControlPanelEventHandler();
-
 
         getRoboRally();
         uiHandler = new UIHandler();
@@ -79,7 +73,6 @@ public class GameGraphics extends Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
-        font.dispose();
         uiHandler.dispose();
     }
 
@@ -105,20 +98,9 @@ public class GameGraphics extends Game {
         return uiHandler;
     }
 
-    public static SoundPlayer getSoundPlayer() {
-        if (null == soundPlayer) {
-            createSoundPlayer();
-        }
-        return soundPlayer;
-    }
-
-    private static synchronized void createSoundPlayer() {
-        soundPlayer = new SoundPlayer();
-    }
-
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 2);
+            createRoboRally(FALLBACK_MAP_FILE_PATH, 8);
         }
         return roboRally;
     }
@@ -136,7 +118,7 @@ public class GameGraphics extends Game {
      */
     public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
         if (msDelay <= 0) {
-            Gdx.app.postRunnable(runnable);
+            runnable.run();
         } else {
             GameGraphics.executorService.schedule(() ->
                     Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
@@ -151,4 +133,5 @@ public class GameGraphics extends Game {
         GameGraphics.executorService.schedule(() ->
                 runnable, msDelay, TimeUnit.MILLISECONDS);
     }
+
 }

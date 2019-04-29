@@ -29,7 +29,6 @@ public class PlayerTest extends TestGraphics {
 
     @Before
     public void setUp() {
-
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
 
@@ -71,7 +70,7 @@ public class PlayerTest extends TestGraphics {
     @Test
     public void afterLoosingALifeHealthShouldBeRestoredToMax() {
         testPlayer.damage(testPlayer.getHealth() + 1);
-        assertEquals(AbstractPlayer.MAX_HEALTH, testPlayer.getHealth());
+        assertEquals(IPlayer.MAX_HEALTH, testPlayer.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -82,7 +81,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void healingWhenHealthIsFullShouldNotAffectHealth() {
-        testPlayer.heal(AbstractPlayer.MAX_HEALTH);
+        testPlayer.heal(IPlayer.MAX_HEALTH);
         int health = testPlayer.getHealth();
         testPlayer.heal(10);
         assertEquals(health, testPlayer.getHealth());

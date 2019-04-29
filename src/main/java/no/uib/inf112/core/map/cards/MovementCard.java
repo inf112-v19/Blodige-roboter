@@ -21,9 +21,31 @@ public class MovementCard implements Card {
         this.action = action;
         this.priority = priority;
         if (!GameGraphics.HEADLESS) {
-            textureRegion = UIHandler.CARDS_TEXTURE;
+            textureRegion = textureFromAction();
         }
     }
+
+    private TextureRegion textureFromAction() {
+        switch (action) {
+            case MOVE_1:
+                return UIHandler.MOVE1_TEXTURE;
+            case MOVE_2:
+                return UIHandler.MOVE2_TEXTURE;
+            case MOVE_3:
+                return UIHandler.MOVE3_TEXTURE;
+            case BACK_UP:
+                return UIHandler.BACK_UP_TEXTURE;
+            case LEFT_TURN:
+                return UIHandler.TURN_LEFT_TEXTURE;
+            case RIGHT_TURN:
+                return UIHandler.TURN_RIGHT_TEXTURE;
+            case U_TURN:
+                return UIHandler.U_TURN_TEXTURE;
+            default:
+                return null;
+        }
+    }
+
 
     /**
      * @return The action (movement) imposed by this card

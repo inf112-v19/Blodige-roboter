@@ -32,7 +32,7 @@ public class Player extends AbstractPlayer {
 
                 }
 
-                if(isPoweredDown()){
+                if (isPoweredDown()) {
                     setPoweredDown(false);
                 }
                 setWillPowerDown(!willPowerDown());
@@ -76,8 +76,8 @@ public class Player extends AbstractPlayer {
     @Override
     public String toString() {
         return "Player{" +
-                "x=" + getY() +
-                ", y=" + getX() +
+                "x=" + getX() +
+                ", y=" + getY() +
                 ", dir=" + getDirection() +
                 ", flags=" + flags +
                 ", poweredDown=" + isPoweredDown() +

@@ -1,7 +1,8 @@
 package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.DisabledVisualizer;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
 
     public CardSlot(int id, @NotNull SlotType type, @NotNull CardContainer container, @NotNull DragAndDrop dad) {
         super();
+
         this.type = type;
         this.container = container;
         slotId = id;
@@ -36,8 +38,7 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         if (container == null) {
             return false;
         }
-        int max = type == SlotType.DRAWN ? AbstractPlayer.MAX_DRAW_CARDS - 1 : AbstractPlayer.MAX_DRAW_CARDS;
-        return slotId > max - container.getPlayer().getDamageTokens();
+        return slotId > (IPlayer.MAX_DRAW_CARDS - container.getPlayer().getDamageTokens() - 1);
     }
 
     @Override
@@ -52,5 +53,17 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
                 "type=" + type +
                 ", slotId=" + slotId + super.toString() +
                 "} ";
+    }
+
+    /**
+     * Method to copy the current card actor
+     *
+     * @return A copy of this card actor
+     */
+    public CardSlot copy() {
+        CardSlot copy = new CardSlot(slotId, type, container, GameGraphics.getUiHandler().getDad());
+        copy.setCard(getCard());
+        copy.updateCard();
+        return copy;
     }
 }
