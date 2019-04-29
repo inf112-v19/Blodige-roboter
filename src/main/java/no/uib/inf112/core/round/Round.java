@@ -46,6 +46,8 @@ public class Round {
             }, totalDelay + 10);
         }
 
-        GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+        if (!GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
+            GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+        }
     }
 }

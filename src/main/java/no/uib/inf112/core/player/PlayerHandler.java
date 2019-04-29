@@ -125,15 +125,15 @@ public class PlayerHandler implements IPlayerHandler {
 
             for (int i = 1; i < playerCount; i++) {
                 SpawnTile tile = spawnTiles.pop();
-                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(tile.getSpawnNumber());
-                players.add(staticPlayer);
+                NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                nonPlayer.setDock(tile.getSpawnNumber());
+                players.add(nonPlayer);
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(i);
-                players.add(staticPlayer);
+                NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                nonPlayer.setDock(i);
+                players.add(nonPlayer);
             }
         }
     }
@@ -149,6 +149,7 @@ public class PlayerHandler implements IPlayerHandler {
         });
         if (players.size() == 1) {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
+            players.remove(0);
             gameOver = true;
             return;
         }
@@ -163,21 +164,24 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public String[] rankPlayers() {
-        String[] playersInRankingOrder = new String[playerCount];
-        List<IPlayer> playerStackWon = new ArrayList<>();
-        playerStackWon.addAll(wonPlayers.keySet());
+        players.forEach(player -> wonPlayers.put(player, System.currentTimeMillis()));
+        List<IPlayer> playerStackWon = new ArrayList<>(wonPlayers.keySet());
         playerStackWon.sort((p1, p2) -> {
             if (p1.getFlags() == p2.getFlags()) {
-                if (p1.isDestroyed() && p2.isDestroyed()) {
+                if (p1.isDestroyed() && !p2.isDestroyed()) {
+                    return 1;
+                } else if (p2.isDestroyed() && !p1.isDestroyed()) {
+                    return -1;
+                } else if (p1.isDestroyed() && p2.isDestroyed()) {
                     return wonPlayers.get(p2).compareTo(wonPlayers.get(p1));
-                } else {
+                } else
                     return wonPlayers.get(p1).compareTo(wonPlayers.get(p2));
-                }
             } else {
                 return Integer.compare(p2.getFlags(), p1.getFlags());
             }
         });
 
+        String[] playersInRankingOrder = new String[playerCount];
         int i = 0;
         for (IPlayer player : playerStackWon) {
             playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
@@ -194,7 +198,12 @@ public class PlayerHandler implements IPlayerHandler {
     }
 
     public IPlayer mainPlayer() {
-        return players.get(0);
+        IPlayer player = players.get(0);
+        if (player instanceof Player) {
+            return players.get(0);
+        }
+        gameOver = true;
+        return new Player(0, 0, Direction.EAST, GameGraphics.getRoboRally().getCurrentMap(), new ComparableTuple<>("Dead", Color.BLACK));
     }
 
     @Override
