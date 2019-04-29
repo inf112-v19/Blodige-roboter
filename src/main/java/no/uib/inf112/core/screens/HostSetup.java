@@ -8,5 +8,11 @@ public class HostSetup extends AbstractSetupScreen {
         super(game);
     }
 
+    @Override
+    protected void startGame(String mainPlayerName) {
+        GameGraphics.mainPlayerName = mainPlayerName;
+        game.setScreen(new GameScreen(game));
+    }
+
 }
 

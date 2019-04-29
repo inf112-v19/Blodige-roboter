@@ -125,10 +125,14 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         game.batch.end();
 
         if (startGame) { // Using this solution because we can't start game from clicked method
-            GameGraphics.mainPlayerName = nameField.getText();
-            game.setScreen(new GameScreen(game));
+            startGame(nameField.getText());
         }
     }
+
+    /**
+     * Starts the game
+     */
+    protected abstract void startGame(String mainPlayerName);
 
 
     private SelectBox<String> createMapSelectBox() {
