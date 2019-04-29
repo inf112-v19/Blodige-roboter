@@ -201,6 +201,8 @@ public class PlayerHandler implements IPlayerHandler {
         IPlayer player = players.get(0);
         if (player instanceof Player) {
             return players.get(0);
+        } else if (HEADLESS) {
+            return players.get(0);
         }
         gameOver = true;
         return new Player(0, 0, Direction.EAST, GameGraphics.getRoboRally().getCurrentMap(), new ComparableTuple<>("Dead", Color.BLACK));
