@@ -1,5 +1,6 @@
 package no.uib.inf112.core.multiplayer;
 
+import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.cards.Card;
@@ -21,11 +22,11 @@ import java.util.List;
 
 public class Client {
 
-    Socket clientSocket;
-    DataOutputStream outToServer;
-    BufferedReader inFromServer;
-    String clientName;
-    Thread listener;
+    private Socket clientSocket;
+    private DataOutputStream outToServer;
+    private BufferedReader inFromServer;
+    private String clientName;
+    private Thread listener;
     private GameGraphics game;
     private MultiPlayerHandler playerHandler;
     private List<String> players;
@@ -68,7 +69,7 @@ public class Client {
                 System.out.println("FROM SERVER FOR " + clientName + ": " + result);
                 if (result == null) {
                     System.out.println("Host disconnected");
-                    System.exit(0);
+                    Gdx.app.exit();
                 }
                 String command = result.substring(0, result.indexOf(":"));
                 String data = result.substring(result.indexOf(":") + 1);

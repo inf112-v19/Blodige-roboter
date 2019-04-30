@@ -106,7 +106,7 @@ public class PlayerHandler implements IPlayerHandler {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
         flagCount = result.key;
         Stack<SpawnTile> spawnTiles = result.value;
-        if (!GameGraphics.HEADLESS) {
+        if (!HEADLESS) {
             if (!spawnTiles.empty()) {
                 Collections.shuffle(spawnTiles);
                 SpawnTile spawnTile = spawnTiles.pop();
@@ -144,13 +144,8 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void checkGameOver() {
-        players.removeIf(player -> {
-            if (player.getFlags() == flagCount || player.isDestroyed()) {
-                wonPlayers.put(player, System.currentTimeMillis());
-                return true;
-            }
-            return false;
-        });
+        removePlayers();
+
         if (players.size() == 1) {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
             players.remove(0);
@@ -164,34 +159,6 @@ public class PlayerHandler implements IPlayerHandler {
             }
         }
         gameOver = true;
-    }
-
-    @Override
-    public String[] rankPlayers() {
-        players.forEach(player -> wonPlayers.put(player, System.currentTimeMillis()));
-        List<IPlayer> playerStackWon = new ArrayList<>(wonPlayers.keySet());
-        playerStackWon.sort((p1, p2) -> {
-            if (p1.getFlags() == p2.getFlags()) {
-                if (p1.isDestroyed() && !p2.isDestroyed()) {
-                    return 1;
-                } else if (p2.isDestroyed() && !p1.isDestroyed()) {
-                    return -1;
-                } else if (p1.isDestroyed() && p2.isDestroyed()) {
-                    return wonPlayers.get(p2).compareTo(wonPlayers.get(p1));
-                } else {
-                    return wonPlayers.get(p1).compareTo(wonPlayers.get(p2));
-                }
-            } else {
-                return Integer.compare(p2.getFlags(), p1.getFlags());
-            }
-        });
-
-        String[] playersInRankingOrder = new String[playerCount];
-        int i = 0;
-        for (IPlayer player : playerStackWon) {
-            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
-        }
-        return playersInRankingOrder;
     }
 
     @Override

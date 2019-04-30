@@ -20,7 +20,7 @@ public class OnlinePlayer extends AbstractPlayer {
      * @param direction Start direction
      * @param map       Current map
      */
-    Card[] cards = new Card[IPlayer.MAX_PLAYER_CARDS];
+    private Card[] cards = new Card[IPlayer.MAX_PLAYER_CARDS];
 
     public OnlinePlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull ComparableTuple<String, Color> color, int id) {
         super(x, y, direction, map, color);

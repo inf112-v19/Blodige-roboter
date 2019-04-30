@@ -12,8 +12,4 @@ public class PlayerDto {
     public List<CardDto> cards;
     public boolean isPoweredDown = false;
     public List<CardDto> drawnCards;
-
-    public PlayerDto() {
-    }
-
 }

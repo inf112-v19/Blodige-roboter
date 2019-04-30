@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 
 public class Server {
 
-    List<ConnectedPlayer> players = new ArrayList<>();
+    private List<ConnectedPlayer> players = new ArrayList<>();
     private Integer hostId;
-    ServerSocket servSock;
-    static Timer timer = new Timer();
+    private ServerSocket servSock;
+    private static Timer timer = new Timer();
     private static int seconds = 0;
     private boolean receivedCard = false;
     private boolean startedRound;
@@ -38,7 +38,7 @@ public class Server {
 
         } catch (IOException e) {
             /* Crash the server if IO fails. Something bad has happened */
-            throw new RuntimeException("Could not create ServerSocket ", e);
+            throw new IllegalArgumentException("Could not create ServerSocket ", e);
         }
 
         // Create a series of threads and start them.
@@ -75,11 +75,11 @@ public class Server {
      * A Thread subclass to handle one client conversation.
      */
     class ConnectedPlayer extends Thread {
-        ServerSocket handlerServSock;
-        int threadNumber;
-        boolean connected = false;
-        boolean readyToStart = false;
-        PlayerDto player = new PlayerDto();
+        private ServerSocket handlerServSock;
+        private int threadNumber;
+        private boolean connected = false;
+        private boolean readyToStart = false;
+        private PlayerDto player = new PlayerDto();
         private PrintWriter outToClient;
 
         /**
@@ -94,11 +94,9 @@ public class Server {
         }
 
         private void sendMessage(String message) {
-            if (connected) {
-                if (handlerServSock.isBound()) {
-                    outToClient.print(message + "\r\n");
-                    outToClient.flush();
-                }
+            if (connected && handlerServSock.isBound()) {
+                outToClient.print(message + "\r\n");
+                outToClient.flush();
             }
         }
 
@@ -235,12 +233,8 @@ public class Server {
                     seconds++;
                 } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
-                        if (player.connected) {
-                            if (!player.readyToStart) {
-                                if (player.player.drawnCards != null) {
-                                    player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
-                                }
-                            }
+                        if (player.connected && !player.readyToStart && player.player.drawnCards != null) {
+                            player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
                         }
                     }
                     startRound("startRound:");
@@ -255,11 +249,9 @@ public class Server {
 
     private void checkAllPlayersReady() {
         for (ConnectedPlayer player : players) {
-            if (player.connected) {
-                if (!player.readyToStart) {
-                    startedRound = false;
-                    return;
-                }
+            if (player.connected && !player.readyToStart) {
+                startedRound = false;
+                return;
             }
         }
         startRound("startRound:");

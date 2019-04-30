@@ -14,7 +14,7 @@ public class LobbyScreen extends AbstractMenuScreen {
 
     protected final Client client;
     private final Server server;
-    List<String> connectedPlayers;
+    private List<String> connectedPlayers;
 
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
