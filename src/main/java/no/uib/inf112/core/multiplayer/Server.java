@@ -1,5 +1,6 @@
 package no.uib.inf112.core.multiplayer;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
@@ -7,6 +8,8 @@ import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
 import no.uib.inf112.core.player.IPlayer;
+import no.uib.inf112.core.player.PlayerHandler;
+import no.uib.inf112.core.util.ComparableTuple;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -284,11 +287,13 @@ public class Server {
 
     public void startGame(int id) {
         if (hostId == id) {
+            Stack<ComparableTuple<String, Color>> colors = PlayerHandler.addColors();
             List<PlayerDto> playerDtos = new ArrayList<>();
             Iterator<ConnectedPlayer> iterator = players.iterator();
             while (iterator.hasNext()) {
                 ConnectedPlayer player = iterator.next();
                 if (player.player.name != null) {
+                    player.player.color = colors.pop().value;
                     playerDtos.add(player.player);
                 } else {
                     try {

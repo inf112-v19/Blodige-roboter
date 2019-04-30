@@ -41,13 +41,15 @@ public class PlayerHandler implements IPlayerHandler {
         gameOver = false;
         startTime = System.currentTimeMillis();
         wonPlayers = new TreeMap<>();
-        colors = new Stack<>();
-        addColors();
+        colors = addColors();
         addPlayers(map);
     }
 
-
-    private void addColors() {
+    /**
+     * @return
+     */
+    public static Stack<ComparableTuple<String, Color>> addColors() {
+        Stack<ComparableTuple<String, Color>> colors = new Stack<>();
         colors.push(new ComparableTuple<>("Coral", Color.CORAL));
         colors.push(new ComparableTuple<>("Green", Color.GREEN));
         colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
@@ -56,6 +58,7 @@ public class PlayerHandler implements IPlayerHandler {
         colors.push(new ComparableTuple<>("Cyan", Color.CYAN));
         colors.push(new ComparableTuple<>("Red", Color.RED));
         colors.push(new ComparableTuple<>("Blue", Color.BLUE));
+        return colors;
     }
 
     @Override

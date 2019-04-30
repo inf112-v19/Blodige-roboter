@@ -125,12 +125,11 @@ public class MultiPlayerHandler implements IPlayerHandler {
         for (PlayerDto player : newGameDto.players) {
             SpawnTile spawnTile = spawnTiles.pop();
             if (player.id == newGameDto.userId) {
-                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), player.id);
+                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName + " (you)", player.color), player.id);
                 user.setDock(spawnTile.getSpawnNumber());
                 players.add(user);
             } else {
-                //Todo set colors
-                IPlayer onlinePlayer = new OnlinePlayer(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.BLUE), player.id);
+                IPlayer onlinePlayer = new OnlinePlayer(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(player.name, player.color), player.id);
                 onlinePlayer.setDock(spawnTile.getSpawnNumber());
                 players.add(onlinePlayer);
             }
