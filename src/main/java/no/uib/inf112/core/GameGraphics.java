@@ -73,6 +73,7 @@ public class GameGraphics extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.dispose();
         batch.dispose();
         closeResources();
     }
