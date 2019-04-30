@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 
         cpEventHandler = new ControlPanelEventHandler();
 
-        roboRally = GameGraphics.getRoboRally();
+        roboRally = GameGraphics.getNewRoborally();
 
         uiHandler = new UIHandler();
         new InputHandler(); //this must be after UIHandler to allow dragging of cards

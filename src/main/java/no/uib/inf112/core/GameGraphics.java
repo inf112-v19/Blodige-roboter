@@ -75,6 +75,11 @@ public class GameGraphics extends Game {
         return roboRally;
     }
 
+    public static RoboRally getNewRoborally() {
+        roboRally = new RoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, players);
+        return roboRally;
+    }
+
     public static synchronized RoboRally createRoboRally(String map, int playerCount) {
         roboRally = new RoboRally(map, playerCount);
         return roboRally;
