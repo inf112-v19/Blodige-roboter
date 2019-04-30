@@ -1,5 +1,6 @@
 package no.uib.inf112.core.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -66,12 +67,11 @@ public class LobbyScreen extends AbstractMenuScreen {
         for (String connectedPlayer : connectedPlayers) {
             if (connectedPlayer.contains("name\":")) {
                 String[] split = connectedPlayer.split("name\":");
-                players[i++] = split[1];
+                players[i++] = split[1].replace("\"", "");
             }
         }
 
         com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(players);
         stage.addActor(list);
-
     }
 }

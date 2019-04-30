@@ -1,5 +1,6 @@
 package no.uib.inf112.core.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -26,5 +27,6 @@ public class HostLobbyScreen extends LobbyScreen {
             }
         });
         stage.addActor(startButton);
+        stage.addActor(new Actor());
     }
 }
