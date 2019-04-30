@@ -227,6 +227,7 @@ public class Server {
             for (ConnectedPlayer player : players) {
                 if (player.connected) {
                     newGameDto.cards = SelectedCardsDto.mapToDto(Arrays.asList(deck.draw(IPlayer.MAX_DRAW_CARDS)));
+                    newGameDto.userId = player.player.id;
                     String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
                     player.sendMessage(message);
                 }
