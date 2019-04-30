@@ -172,7 +172,7 @@ public class CardContainer {
     }
 
     /**
-     * TODO write this
+     * Clears the handcards for this container
      */
     public void clearSelectedCards() {
         for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
@@ -184,11 +184,15 @@ public class CardContainer {
 
     }
 
-
-    public void setSelectedCards(List<CardDto> cards) {
-        for (int i = 0; i < cards.size() && i < handCard.length; i++) {
+    /**
+     * Sets the given selected cards to this container
+     *
+     * @param selectedCards list of card dtos describing each card. first card in the list will be the first handcard
+     */
+    public void setSelectedCards(List<CardDto> selectedCards) {
+        for (int i = 0; i < selectedCards.size() && i < handCard.length; i++) {
             if (!handCard[i].isDisabled()) {
-                CardDto cardDto = cards.get(i);
+                CardDto cardDto = selectedCards.get(i);
                 handCard[i].setCard(new MovementCard(cardDto.movement, cardDto.priority));
             }
         }

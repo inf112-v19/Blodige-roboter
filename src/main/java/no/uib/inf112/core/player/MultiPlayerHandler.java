@@ -49,12 +49,19 @@ public class MultiPlayerHandler implements IPlayerHandler {
     }
 
     /**
-     * TODO write this
+     * Starts the round by setting up drawncards for the given mainplayer based on cards received in the startRound object
+     *
+     * @param startRoundDto object containing data about the round.
      */
     public void startRound(StartRoundDto startRoundDto) {
         user.getCards().setDrawnCards(startRoundDto.drawnCards);
     }
 
+    /**
+     * Runs a given round sets correct selected cards and runs the roborally round.
+     *
+     * @param startRoundDto object containing data about the round.
+     */
     public void runRound(StartRoundDto startRoundDto) {
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
@@ -86,7 +93,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         if (gameOver) {
             return;
         }
-        System.out.println("This happende");
         user.getCards().clearSelectedCards();
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 

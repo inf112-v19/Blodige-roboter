@@ -79,7 +79,7 @@ public class GameGraphics extends Game {
     }
 
     /**
-     * TODO write this
+     * Close the client and the server and serve it to the garbage collector
      */
     public void closeResources() {
         if (client != null) {
@@ -145,19 +145,26 @@ public class GameGraphics extends Game {
     }
 
     /**
-     * TODO write this
+     * Set the given server for this instance
      *
-     * @param newServer
+     * @param newServer the server
      */
     public static void setServer(Server newServer) {
         server = newServer;
     }
 
-    //TODO write this
+    /**
+     * Set the given client for this instance
+     *
+     * @param newClient the client
+     */
     public static void setClient(Client newClient) {
         client = newClient;
     }
 
+    /**
+     * @return the given client for this instance
+     */
     public static Client getClient() {
         return client;
     }
