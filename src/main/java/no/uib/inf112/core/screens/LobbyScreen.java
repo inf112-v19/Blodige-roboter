@@ -5,6 +5,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
 
+import java.io.IOException;
 import java.util.List;
 
 public class LobbyScreen extends AbstractMenuScreen {
@@ -13,7 +14,7 @@ public class LobbyScreen extends AbstractMenuScreen {
     private final Server server;
     List<String> connectedPlayers;
 
-    LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) {
+    LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
         if (isHost) {
             server = new Server(port, 8);

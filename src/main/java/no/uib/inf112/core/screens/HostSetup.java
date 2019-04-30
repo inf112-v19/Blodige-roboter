@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import no.uib.inf112.core.GameGraphics;
 
+import java.io.IOException;
+
 public class HostSetup extends AbstractSetupScreen {
 
     private TextField portField;
@@ -17,8 +19,14 @@ public class HostSetup extends AbstractSetupScreen {
     @Override
     protected void startGame(String mainPlayerName) {
         GameGraphics.mainPlayerName = mainPlayerName;
-        game.setScreen(new HostLobbyScreen(game, true, "localHost", port));
-        stage.clear();
+        try {
+            LobbyScreen lobbyScreen = new HostLobbyScreen(game, true, "localHost", port);
+            game.setScreen(lobbyScreen);
+            stage.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+            //TODO handle not able to start hosting
+        }
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 
+import java.io.IOException;
+
 public class HostLobbyScreen extends LobbyScreen {
 
-    HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) {
+    HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game, isHost, ip, port);
     }
 

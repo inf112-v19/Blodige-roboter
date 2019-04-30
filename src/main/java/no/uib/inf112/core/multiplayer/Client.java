@@ -27,15 +27,12 @@ public class Client {
     private GameGraphics game;
     private MultiPlayerHandler playerHandler;
 
-    public Client(String IP, int port) {
-        try {
-            clientSocket = new Socket(IP, port);
-            System.out.println("Connected to server at" + clientSocket.getLocalAddress().getHostAddress());
-            outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        } catch (IOException e) {
-            System.out.println("Error while creating client: " + e);
-        }
+    public Client(String IP, int port) throws IOException {
+        clientSocket = new Socket(IP, port);
+        System.out.println("Connected to server at" + clientSocket.getLocalAddress().getHostAddress());
+        outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
         clientName = getClientNameFromServer();
 
         Thread listener = new Thread(() -> handleInput());

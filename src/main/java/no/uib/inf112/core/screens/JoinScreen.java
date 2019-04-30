@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 
+import java.io.IOException;
+
 
 public class JoinScreen extends AbstractMenuScreen {
 
@@ -75,8 +77,14 @@ public class JoinScreen extends AbstractMenuScreen {
         joinButton.setDisabled(!checkValidPort(portField.getText()));
 
         if (joinGame && !joinButton.isDisabled()) {
-            game.setScreen(new LobbyScreen(game, false, ipField.getText(), Integer.parseInt(portField.getText())));
-            stage.clear();
+            try {
+                LobbyScreen lobbyScreen = new LobbyScreen(game, false, ipField.getText(), Integer.parseInt(portField.getText()));
+                game.setScreen(lobbyScreen);
+                stage.clear();
+            } catch (IOException e) {
+                e.printStackTrace();
+                //TODO Handle not able to connect
+            }
         } else {
             joinGame = false;
         }
