@@ -3,10 +3,7 @@ package no.uib.inf112.core.multiplayer;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
-import no.uib.inf112.core.multiplayer.dtos.PlayerDto;
-import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
-import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
+import no.uib.inf112.core.multiplayer.dtos.*;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.util.ComparableTuple;
@@ -20,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Server {
@@ -168,6 +166,7 @@ public class Server {
                 case "setSelectedCards":
                     setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
                     if (!receivedCard) {
+                        giveDisconnectedPlayersRandomCard();
                         startCountdown();
                         receivedCard = true;
                     }
@@ -202,6 +201,14 @@ public class Server {
             handlerServSock.close();
             connected = false;
             interrupt();
+        }
+    }
+
+    private void giveDisconnectedPlayersRandomCard() {
+        for (ConnectedPlayer player : players) {
+            if (player.player.name != null && !player.connected) {
+                player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
+            }
         }
     }
 
@@ -277,13 +284,8 @@ public class Server {
 
 
     private String getConnectedPlayers() {
-        StringBuilder result = new StringBuilder();
-        for (ConnectedPlayer connectedPlayer : players) {
-            if (connectedPlayer.player.name != null) {
-                result.append(connectedPlayer.player.name);
-            }
-        }
-        return result.toString();
+        List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> connectedPlayer.player).collect(Collectors.toList());
+        return GameGraphics.gson.toJson(new ConnectedPlayersDto(playerDtos));
     }
 
     public void startGame(int id) {
