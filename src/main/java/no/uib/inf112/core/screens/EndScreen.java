@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
 
@@ -17,6 +18,8 @@ public class EndScreen extends AbstractMenuScreen {
 
     private final BitmapFont listFont;
     private String[] rankList;
+    private final Drawable GAME_OVER = new TextureRegionDrawable(new Texture("game_over.png"));
+
 
     public EndScreen(GameGraphics game) {
         super(game);
@@ -62,7 +65,7 @@ public class EndScreen extends AbstractMenuScreen {
         super.render(v);
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        //TODO Add game over header
+        GAME_OVER.draw(game.batch, camera.viewportWidth / 5, 3 * camera.viewportHeight / 4f, 3 * camera.viewportWidth / 5, camera.viewportHeight / 6f);
         game.batch.end();
     }
 
@@ -75,7 +78,7 @@ public class EndScreen extends AbstractMenuScreen {
         list.setItems(rankList);
         list.setWidth(listWidth);
         list.setHeight(listHeigth);
-        list.setPosition((3*stage.getWidth()/4) / 2, stage.getHeight() - 300);
+        list.setPosition((3 * stage.getWidth() / 4) / 2, stage.getHeight() - 300);
 
         return list;
     }

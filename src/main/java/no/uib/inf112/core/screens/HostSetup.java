@@ -27,7 +27,7 @@ public class HostSetup extends AbstractSetupScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        
+
         startButton.setDisabled(!checkValidPort(portField.getText()));
 
         if (startGame && !startButton.isDisabled()) {
