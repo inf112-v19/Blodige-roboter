@@ -16,14 +16,12 @@ import no.uib.inf112.core.GameGraphics;
 
 public class EndScreen extends AbstractMenuScreen {
 
-    private final BitmapFont listFont;
     private String[] rankList;
     private final Drawable GAME_OVER = new TextureRegionDrawable(new Texture("game_over.png"));
 
 
     public EndScreen(GameGraphics game) {
         super(game);
-        listFont = game.generateFont("screen_font.ttf", 30);
         rankList = GameGraphics.getRoboRally().getPlayerHandler().rankPlayers();
         for (int i = 0; i < rankList.length; i++) {
             if (rankList[i] == null) {
@@ -56,7 +54,7 @@ public class EndScreen extends AbstractMenuScreen {
             }
         });
 
-        stage.addActor(createHighScoreList());
+        stage.addActor(createList(rankList));
         stage.addActor(play_again);
         stage.addActor(quit);
     }
@@ -70,17 +68,5 @@ public class EndScreen extends AbstractMenuScreen {
         game.batch.end();
     }
 
-    private List<String> createHighScoreList() {
-        int listWidth = (int) (stage.getWidth() / 2);
-        int listHeigth = (int) stage.getHeight() / 8;
 
-        List.ListStyle style = new List.ListStyle(listFont, Color.WHITE, Color.WHITE, new TextureRegionDrawable(new Texture(listWidth, listHeigth, Pixmap.Format.Intensity)));
-        List<String> list = new List<>(style);
-        list.setItems(rankList);
-        list.setWidth(listWidth);
-        list.setHeight(listHeigth);
-        list.setPosition((3 * stage.getWidth() / 4) / 2, stage.getHeight() - 300);
-
-        return list;
-    }
 }

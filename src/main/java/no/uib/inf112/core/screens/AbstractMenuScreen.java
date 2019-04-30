@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,12 +23,14 @@ public abstract class AbstractMenuScreen implements Screen {
     protected int height;
     protected Stage stage;
     protected OrthographicCamera camera;
+    private final BitmapFont listFont;
 
     public AbstractMenuScreen(GameGraphics game) {
         this.game = game;
         camera = new OrthographicCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
+        listFont = game.generateFont("screen_font.ttf", 30);
     }
 
     @Override
@@ -152,6 +155,19 @@ public abstract class AbstractMenuScreen implements Screen {
         return digitField;
     }
 
+    protected List<String> createList(String[] list) {
+        int listWidth = (int) (stage.getWidth() / 2);
+        int listHeigth = (int) stage.getHeight() / 8;
+
+        List.ListStyle style = new List.ListStyle(listFont, Color.WHITE, Color.WHITE, new TextureRegionDrawable(new Texture(listWidth, listHeigth, Pixmap.Format.Intensity)));
+        List<String> uiList = new List<>(style);
+        uiList.setItems(list);
+        uiList.setWidth(listWidth);
+        uiList.setHeight(listHeigth);
+        uiList.setPosition((3 * stage.getWidth() / 4) / 2, stage.getHeight() - 300);
+
+        return uiList;
+    }
 
     boolean checkValidPort(String portNumber) {
         int portNb;
