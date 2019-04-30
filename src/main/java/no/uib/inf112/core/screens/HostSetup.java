@@ -1,6 +1,7 @@
 package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import no.uib.inf112.core.GameGraphics;
 
@@ -25,9 +26,12 @@ public class HostSetup extends AbstractSetupScreen {
         startButton.getStyle().disabledFontColor = new Color(0, 0, 0, 0.4f);
         startButton.setDisabled(true);
 
-        portField = createDigitInputField("Enter port", 5);
+        portField = createDigitInputField(Integer.toString(GameGraphics.port), 5);
         portField.setPosition(7 * stage.getWidth() / 10, (3 * stage.getHeight() / 4) - portField.getHeight() * 1.5f);
 
+        Label portFieldLabel = game.createLabel("Port: ", 7 * stage.getWidth() / 10 - portField.getWidth() / 2, (3 * stage.getHeight() / 4) - portField.getHeight() * 1.5f, 30);
+
+        stage.addActor(portFieldLabel);
         stage.addActor(portField);
     }
 

@@ -34,7 +34,7 @@ public class JoinScreen extends AbstractMenuScreen {
                 joinGame = true;
             }
         });
-        joinButton.setPosition(stage.getWidth() / 2 + 10, stage.getHeight() / 20);
+        joinButton.setPosition(stage.getWidth() / 2 + 20, stage.getHeight() / 20);
 
         TextField nameField = createInputField("Enter name", 13);
         nameField.setPosition(stage.getWidth() / 2 - nameField.getWidth() / 2, stage.getHeight() / 2 + nameField.getHeight() / 2);

@@ -45,6 +45,7 @@ public class GameGraphics extends Game {
 
     public static final int MIN_PORT = 49152;
     public static final int MAX_PORT = 65535;
+    public static int port = 55555; // Default port
 
     public SpriteBatch batch;
 

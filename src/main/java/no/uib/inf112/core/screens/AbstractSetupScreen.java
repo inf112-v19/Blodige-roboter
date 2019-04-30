@@ -85,6 +85,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         nameField = createInputField("Enter name", 13);
         nameField.setPosition(7 * stage.getWidth() / 10, 3 * stage.getHeight() / 4);
+        Label nameFieldLabel = game.createLabel("Name: ", 7 * stage.getWidth() / 10 - nameField.getWidth() / 2, 3 * stage.getHeight() / 4, 30);
 
         Label playerLabel = game.createLabel("Number of players", 7 * stage.getWidth() / 10, stage.getHeight() / 2 + 50, 30);
         Label numberLabel = game.createLabel(GameGraphics.players + "", 4 * stage.getWidth() / 5, (stage.getHeight() / 2) - 75, 50);
@@ -103,6 +104,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         stage.addActor(numberLabel);
         stage.addActor(playerLabel);
         stage.addActor(nameField);
+        stage.addActor(nameFieldLabel);
         stage.addActor(returnButton);
         stage.addActor(startButton);
         stage.addActor(type);
@@ -120,7 +122,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         game.batch.begin();
 
-        mapImg.draw(game.batch, (5 * camera.viewportWidth / 12f) - mapImgWidth / 2, (7 * camera.viewportHeight / 12f) - mapImgHeight / 2, mapImgWidth, mapImgHeight);
+        mapImg.draw(game.batch, camera.viewportWidth / 4f, (7 * camera.viewportHeight / 12f) - mapImgHeight / 2, mapImgWidth, mapImgHeight);
 
         game.batch.end();
 
