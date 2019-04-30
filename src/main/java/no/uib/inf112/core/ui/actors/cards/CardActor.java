@@ -65,6 +65,9 @@ public class CardActor extends ImageTextButton {
     }
 
     public void setCard(Card card) {
+        if (card == null) {
+            int i = 0;
+        }
         this.card = card;
         updateCard();
     }

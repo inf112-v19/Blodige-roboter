@@ -86,6 +86,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
         if (gameOver) {
             return;
         }
+        System.out.println("This happende");
         user.getCards().clearSelectedCards();
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 

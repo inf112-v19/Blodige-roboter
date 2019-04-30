@@ -148,7 +148,7 @@ public class CardContainer {
     }
 
     public void setDrawnCards(List<CardDto> drawnCards) {
-        for (CardSlot actor : handCard) {
+        for (CardSlot actor : drawnCard) {
             if (!actor.isDisabled()) {
                 actor.setCard(null);
             }
@@ -186,7 +186,7 @@ public class CardContainer {
 
 
     public void setSelectedCards(List<CardDto> cards) {
-        for (int i = 0; i < cards.size(); i++) {
+        for (int i = 0; i < cards.size() && i < handCard.length; i++) {
             if (!handCard[i].isDisabled()) {
                 CardDto cardDto = cards.get(i);
                 handCard[i].setCard(new MovementCard(cardDto.movement, cardDto.priority));
