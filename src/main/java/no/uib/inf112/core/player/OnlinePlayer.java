@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.MovementCard;
-import no.uib.inf112.core.multiplayer.jsonClasses.CardDto;
+import no.uib.inf112.core.multiplayer.dtos.CardDto;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
@@ -39,13 +39,14 @@ public class OnlinePlayer extends AbstractPlayer {
 
     public void setCards(List<CardDto> cards) {
         for (int i = 0; i < cards.size(); i++) {
-            CardDto cardDto = cards.get(i);
-            this.cards[i] = new MovementCard(cardDto.movement, cardDto.priority);
+            if (i < getHealth()) {
+                CardDto cardDto = cards.get(i);
+                this.cards[i] = new MovementCard(cardDto.movement, cardDto.priority);
+            }
         }
-        //SelectedCardsDto.mapFromDto(cards).toArray((this.cards));
-        //To array places cards in the provided array
     }
 
+    @Override
     public int getId() {
         return id;
     }

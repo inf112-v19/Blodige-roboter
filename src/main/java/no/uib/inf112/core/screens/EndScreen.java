@@ -41,7 +41,9 @@ public class EndScreen extends AbstractMenuScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameGraphics.resetRoborally();
+                game.closeResources();
                 game.setScreen(new TitleScreen(game));
+
             }
         });
 

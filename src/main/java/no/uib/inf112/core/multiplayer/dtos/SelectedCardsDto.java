@@ -1,16 +1,20 @@
-package no.uib.inf112.core.multiplayer.jsonClasses;
+package no.uib.inf112.core.multiplayer.dtos;
 
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.MovementCard;
+import no.uib.inf112.core.player.IPlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SelectedCardsDto {
     public final List<CardDto> cards;
+    public boolean poweredDown;
 
-    public SelectedCardsDto(List<Card> cards) {
+    public SelectedCardsDto(boolean poweredDown, List<Card> cards) {
         this.cards = mapToDto(cards);
+        this.poweredDown = poweredDown;
     }
 
     public static List<CardDto> mapToDto(List<Card> cards) {
@@ -29,5 +33,10 @@ public class SelectedCardsDto {
             result.add(new MovementCard(card.movement, card.priority));
         }
         return result;
+    }
+
+    public static List<CardDto> drawRandomCards(List<CardDto> drawnCards) {
+        Collections.shuffle(drawnCards);
+        return drawnCards.subList(0, IPlayer.MAX_PLAYER_CARDS);
     }
 }

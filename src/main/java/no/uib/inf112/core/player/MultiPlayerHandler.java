@@ -5,9 +5,9 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.multiplayer.Client;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.PlayerDto;
+import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
@@ -44,7 +44,18 @@ public class MultiPlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        StartRoundDto startRoundDto = client.setSelectedCards(user.getCardList(), user.id);
+        client.setSelectedCards(user.isPoweredDown(), user.getCardList());
+        GameScreen.getUiHandler().hideDrawnCards();
+    }
+
+    /**
+     * TODO write this
+     */
+    public void startRound(StartRoundDto startRoundDto) {
+        user.getCards().setDrawnCards(startRoundDto.drawnCards);
+    }
+
+    public void runRound(StartRoundDto startRoundDto) {
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
@@ -52,7 +63,16 @@ public class MultiPlayerHandler implements IPlayerHandler {
                 while (iterator.hasNext()) {
                     PlayerDto playerDto = iterator.next();
                     if (playerDto.id == onlinePlayer.getId()) {
+                        onlinePlayer.setPoweredDown(playerDto.isPoweredDown);
                         onlinePlayer.setCards(playerDto.cards);
+                    }
+                }
+            } else {
+                Iterator<PlayerDto> iterator = startRoundDto.players.iterator();
+                while (iterator.hasNext()) {
+                    PlayerDto playerDto = iterator.next();
+                    if (playerDto.id == mainPlayer().getId() && !mainPlayer().isPoweredDown() && playerDto.cards != null) {
+                        ((Player) mainPlayer()).getCards().setSelectedCards(playerDto.cards);
                     }
                 }
             }
@@ -66,6 +86,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
         if (gameOver) {
             return;
         }
+        user.getCards().clearSelectedCards();
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();
@@ -104,12 +125,11 @@ public class MultiPlayerHandler implements IPlayerHandler {
         for (PlayerDto player : newGameDto.players) {
             SpawnTile spawnTile = spawnTiles.pop();
             if (player.id == newGameDto.userId) {
-                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), player.id);
+                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName + " (you)", player.color), player.id);
                 user.setDock(spawnTile.getSpawnNumber());
                 players.add(user);
             } else {
-                //Todo set colors
-                IPlayer onlinePlayer = new OnlinePlayer(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.BLUE), player.id);
+                IPlayer onlinePlayer = new OnlinePlayer(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(player.name, player.color), player.id);
                 onlinePlayer.setDock(spawnTile.getSpawnNumber());
                 players.add(onlinePlayer);
             }

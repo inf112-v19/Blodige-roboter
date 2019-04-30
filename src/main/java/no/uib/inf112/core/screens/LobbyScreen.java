@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class LobbyScreen extends AbstractMenuScreen {
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) {
         super(game);
         if (isHost) {
-            server = new Server(1100, 10);
+            server = new Server(port, 8);
             GameGraphics.setServer(server);
             client = new Client(ip, port);
             client.setName(GameGraphics.mainPlayerName);
@@ -28,15 +27,8 @@ public class LobbyScreen extends AbstractMenuScreen {
             server = null;
             client = new Client(ip, port);
             client.setName(GameGraphics.mainPlayerName);
+            client.startGame(game);
             GameGraphics.setClient(client);
-            new Thread(() -> {
-                NewGameDto setup = client.startGame();
-                GameScreen.scheduleSync(() -> {
-                    game.setScreen(new GameScreen(game, setup, client));
-                    stage.clear();
-                }, 0);
-
-            }).start();
         }
         connectedPlayers = client.getConnectedPlayers();
     }

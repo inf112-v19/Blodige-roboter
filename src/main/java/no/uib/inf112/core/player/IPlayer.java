@@ -83,15 +83,20 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
 
     /**
      * Changes name
+     *
      * @param name new name
      */
     void setName(String name);
 
     /**
-     *
      * @return name of player
      */
     String getName();
+
+    /**
+     * TODO write this
+     */
+    int getId();
 
     /**
      * @return if powered down or not

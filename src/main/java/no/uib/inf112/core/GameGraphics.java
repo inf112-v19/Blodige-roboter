@@ -13,7 +13,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.screens.TitleScreen;
@@ -45,6 +45,7 @@ public class GameGraphics extends Game {
 
     public static final int MIN_PORT = 49152;
     public static final int MAX_PORT = 65535;
+    public static int port = 55555; // Default port
 
     public SpriteBatch batch;
 
@@ -72,16 +73,22 @@ public class GameGraphics extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.dispose();
         batch.dispose();
         closeResources();
     }
 
-    private void closeResources() {
+    /**
+     * TODO write this
+     */
+    public void closeResources() {
         if (server != null) {
             server.close();
+            server = null;
         }
         if (client != null) {
             client.closeConnection();
+            client = null;
         }
     }
 

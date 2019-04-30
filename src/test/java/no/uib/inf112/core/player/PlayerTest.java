@@ -198,6 +198,11 @@ public class PlayerTest extends TestGraphics {
         }
 
         @Override
+        public int getId() {
+            return -1;
+        }
+
+        @Override
         public void clean(@NotNull Tile tile) {
             //This method does not do anything for this test class
         }

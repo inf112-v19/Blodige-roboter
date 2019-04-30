@@ -73,6 +73,11 @@ public class Player extends AbstractPlayer {
         return new ComparableTuple<>(cards.getCard(SlotType.HAND, id), this);
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     @NotNull
     public CardContainer getCards() {
         return cards;
@@ -97,6 +102,5 @@ public class Player extends AbstractPlayer {
                 ", poweredDown=" + isPoweredDown() +
                 '}';
     }
-
 
 }

@@ -1,11 +1,10 @@
-package no.uib.inf112.core.multiplayer.jsonClasses;
+package no.uib.inf112.core.multiplayer.dtos;
 
 import java.util.List;
 
 public class NewGameDto {
     public final String map;
     public final List<PlayerDto> players;
-    public List<CardDto> cards;
     public int userId = -1;
 
     public NewGameDto(String mapFileName, List<PlayerDto> players, Integer hostId) {

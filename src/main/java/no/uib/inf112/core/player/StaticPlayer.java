@@ -30,4 +30,9 @@ public class StaticPlayer extends AbstractPlayer {
         return new ComparableTuple<>(new MovementCard(Movement.RIGHT_TURN, 0), this);
     }
 
+    @Override
+    public int getId() {
+        return -1;
+    }
+
 }
