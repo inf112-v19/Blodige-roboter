@@ -15,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Client {
     Thread listener;
     private GameGraphics game;
     private MultiPlayerHandler playerHandler;
+    private List<String> players;
 
     public Client(String IP, int port) throws IOException {
         clientSocket = new Socket(IP, port);
@@ -36,6 +38,7 @@ public class Client {
 
         clientName = getClientNameFromServer();
 
+        players = new ArrayList<>();
         Thread listener = new Thread(() -> handleInput());
         listener.setDaemon(true);
         listener.start();
@@ -49,7 +52,12 @@ public class Client {
         } catch (IOException e) {
             System.out.println("IOExeption " + e);
         }
+        players = Arrays.asList(result.split(","));
         return Arrays.asList(result.split(","));
+    }
+
+    public List<String> getPlayers() {
+        return players;
     }
 
     public void handleInput() {
@@ -75,6 +83,7 @@ public class Client {
                         clientName = data;
                         break;
                     case "connectedPlayers":
+                        getConnectedPlayers();
                         //TODO receive a ConnectedPlayersDto, this happens everytime a new client is added
                         break;
                     case "threadName":

@@ -49,17 +49,29 @@ public class LobbyScreen extends AbstractMenuScreen {
         });
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
+        stage.addActor(returnButton);
+
+    }
+
+    @Override
+    public void render(float v) {
+        super.render(v);
+        stage.getActors().pop();
+        connectedPlayers = client.getPlayers();
         String[] players = new String[GameGraphics.players];
         for (int i = 0; i < GameGraphics.players; i++) {
             players[i] = "Not connected";
         }
         int i = 0;
         for (String connectedPlayer : connectedPlayers) {
-            players[i++] = connectedPlayer;
+            if (connectedPlayer.contains("name\":")) {
+                String[] split = connectedPlayer.split("name\":");
+                players[i++] = split[1];
+            }
         }
 
         com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(players);
         stage.addActor(list);
-        stage.addActor(returnButton);
+
     }
 }
