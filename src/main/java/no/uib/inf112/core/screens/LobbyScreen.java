@@ -1,6 +1,8 @@
 package no.uib.inf112.core.screens;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
@@ -37,6 +39,14 @@ public class LobbyScreen extends AbstractMenuScreen {
     @Override
     public void show() {
         TextButton returnButton = createReturnButton(50);
+        returnButton.clearListeners();
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new TitleScreen(game));
+                game.closeResources();
+            }
+        });
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
         String[] players = new String[GameGraphics.players];

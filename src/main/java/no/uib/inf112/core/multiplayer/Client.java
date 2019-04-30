@@ -1,6 +1,7 @@
 package no.uib.inf112.core.multiplayer;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
@@ -87,6 +88,9 @@ public class Client {
                         //int seconds = GameGraphics.gson.fromJson(data, Integer.class);
                         //TODO this seconds int has the information about the current number for the countdown
                         break;
+                    case "partyMode":
+                        InputHandler.enableMode();
+                        break;
                     default:
                         System.out.println("Unknown operation :" + result);
                         break;
@@ -118,6 +122,10 @@ public class Client {
             }
 
         }, 0);
+    }
+
+    public void setPartyMode() {
+        writeToServer("partyMode:");
     }
 
     public boolean writeToServer(String text) {

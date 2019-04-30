@@ -70,13 +70,21 @@ public class InputHandler extends InputAdapter {
                 logger.elementAt(logger.size() - 2) == Input.Keys.B &&
                 logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
+            enableMode();
+        }
+        return false;
+    }
+
+    public static void enableMode() {
+        if (!CustomOrthogonalTiledMapRenderer.PARTY) {
             GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav"));
             GameGraphics.backgroundMusic.play();
             GameGraphics.backgroundMusic.setLooping(true);
             CustomOrthogonalTiledMapRenderer.PARTY = true;
-
+            if (GameGraphics.getClient() != null) {
+                GameGraphics.getClient().setPartyMode();
+            }
         }
-        return false;
     }
 
 

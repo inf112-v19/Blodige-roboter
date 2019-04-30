@@ -180,6 +180,9 @@ public class Server {
                 case "finishedSetup":
                     startRound("giveCards:");
                     break;
+                case "partyMode":
+                    sendMessageToAll("partyMode:");
+                    break;
                 default:
                     System.out.println("Received from client " + threadNumber + ":" + line);
                     outToClient.print("error: Did not understand message" + "\r\n");

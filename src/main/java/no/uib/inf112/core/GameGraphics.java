@@ -158,4 +158,8 @@ public class GameGraphics extends Game {
         client = newClient;
     }
 
+    public static Client getClient() {
+        return client;
+    }
+
 }
