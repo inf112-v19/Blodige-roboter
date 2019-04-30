@@ -109,7 +109,7 @@ public class PlayerHandler implements IPlayerHandler {
             user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), 0);
             user.setDock(spawnTile.getSpawnNumber());
             players.add(user);
-            while (spawnTiles.isEmpty() && players.size() < playerCount) {
+            while (!spawnTiles.isEmpty() && players.size() < playerCount) {
                 SpawnTile tile = spawnTiles.pop();
                 NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
                 nonPlayer.setDock(tile.getSpawnNumber());

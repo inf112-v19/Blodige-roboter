@@ -8,6 +8,7 @@ import no.uib.inf112.core.GameGraphics;
 public class HostSetup extends AbstractSetupScreen {
 
     private TextField portField;
+    private int port;
 
     public HostSetup(GameGraphics game) {
         super(game);
@@ -16,7 +17,7 @@ public class HostSetup extends AbstractSetupScreen {
     @Override
     protected void startGame(String mainPlayerName) {
         GameGraphics.mainPlayerName = mainPlayerName;
-        game.setScreen(new LobbyScreen(game, true, "localHost", 1100));
+        game.setScreen(new LobbyScreen(game, true, "localHost", port));
         stage.clear();
     }
 
@@ -42,7 +43,8 @@ public class HostSetup extends AbstractSetupScreen {
         startButton.setDisabled(!checkValidPort(portField.getText()));
 
         if (startGame && !startButton.isDisabled()) {
-            // TODO join game at port portNb
+            port = Integer.parseInt(portField.getText());
+            startGame(GameGraphics.mainPlayerName);
         } else {
             startGame = false;
         }

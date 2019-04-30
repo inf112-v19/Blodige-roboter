@@ -10,14 +10,8 @@ public class PlayerDto {
     public Color color;
     public int id;
     public List<CardDto> cards;
-
-    public PlayerDto(String name, Color color, int id, List<CardDto> cards) {
-        this.name = name;
-        this.color = color;
-        this.id = id;
-
-        this.cards = cards;
-    }
+    public boolean isPoweredDown = false;
+    public List<CardDto> drawnCards;
 
     public PlayerDto() {
     }

@@ -127,7 +127,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         game.batch.end();
 
         if (startGame) { // Using this solution because we can't start game from clicked method
-            startGame(nameField.getText());
+            GameGraphics.mainPlayerName = nameField.getText();
         }
     }
 

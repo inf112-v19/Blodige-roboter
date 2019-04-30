@@ -2,6 +2,7 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.multiplayer.jsonClasses.CardDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
 import no.uib.inf112.core.player.IPlayer;
@@ -147,13 +148,49 @@ public class CardContainer {
     }
 
     public void setDrawnCards(List<CardDto> drawnCards) {
+        for (CardSlot actor : handCard) {
+            if (!actor.isDisabled()) {
+                actor.setCard(null);
+            }
+        }
+
+        List<Card> cards = SelectedCardsDto.mapFromDto(drawnCards);
         int amount = IPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
+
         if (drawnCards.size() < amount) {
             throw new IllegalArgumentException("Received drawn cards is to low");
         }
-        List<Card> cards = SelectedCardsDto.mapFromDto(drawnCards);
-        for (int i = 0; i < amount; i++) {
-            drawnCard[i].setCard(cards.get(i));
+
+        for (int i = 0; i < IPlayer.MAX_DRAW_CARDS; i++) {
+            if (i >= amount) {
+                drawnCard[i].setCard(null);
+                drawnCard[i].getColor().a = 0.70f;
+            } else {
+                drawnCard[i].setCard(cards.get(i));
+            }
+        }
+    }
+
+    /**
+     * TODO write this
+     */
+    public void clearSelectedCards() {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            CardSlot cardSlot = handCard[i];
+            if (!cardSlot.isDisabled()) {
+                cardSlot.setCard(null);
+            }
+        }
+
+    }
+
+
+    public void setSelectedCards(List<CardDto> cards) {
+        for (int i = 0; i < cards.size(); i++) {
+            if (!handCard[i].isDisabled()) {
+                CardDto cardDto = cards.get(i);
+                handCard[i].setCard(new MovementCard(cardDto.movement, cardDto.priority));
+            }
         }
     }
 }

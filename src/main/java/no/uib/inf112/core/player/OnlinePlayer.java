@@ -39,13 +39,14 @@ public class OnlinePlayer extends AbstractPlayer {
 
     public void setCards(List<CardDto> cards) {
         for (int i = 0; i < cards.size(); i++) {
-            CardDto cardDto = cards.get(i);
-            this.cards[i] = new MovementCard(cardDto.movement, cardDto.priority);
+            if (i < getHealth()) {
+                CardDto cardDto = cards.get(i);
+                this.cards[i] = new MovementCard(cardDto.movement, cardDto.priority);
+            }
         }
-        //SelectedCardsDto.mapFromDto(cards).toArray((this.cards));
-        //To array places cards in the provided array
     }
 
+    @Override
     public int getId() {
         return id;
     }

@@ -44,7 +44,18 @@ public class MultiPlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        StartRoundDto startRoundDto = client.setSelectedCards(user.getCardList(), user.id);
+        client.setSelectedCards(user.isPoweredDown(), user.getCardList());
+        GameScreen.getUiHandler().hideDrawnCards();
+    }
+
+    /**
+     * TODO write this
+     */
+    public void startRound(StartRoundDto startRoundDto) {
+        user.getCards().setDrawnCards(startRoundDto.drawnCards);
+    }
+
+    public void runRound(StartRoundDto startRoundDto) {
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
@@ -52,7 +63,16 @@ public class MultiPlayerHandler implements IPlayerHandler {
                 while (iterator.hasNext()) {
                     PlayerDto playerDto = iterator.next();
                     if (playerDto.id == onlinePlayer.getId()) {
+                        onlinePlayer.setPoweredDown(playerDto.isPoweredDown);
                         onlinePlayer.setCards(playerDto.cards);
+                    }
+                }
+            } else {
+                Iterator<PlayerDto> iterator = startRoundDto.players.iterator();
+                while (iterator.hasNext()) {
+                    PlayerDto playerDto = iterator.next();
+                    if (playerDto.id == mainPlayer().getId() && !mainPlayer().isPoweredDown() && playerDto.cards != null) {
+                        ((Player) mainPlayer()).getCards().setSelectedCards(playerDto.cards);
                     }
                 }
             }
@@ -66,6 +86,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
         if (gameOver) {
             return;
         }
+        user.getCards().clearSelectedCards();
         GameScreen.getUiHandler().getPowerButton().resetAlpha();
 
         Player p = (Player) mainPlayer();

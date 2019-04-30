@@ -77,12 +77,17 @@ public class GameGraphics extends Game {
         closeResources();
     }
 
-    private void closeResources() {
+    /**
+     * TODO write this
+     */
+    public void closeResources() {
         if (server != null) {
             server.close();
+            server = null;
         }
         if (client != null) {
             client.closeConnection();
+            client = null;
         }
     }
 

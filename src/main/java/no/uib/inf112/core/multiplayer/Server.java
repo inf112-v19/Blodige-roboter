@@ -2,8 +2,6 @@ package no.uib.inf112.core.multiplayer;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.map.cards.Deck;
-import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
 import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
@@ -18,9 +16,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class Server {
@@ -28,6 +24,9 @@ public class Server {
     List<ConnectedPlayer> players = new ArrayList<>();
     private Integer hostId;
     ServerSocket servSock;
+    static Timer timer = new Timer();
+    private static int seconds = 0;
+    private boolean receivedCard = false;
 
     public Server(int port, int numThreads) {
 
@@ -44,14 +43,14 @@ public class Server {
         for (int i = 0; i < numThreads; i++) {
             ConnectedPlayer player = new ConnectedPlayer(servSock, i);
             players.add(player);
+            player.setDaemon(true);
             player.start();
         }
         try {
-            System.out.println("Server at " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("Hosting sever at " + InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
     }
 
     public void close() {
@@ -89,6 +88,7 @@ public class Server {
             threadNumber = i;
             setName("Thread " + threadNumber);
             player.id = i;
+            setDaemon(true);
         }
 
         private void sendMessage(String message) {
@@ -141,23 +141,21 @@ public class Server {
         }
 
         private void handleInput(String line) {
-            System.out.println(line);
             String command = line.substring(0, line.indexOf(":"));
             String data = line.substring(line.indexOf(":") + 1);
             System.out.println("receiving " + line);
             switch (command) {
                 case "getName":
-                    outToClient.print(getName() + "\r\n");
+                    outToClient.print("threadName:" + getName() + "\r\n");
                     outToClient.flush();
                     break;
                 case "setDisplayName":
                     player.name = data;
-                    outToClient.print("Name:" + player.name + "for" + getName() + "\r\n");
+                    outToClient.print("name:" + player.name + "for" + getName() + "\r\n");
                     outToClient.flush();
                     break;
                 case "getConnectedPlayers":
-                    System.out.println("getConnectedPlayers");
-                    outToClient.print(getConnectedPlayers() + "\r\n");
+                    outToClient.print("connectedPlayers:" + getConnectedPlayers() + "\r\n");
                     outToClient.flush();
                     break;
                 case "startGame":
@@ -165,15 +163,23 @@ public class Server {
                     break;
                 case "setSelectedCards":
                     setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
+                    if (!receivedCard) {
+                        startCountdown();
+                        receivedCard = true;
+                    }
                     readyToStart = true;
                     checkAllPlayersReady();
                     //user waits for rest of players
                     break;
                 case "setHostId":
                     hostId = player.id;
+                    break;
+                case "finishedSetup":
+                    startRound("giveCards:");
+                    break;
                 default:
                     System.out.println("Received from client " + threadNumber + ":" + line);
-                    outToClient.print("Did not understand message" + "\r\n");
+                    outToClient.print("error: Did not understand message" + "\r\n");
                     outToClient.flush();
                     break;
 
@@ -181,14 +187,54 @@ public class Server {
         }
 
         private void setCards(SelectedCardsDto response) {
+            player.isPoweredDown = response.poweredDown;
             player.cards = response.cards;
         }
 
         protected void close() throws IOException {
-            outToClient.close();
+            if (outToClient != null) {
+                outToClient.close();
+            }
             handlerServSock.close();
             connected = false;
             interrupt();
+        }
+    }
+
+    private void startCountdown() {
+        seconds = 0;
+        TimerTask task = new TimerTask() {
+            private final int MAX_SECONDS = 15;
+
+            @Override
+            public void run() {
+                if (seconds < MAX_SECONDS) {
+                    System.out.println("Seconds = " + seconds);
+                    sendSeconds(seconds);
+                    seconds++;
+                } else {
+                    for (ConnectedPlayer player : players) {
+                        if (player.connected) {
+                            if (!player.readyToStart) {
+                                if (player.player.drawnCards != null) {
+                                    player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
+                                }
+                            }
+                        }
+                    }
+                    startRound("startRound:");
+                    cancel();
+
+                }
+            }
+        };
+        timer.schedule(task, 0, 1000);
+    }
+
+    private void sendSeconds(int seconds) {
+        for (ConnectedPlayer player :
+                players) {
+            player.sendMessage("countDown:" + GameGraphics.gson.toJson(seconds, Integer.class));
         }
     }
 
@@ -200,10 +246,10 @@ public class Server {
                 }
             }
         }
-        startRound();
+        startRound("startRound:");
     }
 
-    private void startRound() {
+    private void startRound(String command) {
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {
             if (player.player.name != null) {
@@ -214,10 +260,12 @@ public class Server {
         for (ConnectedPlayer player : this.players) {
             if (player.player.name != null) {
                 List<Card> cards = Arrays.asList(GameGraphics.getRoboRally().getDeck().draw(IPlayer.MAX_DRAW_CARDS));
-                player.sendMessage("startRound:" + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
+                player.player.drawnCards = SelectedCardsDto.mapToDto(cards);
+                player.sendMessage(command + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
                 player.readyToStart = false;
             }
         }
+        receivedCard = false;
     }
 
 
@@ -228,34 +276,35 @@ public class Server {
                 result.append(connectedPlayer.player.name);
             }
         }
-        System.out.println("Server:" + result.toString());
         return result.toString();
     }
 
     public void startGame(int id) {
-        List<PlayerDto> playerDtos = new ArrayList<>();
-        for (ConnectedPlayer player : players) {
-            if (player.player.name != null) {
-                playerDtos.add(player.player);
-            }
-        }
-
-
         if (hostId == id) {
+            List<PlayerDto> playerDtos = new ArrayList<>();
+            Iterator<ConnectedPlayer> iterator = players.iterator();
+            while (iterator.hasNext()) {
+                ConnectedPlayer player = iterator.next();
+                if (player.player.name != null) {
+                    playerDtos.add(player.player);
+                } else {
+                    try {
+                        player.interrupt();
+                        player.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    iterator.remove();
+                }
+            }
             NewGameDto newGameDto = new NewGameDto(GameGraphics.mapFileName, playerDtos, hostId);
-            GameGraphics.HEADLESS = true;
-            Deck deck = new MovementDeck();
-            GameGraphics.HEADLESS = false;//TODO bad practice
-            deck.shuffle(); // using other deck first time, since no RoboRally initiated
             for (ConnectedPlayer player : players) {
-                if (player.connected) {
-                    newGameDto.cards = SelectedCardsDto.mapToDto(Arrays.asList(deck.draw(IPlayer.MAX_DRAW_CARDS)));
+                if (player.player.name != null) {
                     newGameDto.userId = player.player.id;
                     String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
                     player.sendMessage(message);
                 }
             }
         }
-
     }
 }
