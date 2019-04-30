@@ -46,7 +46,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private Label flagCount;
 
     private TextField nameField;
-    TextButton startButton;
+    protected TextButton startButton;
     boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
@@ -234,7 +234,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         setMapPreview();
     }
 
-    Slider createSlider() {
+    protected Slider createSlider() {
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0f, 0f, 0f, 1f);
