@@ -64,8 +64,17 @@ public interface IPlayerHandler {
         return new ComparableTuple<Integer, Stack<SpawnTile>>(flagCount, spawnTiles);
     }
 
+    /**
+     * Checks if game is over
+     * Updates game over field variable
+     */
     void checkGameOver();
 
+    /**
+     * Rank players according to flags and
+     * time played
+     * @return String list of players ranked in correct order
+     */
     String[] rankPlayers();
 
     /**

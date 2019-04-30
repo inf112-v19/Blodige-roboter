@@ -31,7 +31,6 @@ import java.util.ArrayList;
 
 public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
-
     private ArrayList<String> mapList = new ArrayList<>();
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
 
@@ -47,7 +46,8 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     private Label flagCount;
 
     private TextField nameField;
-    private boolean startGame = false;
+    protected TextButton startButton;
+    boolean startGame = false;
 
     public AbstractSetupScreen(GameGraphics game) {
         super(game);
@@ -67,7 +67,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     public void show() {
         TextButton returnButton = createReturnButton(50);
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
-        TextButton startButton = createButton("START", 80);
+        startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -83,7 +83,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         flagCount = game.createLabel("# flags: ", camera.viewportWidth / 4f, 2 * camera.viewportHeight / 20, 20);
         flagCount.setColor(Color.WHITE);
 
-        nameField = createNameInputField();
+        nameField = createInputField("Enter name", 13);
         nameField.setPosition(7 * stage.getWidth() / 10, 3 * stage.getHeight() / 4);
 
         Label playerLabel = game.createLabel("Number of players", 7 * stage.getWidth() / 10, stage.getHeight() / 2 + 50, 30);
@@ -238,7 +238,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         setMapPreview();
     }
 
-    Slider createSlider() {
+    protected Slider createSlider() {
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0f, 0f, 0f, 1f);
@@ -262,6 +262,14 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
         pixmap.dispose();
         return slider;
+    }
+
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        listFont.dispose();
+        selectedFont.dispose();
     }
 
 }

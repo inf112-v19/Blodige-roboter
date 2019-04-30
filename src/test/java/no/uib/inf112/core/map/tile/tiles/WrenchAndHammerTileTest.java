@@ -27,7 +27,6 @@ public class WrenchAndHammerTileTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        //roboRally.getPlayerHandler().generateOnePlayer();
         testPlayer = roboRally.getPlayerHandler().mainPlayer();
         testPlayer.teleport(pos.x, pos.y);
         wahTile = (WrenchAndHammerTile) roboRally.getCurrentMap().getTile("board", pos.x, pos.y);

@@ -66,7 +66,7 @@ public class PlayerHandlerTest extends TestGraphics {
         roboRally = GameGraphics.createRoboRally(MAP_FOLDER + File.separatorChar + "checkmate.tmx", 8);
         List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         for (IPlayer player : players) {
-            player.registerFlagVisits(roboRally.getPlayerHandler().getFlagCount());
+            registerFlagVisits(roboRally.getPlayerHandler().getFlagCount(), player);
         }
         roboRally.getPlayerHandler().checkGameOver();
         assertTrue(roboRally.getPlayerHandler().isGameOver());
@@ -84,43 +84,4 @@ public class PlayerHandlerTest extends TestGraphics {
         assertTrue(roboRally.getPlayerHandler().isGameOver());
         assertEquals(roboRally.getPlayerHandler().getWonPlayers().size(), roboRally.getPlayerHandler().getPlayerCount());
     }
-
-//    @Test
-//    public void dfads() {
-//        roboRally = GameGraphics.createRoboRally(MAP_FOLDER + File.separatorChar + "checkmate.tmx", 3);
-//        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
-//        players.get(2).setName("First");
-//        players.get(2).registerFlagVisits(2);
-//        roboRally.getPlayerHandler().checkGameOver();
-//        players.get(1).setName("Secound");
-//        players.get(1).registerFlagVisits(2);
-//        roboRally.getPlayerHandler().checkGameOver();
-//        String[] strings = roboRally.getPlayerHandler().rankPlayers();
-//        for (String string : strings) {
-//            System.out.println(string);
-//        }
-//    }
-//
-//    @Test
-//    public void dadf() {
-//        roboRally = GameGraphics.createRoboRally(MAP_FOLDER + File.separatorChar + "checkmate.tmx", 4);
-//        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
-//        players.get(0).setName("Last");
-//        players.get(0).destroy();
-//        roboRally.getPlayerHandler().checkGameOver();
-//        players.get(1).setName("First");
-//        players.get(1).registerFlagVisits(2);
-//        roboRally.getPlayerHandler().checkGameOver();
-//        players.get(0).setName("Third");
-//        players.get(0).registerFlagVisit();
-//        roboRally.getPlayerHandler().checkGameOver();
-//        players.get(1).setName("Secound");
-//        players.get(1).registerFlagVisits(2);
-//        roboRally.getPlayerHandler().checkGameOver();
-//
-//        String[] strings = roboRally.getPlayerHandler().rankPlayers();
-//        for (String string : strings) {
-//            System.out.println(string);
-//        }
-//    }
 }

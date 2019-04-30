@@ -46,8 +46,9 @@ public class PlayerHandler implements IPlayerHandler {
         addPlayers(map);
     }
 
+
     private void addColors() {
-        colors.push(new ComparableTuple<>("Pink", Color.PINK));
+        colors.push(new ComparableTuple<>("Coral", Color.CORAL));
         colors.push(new ComparableTuple<>("Green", Color.GREEN));
         colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
         colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
@@ -110,15 +111,15 @@ public class PlayerHandler implements IPlayerHandler {
             players.add(user);
             while (spawnTiles.isEmpty() && players.size() < playerCount) {
                 SpawnTile tile = spawnTiles.pop();
-                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(tile.getSpawnNumber());
-                players.add(staticPlayer);
+                NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                nonPlayer.setDock(tile.getSpawnNumber());
+                players.add(nonPlayer);
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
-                staticPlayer.setDock(i);
-                players.add(staticPlayer);
+                NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                nonPlayer.setDock(i);
+                players.add(nonPlayer);
             }
         }
     }
@@ -134,6 +135,7 @@ public class PlayerHandler implements IPlayerHandler {
         });
         if (players.size() == 1) {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
+            players.remove(0);
             gameOver = true;
             return;
         }
@@ -148,17 +150,15 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public String[] rankPlayers() {
-        //TODO Fix logic
-//        if(players.size() == 1) {
-//            players.remove(0);
-//        }
-        String[] playersInRankingOrder = new String[playerCount];
-        List<IPlayer> playerStackWon = new ArrayList<>();
-        playerStackWon.addAll(wonPlayers.keySet());
-//        playerStackWon.addAll(players);
+        players.forEach(player -> wonPlayers.put(player, System.currentTimeMillis()));
+        List<IPlayer> playerStackWon = new ArrayList<>(wonPlayers.keySet());
         playerStackWon.sort((p1, p2) -> {
             if (p1.getFlags() == p2.getFlags()) {
-                if (p1.isDestroyed() && p2.isDestroyed()) {
+                if (p1.isDestroyed() && !p2.isDestroyed()) {
+                    return 1;
+                } else if (p2.isDestroyed() && !p1.isDestroyed()) {
+                    return -1;
+                } else if (p1.isDestroyed() && p2.isDestroyed()) {
                     return wonPlayers.get(p2).compareTo(wonPlayers.get(p1));
                 } else {
                     return wonPlayers.get(p1).compareTo(wonPlayers.get(p2));
@@ -168,8 +168,8 @@ public class PlayerHandler implements IPlayerHandler {
             }
         });
 
+        String[] playersInRankingOrder = new String[playerCount];
         int i = 0;
-        System.out.println(playerStackWon.size());
         for (IPlayer player : playerStackWon) {
             playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
         }
@@ -188,7 +188,14 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public IPlayer mainPlayer() {
-        return players.get(0);
+        if (!players.isEmpty()) {
+            IPlayer player = players.get(0);
+            if (player instanceof Player || HEADLESS) {
+                return players.get(0);
+            }
+            gameOver = true;
+        }
+        return new Player(0, 0, Direction.NORTH, GameGraphics.getRoboRally().getCurrentMap(), new ComparableTuple<>("Dead", Color.BLACK), 0);
     }
 
     @Override

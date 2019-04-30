@@ -9,6 +9,7 @@ import no.uib.inf112.core.round.DefaultGameRule;
 import org.jetbrains.annotations.NotNull;
 
 public class RoboRally {
+    private static final int STANDARD_ROUND_DURATION = 910;
     private MapHandler map;
 
     private IPlayerHandler playerHandler;
@@ -24,7 +25,7 @@ public class RoboRally {
     }
 
     public void round() {
-        DefaultGameRule.generate().startRound();
+        DefaultGameRule.generate(STANDARD_ROUND_DURATION).startRound();
     }
 
     /**

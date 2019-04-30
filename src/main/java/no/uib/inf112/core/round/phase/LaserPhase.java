@@ -42,6 +42,7 @@ public class LaserPhase extends AbstractPhase {
             }
 
         }
+        map.update(0);
     }
 
     /**
@@ -111,6 +112,12 @@ public class LaserPhase extends AbstractPhase {
 
             if (canMove(laser, direction, map)) {
                 currentPos = new Vector2Int(currentPos.x + direction.getDx(), currentPos.y + direction.getDy());
+                Tile collidable = (map.getTile(COLLIDABLES_LAYER_NAME, currentPos.x, currentPos.y));
+                if (collidable != null && collidable.hasSuperClass(CollidableTile.class) &&
+                        ((CollidableTile) collidable).willCollide(laser, direction)) {
+                    //Colliding with wall facing the previous tile
+                    break;
+                }
                 onPos = map.getTile(ENTITY_LAYER_NAME, currentPos.x, currentPos.y);
             } else {
                 break;
@@ -175,7 +182,7 @@ public class LaserPhase extends AbstractPhase {
      *
      * @param laser     tile to move
      * @param tile      tile to maybe collide with
-     * @param direction directio to move
+     * @param direction direction to move
      * @return true if the tile collides with the other tile
      */
     private boolean willCollide(Tile laser, Tile tile, Direction direction) {
@@ -192,7 +199,7 @@ public class LaserPhase extends AbstractPhase {
      *
      * @param originTile tile to get direction from
      * @return the direction of the tile
-     * @Throws IllegalArgumentException if the tile has more than one direction
+     * @throws IllegalArgumentException if the tile has more than one direction
      */
     private Direction getDirection(MultiDirectionalTile originTile) {
         if (originTile.getDirections().size() == 1) {

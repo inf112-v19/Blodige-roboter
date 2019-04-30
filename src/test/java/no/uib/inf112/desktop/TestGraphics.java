@@ -8,6 +8,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.player.IPlayer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -49,5 +50,11 @@ public class TestGraphics {
         // Exit the application first
         application.exit();
         application = null;
+    }
+
+    public void registerFlagVisits(int n, IPlayer player) {
+        for (int i = 0; i < n; i++) {
+            player.registerFlagVisit();
+        }
     }
 }

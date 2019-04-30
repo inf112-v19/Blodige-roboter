@@ -30,7 +30,6 @@ public class GameScreen implements Screen {
 
 
     public GameScreen(GameGraphics game) {
-
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -63,7 +62,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         GameGraphics.getRoboRally().getPlayerHandler().startTurn();
-
     }
 
     @Override
@@ -87,7 +85,6 @@ public class GameScreen implements Screen {
         uiHandler.update();
 
         game.batch.end();
-
     }
 
     @Override

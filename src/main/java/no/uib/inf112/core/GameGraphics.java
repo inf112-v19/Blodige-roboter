@@ -38,8 +38,13 @@ public class GameGraphics extends Game {
     public static Music backgroundMusic;
     public static boolean soundMuted = false;
     public static int players;
-    public static String mainPlayerName;
+
     public static Gson gson = new Gson();
+
+    public static String mainPlayerName = "default name";
+
+    public static final int MIN_PORT = 49152;
+    public static final int MAX_PORT = 65535;
 
     public SpriteBatch batch;
 
@@ -101,6 +106,10 @@ public class GameGraphics extends Game {
             createRoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, players);
         }
         return roboRally;
+    }
+
+    public static void resetRoborally() {
+        roboRally = null;
     }
 
     public static synchronized RoboRally createRoboRally(String map, int playerCount) {

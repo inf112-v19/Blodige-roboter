@@ -16,7 +16,6 @@ public class RegisterBackupTest extends TestGraphics {
 
     private MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
 
-    //TODO #77 this should be tested way more.
     @Test
     public void settingBackupShouldUpdateBackup() {
         AbstractPlayer testPlayer = new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));

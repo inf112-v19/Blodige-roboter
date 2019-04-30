@@ -83,7 +83,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
-        health = Math.min(MAX_HEALTH, health + healAmount);
+        health += Math.min(healAmount, MAX_HEALTH - health);
     }
 
     @Override
@@ -104,11 +104,6 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     @Override
     public void registerFlagVisit() {
         flags++;
-    }
-
-    @Override
-    public void registerFlagVisits(int n) {
-        flags += n;
     }
 
     @Override
@@ -141,6 +136,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         return willPowerDown;
     }
 
+    @Override
     public void setPoweredDown(boolean poweredDown) {
         if (poweredDown) {
             Sound.ROBOT_SHUTDOWN.play();
@@ -148,6 +144,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         this.poweredDown = poweredDown;
     }
 
+    @Override
     public void setWillPowerDown(boolean willPowerDown) {
         this.willPowerDown = willPowerDown;
     }
@@ -158,6 +155,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    @NotNull
     public Vector2Int getBackup() {
         return backup;
     }
@@ -190,6 +188,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
             poweredDown = true;
             heal();
         }
+    }
+
+    @Override
+    public boolean canRunOnSelf() {
+        return true;
     }
 
     @Override

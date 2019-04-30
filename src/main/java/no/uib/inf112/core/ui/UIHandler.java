@@ -4,6 +4,7 @@ package no.uib.inf112.core.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -74,6 +75,7 @@ public class UIHandler implements Disposable {
 
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
+    public static final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
 
     static {
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
@@ -266,15 +268,15 @@ public class UIHandler implements Disposable {
         robotStatusTable.clear();
         List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
         VerticalGroup playerStatus = new VerticalGroup().space(2);
-        for (int i = 0; i < players.size(); i++) {
+        for (IPlayer player : players) {
 
-            String playerString = players.get(i).getName() +
-                    "\nFlags: " + players.get(i).getFlags() +
-                    "\nHealth: " + players.get(i).getHealth() +
-                    "\nLives: " + players.get(i).getLives();
+            String playerString = player.getName() +
+                    "\nFlags: " + player.getFlags() +
+                    "\nHealth: " + player.getHealth() +
+                    "\nLives: " + player.getLives();
 
-            Label playerLabel = createLabel(playerString, 30);
-            playerLabel.setColor(players.get(i).getColor());
+            Label playerLabel = createLabel(playerString);
+            playerLabel.setColor(player.getColor());
             playerStatus.addActor(playerLabel);
         }
 
@@ -282,9 +284,9 @@ public class UIHandler implements Disposable {
 
     }
 
-    public Label createLabel(String text, int fontSize) {
+    public Label createLabel(String text) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, fontSize);
+        labelStyle.font = statusFont;
         return new Label(text, labelStyle);
     }
 
@@ -335,6 +337,7 @@ public class UIHandler implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+        statusFont.dispose();
     }
 
     public Stage getStage() {

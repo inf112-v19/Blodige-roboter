@@ -37,15 +37,16 @@ public class Round {
                 totalDelay += phase.getRunTime();
 
             }
+            map.update(0);
         }
         GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().checkGameOver(), totalDelay + 10);
 
         for (Phase phase : cleanupPhases) {
-            GameScreen.scheduleSync(() -> {
-                phase.startPhase(map);
-            }, totalDelay + 10);
+            GameScreen.scheduleSync(() -> phase.startPhase(map), totalDelay + (GameGraphics.HEADLESS ? 0 : 10));
         }
 
-        GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+        if (!GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
+            GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+        }
     }
 }
