@@ -27,10 +27,10 @@ public class Server {
 
     List<ConnectedPlayer> players = new ArrayList<>();
     private Integer hostId;
-
+    ServerSocket servSock;
 
     public Server(int port, int numThreads) {
-        ServerSocket servSock;
+
 
         try {
             servSock = new ServerSocket(port);
@@ -52,6 +52,22 @@ public class Server {
             e.printStackTrace();
         }
 
+    }
+
+    public void close() {
+        for (ConnectedPlayer player :
+                players) {
+            try {
+                player.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            servSock.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -166,6 +182,13 @@ public class Server {
 
         private void setCards(SelectedCardsDto response) {
             player.cards = response.cards;
+        }
+
+        protected void close() throws IOException {
+            outToClient.close();
+            handlerServSock.close();
+            connected = false;
+            interrupt();
         }
     }
 

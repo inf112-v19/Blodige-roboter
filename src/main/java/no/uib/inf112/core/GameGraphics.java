@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.Server;
 import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.player.PlayerHandler;
@@ -42,6 +43,9 @@ public class GameGraphics extends Game {
 
     public SpriteBatch batch;
 
+    private static Server server;
+    private static Client client;
+
     public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, Client client) {
         String mapPath = MAP_FOLDER + setup.map + MAP_EXTENSION;
         MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
@@ -64,7 +68,18 @@ public class GameGraphics extends Game {
     public void dispose() {
         super.dispose();
         batch.dispose();
+        closeResources();
     }
+
+    private void closeResources() {
+        if (server != null) {
+            server.close();
+        }
+        if (client != null) {
+            client.closeConnection();
+        }
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -111,6 +126,20 @@ public class GameGraphics extends Game {
 
         label.setPosition(x, y);
         return label;
+    }
+
+    /**
+     * TODO write this
+     *
+     * @param newServer
+     */
+    public static void setServer(Server newServer) {
+        server = newServer;
+    }
+
+    //TODO write this
+    public static void setClient(Client newClient) {
+        client = newClient;
     }
 
 }

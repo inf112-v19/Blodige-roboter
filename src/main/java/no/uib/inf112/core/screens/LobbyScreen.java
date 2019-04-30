@@ -28,21 +28,25 @@ public class LobbyScreen extends AbstractMenuScreen {
         this.isHost = isHost;
         if (isHost) {
             server = new Server(1100, 10);
+            GameGraphics.setServer(server);
             client = new Client(ip, port);
             client.setName(GameGraphics.mainPlayerName);
             client.getClientNameFromServer();
             client.setHost();
+            GameGraphics.setClient(client);
         } else {
             server = null;
             client = new Client(ip, port);
             client.setName(GameGraphics.mainPlayerName);
+            GameGraphics.setClient(client);
             new Thread(() -> {
                 NewGameDto setup = client.startGame();
                 GameScreen.scheduleSync(() -> {
                     game.setScreen(new GameScreen(game, setup, client));
+                    stage.clear();
                 }, 0);
 
-            }).run();
+            }).start();
         }
         connectedPlayers = client.getConnectedPlayers();
     }

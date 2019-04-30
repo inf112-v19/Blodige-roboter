@@ -32,6 +32,7 @@ public class JoinScreen extends AbstractMenuScreen {
             public void clicked(InputEvent event, float x, float y) {
                 GameGraphics.mainPlayerName = nameField.getText();
                 game.setScreen(new LobbyScreen(game, false, ipField.getText(), 1100));
+                stage.clear();
             }
         });
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
