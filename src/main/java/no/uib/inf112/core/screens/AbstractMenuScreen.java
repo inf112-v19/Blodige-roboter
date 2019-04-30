@@ -78,8 +78,10 @@ public abstract class AbstractMenuScreen implements Screen {
         button.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                style.font = boldFont;
-                button.setStyle(style);
+                if (!button.isDisabled()) {
+                    style.font = boldFont;
+                    button.setStyle(style);
+                }
             }
 
             @Override
