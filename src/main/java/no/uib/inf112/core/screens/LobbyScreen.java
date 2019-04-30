@@ -51,6 +51,7 @@ public class LobbyScreen extends AbstractMenuScreen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //TODO check to see if enough players are connected
                 GameScreen.scheduleSync(() -> client.startGame(game), 0);
             }
         });

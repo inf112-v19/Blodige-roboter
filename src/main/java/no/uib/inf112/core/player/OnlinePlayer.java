@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.MovementCard;
-import no.uib.inf112.core.multiplayer.jsonClasses.CardDto;
+import no.uib.inf112.core.multiplayer.dtos.CardDto;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;

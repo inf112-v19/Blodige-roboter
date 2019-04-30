@@ -13,7 +13,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.screens.TitleScreen;

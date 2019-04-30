@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.multiplayer.Client;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;

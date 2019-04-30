@@ -2,9 +2,9 @@ package no.uib.inf112.core.multiplayer;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
+import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.screens.GameScreen;

@@ -3,10 +3,10 @@ package no.uib.inf112.core.multiplayer;
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
-import no.uib.inf112.core.multiplayer.jsonClasses.NewGameDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.PlayerDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.SelectedCardsDto;
-import no.uib.inf112.core.multiplayer.jsonClasses.StartRoundDto;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.multiplayer.dtos.PlayerDto;
+import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
+import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.util.ComparableTuple;
@@ -124,7 +124,6 @@ public class Server {
                     System.out.println(getName() + " starting, IP=" + clientSocket.getInetAddress());
                     DataInputStream inFromClient = new DataInputStream(clientSocket.getInputStream());
                     outToClient = new PrintWriter(clientSocket.getOutputStream(), true);
-
                     String line;
                     while ((line = inFromClient.readUTF()) != null) {
                         handleInput(line);
@@ -157,6 +156,7 @@ public class Server {
                     player.name = data;
                     outToClient.print("name:" + player.name + "for" + getName() + "\r\n");
                     outToClient.flush();
+                    sendMessageToAll("connectedPlayers:" + getConnectedPlayers());
                     break;
                 case "getConnectedPlayers":
                     outToClient.print("connectedPlayers:" + getConnectedPlayers() + "\r\n");
@@ -205,6 +205,14 @@ public class Server {
         }
     }
 
+    private void sendMessageToAll(String message) {
+        for (ConnectedPlayer player : players) {
+            if (player.player.name != null) {
+                player.sendMessage(message);
+            }
+        }
+    }
+
     private void startCountdown() {
         seconds = 0;
         TimerTask task = new TimerTask() {
@@ -213,7 +221,7 @@ public class Server {
             @Override
             public void run() {
                 if (!startedRound && seconds < MAX_SECONDS) {
-                    sendSeconds(seconds);
+                    sendMessageToAll("countDown:" + GameGraphics.gson.toJson(seconds, Integer.class));
                     seconds++;
                 } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
@@ -233,13 +241,6 @@ public class Server {
             }
         };
         timer.schedule(task, 0, 1000);
-    }
-
-    private void sendSeconds(int seconds) {
-        for (ConnectedPlayer player :
-                players) {
-            player.sendMessage("countDown:" + GameGraphics.gson.toJson(seconds, Integer.class));
-        }
     }
 
     private void checkAllPlayersReady() {

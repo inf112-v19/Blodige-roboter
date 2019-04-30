@@ -1,4 +1,4 @@
-package no.uib.inf112.core.multiplayer.jsonClasses;
+package no.uib.inf112.core.multiplayer.dtos;
 
 import java.util.List;
 
