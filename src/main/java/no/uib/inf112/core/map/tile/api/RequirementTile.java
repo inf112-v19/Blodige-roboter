@@ -37,4 +37,9 @@ public interface RequirementTile extends Tile {
      * @return If this tile can do action on the given tile
      */
     boolean canDoAction(@NotNull Tile tile);
+
+    /**
+     * @return true if this tile can do an action on itself
+     */
+    boolean canRunOnSelf();
 }

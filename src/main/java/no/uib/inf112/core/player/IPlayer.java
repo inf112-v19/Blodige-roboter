@@ -149,6 +149,20 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      */
     void registerFlagVisit();
 
+    /**
+     * Sets the powered down state for this player
+     *
+     * @param poweredDown true if this player should be powering down
+     */
+    void setPoweredDown(boolean poweredDown);
+
+    /**
+     * Set if the player in the future will power down
+     *
+     * @param poweredDown true if the player will power down
+     */
+    void setWillPowerDown(boolean poweredDown);
+
     @Override
     int compareTo(@NotNull IPlayer o);
 }
