@@ -106,23 +106,38 @@ public class PlayerHandler implements IPlayerHandler {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
         flagCount = result.key;
         Stack<SpawnTile> spawnTiles = result.value;
-        if (!spawnTiles.empty()) {
-            Collections.shuffle(spawnTiles);
-            SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), 0);
-            user.setDock(spawnTile.getSpawnNumber());
-            players.add(user);
-            while (!spawnTiles.isEmpty() && players.size() < playerCount) {
-                SpawnTile tile = spawnTiles.pop();
-                NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
-                nonPlayer.setDock(tile.getSpawnNumber());
-                players.add(nonPlayer);
+        if (!GameGraphics.HEADLESS) {
+            if (!spawnTiles.empty()) {
+                Collections.shuffle(spawnTiles);
+                SpawnTile spawnTile = spawnTiles.pop();
+                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), 0);
+                user.setDock(spawnTile.getSpawnNumber());
+                players.add(user);
+                while (!spawnTiles.isEmpty() && players.size() < playerCount) {
+                    SpawnTile tile = spawnTiles.pop();
+                    NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                    nonPlayer.setDock(tile.getSpawnNumber());
+                    players.add(nonPlayer);
+                }
+            } else {
+                for (int i = 0; i < playerCount; i++) {
+                    NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                    nonPlayer.setDock(i);
+                    players.add(nonPlayer);
+                }
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, colors.pop());
-                nonPlayer.setDock(i);
-                players.add(nonPlayer);
+                if (!spawnTiles.isEmpty()) {
+                    SpawnTile tile = spawnTiles.pop();
+                    StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                    staticPlayer.setDock(tile.getSpawnNumber());
+                    players.add(staticPlayer);
+                } else {
+                    StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                    staticPlayer.setDock(i);
+                    players.add(staticPlayer);
+                }
             }
         }
     }
