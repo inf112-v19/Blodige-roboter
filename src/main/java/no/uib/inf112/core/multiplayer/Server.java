@@ -27,6 +27,7 @@ public class Server {
     static Timer timer = new Timer();
     private static int seconds = 0;
     private boolean receivedCard = false;
+    private boolean startedRound;
 
     public Server(int port, int numThreads) {
 
@@ -208,11 +209,10 @@ public class Server {
 
             @Override
             public void run() {
-                if (seconds < MAX_SECONDS) {
-                    System.out.println("Seconds = " + seconds);
+                if (!startedRound && seconds < MAX_SECONDS) {
                     sendSeconds(seconds);
                     seconds++;
-                } else {
+                } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
                         if (player.connected) {
                             if (!player.readyToStart) {
@@ -224,7 +224,8 @@ public class Server {
                     }
                     startRound("startRound:");
                     cancel();
-
+                } else {
+                    cancel();
                 }
             }
         };
@@ -242,6 +243,7 @@ public class Server {
         for (ConnectedPlayer player : players) {
             if (player.connected) {
                 if (!player.readyToStart) {
+                    startedRound = false;
                     return;
                 }
             }
@@ -250,6 +252,7 @@ public class Server {
     }
 
     private void startRound(String command) {
+        startedRound = true;
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {
             if (player.player.name != null) {
