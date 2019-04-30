@@ -61,7 +61,8 @@ public class Client {
                 result = inFromServer.readLine();
                 System.out.println("FROM SERVER FOR " + clientName + ": " + result);
                 if (result == null) {
-                    continue;
+                    System.out.println("Host disconnected");
+                    System.exit(0);
                 }
                 String command = result.substring(0, result.indexOf(":"));
                 String data = result.substring(result.indexOf(":") + 1);
@@ -76,7 +77,7 @@ public class Client {
                         clientName = data;
                         break;
                     case "connectedPlayers":
-                        //TODO handle connectedPlayers update
+                        //TODO receive a ConnectedPlayersDto, this happens everytime a new client is added
                         break;
                     case "threadName":
                         //Do nothing
