@@ -55,10 +55,10 @@ public class Client {
     }
 
     public void handleInput() {
-        System.out.println(clientSocket.isConnected());
-        while (clientSocket.isConnected()) {
+        String result = "first";
+        while (!clientSocket.isClosed() && result != null) {
             try {
-                String result = inFromServer.readLine();
+                result = inFromServer.readLine();
                 System.out.println("FROM SERVER FOR " + clientName + ": " + result);
                 if (result == null) {
                     continue;
