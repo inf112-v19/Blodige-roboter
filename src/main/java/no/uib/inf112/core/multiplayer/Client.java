@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Client {
+public class Client implements IClient {
 
     private Socket clientSocket;
     private DataOutputStream outToServer;
     private BufferedReader inFromServer;
-    private String clientName;
     private GameGraphics game;
     private MultiPlayerHandler playerHandler;
     private List<String> players;
@@ -67,7 +66,8 @@ public class Client {
                         giveCards(data);
                         break;
                     case name:
-                        clientName = data;
+                        //clientName = data;
+                        // Only used to check connectivity
                         break;
                     case connectedPlayers:
                         receiveConnectedPlayers(data);
@@ -171,61 +171,40 @@ public class Client {
         writeToServer(ServerAction.getName + "");
     }
 
-    /**
-     * @return an array of all connected players
-     */
+    @Override
     public String[] getPlayerNames() {
         return players.toArray(new String[0]);
     }
 
-    /**
-     * Send that party mode is on to the server
-     */
+    @Override
     public void setPartyModeOn() {
         writeToServer(ServerAction.partyMode + "");
     }
 
-    /**
-     * Send given display name to the server
-     *
-     * @param name name to set
-     */
+    @Override
     public void setName(String name) {
         writeToServer(ServerAction.setDisplayName + name);
     }
 
-    /**
-     * Send a message to the server that the game is started
-     *
-     * @param game game that have been started
-     */
+    @Override
     public void startGame(GameGraphics game) {
         this.game = game;
         writeToServer(ServerAction.startGame + "");
     }
 
-    /**
-     * send the users selected moves(either cards or powereddown) to the server
-     *
-     * @param poweredDown true if player is to power down this turn
-     * @param cards       selected cards
-     */
+    @Override
     public void sendSelectedCards(boolean poweredDown, List<Card> cards) {
         SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
         writeToServer(ServerAction.sendSelectedCards + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
 
     }
 
-    /**
-     * Sets this client as responsible host on the server
-     */
+    @Override
     public void setHost() {
         writeToServer(ServerAction.setHostId + "");
     }
 
-    /**
-     * Close the connections to the server
-     */
+    @Override
     public void closeConnection() {
         try {
             //listener.interrupt();

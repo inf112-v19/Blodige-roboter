@@ -7,7 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         this.game = game;
     }
 
-    public GameScreen(GameGraphics game, NewGameDto setup, Client client) {
+    public GameScreen(GameGraphics game, NewGameDto setup, IClient client) {
 
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
