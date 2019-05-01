@@ -140,12 +140,4 @@ public class ConveyorTileTest extends TestGraphics {
         testPhase(6, 2, Direction.EAST, 6, 3, Direction.EAST);
         testPhase(6, 2, Direction.WEST, 6, 3, Direction.WEST);
     }
-
-    @Test
-    public void expressRotatesRobot() {
-        testPhase(5, 6, Direction.NORTH, 5, 6, Direction.EAST);
-        testPhase(5, 6, Direction.EAST, 5, 6, Direction.SOUTH);
-        testPhase(5, 6, Direction.SOUTH, 5, 6, Direction.WEST);
-        testPhase(5, 6, Direction.WEST, 5, 6, Direction.NORTH);
-    }
 }
