@@ -29,11 +29,8 @@ public interface BackupableTile extends Tile {
 
         for (int x = Math.max(backup.x - 1, 0); x < Math.min(backup.x + 2, map.getMapWidth()); x++) {
             for (int y = Math.max(backup.y - 1, 0); y < Math.min(backup.y + 2, map.getMapWidth()); y++) {
-                System.out.println("new Vector2Int(x,y) = " + new Vector2Int(x, y));
                 Tile ent = map.getTile(MapHandler.ENTITY_LAYER_NAME, x, y);
                 Tile bTile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
-                System.out.println("ent = " + ent);
-                System.out.println("bTile = " + bTile);
                 if (ent == null && (bTile == null || bTile.getTileType() != TileType.VOID)) {
                     backup.x = x;
                     backup.y = y;
