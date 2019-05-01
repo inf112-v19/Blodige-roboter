@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Client {
@@ -33,14 +34,13 @@ public class Client {
 
     public Client(String IP, int port) throws IOException {
         clientSocket = new Socket(IP, port);
-        System.out.println("Connected to server at" + clientSocket.getLocalAddress().getHostAddress());
         outToServer = new DataOutputStream(clientSocket.getOutputStream());
         inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         requestClientNameFromServer();
 
         players = new ArrayList<>();
-        Thread listener = new Thread(() -> handleInput());
+        Thread listener = new Thread(this::handleInput);
         listener.setDaemon(true);
         listener.start();
     }
@@ -48,12 +48,11 @@ public class Client {
     /**
      * The listener thread is running this while loop waiting for input from the server and doing corresponding actions
      */
-    public void handleInput() {
+    private void handleInput() {
         String result = "";
         while (!clientSocket.isClosed() && result != null) {
             try {
                 result = inFromServer.readLine();
-                System.out.println("FROM SERVER FOR " + clientName + ": " + result);
                 if (result == null || result.equals("null")) {
                     System.out.println("Host disconnected");
                     Gdx.app.exit();
@@ -153,11 +152,11 @@ public class Client {
      *
      * @return a list of the names of all the connected players
      */
-    public List<String> receiveConnectedPlayers(String data) {
+    private List<String> receiveConnectedPlayers(String data) {
         ConnectedPlayersDto result = GameGraphics.gson.fromJson(data, ConnectedPlayersDto.class);
         if (result.players != null) {
             players = result.players.stream()
-                    .filter(player -> player != null)
+                    .filter(Objects::nonNull)
                     .map(player -> player.name)
                     .collect(Collectors.toList());
             return players;
@@ -165,19 +164,18 @@ public class Client {
         return null;
     }
 
+    /**
+     * Request this clients name from the server
+     */
+    private void requestClientNameFromServer() {
+        writeToServer(ServerAction.getName + "");
+    }
 
     /**
      * @return an array of all connected players
      */
     public String[] getPlayerNames() {
-        return players.toArray(new String[players.size()]);
-    }
-
-    /**
-     * Request this clients name from the server
-     */
-    public void requestClientNameFromServer() {
-        writeToServer(ServerAction.getName + "");
+        return players.toArray(new String[0]);
     }
 
     /**

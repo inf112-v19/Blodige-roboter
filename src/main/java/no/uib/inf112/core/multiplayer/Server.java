@@ -12,10 +12,9 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,11 +44,6 @@ public class Server {
             player.setDaemon(true);
             player.start();
         }
-        try {
-            System.out.println("Hosting sever at " + InetAddress.getLocalHost().getHostAddress());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -57,7 +51,7 @@ public class Server {
      *
      * @param id id of the client sending the request
      */
-    public void startGame(int id) {
+    private void startGame(int id) {
         if (hostId == id) {
             Stack<ComparableTuple<String, Color>> colors = PlayerHandler.addColors();
             List<PlayerDto> playerDtos = new ArrayList<>();
@@ -150,15 +144,12 @@ public class Server {
             while (connected) {
                 connected = false;
                 try {
-                    System.out.println(getName() + " waiting");
-
                     Socket clientSocket;
                     // Wait here for the next connection.
                     synchronized (handlerServSock) {
                         clientSocket = handlerServSock.accept();
                     }
                     connected = true;
-                    System.out.println(getName() + " starting, IP=" + clientSocket.getInetAddress());
                     DataInputStream inFromClient = new DataInputStream(clientSocket.getInputStream());
                     outToClient = new PrintWriter(clientSocket.getOutputStream(), true);
                     String line;
@@ -166,16 +157,17 @@ public class Server {
                         handleInput(line);
                     }
                 } catch (EOFException e) {
-                    System.out.println(getName() + " Disconnected");
                     connected = false;
                     try {
                         handlerServSock.close();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                } catch (IOException ex) {
-                    System.out.println(getName() + ": IO Error on socket " + ex);
+                } catch (SocketException ex) {
+                    //Socket closed by application
                     return;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         }
@@ -183,12 +175,11 @@ public class Server {
         /**
          * Handle input from the client
          *
-         * @param line
+         * @param line the input
          */
         private void handleInput(String line) {
             ServerAction command = ServerAction.fromCommandString(line.substring(0, line.indexOf(":")));
             String data = line.substring(line.indexOf(":") + 1);
-            System.out.println("receiving " + line);
             switch (command) {
                 case getName:
                     sendMessage(ClientAction.threadName + getName());
@@ -245,7 +236,7 @@ public class Server {
         /**
          * Close the connection to this client
          *
-         * @throws IOException
+         * @throws IOException if not able to close the streams and socket
          */
         private void close() throws IOException {
             if (outToClient != null) {
@@ -351,7 +342,7 @@ public class Server {
     /**
      * Collects playerDtos from all connected players and creates a ConnectedPlayers dto
      *
-     * @return
+     * @return json object of all connected players
      */
     private String getConnectedPlayers() {
         List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> {
