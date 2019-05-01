@@ -8,7 +8,6 @@ import no.uib.inf112.core.multiplayer.Client;
 import no.uib.inf112.core.multiplayer.Server;
 
 import java.io.IOException;
-import java.util.List;
 
 public class LobbyScreen extends AbstractMenuScreen {
 
@@ -22,7 +21,6 @@ public class LobbyScreen extends AbstractMenuScreen {
             GameGraphics.setServer(server);
             client = new Client(ip, port);
             client.setName(GameGraphics.mainPlayerName);
-            client.getClientNameFromServer();
             client.setHost();
             GameGraphics.setClient(client);
         } else {

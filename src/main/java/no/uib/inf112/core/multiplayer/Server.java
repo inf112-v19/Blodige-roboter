@@ -31,11 +31,8 @@ public class Server {
     private boolean startedRound;
 
     public Server(int port, int numThreads) {
-
-
         try {
             servSock = new ServerSocket(port);
-
         } catch (IOException e) {
             /* Crash the server if IO fails. Something bad has happened */
             throw new IllegalArgumentException("Could not create ServerSocket ", e);
@@ -55,6 +52,45 @@ public class Server {
         }
     }
 
+    /**
+     * Starts a new game if the calling client is the host
+     *
+     * @param id id of the client sending the request
+     */
+    public void startGame(int id) {
+        if (hostId == id) {
+            Stack<ComparableTuple<String, Color>> colors = PlayerHandler.addColors();
+            List<PlayerDto> playerDtos = new ArrayList<>();
+            Iterator<ConnectedPlayer> iterator = players.iterator();
+            while (iterator.hasNext()) {
+                ConnectedPlayer player = iterator.next();
+                if (player.player.name != null) {
+                    player.player.color = colors.pop().value;
+                    playerDtos.add(player.player);
+                } else {
+                    try {
+                        player.interrupt();
+                        player.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    iterator.remove();
+                }
+            }
+            NewGameDto newGameDto = new NewGameDto(GameGraphics.mapFileName, playerDtos, hostId);
+            for (ConnectedPlayer player : players) {
+                if (player.player.name != null) {
+                    newGameDto.userId = player.player.id;
+                    String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
+                    player.sendMessage(message);
+                }
+            }
+        }
+    }
+
+    /**
+     * Close connections to all clients
+     */
     public void close() {
         for (ConnectedPlayer player :
                 players) {
@@ -93,6 +129,11 @@ public class Server {
             setDaemon(true);
         }
 
+        /**
+         * Send a message to the client
+         *
+         * @param message message to send
+         */
         private void sendMessage(String message) {
             if (connected && handlerServSock.isBound()) {
                 outToClient.print(message + "\r\n");
@@ -139,29 +180,31 @@ public class Server {
             }
         }
 
+        /**
+         * Handle input from the client
+         *
+         * @param line
+         */
         private void handleInput(String line) {
             String command = line.substring(0, line.indexOf(":"));
             String data = line.substring(line.indexOf(":") + 1);
             System.out.println("receiving " + line);
             switch (command) {
                 case "getName":
-                    outToClient.print("threadName:" + getName() + "\r\n");
-                    outToClient.flush();
+                    sendMessage("threadName:" + getName());
                     break;
                 case "setDisplayName":
                     player.name = data;
-                    outToClient.print("name:" + player.name + "for" + getName() + "\r\n");
-                    outToClient.flush();
+                    sendMessage("name:" + player.name + "for" + getName());
                     sendMessageToAll("connectedPlayers:" + getConnectedPlayers());
                     break;
                 case "getConnectedPlayers":
-                    outToClient.print("connectedPlayers:" + getConnectedPlayers() + "\r\n");
-                    outToClient.flush();
+                    sendMessage("connectedPlayers:" + getConnectedPlayers());
                     break;
                 case "startGame":
                     startGame(player.id);
                     break;
-                case "setSelectedCards":
+                case "sendSelectedCards":
                     setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
                     if (!receivedCard) {
                         giveDisconnectedPlayersRandomCard();
@@ -182,20 +225,29 @@ public class Server {
                     sendMessageToAll("partyMode:");
                     break;
                 default:
-                    System.out.println("Received from client " + threadNumber + ":" + line);
-                    outToClient.print("error: Did not understand message" + "\r\n");
-                    outToClient.flush();
+                    System.out.println("Dit not understand command received from client " + threadNumber + ":" + line);
+                    sendMessage("error: Did not understand message");
                     break;
 
             }
         }
 
-        private void setCards(SelectedCardsDto response) {
-            player.isPoweredDown = response.poweredDown;
-            player.cards = response.cards;
+        /**
+         * Set selected cards for this given client
+         *
+         * @param data SelectedCards dto containing data about the selected cards and power down status for this client
+         */
+        private void setCards(SelectedCardsDto data) {
+            player.isPoweredDown = data.poweredDown;
+            player.cards = data.cards;
         }
 
-        protected void close() throws IOException {
+        /**
+         * Close the connection to this client
+         *
+         * @throws IOException
+         */
+        private void close() throws IOException {
             if (outToClient != null) {
                 outToClient.close();
             }
@@ -205,14 +257,11 @@ public class Server {
         }
     }
 
-    private void giveDisconnectedPlayersRandomCard() {
-        for (ConnectedPlayer player : players) {
-            if (player.player.name != null && !player.connected) {
-                player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
-            }
-        }
-    }
-
+    /**
+     * Send a message to all clients
+     *
+     * @param message message to send
+     */
     private void sendMessageToAll(String message) {
         for (ConnectedPlayer player : players) {
             if (player.player.name != null) {
@@ -221,6 +270,20 @@ public class Server {
         }
     }
 
+    /**
+     * Helper function giving disconnected players random cards
+     */
+    private void giveDisconnectedPlayersRandomCard() {
+        for (ConnectedPlayer player : players) {
+            if (player.player.name != null && !player.connected) {
+                player.player.cards = DtoMapper.drawRandomCards(player.player.drawnCards);
+            }
+        }
+    }
+
+    /**
+     * Starts the countdown
+     */
     private void startCountdown() {
         seconds = 0;
         TimerTask task = new TimerTask() {
@@ -234,7 +297,7 @@ public class Server {
                 } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
                         if (player.connected && !player.readyToStart && player.player.drawnCards != null) {
-                            player.player.cards = SelectedCardsDto.drawRandomCards(player.player.drawnCards);
+                            player.player.cards = DtoMapper.drawRandomCards(player.player.drawnCards);
                         }
                     }
                     startRound("startRound:");
@@ -247,6 +310,9 @@ public class Server {
         timer.schedule(task, 0, 1000);
     }
 
+    /**
+     * Checks to see if all players have selected their cards
+     */
     private void checkAllPlayersReady() {
         for (ConnectedPlayer player : players) {
             if (player.connected && !player.readyToStart) {
@@ -257,6 +323,11 @@ public class Server {
         startRound("startRound:");
     }
 
+    /**
+     * Starts the given round
+     *
+     * @param command command to send with the dto either "startround:" or "giveCards:"
+     */
     private void startRound(String command) {
         startedRound = true;
         List<PlayerDto> players = new ArrayList<>();
@@ -269,7 +340,7 @@ public class Server {
         for (ConnectedPlayer player : this.players) {
             if (player.player.name != null) {
                 List<Card> cards = Arrays.asList(GameGraphics.getRoboRally().getDeck().draw(IPlayer.MAX_DRAW_CARDS));
-                player.player.drawnCards = SelectedCardsDto.mapToDto(cards);
+                player.player.drawnCards = DtoMapper.mapToDto(cards);
                 player.sendMessage(command + GameGraphics.gson.toJson(new StartRoundDto(players, cards), StartRoundDto.class));
                 player.readyToStart = false;
             }
@@ -277,40 +348,19 @@ public class Server {
         receivedCard = false;
     }
 
-
+    /**
+     * Collects playerDtos from all connected players and creates a ConnectedPlayers dto
+     *
+     * @return
+     */
     private String getConnectedPlayers() {
-        List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> connectedPlayer.player).collect(Collectors.toList());
+        List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> {
+            if (connectedPlayer.connected) {
+                return connectedPlayer.player;
+            }
+            return null;
+        }).collect(Collectors.toList());
         return GameGraphics.gson.toJson(new ConnectedPlayersDto(playerDtos));
     }
 
-    public void startGame(int id) {
-        if (hostId == id) {
-            Stack<ComparableTuple<String, Color>> colors = PlayerHandler.addColors();
-            List<PlayerDto> playerDtos = new ArrayList<>();
-            Iterator<ConnectedPlayer> iterator = players.iterator();
-            while (iterator.hasNext()) {
-                ConnectedPlayer player = iterator.next();
-                if (player.player.name != null) {
-                    player.player.color = colors.pop().value;
-                    playerDtos.add(player.player);
-                } else {
-                    try {
-                        player.interrupt();
-                        player.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    iterator.remove();
-                }
-            }
-            NewGameDto newGameDto = new NewGameDto(GameGraphics.mapFileName, playerDtos, hostId);
-            for (ConnectedPlayer player : players) {
-                if (player.player.name != null) {
-                    newGameDto.userId = player.player.id;
-                    String message = "StartGame:" + GameGraphics.gson.toJson(newGameDto);
-                    player.sendMessage(message);
-                }
-            }
-        }
-    }
 }

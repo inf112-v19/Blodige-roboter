@@ -10,11 +10,11 @@ public class StartRoundDto {
 
     public StartRoundDto(List<PlayerDto> players, List<Card> drawnCards) {
         this.players = players;
-        this.drawnCards = SelectedCardsDto.mapToDto(drawnCards);
+        this.drawnCards = DtoMapper.mapToDto(drawnCards);
     }
 
     public List<Card> getCards() {
-        return SelectedCardsDto.mapFromDto(drawnCards);
+        return DtoMapper.mapFromDto(drawnCards);
     }
 
 }

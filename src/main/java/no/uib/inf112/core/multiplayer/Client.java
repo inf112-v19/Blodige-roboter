@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.multiplayer.dtos.ConnectedPlayersDto;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
 import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
@@ -17,8 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Client {
 
@@ -26,7 +27,6 @@ public class Client {
     private DataOutputStream outToServer;
     private BufferedReader inFromServer;
     private String clientName;
-    private Thread listener;
     private GameGraphics game;
     private MultiPlayerHandler playerHandler;
     private List<String> players;
@@ -37,7 +37,7 @@ public class Client {
         outToServer = new DataOutputStream(clientSocket.getOutputStream());
         inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        clientName = getClientNameFromServer();
+        requestClientNameFromServer();
 
         players = new ArrayList<>();
         Thread listener = new Thread(() -> handleInput());
@@ -45,38 +45,9 @@ public class Client {
         listener.start();
     }
 
-    public List<String> getConnectedPlayers() {
-        String result = "";
-        try {
-            outToServer.writeUTF("getConnectedPlayers:");
-            result = inFromServer.readLine();
-        } catch (IOException e) {
-            System.out.println("IOExeption " + e);
-        }
-        players = Arrays.asList(result.split(","));
-        return Arrays.asList(result.split(","));
-    }
-
-    public String[] getPlayerNames() {
-        List<String> pals = new ArrayList<>(players);
-        pals.removeIf(x -> {
-            if(x.contains("name\":")) {
-                return false;
-            }
-            return true;
-        });
-
-        String[] playerNames = new String[pals.size()];
-        int i = 0;
-        for (String connectedPlayer : pals) {
-            if (connectedPlayer.contains("name\":")) {
-                String[] split = connectedPlayer.split("name\":");
-                playerNames[i++] = split[1].replace("\"", "");
-            }
-        }
-        return playerNames;
-    }
-
+    /**
+     * The listener thread is running this while loop waiting for input from the server and doing corresponding actions
+     */
     public void handleInput() {
         String result = "first";
         while (!clientSocket.isClosed() && result != null) {
@@ -100,7 +71,7 @@ public class Client {
                         clientName = data;
                         break;
                     case "connectedPlayers":
-                        getConnectedPlayers();
+                        receiveConnectedPlayers(data);
                         //TODO receive a ConnectedPlayersDto, this happens everytime a new client is added
                         break;
                     case "threadName":
@@ -127,14 +98,24 @@ public class Client {
         }
     }
 
+    /**
+     * Set the received cards for the players
+     *
+     * @param data a startround dto containing cards for each player and the drawn cards for this instance's mainplayer
+     */
     private void giveCards(String data) {
         GameScreen.scheduleSync(() ->
                 playerHandler.startRound(GameGraphics.gson.fromJson(data, StartRoundDto.class)), 0);
     }
 
+    /**
+     * Start a new roborally game
+     *
+     * @param data a newGame dto containing parameters for the new game
+     */
     private void setupGame(String data) {
         if (game == null) {
-            throw new IllegalArgumentException("Trying to start game with a null reference to GameGraphics");
+            throw new IllegalArgumentException("Tried to start game with a null reference to GameGraphics");
         }
         NewGameDto newGameDto = GameGraphics.gson.fromJson(data, NewGameDto.class);
         GameScreen.scheduleSync(() -> {
@@ -150,11 +131,13 @@ public class Client {
         }, 0);
     }
 
-    public void setPartyMode() {
-        writeToServer("partyMode:");
-    }
-
-    public boolean writeToServer(String text) {
+    /**
+     * Sends given text to the server
+     *
+     * @param text to send to the server
+     * @return true if able to write to the server
+     */
+    private boolean writeToServer(String text) {
         try {
             outToServer.writeUTF(text);
             return true;
@@ -165,15 +148,81 @@ public class Client {
         return false;
     }
 
-    public String getClientNameFromServer() {
-        try {
-            outToServer.writeUTF("getName:");
-        } catch (IOException e) {
-            System.out.println("IOExeption " + e);
-        }
-        return clientName;
+    /**
+     * Receive the connected players parse them and put them in the player list.
+     *
+     * @return a list of the names of all the connected players
+     */
+    public List<String> receiveConnectedPlayers(String data) {
+        ConnectedPlayersDto result = GameGraphics.gson.fromJson(data, ConnectedPlayersDto.class);
+        players = result.players.stream().map(player -> player.name)
+                .collect(Collectors.toList());
+        return players;
     }
 
+
+    /**
+     * @return an array of all connected players
+     */
+    public String[] getPlayerNames() {
+        return players.toArray(new String[players.size()]);
+    }
+
+    /**
+     * Request this clients name from the server
+     */
+    public void requestClientNameFromServer() {
+        writeToServer("getName:");
+    }
+
+    /**
+     * Send that party mode is on to the server
+     */
+    public void setPartyModeOn() {
+        writeToServer("partyMode:");
+    }
+
+    /**
+     * Send given display name to the server
+     *
+     * @param name name to set
+     */
+    public void setName(String name) {
+        writeToServer("setDisplayName:" + name);
+    }
+
+    /**
+     * Send a message to the server that the game is started
+     *
+     * @param game game that have been started
+     */
+    public void startGame(GameGraphics game) {
+        this.game = game;
+        writeToServer("startGame:");
+    }
+
+    /**
+     * send the users selected moves(either cards or powereddown) to the server
+     *
+     * @param poweredDown true if player is to power down this turn
+     * @param cards       selected cards
+     */
+    public void sendSelectedCards(boolean poweredDown, List<Card> cards) {
+        SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
+        writeToServer("sendSelectedCards:" + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
+
+    }
+
+    /**
+     * Sets this client as responsible host on the server
+     */
+    public void setHost() {
+        writeToServer("setHostId:");
+    }
+
+    /**
+     * Close the connections to the server
+     */
     public void closeConnection() {
         try {
             //listener.interrupt();
@@ -185,24 +234,4 @@ public class Client {
         }
     }
 
-
-    public void setName(String name) {
-        writeToServer("setDisplayName:" + name);
-    }
-
-
-    public void startGame(GameGraphics game) {
-        this.game = game;
-        writeToServer("startGame:");
-    }
-
-    public void setSelectedCards(boolean poweredDown, List<Card> cards) {
-        SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
-        writeToServer("setSelectedCards:" + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
-
-    }
-
-    public void setHost() {
-        writeToServer("setHostId:");
-    }
 }

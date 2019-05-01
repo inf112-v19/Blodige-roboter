@@ -4,7 +4,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.multiplayer.dtos.CardDto;
-import no.uib.inf112.core.multiplayer.dtos.SelectedCardsDto;
+import no.uib.inf112.core.multiplayer.dtos.DtoMapper;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
@@ -154,7 +154,7 @@ public class CardContainer {
             }
         }
 
-        List<Card> cards = SelectedCardsDto.mapFromDto(drawnCards);
+        List<Card> cards = DtoMapper.mapFromDto(drawnCards);
         int amount = IPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
 
         if (drawnCards.size() < amount) {

@@ -40,7 +40,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
 
     @Override
     public void endTurn() {
-        client.setSelectedCards(user.isPoweredDown(), user.getCardList());
+        client.sendSelectedCards(user.isPoweredDown(), user.getCardList());
         GameScreen.getUiHandler().hideDrawnCards();
     }
 

@@ -75,6 +75,10 @@ public class InputHandler extends InputAdapter {
         return false;
     }
 
+    /**
+     * Enable the party mode
+     * Changes music and adds party to the renderer
+     */
     public static void enableMode() {
         if (!CustomOrthogonalTiledMapRenderer.PARTY) {
             GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav"));
@@ -82,7 +86,7 @@ public class InputHandler extends InputAdapter {
             GameGraphics.backgroundMusic.setLooping(true);
             CustomOrthogonalTiledMapRenderer.PARTY = true;
             if (GameGraphics.getClient() != null) {
-                GameGraphics.getClient().setPartyMode();
+                GameGraphics.getClient().setPartyModeOn();
             }
         }
     }
