@@ -54,7 +54,7 @@ public class Client {
             try {
                 result = inFromServer.readLine();
                 System.out.println("FROM SERVER FOR " + clientName + ": " + result);
-                if (result == null) {
+                if (result == null || result.equals("null")) {
                     System.out.println("Host disconnected");
                     Gdx.app.exit();
                 }
