@@ -53,7 +53,7 @@ public class GameGraphics extends Game {
     private static Client client;
 
     public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, Client client) {
-        String mapPath = MAP_FOLDER + setup.map + MAP_EXTENSION;
+        String mapPath = !HEADLESS ? MAP_FOLDER : "" + setup.map + MAP_EXTENSION;
         MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
         roboRally = new RoboRally(mapHandler, new MultiPlayerHandler(setup, mapHandler, client));
         return roboRally;
