@@ -113,4 +113,15 @@ public class AttributeTest {
             assertEquals(true , a.verifyInterfaces(wrenchAndHammerTile.getClass()));
         }
     }
+
+    @Test
+    public void wrenchTileHasSpecifiedInterfaces(){
+        WrenchTile wrenchTile = new WrenchTile(vector2Int, TileGraphic.WRENCH);
+
+        Set<Attribute> set = TileGraphic.WRENCH.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(wrenchTile.getClass()));
+        }
+    }
 }
