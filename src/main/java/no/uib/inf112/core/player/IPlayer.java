@@ -94,7 +94,11 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     String getName();
 
     /**
-     * TODO write this
+     * Returns the id of this player
+     * <p>
+     * Computer controlled players return -1
+     *
+     * @return the id of this player
      */
     int getId();
 

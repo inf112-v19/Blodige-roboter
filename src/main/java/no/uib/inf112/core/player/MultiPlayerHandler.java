@@ -1,6 +1,5 @@
 package no.uib.inf112.core.player;
 
-import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
@@ -21,14 +20,13 @@ public class MultiPlayerHandler implements IPlayerHandler {
     private int flagCount;
     private List<IPlayer> players;
     private Map<IPlayer, Long> wonPlayers;
-    private Stack<ComparableTuple<String, Color>> colors;
     private Player user;
     private boolean gameOver;
     private long startTime;
     private Client client;
 
     public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, Client client) {
-        // Check enough players
+        // TODO Check enough players
         playerCount = newGameDto.players.size();
         flagCount = 0;
         players = new ArrayList<>(playerCount);
@@ -36,8 +34,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         startTime = System.currentTimeMillis();
         wonPlayers = new TreeMap<>();
         this.client = client;
-        //colors = new Stack<>();
-        //addColors();
         addPlayers(map, newGameDto);
     }
 
@@ -49,12 +45,19 @@ public class MultiPlayerHandler implements IPlayerHandler {
     }
 
     /**
-     * TODO write this
+     * Starts the round by setting up drawncards for the given mainplayer based on cards received in the startRound object
+     *
+     * @param startRoundDto object containing data about the round.
      */
     public void startRound(StartRoundDto startRoundDto) {
         user.getCards().setDrawnCards(startRoundDto.drawnCards);
     }
 
+    /**
+     * Runs a given round sets correct selected cards and runs the roborally round.
+     *
+     * @param startRoundDto object containing data about the round.
+     */
     public void runRound(StartRoundDto startRoundDto) {
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
@@ -138,13 +141,8 @@ public class MultiPlayerHandler implements IPlayerHandler {
 
     @Override
     public void checkGameOver() {
-        players.removeIf(player -> {
-            if (player.getFlags() == flagCount || player.isDestroyed()) {
-                wonPlayers.put(player, System.currentTimeMillis());
-                return true;
-            }
-            return false;
-        });
+        removePlayers();
+
         if (players.size() == 1) {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
             gameOver = true;
@@ -157,34 +155,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
             }
         }
         gameOver = false;
-    }
-
-    @Override
-    public String[] rankPlayers() {
-        players.forEach(player -> wonPlayers.put(player, System.currentTimeMillis()));
-        List<IPlayer> playerStackWon = new ArrayList<>(wonPlayers.keySet());
-        playerStackWon.sort((p1, p2) -> {
-            if (p1.getFlags() == p2.getFlags()) {
-                if (p1.isDestroyed() && !p2.isDestroyed()) {
-                    return 1;
-                } else if (p2.isDestroyed() && !p1.isDestroyed()) {
-                    return -1;
-                } else if (p1.isDestroyed() && p2.isDestroyed()) {
-                    return wonPlayers.get(p2).compareTo(wonPlayers.get(p1));
-                } else {
-                    return wonPlayers.get(p1).compareTo(wonPlayers.get(p2));
-                }
-            } else {
-                return Integer.compare(p2.getFlags(), p1.getFlags());
-            }
-        });
-
-        String[] playersInRankingOrder = new String[playerCount];
-        int i = 0;
-        for (IPlayer player : playerStackWon) {
-            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
-        }
-        return playersInRankingOrder;
     }
 
     @Override

@@ -6,6 +6,7 @@ import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.util.ComparableTuple;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -70,12 +71,48 @@ public interface IPlayerHandler {
      */
     void checkGameOver();
 
+    default void removePlayers() {
+        getPlayers().removeIf(player -> {
+            if (player.getFlags() == getFlagCount() || player.isDestroyed()) {
+                getWonPlayers().put(player, System.currentTimeMillis());
+                return true;
+            }
+            return false;
+        });
+    }
+
     /**
      * Rank players according to flags and
      * time played
+     *
      * @return String list of players ranked in correct order
      */
-    String[] rankPlayers();
+    default String[] rankPlayers() {
+        getPlayers().forEach(player -> getWonPlayers().put(player, System.currentTimeMillis()));
+        List<IPlayer> playerStackWon = new ArrayList<>(getWonPlayers().keySet());
+        playerStackWon.sort((p1, p2) -> {
+            if (p1.getFlags() == p2.getFlags()) {
+                if (p1.isDestroyed() && !p2.isDestroyed()) {
+                    return 1;
+                } else if (p2.isDestroyed() && !p1.isDestroyed()) {
+                    return -1;
+                } else if (p1.isDestroyed() && p2.isDestroyed()) {
+                    return getWonPlayers().get(p2).compareTo(getWonPlayers().get(p1));
+                } else {
+                    return getWonPlayers().get(p1).compareTo(getWonPlayers().get(p2));
+                }
+            } else {
+                return Integer.compare(p2.getFlags(), p1.getFlags());
+            }
+        });
+
+        String[] playersInRankingOrder = new String[getPlayerCount()];
+        int i = 0;
+        for (IPlayer player : playerStackWon) {
+            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
+        }
+        return playersInRankingOrder;
+    }
 
     /**
      * @return number of flags to catch

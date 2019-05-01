@@ -15,7 +15,7 @@ public class LobbyScreen extends AbstractMenuScreen {
 
     protected final Client client;
     private final Server server;
-    List<String> connectedPlayers;
+    private List<String> connectedPlayers;
 
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
@@ -57,7 +57,7 @@ public class LobbyScreen extends AbstractMenuScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        stage.getActors().pop();
+        //stage.getActors().pop();
         connectedPlayers = client.getPlayers();
         String[] players = new String[GameGraphics.players];
         for (int i = 0; i < GameGraphics.players; i++) {
