@@ -141,7 +141,7 @@ public abstract class GameMap implements MapHandler {
     public boolean isOutsideBoard(int x, int y) {
         return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
     }
-    
+
     @Override
     public void removeEntity(@Nullable Entity entity) {
         if (entity == null) {
