@@ -190,6 +190,11 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                     } else {
                         throw new IllegalStateException("Expected one pushable on a position, found two");
                     }
+                } else if (tile.hasSuperClass(CollidableTile.class)) {
+                    CollidableTile collidableTile = (CollidableTile) tile;
+                    if (collidableTile.willCollide(this, dir)) {
+                        return false;
+                    }
                 }
             }
             return toBePushed != null && push(toBePushed, dir);
