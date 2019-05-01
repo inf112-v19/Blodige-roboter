@@ -199,7 +199,7 @@ public class Server {
                     sendMessageToAll(ClientAction.connectedPlayers + getConnectedPlayers());
                     break;
                 case getConnectedPlayers:
-                    sendMessage("connectedPlayers:" + getConnectedPlayers());
+                    sendMessage(ClientAction.connectedPlayers + getConnectedPlayers());
                     break;
                 case startGame:
                     startGame(player.id);
@@ -219,10 +219,10 @@ public class Server {
                     hostId = player.id;
                     break;
                 case finishedSetup:
-                    startRound("giveCards:");
+                    startRound(ClientAction.giveCards);
                     break;
                 case partyMode:
-                    sendMessageToAll("partyMode:");
+                    sendMessageToAll(ClientAction.partyMode + "");
                     break;
                 default:
                     System.out.println("Dit not understand command received from client " + threadNumber + ":" + line);
@@ -292,7 +292,7 @@ public class Server {
             @Override
             public void run() {
                 if (!startedRound && seconds < MAX_SECONDS) {
-                    sendMessageToAll("countDown:" + GameGraphics.gson.toJson(seconds, Integer.class));
+                    sendMessageToAll(ClientAction.countDown + GameGraphics.gson.toJson(seconds, Integer.class));
                     seconds++;
                 } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
@@ -300,7 +300,7 @@ public class Server {
                             player.player.cards = DtoMapper.drawRandomCards(player.player.drawnCards);
                         }
                     }
-                    startRound("startRound:");
+                    startRound(ClientAction.startRound);
                     cancel();
                 } else {
                     cancel();
@@ -320,15 +320,15 @@ public class Server {
                 return;
             }
         }
-        startRound("startRound:");
+        startRound(ClientAction.startRound);
     }
 
     /**
      * Starts the given round
      *
-     * @param command command to send with the dto either "startround:" or "giveCards:"
+     * @param command command to send with the dto either startround or giveCards
      */
-    private void startRound(String command) {
+    private void startRound(ClientAction command) {
         startedRound = true;
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {

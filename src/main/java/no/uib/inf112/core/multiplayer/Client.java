@@ -49,7 +49,7 @@ public class Client {
      * The listener thread is running this while loop waiting for input from the server and doing corresponding actions
      */
     public void handleInput() {
-        String result = "first";
+        String result = "";
         while (!clientSocket.isClosed() && result != null) {
             try {
                 result = inFromServer.readLine();
@@ -58,34 +58,34 @@ public class Client {
                     System.out.println("Host disconnected");
                     Gdx.app.exit();
                 }
-                String command = result.substring(0, result.indexOf(":"));
+                ClientAction command = ClientAction.fromCommandString(result.substring(0, result.indexOf(":")));
                 String data = result.substring(result.indexOf(":") + 1);
                 switch (command) {
-                    case "StartGame":
+                    case startGame:
                         setupGame(data);
                         break;
-                    case "giveCards":
+                    case giveCards:
                         giveCards(data);
                         break;
-                    case "name":
+                    case name:
                         clientName = data;
                         break;
-                    case "connectedPlayers":
+                    case connectedPlayers:
                         receiveConnectedPlayers(data);
                         //TODO receive a ConnectedPlayersDto, this happens everytime a new client is added
                         break;
-                    case "threadName":
+                    case threadName:
                         //Do nothing
                         break;
-                    case "startRound":
+                    case startRound:
                         playerHandler.runRound(GameGraphics.gson.fromJson(data, StartRoundDto.class));
                         break;
-                    case "countDown":
+                    case countDown:
                         //Do nothing
                         //int seconds = GameGraphics.gson.fromJson(data, Integer.class);
                         //TODO this seconds int has the information about the current number for the countdown
                         break;
-                    case "partyMode":
+                    case partyMode:
                         InputHandler.enableMode();
                         break;
                     default:
@@ -120,7 +120,7 @@ public class Client {
         NewGameDto newGameDto = GameGraphics.gson.fromJson(data, NewGameDto.class);
         GameScreen.scheduleSync(() -> {
             game.setScreen(new GameScreen(game, newGameDto, this));
-            writeToServer("finishedSetup:");
+            writeToServer(ServerAction.finishedSetup + "");
             IPlayerHandler playerHandler = GameGraphics.getRoboRally().getPlayerHandler();
             if (playerHandler instanceof MultiPlayerHandler) {
                 this.playerHandler = (MultiPlayerHandler) playerHandler;
@@ -177,14 +177,14 @@ public class Client {
      * Request this clients name from the server
      */
     public void requestClientNameFromServer() {
-        writeToServer("getName:");
+        writeToServer(ServerAction.getName + "");
     }
 
     /**
      * Send that party mode is on to the server
      */
     public void setPartyModeOn() {
-        writeToServer("partyMode:");
+        writeToServer(ServerAction.partyMode + "");
     }
 
     /**
@@ -193,7 +193,7 @@ public class Client {
      * @param name name to set
      */
     public void setName(String name) {
-        writeToServer("setDisplayName:" + name);
+        writeToServer(ServerAction.setDisplayName + name);
     }
 
     /**
@@ -203,7 +203,7 @@ public class Client {
      */
     public void startGame(GameGraphics game) {
         this.game = game;
-        writeToServer("startGame:");
+        writeToServer(ServerAction.startGame + "");
     }
 
     /**
@@ -214,7 +214,7 @@ public class Client {
      */
     public void sendSelectedCards(boolean poweredDown, List<Card> cards) {
         SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
-        writeToServer("sendSelectedCards:" + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
+        writeToServer(ServerAction.sendSelectedCards + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
 
     }
 
@@ -222,7 +222,7 @@ public class Client {
      * Sets this client as responsible host on the server
      */
     public void setHost() {
-        writeToServer("setHostId:");
+        writeToServer(ServerAction.setHostId + "");
     }
 
     /**
