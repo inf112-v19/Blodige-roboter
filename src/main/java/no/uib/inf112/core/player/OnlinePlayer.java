@@ -37,6 +37,11 @@ public class OnlinePlayer extends AbstractPlayer {
         return new ComparableTuple<>(cards[id], this);
     }
 
+    /**
+     * Set the cards for this onlinePlayer
+     *
+     * @param cards cards to set
+     */
     public void setCards(List<CardDto> cards) {
         for (int i = 0; i < cards.size(); i++) {
             if (i < getHealth()) {

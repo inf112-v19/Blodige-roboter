@@ -25,6 +25,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
     private boolean gameOver;
     private long startTime;
     private Client client;
+    private StartRoundDto startRoundDto;
 
     public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, Client client) {
         if (newGameDto.players.size() < 2 || newGameDto.players.size() > 8) {
@@ -62,6 +63,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
      * @param startRoundDto object containing data about the round.
      */
     public void runRound(StartRoundDto startRoundDto) {
+        this.startRoundDto = startRoundDto;
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
@@ -84,7 +86,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             }
         }
         GameGraphics.getRoboRally().round();
-        user.getCards().setDrawnCards(startRoundDto.drawnCards);
+
     }
 
     @Override
@@ -104,6 +106,9 @@ public class MultiPlayerHandler implements IPlayerHandler {
             p.setWillPowerDown(false);
             p.endDrawCards();
         } else {
+            if (startRoundDto != null) {
+                user.getCards().setDrawnCards(startRoundDto.drawnCards);
+            }
             GameScreen.getUiHandler().showDrawnCards();
         }
     }
