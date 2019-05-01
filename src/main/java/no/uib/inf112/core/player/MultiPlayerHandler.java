@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
-import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.multiplayer.dtos.PlayerDto;
 import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
@@ -24,10 +24,10 @@ public class MultiPlayerHandler implements IPlayerHandler {
     private Player user;
     private boolean gameOver;
     private long startTime;
-    private Client client;
+    private IClient client;
     private StartRoundDto startRoundDto;
 
-    public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, Client client) {
+    public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, IClient client) {
         if (newGameDto.players.size() < 2 || newGameDto.players.size() > 8) {
             throw new IllegalArgumentException("Number of players not allowed");
         }
@@ -67,18 +67,14 @@ public class MultiPlayerHandler implements IPlayerHandler {
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
-                Iterator<PlayerDto> iterator = startRoundDto.players.iterator();
-                while (iterator.hasNext()) {
-                    PlayerDto playerDto = iterator.next();
+                for (PlayerDto playerDto : startRoundDto.players) {
                     if (playerDto.id == onlinePlayer.getId()) {
                         onlinePlayer.setPoweredDown(playerDto.isPoweredDown);
                         onlinePlayer.setCards(playerDto.cards);
                     }
                 }
             } else {
-                Iterator<PlayerDto> iterator = startRoundDto.players.iterator();
-                while (iterator.hasNext()) {
-                    PlayerDto playerDto = iterator.next();
+                for (PlayerDto playerDto : startRoundDto.players) {
                     if (playerDto.id == mainPlayer().getId() && !mainPlayer().isPoweredDown() && playerDto.cards != null) {
                         ((Player) mainPlayer()).getCards().setSelectedCards(playerDto.cards);
                     }
@@ -127,7 +123,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
      * Move players to given spawning docks
      * Count number of flags in map
      *
-     * @param map
+     * @param map the map
      */
     private void addPlayers(MapHandler map, NewGameDto newGameDto) {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
@@ -148,7 +144,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, new ComparableTuple("blue", Color.BLUE));
+                NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, new ComparableTuple<>("blue", Color.BLUE));
                 nonPlayer.setDock(i);
                 players.add(nonPlayer);
             }

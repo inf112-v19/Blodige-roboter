@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.google.gson.Gson;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.TiledMapHandler;
-import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.Server;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
@@ -50,9 +50,9 @@ public class GameGraphics extends Game {
     public SpriteBatch batch;
 
     private static Server server;
-    private static Client client;
+    private static IClient client;
 
-    public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, Client client) {
+    public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, IClient client) {
         String mapPath = (!HEADLESS ? MAP_FOLDER : "") + setup.map + MAP_EXTENSION;
         MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
         roboRally = new RoboRally(mapHandler, new MultiPlayerHandler(setup, mapHandler, client));
@@ -158,14 +158,14 @@ public class GameGraphics extends Game {
      *
      * @param newClient the client
      */
-    public static void setClient(Client newClient) {
+    public static void setClient(IClient newClient) {
         client = newClient;
     }
 
     /**
      * @return the given client for this instance
      */
-    public static Client getClient() {
+    public static IClient getClient() {
         return client;
     }
 
