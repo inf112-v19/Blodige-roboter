@@ -24,7 +24,8 @@ public class HostSetup extends AbstractSetupScreen {
             game.setScreen(lobbyScreen);
             stage.clear();
         } catch (IOException e) {
-            e.printStackTrace();
+            game.setScreen(new ErrorScreen(game, e.toString()));
+            //e.printStackTrace();
             //TODO handle not able to start hosting
         }
     }

@@ -44,26 +44,14 @@ public class JoinScreen extends AbstractMenuScreen {
         joinButton.setPosition(stage.getWidth() / 2 + 10, stage.getHeight() / 20);
 
 
-        portField = createDigitInputField("Enter port", 5);
+        portField = createDigitInputField(Integer.toString(GameGraphics.port), 5);
         portField.setPosition(stage.getWidth() / 2 - portField.getWidth() / 2, stage.getHeight() / 2 - portField.getHeight());
 
 
-        ipField = createInputField("Enter ip", 15);
-        nameField.setPosition(stage.getWidth() / 2 - ipField.getWidth() / 2, stage.getHeight() / 3 - ipField.getHeight() / 2);
+        ipField = createInputField("Enter host ip", 14);
+        ipField.setPosition(stage.getWidth() / 2 - ipField.getWidth() / 2, stage.getHeight() / 2 - 5 * ipField.getHeight() / 2);
 
-        /*TextButton startButton = createButton("Join", 80);
-        startButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GameGraphics.mainPlayerName = nameField.getText();
-                game.setScreen(new LobbyScreen(game, false, ipField.getText(), 1100));
-                stage.clear();
-            }
-        });
-        startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);*/
         stage.addActor(ipField);
-        //stage.addActor(startButton);
-
         stage.addActor(returnButton);
         stage.addActor(joinButton);
         stage.addActor(nameField);
@@ -82,7 +70,8 @@ public class JoinScreen extends AbstractMenuScreen {
                 game.setScreen(lobbyScreen);
                 stage.clear();
             } catch (IOException e) {
-                e.printStackTrace();
+                game.setScreen(new ErrorScreen(game, e.toString()));
+                //e.printStackTrace();
                 //TODO Handle not able to connect
             }
         } else {

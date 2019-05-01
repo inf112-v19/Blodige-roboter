@@ -21,4 +21,13 @@ public class SinglePlayerSetup extends AbstractSetupScreen {
         GameGraphics.mainPlayerName = mainPlayerName;
         game.setScreen(new GameScreen(game)); //TODO create new instance
     }
+
+    @Override
+    public void render(float v) {
+        super.render(v);
+
+        if (startGame) {
+            startGame(GameGraphics.mainPlayerName);
+        }
+    }
 }
