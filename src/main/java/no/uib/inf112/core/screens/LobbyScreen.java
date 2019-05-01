@@ -47,7 +47,6 @@ public class LobbyScreen extends AbstractMenuScreen {
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
         stage.addActor(returnButton);
-
     }
 
     @Override

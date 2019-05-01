@@ -19,6 +19,7 @@ public class HostLobbyScreen extends LobbyScreen {
     private GameGraphics game;
     private int port;
     private BitmapFont font;
+    private TextButton startButton;
 
 
     HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
@@ -35,20 +36,24 @@ public class HostLobbyScreen extends LobbyScreen {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+        startButton = createButton("START", 80);
     }
 
     @Override
     public void show() {
         super.show();
         Label ipPortLabel = game.createLabel("IP: " + ipAddress + " Port: " + port, stage.getWidth() / 2 - stage.getWidth() / 4, stage.getHeight() - 70, 50);
-        TextButton startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //TODO check to see if enough players are connected
-                GameScreen.scheduleSync(() -> client.startGame(game), 0);
+                if (!startButton.isDisabled()) GameScreen.scheduleSync(() -> client.startGame(game), 0);
             }
         });
+
+        startButton.getStyle().disabledFontColor = new Color(0, 0, 0, 0.4f);
+        startButton.setDisabled(true);
+
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
         stage.addActor(ipPortLabel);
         stage.addActor(startButton);
@@ -60,6 +65,10 @@ public class HostLobbyScreen extends LobbyScreen {
     public void render(float v) {
         super.render(v);
         int length = client.getPlayerNames().length;
+        if (length == GameGraphics.players) {
+            startButton.setDisabled(false);
+        }
+
         Label players = createLabel(length + "/" + GameGraphics.players, stage.getWidth() / 2 - 70, stage.getHeight() - 200);
         stage.addActor(players);
     }
