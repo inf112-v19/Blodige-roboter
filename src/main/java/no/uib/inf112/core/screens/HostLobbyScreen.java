@@ -8,10 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 
 public class HostLobbyScreen extends LobbyScreen {
     private String ipAdress;
@@ -23,6 +20,9 @@ public class HostLobbyScreen extends LobbyScreen {
         try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ipAdress = socket.getLocalAddress().getHostAddress();
+            if (ipAdress.equals("0.0.0.0")) {
+                ipAdress = Inet4Address.getLocalHost().getHostAddress();
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (SocketException e) {
@@ -34,7 +34,7 @@ public class HostLobbyScreen extends LobbyScreen {
     public void show() {
         super.show();
 
-        Label label = game.createLabel(ipAdress, stage.getWidth() /2, stage.getHeight() / 4, 50);
+        Label label = game.createLabel(ipAdress, stage.getWidth() / 2, stage.getHeight() / 4, 50);
         TextButton startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
