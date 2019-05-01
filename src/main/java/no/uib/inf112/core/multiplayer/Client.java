@@ -11,6 +11,7 @@ import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.screens.GameScreen;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -31,7 +32,7 @@ public class Client implements IClient {
     private MultiPlayerHandler playerHandler;
     private List<String> players;
 
-    public Client(String IP, int port) throws IOException {
+    public Client(@NotNull String IP, int port) throws IOException {
         clientSocket = new Socket(IP, port);
         outToServer = new DataOutputStream(clientSocket.getOutputStream());
         inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -102,7 +103,7 @@ public class Client implements IClient {
      *
      * @param data a startround dto containing cards for each player and the drawn cards for this instance's mainplayer
      */
-    private void giveCards(String data) {
+    private void giveCards(@NotNull String data) {
         GameScreen.scheduleSync(() ->
                 playerHandler.startRound(GameGraphics.gson.fromJson(data, StartRoundDto.class)), 0);
     }
@@ -112,7 +113,7 @@ public class Client implements IClient {
      *
      * @param data a newGame dto containing parameters for the new game
      */
-    private void setupGame(String data) {
+    private void setupGame(@NotNull String data) {
         if (game == null) {
             throw new IllegalArgumentException("Tried to start game with a null reference to GameGraphics");
         }
@@ -136,7 +137,7 @@ public class Client implements IClient {
      * @param text to send to the server
      * @return true if able to write to the server
      */
-    private boolean writeToServer(String text) {
+    private boolean writeToServer(@NotNull String text) {
         try {
             outToServer.writeUTF(text);
             return true;
@@ -152,7 +153,7 @@ public class Client implements IClient {
      *
      * @return a list of the names of all the connected players
      */
-    private List<String> receiveConnectedPlayers(String data) {
+    private List<String> receiveConnectedPlayers(@NotNull String data) {
         ConnectedPlayersDto result = GameGraphics.gson.fromJson(data, ConnectedPlayersDto.class);
         if (result.players != null) {
             players = result.players.stream()
@@ -172,6 +173,7 @@ public class Client implements IClient {
     }
 
     @Override
+    @NotNull
     public String[] getPlayerNames() {
         return players.toArray(new String[0]);
     }
@@ -182,18 +184,18 @@ public class Client implements IClient {
     }
 
     @Override
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         writeToServer(ServerAction.setDisplayName + name);
     }
 
     @Override
-    public void startGame(GameGraphics game) {
+    public void startGame(@NotNull GameGraphics game) {
         this.game = game;
         writeToServer(ServerAction.startGame + "");
     }
 
     @Override
-    public void sendSelectedCards(boolean poweredDown, List<Card> cards) {
+    public void sendSelectedCards(boolean poweredDown, @NotNull List<Card> cards) {
         SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
         writeToServer(ServerAction.sendSelectedCards + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
 

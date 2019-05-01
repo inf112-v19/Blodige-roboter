@@ -7,6 +7,7 @@ import no.uib.inf112.core.multiplayer.dtos.*;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.util.ComparableTuple;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -115,7 +116,7 @@ public class Server {
         /**
          * Construct a Handler.
          */
-        ConnectedPlayer(ServerSocket s, int i) {
+        ConnectedPlayer(@NotNull ServerSocket s, int i) {
             handlerServSock = s;
             threadNumber = i;
             setName("Thread " + threadNumber);
@@ -128,7 +129,7 @@ public class Server {
          *
          * @param message message to send
          */
-        private void sendMessage(String message) {
+        private void sendMessage(@NotNull String message) {
             if (connected && handlerServSock.isBound()) {
                 outToClient.print(message + "\r\n");
                 outToClient.flush();
@@ -228,7 +229,7 @@ public class Server {
          *
          * @param data SelectedCards dto containing data about the selected cards and power down status for this client
          */
-        private void setCards(SelectedCardsDto data) {
+        private void setCards(@NotNull SelectedCardsDto data) {
             player.isPoweredDown = data.poweredDown;
             player.cards = data.cards;
         }
@@ -253,7 +254,7 @@ public class Server {
      *
      * @param message message to send
      */
-    private void sendMessageToAll(String message) {
+    private void sendMessageToAll(@NotNull String message) {
         for (ConnectedPlayer player : players) {
             if (player.player.name != null) {
                 player.sendMessage(message);
@@ -319,7 +320,7 @@ public class Server {
      *
      * @param command command to send with the dto either startround or giveCards
      */
-    private void startRound(ClientAction command) {
+    private void startRound(@NotNull ClientAction command) {
         startedRound = true;
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {
@@ -344,6 +345,7 @@ public class Server {
      *
      * @return json object of all connected players
      */
+    @NotNull
     private String getConnectedPlayers() {
         List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> {
             if (connectedPlayer.connected) {

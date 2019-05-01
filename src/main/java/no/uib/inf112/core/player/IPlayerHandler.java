@@ -5,6 +5,7 @@ import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.util.ComparableTuple;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +43,10 @@ public interface IPlayerHandler {
      * Move players to given spawning docks
      * Count number of flags in map
      *
-     * @param map
+     * @param map the maphandler
      */
-    default ComparableTuple<Integer, Stack<SpawnTile>> analyseMap(MapHandler map) {
+    @NotNull
+    default ComparableTuple<Integer, Stack<SpawnTile>> analyseMap(@NotNull MapHandler map) {
         Stack<SpawnTile> spawnTiles = new Stack<>();
         int flagCount = 0;
         for (int x = 0; x < map.getMapWidth(); x++) {
@@ -62,7 +64,7 @@ public interface IPlayerHandler {
                 }
             }
         }
-        return new ComparableTuple<Integer, Stack<SpawnTile>>(flagCount, spawnTiles);
+        return new ComparableTuple<>(flagCount, spawnTiles);
     }
 
     /**

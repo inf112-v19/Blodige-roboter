@@ -14,20 +14,22 @@ import java.util.List;
 public class OnlinePlayer extends AbstractPlayer {
 
     private final int id;
+
+    private Card[] cards = new Card[IPlayer.MAX_PLAYER_CARDS];
+
     /**
      * @param x         Start x position
      * @param y         Start y position
      * @param direction Start direction
      * @param map       Current map
      */
-    private Card[] cards = new Card[IPlayer.MAX_PLAYER_CARDS];
-
     public OnlinePlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, @NotNull ComparableTuple<String, Color> color, int id) {
         super(x, y, direction, map, color);
         this.id = id;
     }
 
     @Override
+    @NotNull
     public ComparableTuple<Card, IPlayer> getNextCard(int id) {
         if (id >= IPlayer.MAX_PLAYER_CARDS) {
             throw new IllegalArgumentException("Asked for card ID higher than max");
@@ -42,7 +44,7 @@ public class OnlinePlayer extends AbstractPlayer {
      *
      * @param cards cards to set
      */
-    public void setCards(List<CardDto> cards) {
+    public void setCards(@NotNull List<CardDto> cards) {
         for (int i = 0; i < cards.size(); i++) {
             if (i < getHealth()) {
                 CardDto cardDto = cards.get(i);

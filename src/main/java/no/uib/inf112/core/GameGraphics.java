@@ -19,6 +19,8 @@ import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.screens.TitleScreen;
 import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import no.uib.inf112.core.ui.Sound;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -52,7 +54,7 @@ public class GameGraphics extends Game {
     private static Server server;
     private static IClient client;
 
-    public static RoboRally createRoboRallyMultiplayer(NewGameDto setup, IClient client) {
+    public static RoboRally createRoboRallyMultiplayer(@NotNull NewGameDto setup, IClient client) {
         String mapPath = (!HEADLESS ? MAP_FOLDER : "") + setup.map + MAP_EXTENSION;
         MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
         roboRally = new RoboRally(mapHandler, new MultiPlayerHandler(setup, mapHandler, client));
@@ -67,7 +69,7 @@ public class GameGraphics extends Game {
 
         backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
-        //backgroundMusic.play();
+        backgroundMusic.play();
     }
 
     @Override
@@ -149,7 +151,7 @@ public class GameGraphics extends Game {
      *
      * @param newServer the server
      */
-    public static void setServer(Server newServer) {
+    public static void setServer(@Nullable Server newServer) {
         server = newServer;
     }
 
@@ -158,13 +160,14 @@ public class GameGraphics extends Game {
      *
      * @param newClient the client
      */
-    public static void setClient(IClient newClient) {
+    public static void setClient(@Nullable IClient newClient) {
         client = newClient;
     }
 
     /**
      * @return the given client for this instance
      */
+    @Nullable
     public static IClient getClient() {
         return client;
     }

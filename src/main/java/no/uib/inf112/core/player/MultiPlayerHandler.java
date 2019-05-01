@@ -27,7 +27,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
     private IClient client;
     private StartRoundDto startRoundDto;
 
-    public MultiPlayerHandler(NewGameDto newGameDto, MapHandler map, IClient client) {
+    public MultiPlayerHandler(@NotNull NewGameDto newGameDto, @NotNull MapHandler map, IClient client) {
         if (newGameDto.players.size() < 2 || newGameDto.players.size() > 8) {
             throw new IllegalArgumentException("Number of players not allowed");
         }
@@ -53,7 +53,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
      *
      * @param startRoundDto object containing data about the round.
      */
-    public void startRound(StartRoundDto startRoundDto) {
+    public void startRound(@NotNull StartRoundDto startRoundDto) {
         user.getCards().setDrawnCards(startRoundDto.drawnCards);
     }
 
@@ -125,7 +125,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
      *
      * @param map the map
      */
-    private void addPlayers(MapHandler map, NewGameDto newGameDto) {
+    private void addPlayers(@NotNull MapHandler map, @NotNull NewGameDto newGameDto) {
         ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
         flagCount = result.key;
         Stack<SpawnTile> spawnTiles = result.value;
