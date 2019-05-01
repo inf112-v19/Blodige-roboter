@@ -81,7 +81,7 @@ public class OptionsScreen extends AbstractMenuScreen {
                     soundButton.setText("Enable Sound");
                     GameGraphics.soundMuted = true;
                 } else {
-                    soundButton.setText("Disable Music");
+                    soundButton.setText("Disable Sound");
                     GameGraphics.soundMuted = false;
                 }
             }

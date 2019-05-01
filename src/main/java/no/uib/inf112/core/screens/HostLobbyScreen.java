@@ -34,7 +34,7 @@ public class HostLobbyScreen extends LobbyScreen {
     public void show() {
         super.show();
 
-        Label label = game.createLabel(ipAdress, stage.getWidth() /2, stage.getHeight() / 4, 50);
+        Label label = game.createLabel(ipAdress, stage.getWidth() / 2, stage.getHeight() / 4, 50);
         TextButton startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
