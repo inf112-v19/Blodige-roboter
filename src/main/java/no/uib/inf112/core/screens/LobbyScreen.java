@@ -1,6 +1,5 @@
 package no.uib.inf112.core.screens;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -15,7 +14,6 @@ public class LobbyScreen extends AbstractMenuScreen {
 
     protected final Client client;
     private final Server server;
-    private List<String> connectedPlayers;
 
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
@@ -34,7 +32,6 @@ public class LobbyScreen extends AbstractMenuScreen {
             client.startGame(game);
             GameGraphics.setClient(client);
         }
-        connectedPlayers = client.getConnectedPlayers();
     }
 
     @Override
@@ -58,20 +55,8 @@ public class LobbyScreen extends AbstractMenuScreen {
     public void render(float v) {
         super.render(v);
         stage.getActors().pop();
-        connectedPlayers = client.getPlayers();
-        String[] players = new String[GameGraphics.players];
-        for (int i = 0; i < GameGraphics.players; i++) {
-            players[i] = "Not connected";
-        }
-        int i = 0;
-        for (String connectedPlayer : connectedPlayers) {
-            if (connectedPlayer.contains("name\":")) {
-                String[] split = connectedPlayer.split("name\":");
-                players[i++] = split[1].replace("\"", "");
-            }
-        }
 
-        com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(players);
+        com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(client.getPlayerNames());
         stage.addActor(list);
     }
 }

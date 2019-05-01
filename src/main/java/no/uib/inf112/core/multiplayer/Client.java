@@ -57,8 +57,24 @@ public class Client {
         return Arrays.asList(result.split(","));
     }
 
-    public List<String> getPlayers() {
-        return players;
+    public String[] getPlayerNames() {
+        List<String> pals = new ArrayList<>(players);
+        pals.removeIf(x -> {
+            if(x.contains("name\":")) {
+                return false;
+            }
+            return true;
+        });
+
+        String[] playerNames = new String[pals.size()];
+        int i = 0;
+        for (String connectedPlayer : pals) {
+            if (connectedPlayer.contains("name\":")) {
+                String[] split = connectedPlayer.split("name\":");
+                playerNames[i++] = split[1].replace("\"", "");
+            }
+        }
+        return playerNames;
     }
 
     public void handleInput() {
