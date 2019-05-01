@@ -155,9 +155,14 @@ public class Client {
      */
     public List<String> receiveConnectedPlayers(String data) {
         ConnectedPlayersDto result = GameGraphics.gson.fromJson(data, ConnectedPlayersDto.class);
-        players = result.players.stream().map(player -> player.name)
-                .collect(Collectors.toList());
-        return players;
+        if (result.players != null) {
+            players = result.players.stream()
+                    .filter(player -> player != null)
+                    .map(player -> player.name)
+                    .collect(Collectors.toList());
+            return players;
+        }
+        return null;
     }
 
 
