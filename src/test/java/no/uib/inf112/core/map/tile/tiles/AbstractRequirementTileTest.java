@@ -5,7 +5,6 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -23,7 +22,7 @@ public class AbstractRequirementTileTest extends TestGraphics {
     private Vector2Int vector2Int;
 
     @Before
-    public void setup(){
+    public void setUp(){
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         vector2Int = new Vector2Int(0,0);
