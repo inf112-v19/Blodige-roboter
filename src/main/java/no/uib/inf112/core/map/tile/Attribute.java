@@ -97,8 +97,6 @@ public enum Attribute {
     }
 
     /**
-     * TODO ISSUE #118 test if the given tile has the specified interfaces
-     *
      * @param tileClass The tile class to check
      * @return {@code true} if the given class is an accepted super class for this attribute
      */
