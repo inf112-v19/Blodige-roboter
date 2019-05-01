@@ -4,7 +4,9 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.player.IPlayer;
+import no.uib.inf112.core.player.NonPlayer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -91,5 +93,12 @@ public class AbstractRequirementTileTest extends TestGraphics {
     @Test
     public void playerHasRequiredAttributes(){
         assertEquals(true, player.canDoAction(player));
+    }
+
+    @Test
+    public void nonPlayerHasRequiredAttributes(){
+        NonPlayer nonPlayer = new NonPlayer(0, 0, Direction.NORTH, roboRally.getCurrentMap());
+
+        assertEquals(true, nonPlayer.canDoAction(player));
     }
 }

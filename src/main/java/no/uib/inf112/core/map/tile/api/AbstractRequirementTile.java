@@ -17,7 +17,6 @@ public abstract class AbstractRequirementTile extends AbstractTile implements Re
         super(pos, tg);
     }
 
-    //TODO ISSUE #118 test (this should look at all the required atts and check that hasAttributes return true on all of them)
     @Override
     public boolean canDoAction(@NotNull Tile tile) {
         if (equals(tile) && !canRunOnSelf()) {
