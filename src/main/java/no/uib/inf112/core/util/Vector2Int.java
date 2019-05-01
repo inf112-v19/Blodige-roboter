@@ -5,7 +5,7 @@ package no.uib.inf112.core.util;
  *
  * @author Elg
  */
-public class Vector2Int {
+public class Vector2Int implements Cloneable {
 
     public int x;
     public int y;
@@ -14,6 +14,12 @@ public class Vector2Int {
 
         this.x = x;
         this.y = y;
+    }
+
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
+    @Override
+    public Vector2Int clone() {
+        return new Vector2Int(x, y);
     }
 
     @Override

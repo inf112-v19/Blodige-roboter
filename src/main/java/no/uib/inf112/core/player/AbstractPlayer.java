@@ -63,13 +63,15 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
 
     @Override
     public void kill() {
+        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
         lives--;
         if (lives == 0) {
-            GameGraphics.getRoboRally().getCurrentMap().removeEntity(this);
+            map.removeEntity(this);
             return;
         }
         health = MAX_HEALTH;
-        teleport(backup.x, backup.y);
+        map.update(0);
+        teleport(getValidBackupSpawnpoint(map));
     }
 
     @Override
