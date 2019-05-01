@@ -20,7 +20,7 @@ public class HostLobbyScreen extends LobbyScreen {
         try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ipAddress = socket.getLocalAddress().getHostAddress();
-            if (ipAddress.equals("0.0.0.0")) {
+            if ("0.0.0.0".equals(ipAddress)) {
                 ipAddress = Inet4Address.getLocalHost().getHostAddress();
             }
         } catch (UnknownHostException e) {

@@ -8,6 +8,7 @@ import java.util.HashMap;
  * Action the server can send to the client
  */
 public enum ClientAction {
+
     startGame("startGame "),
     giveCards("giveCards"),
     name("name"),
@@ -17,6 +18,7 @@ public enum ClientAction {
     countDown("countDown"),
     partyMode("partyMode");
 
+    private static HashMap<String, ClientAction> ClientActionMap = new HashMap<>();
     private final String command;
 
     ClientAction(String command) {
@@ -31,8 +33,6 @@ public enum ClientAction {
     public String toString() {
         return command + ":";
     }
-
-    private static HashMap<String, ClientAction> ClientActionMap = new HashMap<>();
 
     static {
         for (ClientAction value : values()) {
