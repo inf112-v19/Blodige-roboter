@@ -48,12 +48,10 @@ public class JoinScreen extends AbstractMenuScreen {
         portField.setPosition(stage.getWidth() / 2 - portField.getWidth() / 2, stage.getHeight() / 2 - portField.getHeight());
 
 
-        ipField = createInputField("Enter ip", 15);
+        ipField = createInputField("Enter host ip", 14);
         ipField.setPosition(stage.getWidth() / 2 - ipField.getWidth() / 2, stage.getHeight() / 2 - 5 * ipField.getHeight() / 2);
 
         stage.addActor(ipField);
-        //stage.addActor(startButton);
-
         stage.addActor(returnButton);
         stage.addActor(joinButton);
         stage.addActor(nameField);
@@ -72,7 +70,8 @@ public class JoinScreen extends AbstractMenuScreen {
                 game.setScreen(lobbyScreen);
                 stage.clear();
             } catch (IOException e) {
-                e.printStackTrace();
+                game.setScreen(new ErrorScreen(game, e.toString()));
+                //e.printStackTrace();
                 //TODO Handle not able to connect
             }
         } else {
