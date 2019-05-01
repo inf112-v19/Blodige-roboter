@@ -144,9 +144,9 @@ public abstract class GameMap implements MapHandler {
 
     //TODO ISSUE #118 this should be tested
     @Override
-    public boolean removeEntity(@Nullable Entity entity) {
+    public void removeEntity(@Nullable Entity entity) {
         if (entity == null) {
-            return false;
+            return;
         }
         UVector2Int pos = new UVector2Int(entity.getX(), entity.getY());
         Entity e = entities.get(pos);
@@ -155,7 +155,6 @@ public abstract class GameMap implements MapHandler {
             entityLayer.setCell(entity.getX(), entity.getY(), null);
             entities.remove(pos);
         }
-        return false;
     }
 
     @Override
