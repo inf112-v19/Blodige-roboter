@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.*;
 
 public class HostLobbyScreen extends LobbyScreen {
-    private String ipAdress;
+    private String ipAddress;
     private GameGraphics game;
 
     HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
@@ -19,9 +19,9 @@ public class HostLobbyScreen extends LobbyScreen {
         this.game = game;
         try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-            ipAdress = socket.getLocalAddress().getHostAddress();
-            if (ipAdress.equals("0.0.0.0")) {
-                ipAdress = Inet4Address.getLocalHost().getHostAddress();
+            ipAddress = socket.getLocalAddress().getHostAddress();
+            if (ipAddress.equals("0.0.0.0")) {
+                ipAddress = Inet4Address.getLocalHost().getHostAddress();
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class HostLobbyScreen extends LobbyScreen {
     public void show() {
         super.show();
 
-        Label label = game.createLabel(ipAdress, stage.getWidth() / 2, stage.getHeight() / 4, 50);
+        Label label = game.createLabel("IP: " + ipAddress, stage.getWidth() / 2 - stage.getWidth() / 4, stage.getHeight() - 55, 50);
         TextButton startButton = createButton("START", 80);
         startButton.addListener(new ClickListener() {
             @Override
@@ -43,6 +43,7 @@ public class HostLobbyScreen extends LobbyScreen {
                 GameScreen.scheduleSync(() -> client.startGame(game), 0);
             }
         });
+        startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
         stage.addActor(label);
         stage.addActor(startButton);
         stage.addActor(new Actor());
