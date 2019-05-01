@@ -54,7 +54,7 @@ public class LobbyScreen extends AbstractMenuScreen {
     public void render(float v) {
         super.render(v);
         stage.getActors().pop();
-        stage.getActors().pop();
+//        stage.getActors().pop();
 
         com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(client.getPlayerNames());
         stage.addActor(list);
