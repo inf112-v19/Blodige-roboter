@@ -1,10 +1,7 @@
 package no.uib.inf112.core.map.tile;
 
 import no.uib.inf112.core.map.tile.api.Tile;
-import no.uib.inf112.core.map.tile.tiles.ConveyorTile;
-import no.uib.inf112.core.map.tile.tiles.DeathTile;
-import no.uib.inf112.core.map.tile.tiles.FlagTile;
-import no.uib.inf112.core.map.tile.tiles.GearTile;
+import no.uib.inf112.core.map.tile.tiles.*;
 import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Test;
@@ -42,7 +39,7 @@ public class AttributeTest {
     public void flagTileHasSpecifiedInterfaces(){
         FlagTile flagTile = new FlagTile(vector2Int, TileGraphic.FLAG1);
 
-        Set<Attribute> set = TileGraphic.VOID_TILE.getAttributes();
+        Set<Attribute> set = TileGraphic.FLAG1.getAttributes();
 
         for (Attribute a: set) {
             assertEquals(true , a.verifyInterfaces(flagTile.getClass()));
@@ -53,11 +50,67 @@ public class AttributeTest {
     public void gearTileHasSpecifiedInterfaces(){
         GearTile gearTile = new GearTile(vector2Int, TileGraphic.ROTATE_CLOCKWISE);
 
-        Set<Attribute> set = TileGraphic.VOID_TILE.getAttributes();
+        Set<Attribute> set = TileGraphic.ROTATE_CLOCKWISE.getAttributes();
 
         for (Attribute a: set) {
             assertEquals(true , a.verifyInterfaces(gearTile.getClass()));
         }
     }
-    
+
+    @Test
+    public void laserTileHasSpecifiedInterfaces(){
+        LaserTile laserTile = new LaserTile(vector2Int, TileGraphic.LASER_HORIZONTAL);
+
+        Set<Attribute> set = TileGraphic.LASER_HORIZONTAL.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(laserTile.getClass()));
+        }
+    }
+
+    @Test
+    public void rotationConveyorHasSpecifiedInterfaces(){
+        RotationConveyor rotationConveyor =
+                new RotationConveyor(vector2Int, TileGraphic.CONVEYOR_FROM_WEST_GO_NORTH);
+
+        Set<Attribute> set = TileGraphic.CONVEYOR_FROM_WEST_GO_NORTH.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(rotationConveyor.getClass()));
+        }
+    }
+
+    @Test
+    public void spawnTileHasSpecifiedInterfaces(){
+        SpawnTile spawnTile = new SpawnTile(vector2Int, TileGraphic.SPAWN1);
+
+        Set<Attribute> set = TileGraphic.SPAWN1.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(spawnTile.getClass()));
+        }
+    }
+
+    @Test
+    public void wallTileHasSpecifiedInterfaces(){
+        WallTile wallTile = new WallTile(vector2Int, TileGraphic.WALL_EAST);
+
+        Set<Attribute> set = TileGraphic.WALL_EAST.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(wallTile.getClass()));
+        }
+    }
+
+    @Test
+    public void wrenchAndHammerTileHasSpecifiedInterfaces(){
+        WrenchAndHammerTile wrenchAndHammerTile =
+                new WrenchAndHammerTile(vector2Int, TileGraphic.HAMMER_AND_WRENCH);
+
+        Set<Attribute> set = TileGraphic.HAMMER_AND_WRENCH.getAttributes();
+
+        for (Attribute a: set) {
+            assertEquals(true , a.verifyInterfaces(wrenchAndHammerTile.getClass()));
+        }
+    }
 }
