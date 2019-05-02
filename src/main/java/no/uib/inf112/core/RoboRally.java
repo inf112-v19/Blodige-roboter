@@ -20,6 +20,7 @@ public class RoboRally {
     public static final CancellableThreadScheduler SECOND_THREAD = new CancellableThreadScheduler();
 
     public RoboRally(@NotNull MapHandler map, @NotNull IPlayerHandler playerHandler) {
+        RoboRally.SECOND_THREAD.cancelTasks();
         this.map = map;
         deck = new MovementDeck();
         this.playerHandler = playerHandler;
