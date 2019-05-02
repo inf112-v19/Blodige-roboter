@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A static class containing methods mapping between real instances and dtos
+ * A static class containing methods mapping between real instances and dtos. A dto stands for data transfer object
  */
 public class DtoMapper {
 

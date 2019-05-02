@@ -29,8 +29,6 @@ public abstract class MapCamera extends GameMap {
     }
 
     private void setupCamera() {
-        //Gdx.app.postRunnable(() -> {
-
         defaultWidth = Gdx.graphics.getWidth();
         defaultHeight = Gdx.graphics.getHeight();
 
@@ -46,8 +44,6 @@ public abstract class MapCamera extends GameMap {
         }
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //});
-
     }
 
     @Override

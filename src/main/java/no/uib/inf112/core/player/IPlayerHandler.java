@@ -121,10 +121,23 @@ public interface IPlayerHandler {
      */
     int getFlagCount();
 
+    /**
+     * Returns the mainPlayer for this session
+     *
+     * @return
+     */
     IPlayer mainPlayer();
 
+    /**
+     * True if the game is over, does not check it only true if it has already checked and it was over
+     *
+     * @return
+     */
     boolean isGameOver();
 
+    /**
+     * Returns a map over all the players that are finished where the value is their score
+     */
     Map<IPlayer, Long> getWonPlayers();
 }
 

@@ -125,15 +125,6 @@ public class GameScreen implements Screen {
         }
     }
 
-    /**
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
-        GameScreen.executorService.schedule(() ->
-                runnable, msDelay, TimeUnit.MILLISECONDS);
-    }
-
     @NotNull
     public static InputMultiplexer getInputMultiplexer() {
         return inputMultiplexer;

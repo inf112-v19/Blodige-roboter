@@ -31,7 +31,6 @@ public class GameGraphics extends Game {
 
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
     public static final String MAP_EXTENSION = ".tmx";
-
     public static final String SCREEN_FONT = "screen_font.ttf";
     public static final String SCREEN_FONT_BOLD = "screen_font_bold.ttf";
 
@@ -75,6 +74,7 @@ public class GameGraphics extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.stop();
         backgroundMusic.dispose();
         batch.dispose();
         closeResources();

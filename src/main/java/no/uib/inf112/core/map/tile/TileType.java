@@ -21,7 +21,7 @@ public enum TileType {
 
     CONVEYOR(MapHandler.BOARD_LAYER_NAME, ConveyorTile.class),
     ROTATION_CONVEYOR(MapHandler.BOARD_LAYER_NAME, RotationConveyor.class),
-    PUSHER(MapHandler.BOARD_LAYER_NAME),
+    PUSHER(MapHandler.BOARD_LAYER_NAME, PusherTile.class),
     DEFAULT(MapHandler.BOARD_LAYER_NAME),
     FLAG(MapHandler.FLAG_LAYER_NAME, FlagTile.class),
     HAMMER_AND_WRENCH(MapHandler.BOARD_LAYER_NAME, WrenchAndHammerTile.class),
@@ -71,7 +71,7 @@ public enum TileType {
     /**
      * Note that this is not a hard rule, there might be TileTypes on other layers (see f.eks {@link MapHandler#LASERS_LAYER_NAME} and {@link MapHandler#ENITTY_LASER_LAYER_NAME}).
      *
-     * @return The expected layer name of this tile type
+     * @return The expected layer NAME of this tile type
      */
     @NotNull
     public String getLayerName() {
