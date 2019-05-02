@@ -136,6 +136,13 @@ public interface IPlayerHandler {
     boolean isGameOver();
 
     /**
+     * Method to set state of gameOver field.
+     *
+     * @param state The state that gameOver is set to
+     */
+    void setGameOver(boolean state);
+
+    /**
      * Returns a map over all the players that are finished where the value is their score
      */
     Map<IPlayer, Long> getWonPlayers();

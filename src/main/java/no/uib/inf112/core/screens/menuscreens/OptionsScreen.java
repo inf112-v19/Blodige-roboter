@@ -29,7 +29,7 @@ public class OptionsScreen extends AbstractMenuScreen {
         });
 
         TextButton returnButton = createReturnButton(70);
-        returnButton.setPosition(stage.getWidth() / 2 - (returnButton.getWidth() / 2), 20);
+        returnButton.setPosition(stage.getWidth() / 2 - (returnButton.getWidth() / 2), stage.getHeight() / 20);
         stage.addActor(returnButton);
         stage.addActor(createMusicButton());
         stage.addActor(fullscreenButton);
