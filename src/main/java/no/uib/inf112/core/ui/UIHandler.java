@@ -142,7 +142,7 @@ public class UIHandler implements Disposable {
 
         backgroundTable.add(robotStatusTable).center().left().uniform();
         backgroundTable.add(nestingTable).expand().bottom();
-        backgroundTable.add(countDown).top().uniform(); // Adding this column to center the control panel and cards.
+        backgroundTable.add(countDown).center().uniform(); // Adding this column to center the control panel and cards.
 
         create();
     }
