@@ -1,19 +1,25 @@
 package no.uib.inf112.core.map;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.map.tile.api.Tile;
+import no.uib.inf112.core.player.Entity;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.util.Direction;
+import no.uib.inf112.core.util.UVector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -51,12 +57,22 @@ public class GameMapTest extends TestGraphics {
     }
 
     @Test
-    public void getTileTest(){
+    public void getTileTestVOID(){
         TiledMapTileLayer layer = roboRally.getCurrentMap().getLayer("board");
 
         Tile tile = roboRally.getCurrentMap().getTile(layer, 0,1);
 
         assertEquals(TileType.VOID, tile.getTileType());
+    }
+
+    @Test
+    public void getTileTestPlayer(){
+        GameMap gameMap = (GameMap) roboRally.getCurrentMap();
+        player.setDirection(Direction.SOUTH);
+        Map<UVector2Int, Entity> map = gameMap.getEntities();
+        System.out.println(map.get(new UVector2Int(0,0)));
+        assertEquals(TileType.ROBOT, map.get(new UVector2Int(0,0)).getTileType());
+        assertEquals(Direction.SOUTH,  map.get(new UVector2Int(0,0)).getDirection());
     }
 
     @Test
