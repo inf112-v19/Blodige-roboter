@@ -20,9 +20,7 @@ public class SinglePlayerSetup extends AbstractSetupScreen {
     @Override
     protected void startGame(String mainPlayerName) {
         GameGraphics.mainPlayerName = mainPlayerName;
-        GameGraphics.createRoboRally(
-                GameGraphics.MAP_FOLDER + GameGraphics.mapFileName + GameGraphics.MAP_EXTENSION,
-                GameGraphics.players);
+        GameGraphics.resetRoborally();
         game.setScreen(new GameScreen(game));
     }
 
