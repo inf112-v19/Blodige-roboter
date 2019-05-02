@@ -1,4 +1,4 @@
-package no.uib.inf112.core.map.tile.tiles;
+package no.uib.inf112.core.map.tile.api;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
@@ -8,6 +8,8 @@ import no.uib.inf112.core.map.tile.api.AbstractTile;
 import no.uib.inf112.core.map.tile.api.ActionTile;
 import no.uib.inf112.core.map.tile.api.DockableTile;
 import no.uib.inf112.core.map.tile.api.MovableTile;
+import no.uib.inf112.core.map.tile.tiles.ConveyorTile;
+import no.uib.inf112.core.map.tile.tiles.WrenchTile;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -21,13 +23,12 @@ import static org.junit.Assert.assertTrue;
 
 public class AbstractTileTest extends TestGraphics {
 
-    private RoboRally roboRally;
     private Vector2Int vector2Int;
     private IPlayer player;
 
     @Before
     public void setUp(){
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
+        RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
         vector2Int = new Vector2Int(0,0);
         player = roboRally.getPlayerHandler().testPlayer();
     }

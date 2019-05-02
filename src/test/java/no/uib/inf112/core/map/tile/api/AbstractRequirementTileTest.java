@@ -1,8 +1,9 @@
-package no.uib.inf112.core.map.tile.tiles;
+package no.uib.inf112.core.map.tile.api;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.TileGraphic;
+import no.uib.inf112.core.map.tile.tiles.*;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
 import no.uib.inf112.core.util.Direction;

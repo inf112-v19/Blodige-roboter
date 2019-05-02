@@ -67,7 +67,6 @@ public class GameMapTest extends TestGraphics {
         GameMap gameMap = (GameMap) roboRally.getCurrentMap();
         player.setDirection(Direction.SOUTH);
         Map<UVector2Int, Entity> map = gameMap.getEntities();
-        System.out.println(map.get(new UVector2Int(0,0)));
         assertEquals(TileType.ROBOT, map.get(new UVector2Int(0,0)).getTileType());
         assertEquals(Direction.SOUTH,  map.get(new UVector2Int(0,0)).getDirection());
     }
