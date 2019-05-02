@@ -14,6 +14,7 @@ public class LobbyScreen extends AbstractMenuScreen {
 
     protected final IClient client;
     private final Server server;
+    protected com.badlogic.gdx.scenes.scene2d.ui.List<String> playerList;
 
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
@@ -31,6 +32,7 @@ public class LobbyScreen extends AbstractMenuScreen {
             client.startGame(game);
             GameGraphics.setClient(client);
         }
+        playerList = createList(client.getPlayerNames());
     }
 
     @Override
@@ -52,10 +54,9 @@ public class LobbyScreen extends AbstractMenuScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        stage.getActors().pop();
-//        stage.getActors().pop();
+        stage.getActors().removeValue(playerList, false);
 
-        com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(client.getPlayerNames());
-        stage.addActor(list);
+        playerList = createList(client.getPlayerNames());
+        stage.addActor(playerList);
     }
 }

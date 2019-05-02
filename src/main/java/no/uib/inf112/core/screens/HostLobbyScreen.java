@@ -2,7 +2,6 @@ package no.uib.inf112.core.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,6 +19,7 @@ public class HostLobbyScreen extends LobbyScreen {
     private int port;
     private BitmapFont font;
     private TextButton startButton;
+    private Label players;
 
 
     HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
@@ -37,6 +37,7 @@ public class HostLobbyScreen extends LobbyScreen {
             e.printStackTrace();
         }
         startButton = createButton("START", 80);
+        players = createLabel(client.getPlayerNames().length + "/" + GameGraphics.players, stage.getWidth() / 2 - 70, stage.getHeight() - 200);
     }
 
     @Override
@@ -56,8 +57,6 @@ public class HostLobbyScreen extends LobbyScreen {
         startButton.setPosition(3 * stage.getWidth() / 4 + 20, stage.getHeight() / 20);
         stage.addActor(ipPortLabel);
         stage.addActor(startButton);
-        stage.addActor(new Actor());
-//        stage.addActor(new Actor());
     }
 
     @Override
@@ -67,8 +66,8 @@ public class HostLobbyScreen extends LobbyScreen {
         if (length == GameGraphics.players) {
             startButton.setDisabled(false);
         }
-
-        Label players = createLabel(length + "/" + GameGraphics.players, stage.getWidth() / 2 - 70, stage.getHeight() - 200);
+        stage.getActors().removeValue(players, false);
+        players = createLabel(length + "/" + GameGraphics.players, stage.getWidth() / 2 - 70, stage.getHeight() - 200);
         stage.addActor(players);
     }
 
