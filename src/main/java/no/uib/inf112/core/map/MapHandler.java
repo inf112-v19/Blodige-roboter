@@ -96,7 +96,7 @@ public interface MapHandler {
      * @param entity The robot to remove
      * @return If the robot was successfully removed
      */
-    boolean removeEntity(@Nullable Entity entity);
+    void removeEntity(@Nullable Entity entity);
 
     /**
      * Adds an laserTile to the laserEntities layer, if there is one there currently it creates a cross tile if they have different orientation, otherwise it ignores it.

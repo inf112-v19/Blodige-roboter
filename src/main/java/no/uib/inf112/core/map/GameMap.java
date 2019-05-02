@@ -142,11 +142,10 @@ public abstract class GameMap implements MapHandler {
         return x < 0 || x >= getMapWidth() || y < 0 | y >= getMapHeight();
     }
 
-    //TODO ISSUE #118 this should be tested
     @Override
-    public boolean removeEntity(@Nullable Entity entity) {
+    public void removeEntity(@Nullable Entity entity) {
         if (entity == null) {
-            return false;
+            return;
         }
         UVector2Int pos = new UVector2Int(entity.getX(), entity.getY());
         Entity e = entities.get(pos);
@@ -155,7 +154,6 @@ public abstract class GameMap implements MapHandler {
             entityLayer.setCell(entity.getX(), entity.getY(), null);
             entities.remove(pos);
         }
-        return false;
     }
 
     @Override
@@ -268,7 +266,6 @@ public abstract class GameMap implements MapHandler {
         return getTile(layer, x, y);
     }
 
-    //TODO ISSUE #118 test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
     @Override
     @Nullable
     public Tile getTile(@Nullable TiledMapTileLayer layer, int x, int y) {
@@ -308,7 +305,6 @@ public abstract class GameMap implements MapHandler {
         return tiles[x][y];
     }
 
-    //TODO ISSUE #118  test (this should return instance of all non-null tiles on all layers at the given location)
     @Override
     @NotNull
     public List<Tile> getAllTiles(int x, int y) {
