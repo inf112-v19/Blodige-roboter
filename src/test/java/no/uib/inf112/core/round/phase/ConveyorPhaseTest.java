@@ -5,7 +5,7 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,16 +16,15 @@ import static org.junit.Assert.assertEquals;
 @SuppressWarnings("PointlessArithmeticExpression")
 public class ConveyorPhaseTest extends TestGraphics {
 
-    private RoboRally roboRally;
-    private IPlayer player;
-    private ConveyorPhase phase;
+    private static RoboRally roboRally;
+    private static IPlayer player;
+    private static ConveyorPhase phase;
 
     private static final int EXPRESS_DIST = 4;
 
-    @Before
-    public void setUp() {
-        roboRally = GameGraphics
-                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
+    @BeforeClass
+    public static void setUp() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().mainPlayer();
         phase = new ConveyorPhase(0);
     }
@@ -51,6 +50,8 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void rotateLeftCircleNormal() {
         player.teleport(1, 2);
         player.setDirection(SOUTH);
+        roboRally.getCurrentMap().update(0);
+
         runPhase();
 
         assertEquals(1, player.getX());

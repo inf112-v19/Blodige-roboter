@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class FlagRegistrationTest extends TestGraphics {
 
     private IPlayer player;
-    private static RoboRally roborally;
+    private RoboRally roborally;
     private MapHandler map;
     private Phase phase;
 
@@ -42,11 +42,11 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void checkIfLandOnFlagRegistersFlag() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 1; i < 5; i++) {
             player.move(Movement.MOVE_1);
             map.update(0);
             phase.startPhase(map);
-            assertEquals(1 + i, player.getFlags());
+            assertEquals(i, player.getFlags());
         }
     }
 

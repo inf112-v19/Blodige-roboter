@@ -10,7 +10,6 @@ import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -22,11 +21,8 @@ public class DefaultGameRuleTest extends TestGraphics {
 
     private RoboRally roboRally;
     private IPlayer player;
-    private static Round defaultGameRule;
+    private Round defaultGameRule;
 
-    @BeforeClass
-    public static void beforeClass() {
-    }
 
     @Before
     public void setUp() {
