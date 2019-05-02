@@ -37,7 +37,7 @@ public class GameGraphics extends Game {
 
     public static String mapFileName = "risky_exchange";
 
-    public static Music backgroundMusic;
+    private static MusicThread backgroundMusic;
     public static boolean soundMuted = false;
     public static int players;
 
@@ -67,15 +67,12 @@ public class GameGraphics extends Game {
         batch = new SpriteBatch();
         setScreen(new TitleScreen(this));
 
-        backgroundMusic = Sound.getBackgroundMusic();
-        backgroundMusic.setVolume(1f);
-        backgroundMusic.play();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        backgroundMusic.dispose();
+        backgroundMusic.interrupt();
         batch.dispose();
         closeResources();
     }
@@ -172,4 +169,50 @@ public class GameGraphics extends Game {
         return client;
     }
 
+    public static MusicThread getBackgroundMusic() {
+        if (backgroundMusic == null) {
+            backgroundMusic = new MusicThread();
+            backgroundMusic.setDaemon(true);
+            backgroundMusic.start();
+            return backgroundMusic;
+        }
+        return backgroundMusic;
+    }
+
+    public static class MusicThread extends Thread {
+        private Music music = Sound.getBackgroundMusic();
+
+        public void start(Music music) {
+            music.stop();
+            music.dispose();
+            this.music = music;
+            run();
+        }
+
+        @Override
+        public void run() {
+            music.setVolume(1f);
+            music.play();
+            music.setLooping(true);
+        }
+
+        @Override
+        public void interrupt() {
+            music.stop();
+            music.dispose();
+            super.interrupt();
+        }
+
+        public boolean isPlaying() {
+            return music.isPlaying();
+        }
+
+        public void pause() {
+            music.pause();
+        }
+
+        public void play() {
+            music.play();
+        }
+    }
 }

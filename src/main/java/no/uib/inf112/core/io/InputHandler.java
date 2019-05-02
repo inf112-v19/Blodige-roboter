@@ -68,6 +68,7 @@ public class InputHandler extends InputAdapter {
                 logger.elementAt(logger.size() - 2) == Input.Keys.B &&
                 logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
+            System.out.println("party");
             enableMode();
         }
         return false;
@@ -79,9 +80,7 @@ public class InputHandler extends InputAdapter {
      */
     public static void enableMode() {
         if (!CustomOrthogonalTiledMapRenderer.PARTY) {
-            GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav"));
-            GameGraphics.backgroundMusic.play();
-            GameGraphics.backgroundMusic.setLooping(true);
+            GameGraphics.getBackgroundMusic().start(Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav")));
             CustomOrthogonalTiledMapRenderer.PARTY = true;
             if (GameGraphics.getClient() != null) {
                 GameGraphics.getClient().setPartyModeOn();
