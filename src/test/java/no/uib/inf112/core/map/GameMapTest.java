@@ -78,9 +78,7 @@ public class GameMapTest extends TestGraphics {
     @Test
     public void getAllTilesTest(){
         //Very bad test, but it works.
-
         List<Tile> list = roboRally.getCurrentMap().getAllTiles(0, 0);
-        System.out.println(list.size());
 
         assertEquals(TileType.ROBOT, list.get(0).getTileType());
 
