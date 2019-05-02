@@ -23,7 +23,6 @@ public class PusherPhase extends AbstractStaticTilePhase {
             PusherTile tile = (PusherTile) entry.getValue();
             UVector2Int pos = entry.getKey();
 
-            //TODO test correct pusher does push (and no incorrect pushers push)
             if ((phaseNr % 2 == 0 && tile.hasAttribute(Attribute.PUSH_ODD)) ||
                     (phaseNr % 2 != 0 && tile.hasAttribute(Attribute.PUSH_EVEN))) {
                 continue;

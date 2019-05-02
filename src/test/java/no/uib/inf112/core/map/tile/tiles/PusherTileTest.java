@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
 
 public class PusherTileTest extends TestGraphics {
 
-    private IPlayer player;
-    private RoboRally roboRally;
+    private static IPlayer player;
+    private static RoboRally roboRally;
 
     @BeforeClass
-    public void setUp() {
+    public static void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "pusher_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
         player.setDirection(Direction.NORTH);
