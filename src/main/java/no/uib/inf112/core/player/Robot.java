@@ -3,12 +3,12 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
-import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
@@ -133,7 +133,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
             update();
             Sound.ROBOT_MOVING.play();
             if (dx - sdx != 0 || dy - sdy != 0) {
-                GameScreen.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
+                RoboRally.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
             }
         }
     }

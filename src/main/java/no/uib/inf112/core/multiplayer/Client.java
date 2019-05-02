@@ -1,6 +1,7 @@
 package no.uib.inf112.core.multiplayer;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.multiplayer.dtos.ConnectedPlayersDto;
@@ -54,7 +55,8 @@ public class Client implements IClient {
             try {
                 result = inFromServer.readLine();
                 if (result == null || result.equals("null")) {
-                    GameScreen.scheduleSync(() -> game.setScreen(new ErrorScreen(game, "You where disconnected from the host")), 0);
+                    RoboRally
+                        .scheduleSync(() -> game.setScreen(new ErrorScreen(game, "You where disconnected from the host")), 0);
                     System.out.println("Host disconnected");
                     return;
                 }
@@ -105,7 +107,7 @@ public class Client implements IClient {
      * @param data a startround dto containing cards for each player and the drawn cards for this instance's mainplayer
      */
     private void giveCards(@NotNull String data) {
-        GameScreen.scheduleSync(() ->
+        RoboRally.scheduleSync(() ->
                 playerHandler.startRound(GameGraphics.gson.fromJson(data, StartRoundDto.class)), 0);
     }
 
@@ -119,7 +121,7 @@ public class Client implements IClient {
             throw new IllegalArgumentException("Tried to start game with a null reference to GameGraphics");
         }
         NewGameDto newGameDto = GameGraphics.gson.fromJson(data, NewGameDto.class);
-        GameScreen.scheduleSync(() -> {
+        RoboRally.scheduleSync(() -> {
             game.setScreen(new GameScreen(game, newGameDto, this));
             writeToServer(ServerAction.FINISHED_SETUP + "");
             IPlayerHandler playerHandler = GameGraphics.getRoboRally().getPlayerHandler();
