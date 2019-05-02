@@ -84,6 +84,15 @@ public interface IPlayerHandler {
     }
 
     /**
+     * Used for testing to remove main testplayer so a fresh one can be created
+     */
+    default void removeMainPlayer() {
+        if (!getPlayers().isEmpty()) {
+            getPlayers().remove(0);
+        }
+    }
+
+    /**
      * Rank players according to flags and
      * time played
      *
