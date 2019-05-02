@@ -30,13 +30,8 @@ public class Server {
     private boolean startedRound;
     private boolean countdownStarted = false;
 
-    public Server(int port, int numThreads) {
-        try {
-            servSock = new ServerSocket(port);
-        } catch (IOException e) {
-            /* Crash the server if IO fails. Something bad has happened */
-            throw new IllegalArgumentException("Could not create ServerSocket ", e);
-        }
+    public Server(int port, int numThreads) throws IOException {
+        servSock = new ServerSocket(port);
 
         // Create a series of threads and start them.
         for (int i = 0; i < numThreads; i++) {
@@ -265,7 +260,7 @@ public class Server {
                 }
             }
         }
-        return count == 1;
+        return count == 1 && !countdownStarted;
 
     }
 
