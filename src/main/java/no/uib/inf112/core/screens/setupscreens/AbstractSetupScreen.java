@@ -178,11 +178,22 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     }
 
+    /**
+     * Replace spaces with underscore
+     *
+     * @param mapName name to filiefy
+     * @return filefied name
+     */
     private String fileifyName(String mapName) {
         return mapName.replace(" ", "_").toLowerCase();
     }
 
-
+    /**
+     * Replace underscore with spaces
+     *
+     * @param mapFile filename to namify
+     * @return nameified file
+     */
     private String nameifyFile(String mapFile) {
         String[] name = mapFile.split("_");
         StringBuilder builder = new StringBuilder();
@@ -267,14 +278,12 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
         return slider;
     }
 
-
     @Override
     public void dispose() {
         super.dispose();
         listFont.dispose();
         selectedFont.dispose();
     }
-
 }
 
 
