@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.screens.GameScreen;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.*;
@@ -23,7 +24,7 @@ public class HostLobbyScreen extends LobbyScreen {
     private Label players;
 
 
-    public HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
+    public HostLobbyScreen(@NotNull GameGraphics game, boolean isHost, @NotNull String ip, int port) throws IOException {
         super(game, isHost, ip, port);
         this.port = port;
         this.game = game;
@@ -31,7 +32,9 @@ public class HostLobbyScreen extends LobbyScreen {
         try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ipAddress = socket.getLocalAddress().getHostAddress();
-            if ("0.0.0.0".equals(ipAddress)) ipAddress = Inet4Address.getLocalHost().getHostAddress();
+            if ("0.0.0.0".equals(ipAddress)) {
+                ipAddress = Inet4Address.getLocalHost().getHostAddress();
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (SocketException e) {
@@ -48,7 +51,9 @@ public class HostLobbyScreen extends LobbyScreen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (!startButton.isDisabled()) GameScreen.scheduleSync(() -> client.startGame(game), 0);
+                if (!startButton.isDisabled()) {
+                    GameScreen.scheduleSync(() -> client.startGame(game), 0);
+                }
             }
         });
 
