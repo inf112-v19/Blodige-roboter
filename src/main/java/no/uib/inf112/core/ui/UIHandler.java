@@ -68,6 +68,7 @@ public class UIHandler implements Disposable {
     private final DragAndDrop dad;
     private final Table cardDrawTable;
     private final Table robotStatusTable;
+    private Label countDown;
 
     private static final String UI_FOLDER = "ui" + File.separatorChar;
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
@@ -130,6 +131,9 @@ public class UIHandler implements Disposable {
         cardDrawTable = new Table();
         robotStatusTable = new Table();
 
+        countDown = createLabel("");
+        countDown.setColor(Color.RED);
+
         Table nestingTable = new Table();
         nestingTable.add(cardDrawTable).align(Align.bottom);
         nestingTable.row();
@@ -138,7 +142,7 @@ public class UIHandler implements Disposable {
 
         backgroundTable.add(robotStatusTable).center().left().uniform();
         backgroundTable.add(nestingTable).expand().bottom();
-        backgroundTable.add().uniform(); // Adding this column to center the control panel and cards.
+        backgroundTable.add(countDown).top().uniform(); // Adding this column to center the control panel and cards.
 
         create();
     }
@@ -264,6 +268,7 @@ public class UIHandler implements Disposable {
         }
     }
 
+
     private void addRobotStatus() {
         robotStatusTable.clear();
         List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
@@ -318,6 +323,10 @@ public class UIHandler implements Disposable {
      */
     public boolean isDrawnCardsVisible() {
         return cardDrawTable.isVisible();
+    }
+
+    public void updateCountDown(int countDownTime) {
+        countDown.setText(Integer.toString(countDownTime));
     }
 
     public void update() {
