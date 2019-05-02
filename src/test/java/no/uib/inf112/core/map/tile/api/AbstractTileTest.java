@@ -30,7 +30,7 @@ public class AbstractTileTest extends TestGraphics {
     public void setUp(){
         RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
         vector2Int = new Vector2Int(0,0);
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
     }
 
     @Test
