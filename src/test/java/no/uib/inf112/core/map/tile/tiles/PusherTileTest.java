@@ -6,7 +6,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -18,7 +18,7 @@ public class PusherTileTest extends TestGraphics {
     private IPlayer player;
     private RoboRally roboRally;
 
-    @Before
+    @BeforeClass
     public void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "pusher_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().testPlayer();
@@ -91,4 +91,5 @@ public class PusherTileTest extends TestGraphics {
         assertEquals(5, player.getX());
         assertEquals(1, player.getY());
     }
+
 }
