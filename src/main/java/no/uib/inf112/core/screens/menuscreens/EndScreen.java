@@ -35,7 +35,6 @@ public class EndScreen extends AbstractMenuScreen {
                 GameGraphics.resetRoborally();
                 game.closeResources();
                 game.setScreen(new TitleScreen(game));
-
             }
         });
 

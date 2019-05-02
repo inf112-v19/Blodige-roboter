@@ -119,6 +119,7 @@ public class GameGraphics extends Game {
     }
 
     public static void resetRoborally() {
+        RoboRally.SECOND_THREAD.cancelTasks();
         roboRally = null;
     }
 

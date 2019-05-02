@@ -49,13 +49,11 @@ public abstract class AbstractTile implements Tile {
         return tg.getTile();
     }
 
-    //TODO ISSUE #118 test (this should return true only if the tiletype of this instance has the given attribute)
     @Override
     public boolean hasAttribute(@Nullable Attribute attribute) {
         return tg.getAttributes().contains(attribute);
     }
 
-    //TODO ISSUE #118 test (if this is the correct way around)
     @Override
     public boolean hasSuperClass(@NotNull Class<? extends Tile> superClass) {
         return superClass.isAssignableFrom(getClass());

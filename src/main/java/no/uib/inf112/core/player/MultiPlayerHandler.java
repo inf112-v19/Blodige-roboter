@@ -2,6 +2,7 @@ package no.uib.inf112.core.player;
 
 import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
 import no.uib.inf112.core.multiplayer.IClient;
@@ -104,7 +105,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             p.setWillPowerDown(false);
             p.endDrawCards();
             client.sendSelectedCards(true, Collections.EMPTY_LIST);
-            GameScreen.scheduleSync(() -> user.getCards().clearSelectedCards(), 100);
+            RoboRally.scheduleSync(() -> user.getCards().clearSelectedCards(), 100);
         } else {
             if (startRoundDto != null) {
                 user.getCards().setDrawnCards(startRoundDto.drawnCards);

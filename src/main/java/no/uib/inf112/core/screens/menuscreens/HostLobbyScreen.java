@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.RoboRally;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class HostLobbyScreen extends LobbyScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!startButton.isDisabled()) {
-                    GameScreen.scheduleSync(() -> client.startGame(game), 0);
+                    RoboRally.scheduleSync(() -> client.startGame(game), 0);
                 }
             }
         });
