@@ -68,6 +68,7 @@ public class GameGraphics extends Game {
 
         backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
+        backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }
 
