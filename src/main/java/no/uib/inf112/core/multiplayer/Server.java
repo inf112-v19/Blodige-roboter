@@ -27,16 +27,11 @@ public class Server {
     private ServerSocket servSock;
     private static Timer timer = new Timer();
     private static int seconds = 0;
-    private boolean receivedCard = false;
     private boolean startedRound;
+    private boolean countdownStarted = false;
 
-    public Server(int port, int numThreads) {
-        try {
-            servSock = new ServerSocket(port);
-        } catch (IOException e) {
-            /* Crash the server if IO fails. Something bad has happened */
-            throw new IllegalArgumentException("Could not create ServerSocket ", e);
-        }
+    public Server(int port, int numThreads) throws IOException {
+        servSock = new ServerSocket(port);
 
         // Create a series of threads and start them.
         for (int i = 0; i < numThreads; i++) {
@@ -200,12 +195,12 @@ public class Server {
                     break;
                 case SEND_SELECTED_CARDS:
                     setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
-                    if (!receivedCard) {
+                    readyToStart = true;
+                    if (shouldStartCountdown()) {
                         giveDisconnectedPlayersRandomCard();
                         startCountdown();
-                        receivedCard = true;
+                        countdownStarted = true;
                     }
-                    readyToStart = true;
                     checkAllPlayersReady();
                     //user waits for rest of players
                     break;
@@ -252,6 +247,24 @@ public class Server {
     }
 
     /**
+     * Checks to see if the countdown should start,
+     *
+     * @return true if we are only waiting for one connected player
+     */
+    private boolean shouldStartCountdown() {
+        int count = 0;
+        for (ConnectedPlayer player : players) {
+            if (player.connected && !player.readyToStart) {
+                if (++count > 1) {
+                    return false;
+                }
+            }
+        }
+        return count == 1 && !countdownStarted;
+
+    }
+
+    /**
      * Send a message to all clients
      *
      * @param message message to send
@@ -294,6 +307,7 @@ public class Server {
                             player.player.cards = DtoMapper.drawRandomCards(player.player.drawnCards);
                         }
                     }
+                    countdownStarted = false;
                     startRound(ClientAction.START_ROUND);
                     cancel();
                 } else {
@@ -339,7 +353,6 @@ public class Server {
                 player.readyToStart = false;
             }
         }
-        receivedCard = false;
     }
 
     /**
