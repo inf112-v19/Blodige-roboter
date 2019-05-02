@@ -71,12 +71,9 @@ public class JoinScreen extends AbstractMenuScreen {
                 stage.clear();
             } catch (IOException e) {
                 game.setScreen(new ErrorScreen(game, e.toString()));
-                //e.printStackTrace();
-                //TODO Handle not able to connect
             }
         } else {
             joinGame = false;
         }
     }
-
 }
