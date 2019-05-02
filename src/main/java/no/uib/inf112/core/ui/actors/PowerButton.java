@@ -56,7 +56,7 @@ public class PowerButton extends ImageTextButton {
         return style;
     }
 
-    public void resetAlpha() {
+    public void resetButton() {
         IPlayer player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
         TextureRegion buttonTexture;
         if (player.willPowerDown()) {

@@ -70,7 +70,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
                 for (PlayerDto playerDto : startRoundDto.players) {
                     if (playerDto.id == onlinePlayer.getId()) {
-                        //onlinePlayer.setPoweredDown(playerDto.isPoweredDown);
                         onlinePlayer.setCards(playerDto.cards);
                     }
                 }
@@ -93,7 +92,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
         }
         user.getCards().clearSelectedCards();
 
-        GameScreen.getUiHandler().getPowerButton().resetAlpha();
+        GameScreen.getUiHandler().getPowerButton().resetButton();
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
