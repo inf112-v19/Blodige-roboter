@@ -2,7 +2,6 @@ package no.uib.inf112.core.screens.setupscreens;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -27,12 +26,18 @@ import com.badlogic.gdx.utils.Align;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.screens.menuscreens.AbstractMenuScreen;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
-    private ArrayList<String> mapList = new ArrayList<>();
+    // Workaround of listing problem with files in desktop applications
+    private final ArrayList<String> mapList = new ArrayList<>(Arrays.asList("Flag Fry", "Ball Lighting", "Set To Kill", "All For One One For All",
+            "Island King", "Tricksy", "Frenetic Factory", "Checkmate", "Lost Bearings", "Robot Stew", "Bloodbath Chess",
+            "Against The Grain", "Chop Shop Challenge", "Around The World", "Pilgrimage", "Death Trap", "Dizzy Dash",
+            "Vault Assault", "Interference", "Option World", "Moving Targets", "Whirlwind Tour", "Tandem Carnage",
+            "Factory Rejects", "Tight Collar", "Twister", "Marathon Madness", "Risky Exchange", "Oddest Sea", "Island Hop"));
+
     private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
 
     private BitmapFont listFont;
@@ -52,11 +57,6 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     protected AbstractSetupScreen(GameGraphics game) {
         super(game);
-
-        FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list(".tmx");
-        for (FileHandle file : files) {
-            mapList.add(nameifyFile(file.nameWithoutExtension()));
-        }
 
         listFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 16);
         selectedFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 25);
