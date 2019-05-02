@@ -11,6 +11,7 @@ import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.screens.menuscreens.TitleScreen;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -54,8 +55,9 @@ public class Client implements IClient {
             try {
                 result = inFromServer.readLine();
                 if (result == null || result.equals("null")) {
+                    GameScreen.scheduleSync(() -> game.setScreen(new TitleScreen(game)), 0);
                     System.out.println("Host disconnected");
-                    Gdx.app.exit();
+                    return;
                 }
                 ClientAction command = ClientAction.fromCommandString(result.substring(0, result.indexOf(":")));
                 String data = result.substring(result.indexOf(":") + 1);
