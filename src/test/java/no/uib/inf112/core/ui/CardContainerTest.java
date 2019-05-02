@@ -34,7 +34,7 @@ public class CardContainerTest extends TestGraphics {
 
     @Before
     public void setUp() {
-        player = new StaticPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
+        player = new StaticPlayer(0, 0, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
         container = new CardContainer(player);
 
         dad = new DragAndDrop();
@@ -125,7 +125,7 @@ public class CardContainerTest extends TestGraphics {
         container.randomizeHand();
 
         assertTrue(Arrays.stream(container.handCard)
-                         .allMatch(cardSlot -> cardSlot.getCard().getPriority() < IPlayer.MAX_DRAW_CARDS));
+                .allMatch(cardSlot -> cardSlot.getCard().getPriority() < IPlayer.MAX_DRAW_CARDS));
         assertTrue(Arrays.stream(container.handCard).allMatch(cardSlot -> cardSlot.getCard().getAction() == action));
 
         //no duplicates
