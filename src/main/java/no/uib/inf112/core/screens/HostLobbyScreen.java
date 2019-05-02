@@ -46,7 +46,6 @@ public class HostLobbyScreen extends LobbyScreen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO check to see if enough players are connected
                 if (!startButton.isDisabled()) GameScreen.scheduleSync(() -> client.startGame(game), 0);
             }
         });
