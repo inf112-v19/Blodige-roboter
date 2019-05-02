@@ -79,6 +79,7 @@ public class Client implements IClient {
                         //Do nothing
                         break;
                     case startRound:
+                        GameScreen.getUiHandler().updateCountDown(0);
                         playerHandler.runRound(GameGraphics.gson.fromJson(data, StartRoundDto.class));
                         break;
                     case countDown:
