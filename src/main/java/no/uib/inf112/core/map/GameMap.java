@@ -249,21 +249,18 @@ public abstract class GameMap implements MapHandler {
     @Override
     @Nullable
     public TiledMapTileLayer getLayer(@NotNull String layer) {
+        if (ENTITY_LAYER_NAME.equals(layer)) {
+            return entityLayer;
+        } else if (ENITTY_LASER_LAYER_NAME.equals(layer)) {
+            return entityLaserLayer;
+        }
         return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     }
 
     @Override
     @Nullable
-    public Tile getTile(@NotNull String layerName, int x, int y) {
-        TiledMapTileLayer layer;
-        if (ENTITY_LAYER_NAME.equals(layerName)) {
-            layer = entityLayer;
-        } else if (ENITTY_LASER_LAYER_NAME.equals(layerName)) {
-            layer = entityLaserLayer;
-        } else {
-            layer = getLayer(layerName);
-        }
-        return getTile(layer, x, y);
+    public Tile getTile(@NotNull String layer, int x, int y) {
+        return getTile(getLayer(layer), x, y);
     }
 
     @Override
