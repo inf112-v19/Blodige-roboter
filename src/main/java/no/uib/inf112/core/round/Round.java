@@ -37,12 +37,11 @@ public class Round {
 
                 totalDelay += phase.getRunTime();
             }
+            map.update(0);
         }
 
         for (Phase phase : cleanupPhases) {
-            GameGraphics.scheduleSync(() -> {
-                phase.startPhase(map);
-            }, totalDelay + 10);
+            GameGraphics.scheduleSync(() -> phase.startPhase(map), totalDelay + (GameGraphics.HEADLESS ? 0 : 10));
         }
 
         GameGraphics.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);

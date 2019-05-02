@@ -75,4 +75,26 @@ public class RobotPushTest extends TestGraphics {
         }
     }
 
+    @Test
+    public void pushingRobotAgainstAWallShouldMakeNothingHappen() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_wall_test_map.tmx", 2);
+        IPlayer player0 = roboRally.getPlayerHandler().getPlayers().get(0);
+        IPlayer player1 = roboRally.getPlayerHandler().getPlayers().get(1);
+        player0.teleport(0, 0);
+        player0.setDirection(Direction.NORTH);
+        player0.update();
+        player1.teleport(0, 1);
+        player1.update();
+
+        roboRally.getCurrentMap().update(0);
+
+        player0.move(Movement.MOVE_3);
+
+        assertEquals(0, player0.getX());
+        assertEquals(0, player0.getY());
+
+        assertEquals(0, player1.getX());
+        assertEquals(1, player1.getY());
+    }
+
 }

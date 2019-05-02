@@ -14,11 +14,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractPlayer extends Robot implements IPlayer {
 
-    public static final int MAX_LIVES = 3;
-    public static final int MAX_HEALTH = 10;
-    public static final int MAX_PLAYER_CARDS = 5;
-    public static final int MAX_DRAW_CARDS = MAX_HEALTH - 1;
-
     private Vector2Int backup;
 
     private int dock;
@@ -78,7 +73,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         if (healAmount <= 0) {
             throw new IllegalArgumentException("Cannot do non-positive damage");
         }
-        health = Math.min(MAX_HEALTH, health + healAmount);
+        health += Math.min(healAmount, MAX_HEALTH - health);
     }
 
     @Override
@@ -121,6 +116,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         return willPowerDown;
     }
 
+    @Override
     public void setPoweredDown(boolean poweredDown) {
         if (poweredDown) {
             Sound.ROBOT_SHUTDOWN.play();
@@ -128,6 +124,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         this.poweredDown = poweredDown;
     }
 
+    @Override
     public void setWillPowerDown(boolean willPowerDown) {
         this.willPowerDown = willPowerDown;
     }
@@ -138,6 +135,7 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
     }
 
     @Override
+    @NotNull
     public Vector2Int getBackup() {
         return backup;
     }
@@ -170,6 +168,11 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
             poweredDown = true;
             heal();
         }
+    }
+
+    @Override
+    public boolean canRunOnSelf() {
+        return true;
     }
 
     @Override

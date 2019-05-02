@@ -20,7 +20,7 @@ public abstract class AbstractRequirementTile extends AbstractTile implements Re
     //TODO ISSUE #118 test (this should look at all the required atts and check that hasAttributes return true on all of them)
     @Override
     public boolean canDoAction(@Nullable Tile tile) {
-        if (tile == null || equals(tile)) {
+        if ((tile == null || equals(tile)) && !canRunOnSelf()) {
             return false;
         }
         List<Attribute> atts = requiredAttributes();
@@ -44,5 +44,10 @@ public abstract class AbstractRequirementTile extends AbstractTile implements Re
     @Override
     public List<Attribute> requiredAttributes() {
         return null;
+    }
+
+    @Override
+    public boolean canRunOnSelf() {
+        return false;
     }
 }

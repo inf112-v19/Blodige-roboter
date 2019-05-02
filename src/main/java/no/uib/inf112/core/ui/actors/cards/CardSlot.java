@@ -2,7 +2,7 @@ package no.uib.inf112.core.ui.actors.cards;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.player.AbstractPlayer;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.DisabledVisualizer;
 import org.jetbrains.annotations.NotNull;
@@ -38,8 +38,7 @@ public class CardSlot extends CardActor implements DisabledVisualizer {
         if (container == null) {
             return false;
         }
-        int max = type == SlotType.DRAWN ? AbstractPlayer.MAX_DRAW_CARDS - 1 : AbstractPlayer.MAX_DRAW_CARDS;
-        return slotId > max - container.getPlayer().getDamageTokens();
+        return slotId > (IPlayer.MAX_DRAW_CARDS - container.getPlayer().getDamageTokens() - 1);
     }
 
     @Override

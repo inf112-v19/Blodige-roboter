@@ -54,7 +54,7 @@ public class PlayerHandler implements IPlayerHandler {
             return;
         }
         if (p.isPoweredDown()) {
-            p.heal(Player.MAX_HEALTH);
+            p.heal(IPlayer.MAX_HEALTH);
             p.setWillPowerDown(false);
             p.endDrawCards();
         } else {
