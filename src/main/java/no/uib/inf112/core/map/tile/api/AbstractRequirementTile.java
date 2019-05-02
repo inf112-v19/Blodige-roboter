@@ -18,8 +18,8 @@ public abstract class AbstractRequirementTile extends AbstractTile implements Re
     }
 
     @Override
-    public boolean canDoAction(@NotNull Tile tile) {
-        if (equals(tile) && !canRunOnSelf()) {
+    public boolean canDoAction(@Nullable Tile tile) {
+        if ((tile == null || equals(tile)) && !canRunOnSelf()) {
             return false;
         }
         List<Attribute> atts = requiredAttributes();

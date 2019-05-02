@@ -29,7 +29,7 @@ public class ConveyorPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         subPhase(map, false);
         map.update(0);
         subPhase(map, true);

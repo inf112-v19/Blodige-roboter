@@ -80,6 +80,15 @@ public enum Attribute {
      * e.g robots
      */
     LAYS_DOWN_LASER,
+
+    /**
+     * Push when the phase number is even
+     */
+    PUSH_ODD,
+    /**
+     * Push when the phase number is odd
+     */
+    PUSH_EVEN
     ;
 
     private final List<Class<? extends Tile>> requiredInterfaces;
