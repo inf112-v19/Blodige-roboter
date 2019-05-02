@@ -9,6 +9,7 @@ import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.multiplayer.dtos.PlayerDto;
 import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +70,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
                 for (PlayerDto playerDto : startRoundDto.players) {
                     if (playerDto.id == onlinePlayer.getId()) {
-                        onlinePlayer.setPoweredDown(playerDto.isPoweredDown);
                         onlinePlayer.setCards(playerDto.cards);
                     }
                 }
@@ -91,16 +91,20 @@ public class MultiPlayerHandler implements IPlayerHandler {
             return;
         }
         user.getCards().clearSelectedCards();
-        GameScreen.getUiHandler().getPowerButton().resetAlpha();
+
+        GameScreen.getUiHandler().getPowerButton().resetButton();
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
-        if (p.isDestroyed()) {
+        if (p.isDestroyed() || p.getFlags() == flagCount) {
+            client.sendSelectedCards(true, Collections.EMPTY_LIST);
             return;
         }
         if (p.isPoweredDown()) {
             p.setWillPowerDown(false);
             p.endDrawCards();
+            client.sendSelectedCards(true, Collections.EMPTY_LIST);
+            GameScreen.scheduleSync(() -> user.getCards().clearSelectedCards(), 100);
         } else {
             if (startRoundDto != null) {
                 user.getCards().setDrawnCards(startRoundDto.drawnCards);
@@ -159,6 +163,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
             players.remove(0);
             gameOver = true;
+            Sound.WINNER.play();
             return;
         }
 
@@ -168,6 +173,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
             }
         }
         gameOver = true;
+        Sound.WINNER.play();
     }
 
     @Override

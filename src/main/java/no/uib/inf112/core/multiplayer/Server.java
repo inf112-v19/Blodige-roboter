@@ -252,6 +252,7 @@ public class Server {
      * @return true if we are only waiting for one connected player
      */
     private boolean shouldStartCountdown() {
+        System.out.println();
         int count = 0;
         for (ConnectedPlayer player : players) {
             if (player.connected && !player.readyToStart) {
@@ -311,6 +312,7 @@ public class Server {
                     startRound(ClientAction.START_ROUND);
                     cancel();
                 } else {
+                    countdownStarted = false;
                     cancel();
                 }
             }

@@ -17,7 +17,6 @@ public enum Sound {
     ROBOT_FALLING("robotFalling.wav"),
     WINNER("winner.wav"),
     PUSHER("pusher.wav"),
-    GET_OPTION_CARD("getOptionCard.wav"),
     ROBOT_UPDATES_BACKUP("robotUpdatesBackup.wav");
 
     private static final String SOUND_FOLDER = "sound";

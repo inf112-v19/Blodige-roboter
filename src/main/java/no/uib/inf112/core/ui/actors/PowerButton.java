@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.events.PowerDownEvent;
@@ -55,7 +56,18 @@ public class PowerButton extends ImageTextButton {
         return style;
     }
 
-    public void resetAlpha() {
+    public void resetButton() {
+        IPlayer player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
+        TextureRegion buttonTexture;
+        if (player.willPowerDown()) {
+            buttonTexture = UIHandler.POWER_DOWN_TEXTURE;
+        } else {
+            buttonTexture = UIHandler.NOT_POWER_DOWN_TEXTURE;
+        }
+        getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
+        updateImage();
+        getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
+        updateImage();
         getColor().a = 1f;
     }
 }
