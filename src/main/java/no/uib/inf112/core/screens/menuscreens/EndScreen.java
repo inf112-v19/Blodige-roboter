@@ -1,6 +1,5 @@
 package no.uib.inf112.core.screens.menuscreens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -28,11 +27,8 @@ public class EndScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-        width = Gdx.graphics.getWidth();
-        height = Gdx.graphics.getHeight();
-
         TextButton play_again = createButton("PLAY AGAIN", 70);
-        setPositionCentered(play_again, 1, 8);
+        setPositionCentered(play_again, 1, 11);
         play_again.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -44,7 +40,7 @@ public class EndScreen extends AbstractMenuScreen {
         });
 
         TextButton quit = createButton("QUIT", 70);
-        setPositionCentered(quit, 1, 11);
+        setPositionCentered(quit, 1, 15);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

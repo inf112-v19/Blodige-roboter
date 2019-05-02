@@ -156,7 +156,7 @@ public abstract class AbstractMenuScreen implements Screen {
     }
 
     protected List<String> createList(String[] list) {
-        int listWidth = (int) (stage.getWidth() / 2);
+        int listWidth = (int) stage.getWidth() / 2;
         int listHeigth = (int) stage.getHeight() / 8;
 
         List.ListStyle style = new List.ListStyle(listFont, Color.WHITE, Color.WHITE, new TextureRegionDrawable(new Texture(listWidth, listHeigth, Pixmap.Format.Intensity)));
@@ -164,7 +164,7 @@ public abstract class AbstractMenuScreen implements Screen {
         uiList.setItems(list);
         uiList.setWidth(listWidth);
         uiList.setHeight(listHeigth);
-        uiList.setPosition((3 * stage.getWidth() / 4) / 2, stage.getHeight() - 300);
+        uiList.setPosition((3 * stage.getWidth() / 4) / 2, 3 * stage.getHeight() / 4 - listHeigth - 20);
 
         return uiList;
     }
