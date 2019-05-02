@@ -76,7 +76,7 @@ public class UIHandler implements Disposable {
 
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
-    public static final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
+    private final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
 
     static {
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
@@ -131,7 +131,8 @@ public class UIHandler implements Disposable {
         cardDrawTable = new Table();
         robotStatusTable = new Table();
 
-        countDown = createLabel("");
+        BitmapFont countDownFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 80);
+        countDown = createLabel("", countDownFont);
         countDown.setColor(Color.RED);
 
         Table nestingTable = new Table();
@@ -280,7 +281,7 @@ public class UIHandler implements Disposable {
                     "\nHealth: " + player.getHealth() +
                     "\nLives: " + player.getLives();
 
-            Label playerLabel = createLabel(playerString);
+            Label playerLabel = createLabel(playerString, statusFont);
             playerLabel.setColor(player.getColor());
             playerStatus.addActor(playerLabel);
         }
@@ -289,9 +290,9 @@ public class UIHandler implements Disposable {
 
     }
 
-    public Label createLabel(String text) {
+    public Label createLabel(String text, BitmapFont font) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = statusFont;
+        labelStyle.font = font;
         return new Label(text, labelStyle);
     }
 
@@ -326,7 +327,11 @@ public class UIHandler implements Disposable {
     }
 
     public void updateCountDown(int countDownTime) {
-        countDown.setText(Integer.toString(countDownTime));
+        if (countDownTime == 0) {
+            countDown.setText("");
+        } else {
+            countDown.setText(Integer.toString(countDownTime));
+        }
     }
 
     public void update() {

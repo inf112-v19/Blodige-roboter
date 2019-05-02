@@ -81,7 +81,7 @@ public class Client implements IClient {
                         break;
                     case countDown:
                         // This seconds int has the information about the current number for the countdown
-                        int seconds = GameGraphics.gson.fromJson(data, Integer.class);
+                        int seconds = 30 - GameGraphics.gson.fromJson(data, Integer.class); // Count down, not count up
                         GameScreen.getUiHandler().updateCountDown(seconds);
                         break;
                     case partyMode:

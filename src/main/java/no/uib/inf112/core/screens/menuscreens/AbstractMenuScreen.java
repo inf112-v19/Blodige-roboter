@@ -30,7 +30,7 @@ public abstract class AbstractMenuScreen implements Screen {
         camera = new OrthographicCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Gdx.input.setInputProcessor(stage);
-        listFont = game.generateFont("screen_font.ttf", 30);
+        listFont = GameGraphics.generateFont("screen_font.ttf", 30);
     }
 
     @Override
@@ -114,6 +114,7 @@ public abstract class AbstractMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new TitleScreen(game));
+                game.closeResources();
             }
         });
         return returnButton;
