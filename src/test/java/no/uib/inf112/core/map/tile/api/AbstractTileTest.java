@@ -22,7 +22,7 @@ public class AbstractTileTest {
     }
 
     @Test
-    public void conveyorEastTileTypeDoNotHaveAttribute(){
+    public void conveyorEastTileTypeDoNotHaveAttributeSHOOTS_LASER(){
         AbstractTile conveyorTile = new ConveyorTile(vector2Int, TileGraphic.CONVEYOR_EAST);
 
         assertFalse(conveyorTile.hasAttribute(Attribute.SHOOTS_LASER));
@@ -37,5 +37,19 @@ public class AbstractTileTest {
         for (Attribute a: atts) {
             assertFalse(wrenchTile.hasAttribute(a));
         }
+    }
+
+    @Test
+    public void conveyorHasSuperClass(){
+        AbstractTile conveyorTile = new ConveyorTile(vector2Int, TileGraphic.CONVEYOR_EAST);
+
+        assertTrue(conveyorTile.hasSuperClass(ConveyorTile.class));
+    }
+
+    @Test
+    public void wrenchHasSuperClass(){
+        AbstractTile wrenchTile = new WrenchTile(vector2Int, TileGraphic.CONVEYOR_EAST);
+
+        assertTrue(wrenchTile.hasSuperClass(WrenchTile.class));
     }
 }
