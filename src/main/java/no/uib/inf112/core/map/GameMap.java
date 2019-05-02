@@ -305,8 +305,7 @@ public abstract class GameMap implements MapHandler {
         }
         return tiles[x][y];
     }
-
-    //TODO ISSUE #118  test (this should return instance of all non-null tiles on all layers at the given location)
+    
     @Override
     @NotNull
     public List<Tile> getAllTiles(int x, int y) {

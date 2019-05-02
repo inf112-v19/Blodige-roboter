@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AttributeTest {
 
@@ -20,7 +20,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.CONVEYOR_FROM_WEST_GO_NORTH.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(conveyorTile.getClass()));
+            assertTrue(a.verifyInterfaces(conveyorTile.getClass()));
         }
     }
 
@@ -31,7 +31,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.VOID_TILE.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(deathTile.getClass()));
+            assertTrue(a.verifyInterfaces(deathTile.getClass()));
         }
     }
 
@@ -42,7 +42,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.FLAG1.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(flagTile.getClass()));
+            assertTrue(a.verifyInterfaces(flagTile.getClass()));
         }
     }
 
@@ -53,7 +53,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.ROTATE_CLOCKWISE.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(gearTile.getClass()));
+            assertTrue(a.verifyInterfaces(gearTile.getClass()));
         }
     }
 
@@ -64,7 +64,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.LASER_HORIZONTAL.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(laserTile.getClass()));
+            assertTrue(a.verifyInterfaces(laserTile.getClass()));
         }
     }
 
@@ -76,7 +76,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.CONVEYOR_FROM_WEST_GO_NORTH.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(rotationConveyor.getClass()));
+            assertTrue(a.verifyInterfaces(rotationConveyor.getClass()));
         }
     }
 
@@ -87,7 +87,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.SPAWN1.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(spawnTile.getClass()));
+            assertTrue(a.verifyInterfaces(spawnTile.getClass()));
         }
     }
 
@@ -98,7 +98,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.WALL_EAST.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(wallTile.getClass()));
+            assertTrue(a.verifyInterfaces(wallTile.getClass()));
         }
     }
 
@@ -110,7 +110,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.HAMMER_AND_WRENCH.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(wrenchAndHammerTile.getClass()));
+            assertTrue(a.verifyInterfaces(wrenchAndHammerTile.getClass()));
         }
     }
 
@@ -121,7 +121,7 @@ public class AttributeTest {
         Set<Attribute> set = TileGraphic.WRENCH.getAttributes();
 
         for (Attribute a: set) {
-            assertEquals(true , a.verifyInterfaces(wrenchTile.getClass()));
+            assertTrue(a.verifyInterfaces(wrenchTile.getClass()));
         }
     }
 }

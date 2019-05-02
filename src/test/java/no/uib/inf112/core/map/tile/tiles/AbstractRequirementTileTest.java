@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AbstractRequirementTileTest extends TestGraphics {
 
@@ -33,7 +34,7 @@ public class AbstractRequirementTileTest extends TestGraphics {
 
         ConveyorTile conveyor = new ConveyorTile(vector2Int, TileGraphic.CONVEYOR_EAST);
 
-        assertEquals(true, conveyor.canDoAction(player));
+        assertTrue(conveyor.canDoAction(player));
     }
 
     @Test
@@ -41,7 +42,7 @@ public class AbstractRequirementTileTest extends TestGraphics {
 
         DeathTile deathTile = new DeathTile(vector2Int, TileGraphic.VOID_TILE);
 
-        assertEquals(true, deathTile.canDoAction(player));
+        assertTrue(deathTile.canDoAction(player));
     }
 
     @Test
@@ -51,10 +52,10 @@ public class AbstractRequirementTileTest extends TestGraphics {
         FlagTile flagTile3 = new FlagTile(vector2Int, TileGraphic.FLAG3);
         FlagTile flagTile4 = new FlagTile(vector2Int, TileGraphic.FLAG4);
 
-        assertEquals(true, flagTile1.canDoAction(player));
-        assertEquals(true, flagTile2.canDoAction(player));
-        assertEquals(true, flagTile3.canDoAction(player));
-        assertEquals(true, flagTile4.canDoAction(player));
+        assertTrue(flagTile1.canDoAction(player));
+        assertTrue(flagTile2.canDoAction(player));
+        assertTrue(flagTile3.canDoAction(player));
+        assertTrue(flagTile4.canDoAction(player));
     }
 
     @Test
@@ -62,8 +63,8 @@ public class AbstractRequirementTileTest extends TestGraphics {
         GearTile gearTile1 = new GearTile(vector2Int, TileGraphic.ROTATE_CLOCKWISE);
         GearTile gearTile2 = new GearTile(vector2Int, TileGraphic.ROTATE_COUNTERCLOCKWISE);
 
-        assertEquals(true, gearTile1.canDoAction(player));
-        assertEquals(true, gearTile2.canDoAction(player));
+        assertTrue(gearTile1.canDoAction(player));
+        assertTrue(gearTile2.canDoAction(player));
     }
 
     @Test
@@ -71,22 +72,22 @@ public class AbstractRequirementTileTest extends TestGraphics {
         RotationConveyor rotationConveyor1 = new RotationConveyor(vector2Int, TileGraphic.CONVEYOR_FROM_WEST_GO_NORTH);
         RotationConveyor rotationConveyor2 = new RotationConveyor(vector2Int, TileGraphic.CONVEYOR_FROM_EAST_ROTATE_NORTH);
 
-        assertEquals(true, rotationConveyor1.canDoAction(player));
-        assertEquals(true, rotationConveyor2.canDoAction(player));
+        assertTrue(rotationConveyor1.canDoAction(player));
+        assertTrue(rotationConveyor2.canDoAction(player));
     }
 
     @Test
     public void wrenchAndHammerTileHasRequiredAttributes(){
         WrenchAndHammerTile wrenchAndHammerTile = new WrenchAndHammerTile(vector2Int, TileGraphic.HAMMER_AND_WRENCH);
 
-        assertEquals(true, wrenchAndHammerTile.canDoAction(player));
+        assertTrue(wrenchAndHammerTile.canDoAction(player));
     }
 
     @Test
     public void wrenchHasRequiredAttributes(){
         WrenchTile wrenchTile = new WrenchTile(vector2Int, TileGraphic.WRENCH);
 
-        assertEquals(true, wrenchTile.canDoAction(player));
+        assertTrue(wrenchTile.canDoAction(player));
     }
 
     @Test
@@ -98,6 +99,6 @@ public class AbstractRequirementTileTest extends TestGraphics {
     public void nonPlayerHasRequiredAttributes(){
         NonPlayer nonPlayer = new NonPlayer(0, 0, Direction.NORTH, roboRally.getCurrentMap());
 
-        assertEquals(true, nonPlayer.canDoAction(player));
+        assertTrue(nonPlayer.canDoAction(player));
     }
 }
