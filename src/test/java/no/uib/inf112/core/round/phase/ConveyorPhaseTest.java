@@ -3,7 +3,6 @@ package no.uib.inf112.core.round.phase;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;

@@ -4,10 +4,11 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.*;
+import no.uib.inf112.core.map.tile.api.AbstractTile;
+import no.uib.inf112.core.map.tile.api.ActionTile;
+import no.uib.inf112.core.map.tile.api.DockableTile;
+import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.Player;
-import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
@@ -39,7 +40,7 @@ public class AbstractTileTest extends TestGraphics {
     }
 
     @Test
-    public void conveyorEastTileTypeDoNotHaveAttributeSHOOTS_LASER(){
+    public void conveyorEastTileTypeDoNotHaveAttributeShootsLaser(){
         AbstractTile conveyorTile = new ConveyorTile(vector2Int, TileGraphic.CONVEYOR_EAST);
 
         assertFalse(conveyorTile.hasAttribute(Attribute.SHOOTS_LASER));

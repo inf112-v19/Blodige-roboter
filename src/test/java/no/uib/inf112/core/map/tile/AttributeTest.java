@@ -1,10 +1,6 @@
 package no.uib.inf112.core.map.tile;
 
-import no.uib.inf112.core.map.tile.Attribute;
-import no.uib.inf112.core.map.tile.TileGraphic;
-import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.*;
-import no.uib.inf112.core.player.Robot;
 import no.uib.inf112.core.util.Vector2Int;
 import org.junit.Test;
 
