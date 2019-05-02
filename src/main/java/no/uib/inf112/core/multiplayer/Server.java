@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class Server {
 
     private List<ConnectedPlayer> players = new ArrayList<>();
-    private Integer hostId;
+    private int hostId;
     private ServerSocket servSock;
     private static Timer timer = new Timer();
     private static int seconds = 0;
@@ -76,7 +76,7 @@ public class Server {
             for (ConnectedPlayer player : players) {
                 if (player.player.name != null) {
                     newGameDto.userId = player.player.id;
-                    String message = ClientAction.startGame + GameGraphics.gson.toJson(newGameDto);
+                    String message = ClientAction.START_GAME + GameGraphics.gson.toJson(newGameDto);
                     player.sendMessage(message);
                 }
             }
@@ -182,21 +182,21 @@ public class Server {
             ServerAction command = ServerAction.fromCommandString(line.substring(0, line.indexOf(":")));
             String data = line.substring(line.indexOf(":") + 1);
             switch (command) {
-                case getName:
-                    sendMessage(ClientAction.threadName + getName());
+                case GET_NAME:
+                    sendMessage(ClientAction.THREAD_NAME + getName());
                     break;
-                case setDisplayName:
+                case SET_DISPLAY_NAME:
                     player.name = data;
-                    sendMessage(ClientAction.name + player.name + "for" + getName());
-                    sendMessageToAll(ClientAction.connectedPlayers + getConnectedPlayers());
+                    sendMessage(ClientAction.NAME + player.name + "for" + getName());
+                    sendMessageToAll(ClientAction.CONNECTED_PLAYERS + getConnectedPlayers());
                     break;
-                case getConnectedPlayers:
-                    sendMessage(ClientAction.connectedPlayers + getConnectedPlayers());
+                case GET_CONNECTED_PLAYERS:
+                    sendMessage(ClientAction.CONNECTED_PLAYERS + getConnectedPlayers());
                     break;
-                case startGame:
+                case START_GAME:
                     startGame(player.id);
                     break;
-                case sendSelectedCards:
+                case SEND_SELECTED_CARDS:
                     setCards(GameGraphics.gson.fromJson(data, SelectedCardsDto.class));
                     if (!receivedCard) {
                         giveDisconnectedPlayersRandomCard();
@@ -207,14 +207,14 @@ public class Server {
                     checkAllPlayersReady();
                     //user waits for rest of players
                     break;
-                case setHostId:
+                case SET_HOST_ID:
                     hostId = player.id;
                     break;
-                case finishedSetup:
-                    startRound(ClientAction.giveCards);
+                case FINISHED_SETUP:
+                    startRound(ClientAction.GIVE_CARDS);
                     break;
-                case partyMode:
-                    sendMessageToAll(ClientAction.partyMode + "");
+                case PARTY_MODE:
+                    sendMessageToAll(ClientAction.PARTY_MODE + "");
                     break;
                 default:
                     System.out.println("Dit not understand command received from client " + threadNumber + ":" + line);
@@ -284,7 +284,7 @@ public class Server {
             @Override
             public void run() {
                 if (!startedRound && seconds < MAX_SECONDS) {
-                    sendMessageToAll(ClientAction.countDown + GameGraphics.gson.toJson(seconds, Integer.class));
+                    sendMessageToAll(ClientAction.COUNT_DOWN + GameGraphics.gson.toJson(seconds, Integer.class));
                     seconds++;
                 } else if (!startedRound) {
                     for (ConnectedPlayer player : players) {
@@ -292,7 +292,7 @@ public class Server {
                             player.player.cards = DtoMapper.drawRandomCards(player.player.drawnCards);
                         }
                     }
-                    startRound(ClientAction.startRound);
+                    startRound(ClientAction.START_ROUND);
                     cancel();
                 } else {
                     cancel();
@@ -312,13 +312,13 @@ public class Server {
                 return;
             }
         }
-        startRound(ClientAction.startRound);
+        startRound(ClientAction.START_ROUND);
     }
 
     /**
      * Starts the given round
      *
-     * @param command command to send with the dto either startround or giveCards
+     * @param command command to send with the dto either startround or GIVE_CARDS
      */
     private void startRound(@NotNull ClientAction command) {
         startedRound = true;

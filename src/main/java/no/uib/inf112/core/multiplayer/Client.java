@@ -1,6 +1,5 @@
 package no.uib.inf112.core.multiplayer;
 
-import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.map.cards.Card;
@@ -11,7 +10,7 @@ import no.uib.inf112.core.multiplayer.dtos.StartRoundDto;
 import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.screens.GameScreen;
-import no.uib.inf112.core.screens.menuscreens.TitleScreen;
+import no.uib.inf112.core.screens.menuscreens.ErrorScreen;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -33,8 +32,8 @@ public class Client implements IClient {
     private MultiPlayerHandler playerHandler;
     private List<String> players;
 
-    public Client(@NotNull String IP, int port) throws IOException {
-        clientSocket = new Socket(IP, port);
+    public Client(@NotNull String ip, int port) throws IOException {
+        clientSocket = new Socket(ip, port);
         outToServer = new DataOutputStream(clientSocket.getOutputStream());
         inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
@@ -55,39 +54,39 @@ public class Client implements IClient {
             try {
                 result = inFromServer.readLine();
                 if (result == null || result.equals("null")) {
-                    GameScreen.scheduleSync(() -> game.setScreen(new TitleScreen(game)), 0);
+                    GameScreen.scheduleSync(() -> game.setScreen(new ErrorScreen(game, "You where disconnected from the host")), 0);
                     System.out.println("Host disconnected");
                     return;
                 }
                 ClientAction command = ClientAction.fromCommandString(result.substring(0, result.indexOf(":")));
                 String data = result.substring(result.indexOf(":") + 1);
                 switch (command) {
-                    case startGame:
+                    case START_GAME:
                         setupGame(data);
                         break;
-                    case giveCards:
+                    case GIVE_CARDS:
                         giveCards(data);
                         break;
-                    case name:
+                    case NAME:
                         //clientName = data;
                         // Only used to check connectivity
                         break;
-                    case connectedPlayers:
+                    case CONNECTED_PLAYERS:
                         receiveConnectedPlayers(data);
                         break;
-                    case threadName:
+                    case THREAD_NAME:
                         //Do nothing
                         break;
-                    case startRound:
+                    case START_ROUND:
                         GameScreen.getUiHandler().updateCountDown(0);
                         playerHandler.runRound(GameGraphics.gson.fromJson(data, StartRoundDto.class));
                         break;
-                    case countDown:
+                    case COUNT_DOWN:
                         // This seconds int has the information about the current number for the countdown
                         int seconds = 30 - GameGraphics.gson.fromJson(data, Integer.class); // Count down, not count up
                         GameScreen.getUiHandler().updateCountDown(seconds);
                         break;
-                    case partyMode:
+                    case PARTY_MODE:
                         InputHandler.enableMode();
                         break;
                     default:
@@ -122,7 +121,7 @@ public class Client implements IClient {
         NewGameDto newGameDto = GameGraphics.gson.fromJson(data, NewGameDto.class);
         GameScreen.scheduleSync(() -> {
             game.setScreen(new GameScreen(game, newGameDto, this));
-            writeToServer(ServerAction.finishedSetup + "");
+            writeToServer(ServerAction.FINISHED_SETUP + "");
             IPlayerHandler playerHandler = GameGraphics.getRoboRally().getPlayerHandler();
             if (playerHandler instanceof MultiPlayerHandler) {
                 this.playerHandler = (MultiPlayerHandler) playerHandler;
@@ -171,7 +170,7 @@ public class Client implements IClient {
      * Request this clients name from the server
      */
     private void requestClientNameFromServer() {
-        writeToServer(ServerAction.getName + "");
+        writeToServer(ServerAction.GET_NAME + "");
     }
 
     @Override
@@ -182,30 +181,30 @@ public class Client implements IClient {
 
     @Override
     public void setPartyModeOn() {
-        writeToServer(ServerAction.partyMode + "");
+        writeToServer(ServerAction.PARTY_MODE + "");
     }
 
     @Override
     public void setName(@NotNull String name) {
-        writeToServer(ServerAction.setDisplayName + name);
+        writeToServer(ServerAction.SET_DISPLAY_NAME + name);
     }
 
     @Override
     public void startGame(@NotNull GameGraphics game) {
         this.game = game;
-        writeToServer(ServerAction.startGame + "");
+        writeToServer(ServerAction.START_GAME + "");
     }
 
     @Override
     public void sendSelectedCards(boolean poweredDown, @NotNull List<Card> cards) {
         SelectedCardsDto message = new SelectedCardsDto(poweredDown, cards);
-        writeToServer(ServerAction.sendSelectedCards + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
+        writeToServer(ServerAction.SEND_SELECTED_CARDS + GameGraphics.gson.toJson(message, SelectedCardsDto.class));
 
     }
 
     @Override
     public void setHost() {
-        writeToServer(ServerAction.setHostId + "");
+        writeToServer(ServerAction.SET_HOST_ID + "");
     }
 
     @Override

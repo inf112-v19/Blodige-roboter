@@ -71,7 +71,7 @@ public enum TileType {
     /**
      * Note that this is not a hard rule, there might be TileTypes on other layers (see f.eks {@link MapHandler#LASERS_LAYER_NAME} and {@link MapHandler#ENITTY_LASER_LAYER_NAME}).
      *
-     * @return The expected layer name of this tile type
+     * @return The expected layer NAME of this tile type
      */
     @NotNull
     public String getLayerName() {

@@ -68,7 +68,6 @@ public class InputHandler extends InputAdapter {
                 logger.elementAt(logger.size() - 2) == Input.Keys.B &&
                 logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
-            System.out.println("party");
             enableMode();
         }
         return false;
