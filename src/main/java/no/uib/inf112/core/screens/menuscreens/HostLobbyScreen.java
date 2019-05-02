@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.GameScreen;
 
 import java.io.IOException;
 import java.net.*;
@@ -22,7 +23,7 @@ public class HostLobbyScreen extends LobbyScreen {
     private Label players;
 
 
-    HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
+    public HostLobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game, isHost, ip, port);
         this.port = port;
         this.game = game;

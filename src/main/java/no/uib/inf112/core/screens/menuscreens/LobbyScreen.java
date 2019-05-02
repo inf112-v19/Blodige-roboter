@@ -1,6 +1,7 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
@@ -14,9 +15,9 @@ public class LobbyScreen extends AbstractMenuScreen {
 
     protected final IClient client;
     private final Server server;
-    protected com.badlogic.gdx.scenes.scene2d.ui.List<String> playerList;
+    protected List<String> playerList;
 
-    LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
+    public LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
         super(game);
         if (isHost) {
             server = new Server(port, 8);

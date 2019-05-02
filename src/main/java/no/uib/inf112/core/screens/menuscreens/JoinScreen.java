@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

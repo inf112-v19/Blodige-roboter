@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -25,7 +25,7 @@ public abstract class AbstractMenuScreen implements Screen {
     protected OrthographicCamera camera;
     private final BitmapFont listFont;
 
-    public AbstractMenuScreen(GameGraphics game) {
+    protected AbstractMenuScreen(GameGraphics game) {
         this.game = game;
         camera = new OrthographicCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -119,7 +119,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return returnButton;
     }
 
-    TextField createInputField(String startText, int maxLength) {
+    protected TextField createInputField(String startText, int maxLength) {
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
         textFieldStyle.fontColor = Color.BLACK;
@@ -140,7 +140,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return textField;
     }
 
-    TextField createDigitInputField(String startText, int maxLength) {
+    protected TextField createDigitInputField(String startText, int maxLength) {
         TextField digitField = createInputField(startText, maxLength);
 
         TextField.TextFieldFilter digitFilter = (textField, c) -> {
@@ -169,7 +169,7 @@ public abstract class AbstractMenuScreen implements Screen {
         return uiList;
     }
 
-    boolean checkValidPort(String portNumber) {
+    protected boolean checkValidPort(String portNumber) {
         int portNb;
         try {
             portNb = Integer.parseInt(portNumber);

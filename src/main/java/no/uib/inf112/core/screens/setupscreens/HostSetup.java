@@ -1,9 +1,12 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.setupscreens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.menuscreens.ErrorScreen;
+import no.uib.inf112.core.screens.menuscreens.HostLobbyScreen;
+import no.uib.inf112.core.screens.menuscreens.LobbyScreen;
 
 import java.io.IOException;
 
@@ -25,8 +28,6 @@ public class HostSetup extends AbstractSetupScreen {
             stage.clear();
         } catch (IOException e) {
             game.setScreen(new ErrorScreen(game, e.toString()));
-            //e.printStackTrace();
-            //TODO handle not able to start hosting
         }
     }
 
@@ -57,8 +58,6 @@ public class HostSetup extends AbstractSetupScreen {
         } else {
             startGame = false;
         }
-
     }
-
 }
 

@@ -16,7 +16,7 @@ import no.uib.inf112.core.multiplayer.Server;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.player.PlayerHandler;
-import no.uib.inf112.core.screens.TitleScreen;
+import no.uib.inf112.core.screens.menuscreens.TitleScreen;
 import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import no.uib.inf112.core.ui.Sound;
 import org.jetbrains.annotations.NotNull;

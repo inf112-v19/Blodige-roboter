@@ -9,6 +9,7 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.screens.menuscreens.EndScreen;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;

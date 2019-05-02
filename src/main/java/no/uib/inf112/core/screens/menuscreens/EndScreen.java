@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

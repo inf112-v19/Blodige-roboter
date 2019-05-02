@@ -1,9 +1,8 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import no.uib.inf112.core.GameGraphics;
-
 
 public class ErrorScreen extends AbstractMenuScreen {
 

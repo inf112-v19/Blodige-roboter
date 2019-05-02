@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.setupscreens;
 
 
 import com.badlogic.gdx.Gdx;
@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.menuscreens.AbstractMenuScreen;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
     protected TextButton startButton;
     boolean startGame = false;
 
-    public AbstractSetupScreen(GameGraphics game) {
+    protected AbstractSetupScreen(GameGraphics game) {
         super(game);
 
         FileHandle[] files = Gdx.files.internal("assets" + File.separatorChar + GameGraphics.MAP_FOLDER).list(".tmx");

@@ -1,4 +1,4 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.menuscreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.setupscreens.HostSetup;
+import no.uib.inf112.core.screens.setupscreens.SinglePlayerSetup;
 
 import java.io.File;
 

@@ -1,6 +1,7 @@
-package no.uib.inf112.core.screens;
+package no.uib.inf112.core.screens.setupscreens;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.screens.GameScreen;
 
 public class SinglePlayerSetup extends AbstractSetupScreen {
 
@@ -19,7 +20,7 @@ public class SinglePlayerSetup extends AbstractSetupScreen {
     @Override
     protected void startGame(String mainPlayerName) {
         GameGraphics.mainPlayerName = mainPlayerName;
-        game.setScreen(new GameScreen(game)); //TODO create new instance
+        game.setScreen(new GameScreen(game));
     }
 
     @Override
