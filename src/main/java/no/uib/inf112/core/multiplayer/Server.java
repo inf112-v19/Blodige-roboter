@@ -115,12 +115,14 @@ public class Server {
 
         /**
          * Construct a Handler.
+         *
+         * @param threadNumber this connected players thread identification number
          */
-        ConnectedPlayer(@NotNull ServerSocket s, int i) {
+        ConnectedPlayer(@NotNull ServerSocket s, int threadNumber) {
             handlerServSock = s;
-            threadNumber = i;
-            setName("Thread " + threadNumber);
-            player.id = i;
+            this.threadNumber = threadNumber;
+            setName("Thread " + this.threadNumber);
+            player.id = threadNumber;
             setDaemon(true);
         }
 
