@@ -44,7 +44,7 @@ public class PlayerPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         List<ComparableTuple<Card, IPlayer>> phaseCards = cards.get(lastIndex);
         lastIndex++;
 
