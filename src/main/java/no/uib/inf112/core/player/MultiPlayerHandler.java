@@ -187,6 +187,11 @@ public class MultiPlayerHandler implements IPlayerHandler {
     }
 
     @Override
+    public void setGameOver(boolean state) {
+        gameOver = state;
+    }
+
+    @Override
     public Map<IPlayer, Long> getWonPlayers() {
         return wonPlayers;
     }

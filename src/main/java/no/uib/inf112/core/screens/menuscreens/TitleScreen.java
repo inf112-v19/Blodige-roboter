@@ -58,8 +58,17 @@ public class TitleScreen extends AbstractMenuScreen {
             }
         });
 
+        TextButton instructions = createButton("INSTRUCTIONS", 70);
+        setPositionCentered(instructions, 1, 9);
+        instructions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new InstructionsScreen(game));
+            }
+        });
+
         TextButton options = createButton("OPTIONS", 70);
-        setPositionCentered(options, 1, 9);
+        setPositionCentered(options, 1, 12);
         options.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -68,7 +77,7 @@ public class TitleScreen extends AbstractMenuScreen {
         });
 
         TextButton quit = createButton("QUIT", 70);
-        setPositionCentered(quit, 1, 12);
+        setPositionCentered(quit, 1, 15);
         quit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -79,6 +88,7 @@ public class TitleScreen extends AbstractMenuScreen {
         stage.addActor(play);
         stage.addActor(join);
         stage.addActor(host);
+        stage.addActor(instructions);
         stage.addActor(options);
         stage.addActor(quit);
 
