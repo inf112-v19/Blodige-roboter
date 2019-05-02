@@ -23,8 +23,6 @@ public class TitleScreen extends AbstractMenuScreen {
 
     public TitleScreen(GameGraphics game) {
         super(game);
-        GameGraphics.getBackgroundMusic();
-
     }
 
 

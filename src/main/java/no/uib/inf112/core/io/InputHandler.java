@@ -79,7 +79,9 @@ public class InputHandler extends InputAdapter {
      */
     public static void enableMode() {
         if (!CustomOrthogonalTiledMapRenderer.PARTY) {
-            GameGraphics.getBackgroundMusic().start(Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav")));
+            GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav"));
+            GameGraphics.backgroundMusic.play();
+            GameGraphics.backgroundMusic.setLooping(true);
             CustomOrthogonalTiledMapRenderer.PARTY = true;
             if (GameGraphics.getClient() != null) {
                 GameGraphics.getClient().setPartyModeOn();
