@@ -52,7 +52,7 @@ public class ActionPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         Set<ActionTile<?>> foundTiles = new HashSet<>();
         if (tiles == null) {
             for (int x = 0; x < map.getMapWidth(); x++) {

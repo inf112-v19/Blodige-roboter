@@ -11,7 +11,9 @@ public class DefaultGameRule {
     /**
      * Generate a default game round where the last phase will start after totalTime
      *
-     * @param totaltime time until last round should start
+     * @param totaltime
+     *     time until last round should start
+     *
      * @return the generated round
      */
     public static Round generate(long totaltime) {
@@ -22,7 +24,7 @@ public class DefaultGameRule {
         round.addRegisterPhase(new PlayerPhase((int) (totaltime * 0.33)));
 
         round.addRegisterPhase(new ConveyorPhase((long) (totaltime * 0.22)));
-//        round.addRegisterPhase(new ActionPhase(TileType.PUSHER, 100));
+        round.addRegisterPhase(new PusherPhase((long) (totaltime * 0.22)));
         round.addRegisterPhase(new ActionPhase(TileType.GEAR, (int) (totaltime * 0.1)));
 
         round.addRegisterPhase(new LaserPhase((long) (totaltime * 0.27)));
