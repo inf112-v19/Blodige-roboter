@@ -36,16 +36,17 @@
 - Skademekanismer (spilleren får færre kort ved skade)
 - Spillmekanismer for å skyte andre spillere innen rekkevidde med laser som peker rett frem
 - fungerende samlebånd på brettet som flytter robotene
+  - Kan oppstå fiffige situasjoner hvor en robot dytter en annen mens de dyttes av samlebånd. 
 - fungerende gyroer på brettet som flytter robotene
 - game over etter 3 tapte liv
 - multiplayer over LAN eller Internet (trenger ikke gjøre noe fancy her, men må kunne spille på ulike maskiner mot hverandre)
 - Feilhåndtering ved disconnect. (Spillet skal i hvertfall ikke kræsje)
+  - Hvis hosten disconnecter sendes de andre spillerene til en error skjerm, mens hvis andre disconnecter velges det tilfeldige kort for dem.
 - power down
 - samlebånd som går i dobbelt tempo
 - spille mot AI (single-player-mode), evt spill mot random-roboter
 
-Vi har fullført alle krav for mvp og ingen spesielle tillegg utenom kart navigasjon.
-HintHint skriv konami koden mens du spiller
+Vi har fullført alle krav for mvp og "dyttere" ingen spesielle tillegg utenom kart navigasjon.
 
 ## Deloppgave 3
 
