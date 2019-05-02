@@ -3,6 +3,7 @@ package no.uib.inf112.core.multiplayer.dtos;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.MovementCard;
 import no.uib.inf112.core.player.IPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,8 @@ public class DtoMapper {
      * @param cards list of Cards
      * @return the new list of dto's
      */
-    public static List<CardDto> mapToDto(List<Card> cards) {
+    @NotNull
+    public static List<CardDto> mapToDto(@NotNull List<Card> cards) {
         List<CardDto> result = new ArrayList<>();
         for (Card card : cards) {
             result.add(new CardDto(card.getAction(), card.getPriority()));
@@ -33,7 +35,8 @@ public class DtoMapper {
      * @param cards list of cards
      * @return the new list of cards
      */
-    public static List<Card> mapFromDto(List<CardDto> cards) {
+    @NotNull
+    public static List<Card> mapFromDto(@NotNull List<CardDto> cards) {
         List<Card> result = new ArrayList<>();
         for (CardDto card : cards) {
             result.add(new MovementCard(card.movement, card.priority));
@@ -47,7 +50,8 @@ public class DtoMapper {
      * @param drawnCards cards to draw from
      * @return list of selected cards
      */
-    public static List<CardDto> drawRandomCards(List<CardDto> drawnCards) {
+    @NotNull
+    public static List<CardDto> drawRandomCards(@NotNull List<CardDto> drawnCards) {
         Collections.shuffle(drawnCards);
         return drawnCards.subList(0, IPlayer.MAX_PLAYER_CARDS);
     }

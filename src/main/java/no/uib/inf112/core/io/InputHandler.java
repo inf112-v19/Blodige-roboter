@@ -3,9 +3,7 @@ package no.uib.inf112.core.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector3;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Player;
 import no.uib.inf112.core.screens.GameScreen;
@@ -89,23 +87,5 @@ public class InputHandler extends InputAdapter {
                 GameGraphics.getClient().setPartyModeOn();
             }
         }
-    }
-
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-
-        final Vector3 mousePos = map.getCamera().unproject(new Vector3(screenX, screenY, 0));
-
-        final int blockX = (int) (mousePos.x / map.getTileWidth());
-        final int blockY = (int) (mousePos.y / map.getTileHeight());
-
-        if (map.isOutsideBoard(blockX, blockY)) {
-            return false;
-        }
-        System.out.printf("Tiles at (%d, %d) = %s%n", blockX, blockY, map.getAllTiles(blockX, blockY));
-
-        return true;
     }
 }

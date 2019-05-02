@@ -7,15 +7,15 @@ import no.uib.inf112.core.multiplayer.dtos.*;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.PlayerHandler;
 import no.uib.inf112.core.util.ComparableTuple;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,11 +45,6 @@ public class Server {
             player.setDaemon(true);
             player.start();
         }
-        try {
-            System.out.println("Hosting sever at " + InetAddress.getLocalHost().getHostAddress());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -57,7 +52,7 @@ public class Server {
      *
      * @param id id of the client sending the request
      */
-    public void startGame(int id) {
+    private void startGame(int id) {
         if (hostId == id) {
             Stack<ComparableTuple<String, Color>> colors = PlayerHandler.addColors();
             List<PlayerDto> playerDtos = new ArrayList<>();
@@ -121,7 +116,7 @@ public class Server {
         /**
          * Construct a Handler.
          */
-        ConnectedPlayer(ServerSocket s, int i) {
+        ConnectedPlayer(@NotNull ServerSocket s, int i) {
             handlerServSock = s;
             threadNumber = i;
             setName("Thread " + threadNumber);
@@ -134,7 +129,7 @@ public class Server {
          *
          * @param message message to send
          */
-        private void sendMessage(String message) {
+        private void sendMessage(@NotNull String message) {
             if (connected && handlerServSock.isBound()) {
                 outToClient.print(message + "\r\n");
                 outToClient.flush();
@@ -150,15 +145,12 @@ public class Server {
             while (connected) {
                 connected = false;
                 try {
-                    System.out.println(getName() + " waiting");
-
                     Socket clientSocket;
                     // Wait here for the next connection.
                     synchronized (handlerServSock) {
                         clientSocket = handlerServSock.accept();
                     }
                     connected = true;
-                    System.out.println(getName() + " starting, IP=" + clientSocket.getInetAddress());
                     DataInputStream inFromClient = new DataInputStream(clientSocket.getInputStream());
                     outToClient = new PrintWriter(clientSocket.getOutputStream(), true);
                     String line;
@@ -166,16 +158,17 @@ public class Server {
                         handleInput(line);
                     }
                 } catch (EOFException e) {
-                    System.out.println(getName() + " Disconnected");
                     connected = false;
                     try {
                         handlerServSock.close();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                } catch (IOException ex) {
-                    System.out.println(getName() + ": IO Error on socket " + ex);
+                } catch (SocketException ex) {
+                    //Socket closed by application
                     return;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         }
@@ -183,12 +176,11 @@ public class Server {
         /**
          * Handle input from the client
          *
-         * @param line
+         * @param line the input
          */
         private void handleInput(String line) {
             ServerAction command = ServerAction.fromCommandString(line.substring(0, line.indexOf(":")));
             String data = line.substring(line.indexOf(":") + 1);
-            System.out.println("receiving " + line);
             switch (command) {
                 case getName:
                     sendMessage(ClientAction.threadName + getName());
@@ -237,7 +229,7 @@ public class Server {
          *
          * @param data SelectedCards dto containing data about the selected cards and power down status for this client
          */
-        private void setCards(SelectedCardsDto data) {
+        private void setCards(@NotNull SelectedCardsDto data) {
             player.isPoweredDown = data.poweredDown;
             player.cards = data.cards;
         }
@@ -245,7 +237,7 @@ public class Server {
         /**
          * Close the connection to this client
          *
-         * @throws IOException
+         * @throws IOException if not able to close the streams and socket
          */
         private void close() throws IOException {
             if (outToClient != null) {
@@ -262,7 +254,7 @@ public class Server {
      *
      * @param message message to send
      */
-    private void sendMessageToAll(String message) {
+    private void sendMessageToAll(@NotNull String message) {
         for (ConnectedPlayer player : players) {
             if (player.player.name != null) {
                 player.sendMessage(message);
@@ -328,7 +320,7 @@ public class Server {
      *
      * @param command command to send with the dto either startround or giveCards
      */
-    private void startRound(ClientAction command) {
+    private void startRound(@NotNull ClientAction command) {
         startedRound = true;
         List<PlayerDto> players = new ArrayList<>();
         for (ConnectedPlayer player : this.players) {
@@ -351,8 +343,9 @@ public class Server {
     /**
      * Collects playerDtos from all connected players and creates a ConnectedPlayers dto
      *
-     * @return
+     * @return json object of all connected players
      */
+    @NotNull
     private String getConnectedPlayers() {
         List<PlayerDto> playerDtos = players.stream().map(connectedPlayer -> {
             if (connectedPlayer.connected) {

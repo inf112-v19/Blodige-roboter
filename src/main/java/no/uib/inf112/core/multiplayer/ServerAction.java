@@ -19,6 +19,7 @@ public enum ServerAction {
     partyMode("partyMode");
 
     public final String command;
+    private static HashMap<String, ServerAction> ServerActionMap = new HashMap<>();
 
     ServerAction(String command) {
         this.command = command;
@@ -30,7 +31,6 @@ public enum ServerAction {
         return command + ":";
     }
 
-    private static HashMap<String, ServerAction> ServerActionMap = new HashMap<>();
 
     static {
         for (ServerAction value : values()) {

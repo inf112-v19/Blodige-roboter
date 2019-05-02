@@ -16,7 +16,6 @@ public class ErrorScreen extends AbstractMenuScreen {
 
     @Override
     public void show() {
-
         Label error = game.createLabel(errorMessage, 0, stage.getHeight() / 2, 30);
         error.setX(stage.getWidth() / 2 - error.getWidth() / 2);
 

@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.multiplayer.Client;
+import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.Server;
 
 import java.io.IOException;
 
 public class LobbyScreen extends AbstractMenuScreen {
 
-    protected final Client client;
+    protected final IClient client;
     private final Server server;
 
     LobbyScreen(GameGraphics game, boolean isHost, String ip, int port) throws IOException {
@@ -46,13 +47,13 @@ public class LobbyScreen extends AbstractMenuScreen {
         returnButton.setPosition(3 * stage.getWidth() / 4 - returnButton.getWidth() - 10, stage.getHeight() / 20);
 
         stage.addActor(returnButton);
-
     }
 
     @Override
     public void render(float v) {
         super.render(v);
         stage.getActors().pop();
+//        stage.getActors().pop();
 
         com.badlogic.gdx.scenes.scene2d.ui.List<String> list = createList(client.getPlayerNames());
         stage.addActor(list);
