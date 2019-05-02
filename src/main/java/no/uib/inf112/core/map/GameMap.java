@@ -266,7 +266,7 @@ public abstract class GameMap implements MapHandler {
         return getTile(layer, x, y);
     }
 
-    //TODO ISSUE #118 test (should return a instance of a Tile that corresponds to the cell on the map, should cache instances, should return correct entity if on entity layer (and not create new instances of entities)
+    //TODO Test: should return correct entity if on entity layer (and not create new instances of entities)
     @Override
     @Nullable
     public Tile getTile(@Nullable TiledMapTileLayer layer, int x, int y) {
