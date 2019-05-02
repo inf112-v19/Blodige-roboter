@@ -45,7 +45,7 @@ public class OptionsScreen extends AbstractMenuScreen {
 
     private TextButton createMusicButton() {
         TextButton musicButton;
-        if (GameGraphics.backgroundMusic.isPlaying()) {
+        if (GameGraphics.getBackgroundMusic().isPlaying()) {
             musicButton = createButton("Disable Music", 70);
         } else {
             musicButton = createButton("Enable Music", 70);
@@ -56,10 +56,10 @@ public class OptionsScreen extends AbstractMenuScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (musicButton.getText().toString().equals("Disable Music")) {
                     musicButton.setText("Enable Music");
-                    GameGraphics.backgroundMusic.pause();
+                    GameGraphics.getBackgroundMusic().pause();
                 } else {
                     musicButton.setText("Disable Music");
-                    GameGraphics.backgroundMusic.play();
+                    GameGraphics.getBackgroundMusic().play();
                 }
             }
         });
