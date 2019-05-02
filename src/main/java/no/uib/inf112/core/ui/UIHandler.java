@@ -131,7 +131,7 @@ public class UIHandler implements Disposable {
         cardDrawTable = new Table();
         robotStatusTable = new Table();
 
-        BitmapFont countDownFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 50);
+        BitmapFont countDownFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 80);
         countDown = createLabel("", countDownFont);
         countDown.setColor(Color.RED);
 
