@@ -305,7 +305,7 @@ public abstract class GameMap implements MapHandler {
         }
         return tiles[x][y];
     }
-    
+
     @Override
     @NotNull
     public List<Tile> getAllTiles(int x, int y) {
