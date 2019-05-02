@@ -279,7 +279,7 @@ public class Server {
     private void startCountdown() {
         seconds = 0;
         TimerTask task = new TimerTask() {
-            private final int MAX_SECONDS = 15;
+            private final int MAX_SECONDS = 31;
 
             @Override
             public void run() {

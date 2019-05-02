@@ -72,7 +72,6 @@ public class Client implements IClient {
                         break;
                     case connectedPlayers:
                         receiveConnectedPlayers(data);
-                        //TODO receive a ConnectedPlayersDto, this happens everytime a new client is added
                         break;
                     case threadName:
                         //Do nothing
@@ -81,10 +80,9 @@ public class Client implements IClient {
                         playerHandler.runRound(GameGraphics.gson.fromJson(data, StartRoundDto.class));
                         break;
                     case countDown:
-                        //Do nothing
+                        // This seconds int has the information about the current number for the countdown
                         int seconds = GameGraphics.gson.fromJson(data, Integer.class);
                         GameScreen.getUiHandler().updateCountDown(seconds);
-                        //TODO this seconds int has the information about the current number for the countdown
                         break;
                     case partyMode:
                         InputHandler.enableMode();
