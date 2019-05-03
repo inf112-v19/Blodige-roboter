@@ -13,6 +13,8 @@
 
 ### Retroperspektiv  prosjekt
 
+- For å se prosjektmetodogikken vi har valgt kan man se på Oblig 2 task 3
+
 - Justeringer
   - Vi måtte skjerpe oss litt på pull requests og bli flinkere å reviewe disse raskere
   - Vi innførte en dedikert testrolle for hver issue, slik at det alltid var noen andre enn deg selv som testet din egen kode
