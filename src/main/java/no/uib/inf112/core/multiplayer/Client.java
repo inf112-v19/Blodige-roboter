@@ -55,7 +55,6 @@ public class Client implements IClient {
                 result = inFromServer.readLine();
                 if (result == null || result.equals("null")) {
                     GameScreen.scheduleSync(() -> game.setScreen(new ErrorScreen(game, "You where disconnected from the host")), 0);
-                    System.out.println("Host disconnected");
                     return;
                 }
                 ClientAction command = ClientAction.fromCommandString(result.substring(0, result.indexOf(":")));

@@ -36,12 +36,7 @@ public class Player extends AbstractPlayer {
                     return;
 
                 }
-
-                if (isPoweredDown()) {
-                    setPoweredDown(false);
-                }
                 setWillPowerDown(!willPowerDown());
-                System.out.println("Power down next round? " + willPowerDown());
             });
         }
     }

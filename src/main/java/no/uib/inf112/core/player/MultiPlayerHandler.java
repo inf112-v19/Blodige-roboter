@@ -55,7 +55,9 @@ public class MultiPlayerHandler implements IPlayerHandler {
      * @param startRoundDto object containing data about the round.
      */
     public void startRound(@NotNull StartRoundDto startRoundDto) {
-        user.getCards().setDrawnCards(startRoundDto.drawnCards);
+        if (!user.isPoweredDown()) {
+            user.getCards().setDrawnCards(startRoundDto.drawnCards);
+        }
     }
 
     /**
@@ -70,7 +72,12 @@ public class MultiPlayerHandler implements IPlayerHandler {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
                 for (PlayerDto playerDto : startRoundDto.players) {
                     if (playerDto.id == onlinePlayer.getId()) {
-                        onlinePlayer.setCards(playerDto.cards);
+                        if (playerDto.isPoweredDown) {
+                            onlinePlayer.setPoweredDown(true);
+                        } else {
+                            onlinePlayer.setPoweredDown(false);
+                            onlinePlayer.setCards(playerDto.cards);
+                        }
                     }
                 }
             } else {
@@ -95,7 +102,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         GameScreen.getUiHandler().getPowerButton().resetButton();
 
         Player p = (Player) mainPlayer();
-        p.setPoweredDown(p.willPowerDown());
         if (p.isDestroyed() || p.getFlags() == flagCount) {
             client.sendSelectedCards(true, Collections.EMPTY_LIST);
             return;
@@ -103,7 +109,6 @@ public class MultiPlayerHandler implements IPlayerHandler {
         if (p.isPoweredDown()) {
             p.setWillPowerDown(false);
             p.endDrawCards();
-            client.sendSelectedCards(true, Collections.EMPTY_LIST);
             GameScreen.scheduleSync(() -> user.getCards().clearSelectedCards(), 100);
         } else {
             if (startRoundDto != null) {
