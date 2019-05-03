@@ -30,6 +30,9 @@ public class GameGraphics extends Game {
     public static boolean HEADLESS;
 
     public static final String ART_FOLDER = "art" + File.separatorChar;
+    public static final String UI_FOLDER = ART_FOLDER + "ui" + File.separatorChar;
+    public static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
+    public static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
     public static final String MAP_EXTENSION = ".tmx";
     public static final String SCREEN_FONT = "screen_font.ttf";
@@ -38,7 +41,7 @@ public class GameGraphics extends Game {
     public static String mapFileName = "risky_exchange";
 
     public static Music backgroundMusic;
-    public static boolean soundMuted = false;
+    public static boolean soundMuted;
     public static int players;
 
     public static Gson gson = new Gson();

@@ -26,7 +26,6 @@ import no.uib.inf112.core.ui.actors.PowerButton;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -70,37 +69,33 @@ public class UIHandler implements Disposable {
     private final Table robotStatusTable;
     private Label countDown;
 
-    private static final String UI_FOLDER = "ui" + File.separatorChar;
-    private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
-    private static final String BUTTON_FOLDER = UI_FOLDER + "buttons" + File.separatorChar;
-
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
     private final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
 
     static {
-        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
+        UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(GameGraphics.UI_FOLDER + "background.png"), 602, 198);
 
-        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "emptySlot.png"));
-        MOVE1_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move1.png"));
-        MOVE2_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move2.png"));
-        MOVE3_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "move3.png"));
-        BACK_UP_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "backUp.png"));
-        TURN_LEFT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "turnLeft.png"));
-        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "turnRight.png"));
-        U_TURN_TEXTURE = new TextureRegion(new Texture(CARD_SKIN_FOLDER + "uTurn.png"));
+        CARDS_SLOT_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "emptySlot.png"));
+        MOVE1_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "move1.png"));
+        MOVE2_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "move2.png"));
+        MOVE3_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "move3.png"));
+        BACK_UP_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "backUp.png"));
+        TURN_LEFT_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "turnLeft.png"));
+        TURN_RIGHT_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "turnRight.png"));
+        U_TURN_TEXTURE = new TextureRegion(new Texture(GameGraphics.CARD_SKIN_FOLDER + "uTurn.png"));
 
-        POWER_DOWN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "power_down.png"));
-        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_power_down.png"));
+        POWER_DOWN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "power_down.png"));
+        NOT_POWER_DOWN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "not_power_down.png"));
 
-        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "life.png"));
-        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_life.png"));
+        LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "life.png"));
+        NOT_LIFE_TOKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "not_life.png"));
 
-        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "damage.png"));
-        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_damage.png"));
+        DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "damage.png"));
+        NOT_DAMAGE_TOKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "not_damage.png"));
 
-        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "flag.png"));
-        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(BUTTON_FOLDER + "not_flag.png"));
+        FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "flag.png"));
+        NOT_FLAG_TAKEN_TEXTURE = new TextureRegion(new Texture(GameGraphics.BUTTON_FOLDER + "not_flag.png"));
 
         card_font_generator = new FreeTypeFontGenerator(Gdx.files.internal("card_font.ttf"));
         card_font_parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
