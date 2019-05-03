@@ -6,7 +6,7 @@ import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,12 +15,12 @@ import static org.junit.Assert.assertEquals;
 
 public class PlayerPhaseTest extends TestGraphics {
 
-    private RoboRally roboRally;
-    private IPlayer player1;
-    private IPlayer player0;
+    private static RoboRally roboRally;
+    private static IPlayer player1;
+    private static IPlayer player0;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 2);
         player0 = roboRally.getPlayerHandler().mainPlayer();
         player1 = roboRally.getPlayerHandler().getPlayers().get(1);

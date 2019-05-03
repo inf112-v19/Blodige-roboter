@@ -17,16 +17,19 @@ import static junit.framework.TestCase.assertEquals;
 
 public class RobotPushTest extends TestGraphics {
 
-    private static RoboRally roboRally;
+    private RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
+    private List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
 
     @Before
     public void setUp() {
-        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 8);
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).teleport(i, 0);
+        }
     }
 
     @Test
     public void pushingEightRobotsSixTimesShouldMoveEightRobotsSixTimes() {
-        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
+
         IPlayer player = players.get(0);
         player.setDirection(Direction.EAST);
         player.move(Movement.MOVE_3);
@@ -40,7 +43,7 @@ public class RobotPushTest extends TestGraphics {
     @Test
     public void pushingEightRobotsAndMovingThemThreeTimesAndPushingThemAgain() {
         MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
+
         for (int i = 0; i < 4; i++) {
             IPlayer player = players.get(0);
             player.setDirection(Direction.EAST);
@@ -58,7 +61,6 @@ public class RobotPushTest extends TestGraphics {
 
     @Test
     public void pushingRobotsOutOfMapShouldTeleportRobotsToBackup() {
-        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
         IPlayer player = players.get(0);
         player.setDirection(Direction.EAST);
         for (int i = 0; i < 5; i++) {

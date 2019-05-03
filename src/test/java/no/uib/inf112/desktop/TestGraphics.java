@@ -57,4 +57,12 @@ public class TestGraphics {
             player.registerFlagVisit();
         }
     }
+
+    protected IPlayer resetPlayer(IPlayer player) {
+        GameGraphics.getRoboRally().getCurrentMap().removeEntity(player);
+        GameGraphics.getRoboRally().getPlayerHandler().removeMainPlayer();
+        player = GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
+        GameGraphics.getRoboRally().getCurrentMap().addEntity(player);
+        return player;
+    }
 }

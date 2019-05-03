@@ -66,8 +66,6 @@ public class PowerButton extends ImageTextButton {
         }
         getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
         updateImage();
-        getStyle().imageUp = new TextureRegionDrawable(buttonTexture);
-        updateImage();
         getColor().a = 1f;
     }
 }

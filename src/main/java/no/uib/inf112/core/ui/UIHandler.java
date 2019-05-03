@@ -59,7 +59,7 @@ public class UIHandler implements Disposable {
     private static final TextureRegion NOT_FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
-    private static final int DEFAULT_SPACING = 5;
+    public static final int DEFAULT_SPACING = 5;
 
     private final Table controlPanelTable;
     private final Stage stage;

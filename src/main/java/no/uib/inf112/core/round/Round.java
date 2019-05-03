@@ -1,9 +1,9 @@
 package no.uib.inf112.core.round;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.round.phase.Phase;
-import no.uib.inf112.core.screens.GameScreen;
 
 import java.util.List;
 
@@ -33,21 +33,21 @@ public class Round {
 
                 final long finalTotalDelay = totalDelay;
                 int phaseNr = i;
-                GameScreen.scheduleSync(() -> phase.startPhase(map, phaseNr), finalTotalDelay);
+                RoboRally.scheduleSync(() -> phase.startPhase(map, phaseNr), finalTotalDelay);
 
                 totalDelay += phase.getRunTime();
 
             }
             map.update(0);
         }
-        GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().checkGameOver(), totalDelay + 10);
+        RoboRally.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().checkGameOver(), totalDelay + 10);
 
         for (Phase phase : cleanupPhases) {
-            GameScreen.scheduleSync(() -> phase.startPhase(map), totalDelay + (GameGraphics.HEADLESS ? 0 : 10));
+            RoboRally.scheduleSync(() -> phase.startPhase(map), totalDelay + (GameGraphics.HEADLESS ? 0 : 10));
         }
 
         if (!GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
-            GameScreen.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
+            RoboRally.scheduleSync(() -> GameGraphics.getRoboRally().getPlayerHandler().startTurn(), totalDelay + 20);
         }
     }
 }
