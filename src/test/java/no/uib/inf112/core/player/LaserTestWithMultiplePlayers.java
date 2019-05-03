@@ -6,7 +6,7 @@ import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.round.phase.LaserPhase;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -18,8 +18,8 @@ public class LaserTestWithMultiplePlayers extends TestGraphics {
     private static MapHandler map;
     private static List<IPlayer> players;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         RoboRally roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "laser_test_map.tmx", 2);
         map = roboRally.getCurrentMap();
         players = roboRally.getPlayerHandler().getPlayers();
@@ -51,8 +51,13 @@ public class LaserTestWithMultiplePlayers extends TestGraphics {
         int firstHealthBefore = first.getHealth();
         IPlayer second = players.get(1);
         int secondHealthBefore = second.getHealth();
+
         first.teleport(0, 0);
+        first.setDirection(Direction.NORTH);
+
         second.teleport(0, 1);
+        second.setDirection(Direction.NORTH);
+
         map.update(0);
         new LaserPhase(0).startPhase(map);
         assertEquals(firstHealthBefore, first.getHealth());

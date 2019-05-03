@@ -13,6 +13,7 @@ import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,12 +28,15 @@ public class PlayerTest extends TestGraphics {
     private static RoboRally roboRally;
     private static MapHandler map;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
+    }
 
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+    @Before
+    public void initialize() {
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
     }
@@ -97,7 +101,7 @@ public class PlayerTest extends TestGraphics {
 
     @Test
     public void getFiveCardsFromNonPlayerShouldBePossible() {
-        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map);
+        NonPlayer player = new NonPlayer(1, 1, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
 
         //noinspection unchecked
         ComparableTuple<Card, IPlayer>[] cards = (ComparableTuple<Card, IPlayer>[]) new ComparableTuple[5];
@@ -189,12 +193,17 @@ public class PlayerTest extends TestGraphics {
     private class PlayerImpl extends AbstractPlayer {
 
         PlayerImpl(int x, int y) {
-            super(x, y, Direction.NORTH, map, Color.ORANGE);
+            super(x, y, Direction.NORTH, map, new ComparableTuple<>("Black", Color.BLACK));
         }
 
         @Override
         public ComparableTuple<Card, IPlayer> getNextCard(int id) {
             return null;
+        }
+
+        @Override
+        public int getId() {
+            return -1;
         }
 
         @Override

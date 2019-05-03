@@ -1,6 +1,7 @@
 package no.uib.inf112.core.round.phase;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.IPlayer;
@@ -50,7 +51,7 @@ public class PlayerPhase extends AbstractPhase {
 
         for (int i = 0; i < phaseCards.size(); i++) {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
-            GameGraphics.scheduleSync(() -> {
+            RoboRally.scheduleSync(() -> {
                 tuple.value.move(tuple.key.getAction(), delayPerPlayer);
                 Sound.ROBOT_MOVING.play();
             }, delayPerPlayer * (i + 1));

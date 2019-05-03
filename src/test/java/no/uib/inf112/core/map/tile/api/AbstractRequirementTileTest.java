@@ -1,11 +1,13 @@
 package no.uib.inf112.core.map.tile.api;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.tiles.*;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.player.NonPlayer;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -26,7 +28,7 @@ public class AbstractRequirementTileTest extends TestGraphics {
     @Before
     public void setUp(){
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         vector2Int = new Vector2Int(0,0);
     }
 
@@ -98,7 +100,7 @@ public class AbstractRequirementTileTest extends TestGraphics {
 
     @Test
     public void nonPlayerHasRequiredAttributes(){
-        NonPlayer nonPlayer = new NonPlayer(0, 0, Direction.NORTH, roboRally.getCurrentMap());
+        NonPlayer nonPlayer = new NonPlayer(0, 0, Direction.NORTH, roboRally.getCurrentMap(), new ComparableTuple<>("Black", Color.BLACK));
 
         assertTrue(nonPlayer.canDoAction(player));
     }

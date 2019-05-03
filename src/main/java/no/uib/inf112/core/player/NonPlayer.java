@@ -13,8 +13,8 @@ public class NonPlayer extends AbstractPlayer {
 
     private Card[] deck;
 
-    public NonPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map) {
-        super(x, y, direction, map, Color.BLUE);
+    public NonPlayer(int x, int y, @NotNull Direction direction, @NotNull MapHandler map, ComparableTuple<String, Color> color) {
+        super(x, y, direction, map, color);
     }
 
 
@@ -24,6 +24,11 @@ public class NonPlayer extends AbstractPlayer {
             deck = GameGraphics.getRoboRally().getDeck().draw(MAX_PLAYER_CARDS);
         }
         return new ComparableTuple<>(deck[id], this);
+    }
+
+    @Override
+    public int getId() {
+        return -1;
     }
 
 }

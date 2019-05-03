@@ -42,7 +42,7 @@ public class ConveyorTileTest extends TestGraphics {
     @Before
     public void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_tile_test_map.tmx", 1);
-        testPlayer = roboRally.getPlayerHandler().testPlayer();
+        testPlayer = roboRally.getPlayerHandler().mainPlayer();
         phase = new ConveyorPhase(0);
     }
 

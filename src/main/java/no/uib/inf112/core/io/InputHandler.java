@@ -3,11 +3,10 @@ package no.uib.inf112.core.io;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector3;
 import no.uib.inf112.core.GameGraphics;
-import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tiled.CustomOrthogonalTiledMapRenderer;
 import no.uib.inf112.core.player.Player;
+import no.uib.inf112.core.screens.GameScreen;
 
 import java.util.Stack;
 
@@ -16,7 +15,7 @@ public class InputHandler extends InputAdapter {
     private Stack<Integer> logger = new Stack<>();
 
     public InputHandler() {
-        GameGraphics.getInputMultiplexer().addProcessor(this);
+        GameScreen.getInputMultiplexer().addProcessor(this);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class InputHandler extends InputAdapter {
 
             Player player = (Player) GameGraphics.getRoboRally().getPlayerHandler().mainPlayer();
 
-            if (GameGraphics.getUiHandler().isDrawnCardsVisible()) {
+            if (GameScreen.getUiHandler().isDrawnCardsVisible()) {
                 player.endDrawCards();
             }
             return true;
@@ -69,27 +68,24 @@ public class InputHandler extends InputAdapter {
                 logger.elementAt(logger.size() - 2) == Input.Keys.B &&
                 logger.elementAt(logger.size() - 1) == Input.Keys.A) {
             logger.clear();
-            CustomOrthogonalTiledMapRenderer.PARTY = true;
-
+            enableMode();
         }
         return false;
     }
 
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        MapHandler map = GameGraphics.getRoboRally().getCurrentMap();
-
-        final Vector3 mousePos = map.getCamera().unproject(new Vector3(screenX, screenY, 0));
-
-        final int blockX = (int) (mousePos.x / map.getTileWidth());
-        final int blockY = (int) (mousePos.y / map.getTileHeight());
-
-        if (map.isOutsideBoard(blockX, blockY)) {
-            return false;
+    /**
+     * Enable the party mode
+     * Changes music and adds party to the renderer
+     */
+    public static void enableMode() {
+        if (!CustomOrthogonalTiledMapRenderer.PARTY) {
+            GameGraphics.backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/techno.wav"));
+            GameGraphics.backgroundMusic.play();
+            GameGraphics.backgroundMusic.setLooping(true);
+            CustomOrthogonalTiledMapRenderer.PARTY = true;
+            if (GameGraphics.getClient() != null) {
+                GameGraphics.getClient().setPartyModeOn();
+            }
         }
-        System.out.printf("Tiles at (%d, %d) = %s%n", blockX, blockY, map.getAllTiles(blockX, blockY));
-
-        return true;
     }
 }

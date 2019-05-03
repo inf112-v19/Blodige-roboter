@@ -9,9 +9,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static no.uib.inf112.core.GameGraphics.MAP_FOLDER;
+import static org.junit.Assert.*;
 
 public class PlayerHandlerTest extends TestGraphics {
 
@@ -58,5 +59,29 @@ public class PlayerHandlerTest extends TestGraphics {
             assertFalse(playerDocks.contains(player.getDock()));
             playerDocks.add(player.getDock());
         }
+    }
+
+    @Test
+    public void whenEveryOneRegistersAllFlagsGameShouldEnd() {
+        roboRally = GameGraphics.createRoboRally(MAP_FOLDER + File.separatorChar + "checkmate.tmx", 8);
+        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
+        for (IPlayer player : players) {
+            registerFlagVisits(roboRally.getPlayerHandler().getFlagCount(), player);
+        }
+        roboRally.getPlayerHandler().checkGameOver();
+        assertTrue(roboRally.getPlayerHandler().isGameOver());
+        assertEquals(roboRally.getPlayerHandler().getWonPlayers().size(), roboRally.getPlayerHandler().getPlayerCount());
+    }
+
+    @Test
+    public void whenEveryoneIsDestroyedGameShouldEnd() {
+        testHandler = new PlayerHandler(8, map);
+        List<IPlayer> players = roboRally.getPlayerHandler().getPlayers();
+        for (IPlayer player : players) {
+            player.destroy();
+        }
+        roboRally.getPlayerHandler().checkGameOver();
+        assertTrue(roboRally.getPlayerHandler().isGameOver());
+        assertEquals(roboRally.getPlayerHandler().getWonPlayers().size(), roboRally.getPlayerHandler().getPlayerCount());
     }
 }

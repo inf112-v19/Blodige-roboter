@@ -3,7 +3,6 @@ package no.uib.inf112.core.player;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.util.ComparableTuple;
-import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
 
 public interface IPlayer extends Comparable<IPlayer>, Entity {
@@ -26,20 +25,10 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     int MAX_PLAYER_CARDS = 5;
 
     /**
-     * damage the player by the given amount and handles death if health is less than or equal to 0
-     *
-     * @param damageAmount How much to damage the player
-     * @throws IllegalArgumentException If the damage amount is not positive
+     * Remove all lives
+     * and remove from map
      */
-    @Override
-    void damage(int damageAmount);
-
-    /**
-     * Kill the player, decreasing their lives and depending on Main.headless permanently remove from map if there are
-     * no lives left
-     */
-    @Override
-    void kill();
+    void destroy();
 
     /**
      * @return If the player is dead. A player is dead if their lives are 0 or less
@@ -76,6 +65,27 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
     int getHealth();
 
     /**
+     * Changes name
+     *
+     * @param name new name
+     */
+    void setName(String name);
+
+    /**
+     * @return name of player
+     */
+    String getName();
+
+    /**
+     * Returns the id of this player
+     * <p>
+     * Computer controlled players return -1
+     *
+     * @return the id of this player
+     */
+    int getId();
+
+    /**
      * @return if powered down or not
      */
     boolean isPoweredDown();
@@ -89,12 +99,6 @@ public interface IPlayer extends Comparable<IPlayer>, Entity {
      * @return amount of damage tokens
      */
     int getDamageTokens();
-
-    /**
-     * @return backup position
-     */
-    @Override
-    Vector2Int getBackup();
 
     /**
      * Sets the backup for the player

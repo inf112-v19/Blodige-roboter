@@ -1,16 +1,14 @@
 package no.uib.inf112.core.player;
 
+import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.tile.TileType;
-import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.map.tile.tiles.SpawnTile;
+import no.uib.inf112.core.screens.GameScreen;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import static no.uib.inf112.core.GameGraphics.HEADLESS;
 
@@ -19,7 +17,11 @@ public class PlayerHandler implements IPlayerHandler {
     private int playerCount;
     private int flagCount;
     private List<IPlayer> players;
+    private Map<IPlayer, Long> wonPlayers;
+    private Stack<ComparableTuple<String, Color>> colors;
     private IPlayer user;
+    private boolean gameOver;
+    private long startTime;
 
     /**
      * @param playerCount
@@ -36,7 +38,27 @@ public class PlayerHandler implements IPlayerHandler {
         this.playerCount = playerCount;
         flagCount = 0;
         players = new ArrayList<>(playerCount);
-        analyseMap(map);
+        gameOver = false;
+        startTime = System.currentTimeMillis();
+        wonPlayers = new TreeMap<>();
+        colors = addColors();
+        addPlayers(map);
+    }
+
+    /**
+     * @return
+     */
+    public static Stack<ComparableTuple<String, Color>> addColors() {
+        Stack<ComparableTuple<String, Color>> colors = new Stack<>();
+        colors.push(new ComparableTuple<>("Coral", Color.CORAL));
+        colors.push(new ComparableTuple<>("Green", Color.GREEN));
+        colors.push(new ComparableTuple<>("Purple", Color.PURPLE));
+        colors.push(new ComparableTuple<>("Yellow", Color.YELLOW));
+        colors.push(new ComparableTuple<>("Orange", Color.ORANGE));
+        colors.push(new ComparableTuple<>("Cyan", Color.CYAN));
+        colors.push(new ComparableTuple<>("Red", Color.RED));
+        colors.push(new ComparableTuple<>("Blue", Color.BLUE));
+        return colors;
     }
 
     @Override
@@ -46,7 +68,10 @@ public class PlayerHandler implements IPlayerHandler {
 
     @Override
     public void startTurn() {
-        GameGraphics.getUiHandler().getPowerButton().resetAlpha();
+        if (gameOver) {
+            return;
+        }
+        GameScreen.getUiHandler().getPowerButton().resetButton();
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
@@ -54,7 +79,6 @@ public class PlayerHandler implements IPlayerHandler {
             return;
         }
         if (p.isPoweredDown()) {
-            p.heal(IPlayer.MAX_HEALTH);
             p.setWillPowerDown(false);
             p.endDrawCards();
         } else {
@@ -72,61 +96,96 @@ public class PlayerHandler implements IPlayerHandler {
         return playerCount;
     }
 
-    @Override
-    public void analyseMap(MapHandler map) {
-        Stack<SpawnTile> spawnTiles = new Stack<>();
-        for (int x = 0; x < map.getMapWidth(); x++) {
-            for (int y = 0; y < map.getMapHeight(); y++) {
-                Tile boardTile = map.getTile(MapHandler.BOARD_LAYER_NAME, x, y);
-                Tile flagTile = map.getTile(MapHandler.FLAG_LAYER_NAME, x, y);
-
-                if (boardTile != null && boardTile.getTileType() == TileType.SPAWN) {
-                    SpawnTile spawnTile = (SpawnTile) boardTile;
-                    if (spawnTile.getSpawnNumber() <= playerCount) {
-                        spawnTiles.add(spawnTile);
-                    }
+    /**
+     * Move players to given spawning docks
+     * Count number of flags in map
+     *
+     * @param map
+     */
+    private void addPlayers(MapHandler map) {
+        ComparableTuple<Integer, Stack<SpawnTile>> result = analyseMap(map);
+        flagCount = result.key;
+        Stack<SpawnTile> spawnTiles = result.value;
+        if (!HEADLESS) {
+            if (!spawnTiles.empty()) {
+                Collections.shuffle(spawnTiles);
+                SpawnTile spawnTile = spawnTiles.pop();
+                user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map, new ComparableTuple<>(GameGraphics.mainPlayerName, Color.MAGENTA), 0);
+                user.setDock(spawnTile.getSpawnNumber());
+                players.add(user);
+                while (!spawnTiles.isEmpty() && players.size() < playerCount) {
+                    SpawnTile tile = spawnTiles.pop();
+                    NonPlayer nonPlayer = new NonPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                    nonPlayer.setDock(tile.getSpawnNumber());
+                    players.add(nonPlayer);
                 }
-
-                if (flagTile != null && flagTile.getTileType() == TileType.FLAG) {
-                    flagCount++;
+            } else {
+                for (int i = 0; i < playerCount; i++) {
+                    NonPlayer nonPlayer = new NonPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                    nonPlayer.setDock(i);
+                    players.add(nonPlayer);
                 }
-            }
-        }
-        if (!spawnTiles.empty()) {
-            Collections.shuffle(spawnTiles);
-            SpawnTile spawnTile = spawnTiles.pop();
-            user = new Player(spawnTile.getX(), spawnTile.getY(), Direction.NORTH, map);
-            user.setDock(spawnTile.getSpawnNumber());
-            players.add(user);
-
-            for (int i = 1; i < playerCount; i++) {
-                SpawnTile tile = spawnTiles.pop();
-                StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map);
-                staticPlayer.setDock(tile.getSpawnNumber());
-                players.add(staticPlayer);
             }
         } else {
             for (int i = 0; i < playerCount; i++) {
-                StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map);
-                staticPlayer.setDock(i);
-                players.add(staticPlayer);
+                if (!spawnTiles.isEmpty()) {
+                    SpawnTile tile = spawnTiles.pop();
+                    StaticPlayer staticPlayer = new StaticPlayer(tile.getX(), tile.getY(), Direction.NORTH, map, colors.pop());
+                    staticPlayer.setDock(tile.getSpawnNumber());
+                    players.add(staticPlayer);
+                } else {
+                    StaticPlayer staticPlayer = new StaticPlayer(i, 0, Direction.NORTH, map, colors.pop());
+                    staticPlayer.setDock(i);
+                    players.add(staticPlayer);
+                }
             }
         }
     }
 
-    public IPlayer testPlayer() {
-        if (!HEADLESS) {
-            throw new IllegalStateException("Game is not headless");
+    @Override
+    public void checkGameOver() {
+        removePlayers();
+
+        if (players.size() == 1) {
+            wonPlayers.put(players.get(0), Math.abs(System.currentTimeMillis() - startTime));
+            players.remove(0);
+            gameOver = true;
+            return;
         }
-        return players.get(0);
+
+        for (IPlayer player : players) {
+            if (!player.isDestroyed()) {
+                return;
+            }
+        }
+        gameOver = true;
     }
 
+    @Override
+    public Map<IPlayer, Long> getWonPlayers() {
+        return wonPlayers;
+    }
 
+    @Override
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    @Override
+    public void setGameOver(boolean state) {
+        gameOver = state;
+    }
+
+    @Override
     public IPlayer mainPlayer() {
-        if (HEADLESS) {
-            throw new IllegalStateException("Game is headless");
+        if (!players.isEmpty()) {
+            IPlayer player = players.get(0);
+            if (player instanceof Player || HEADLESS) {
+                return players.get(0);
+            }
+            gameOver = true;
         }
-        return players.get(0);
+        return new Player(0, 0, Direction.NORTH, GameGraphics.getRoboRally().getCurrentMap(), new ComparableTuple<>("Dead", Color.BLACK), 0);
     }
 
     @Override

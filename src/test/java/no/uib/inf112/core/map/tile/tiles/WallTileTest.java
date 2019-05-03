@@ -5,6 +5,7 @@ import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.MovableTile;
 import no.uib.inf112.core.map.tile.api.Tile;
 import no.uib.inf112.core.player.Robot;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import no.uib.inf112.desktop.TestGraphics;
@@ -31,7 +32,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_SOUTH);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -42,7 +43,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_EAST);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -53,7 +54,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_NORTH);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -64,7 +65,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(new Vector2Int(0, 0), TileGraphic.WALL_WEST);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(new Vector2Int(dir.inverse().getDx(), dir.inverse().getDy()), dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir.inverse()), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -80,7 +81,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_NORTH);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(pos, dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -92,7 +93,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_EAST);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(pos, dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -104,7 +105,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_SOUTH);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(pos, dir, new ComparableTuple<>("BLACK", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -117,7 +118,7 @@ public class WallTileTest extends TestGraphics {
         WallTile wallTile = new WallTile(pos, TileGraphic.WALL_WEST);
 
         for (Direction dir : Direction.values()) {
-            MovableTile moveTile = new RobotImpl(pos, dir, Color.BLACK);
+            MovableTile moveTile = new RobotImpl(pos, dir, new ComparableTuple<>("Black", Color.BLACK));
             Assert.assertEquals(blockedDir.equals(dir), wallTile.willCollide(moveTile, dir));
         }
     }
@@ -125,7 +126,7 @@ public class WallTileTest extends TestGraphics {
 
     public class RobotImpl extends Robot {
 
-        public RobotImpl(Vector2Int pos, Direction direction, Color color) {
+        public RobotImpl(Vector2Int pos, Direction direction, ComparableTuple<String, Color> color) {
             super(pos, direction, color);
         }
 

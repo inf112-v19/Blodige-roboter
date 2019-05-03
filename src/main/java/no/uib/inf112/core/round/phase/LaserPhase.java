@@ -1,7 +1,7 @@
 package no.uib.inf112.core.round.phase;
 
 import com.badlogic.gdx.graphics.Color;
-import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
@@ -33,11 +33,11 @@ public class LaserPhase extends AbstractPhase {
             for (int x = 0; x < map.getMapWidth(); x++) {
                 Tile collidablesTile = map.getTile(COLLIDABLES_LAYER_NAME, x, y);
                 if (collidablesTile != null && collidablesTile.hasAttribute(Attribute.SHOOTS_LASER)) {
-                    GameGraphics.scheduleSync(() -> shootAlreadyExistingLaser(map, collidablesTile), getRunTime() / 5);
+                    RoboRally.scheduleSync(() -> shootAlreadyExistingLaser(map, collidablesTile), getRunTime() / 5);
                 }
                 Tile entitiesTile = map.getTile(ENTITY_LAYER_NAME, x, y);
                 if (entitiesTile != null && entitiesTile.hasAttribute(Attribute.LAYS_DOWN_LASER) && !((IPlayer) (entitiesTile)).isPoweredDown()) {
-                    GameGraphics.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
+                    RoboRally.scheduleSync(() -> shootLaserFromTile(map, entitiesTile), getRunTime() / 5);
                 }
             }
 
@@ -74,7 +74,9 @@ public class LaserPhase extends AbstractPhase {
             damageableTile.damage(prevTile.hasAttribute(Attribute.HIGH_PRIORITY) ? 2 : 1);
         }
         final LaserTile[] clone = activatedLasers.toArray(new LaserTile[0]);
-        GameGraphics.scheduleSync(() -> cleanUpLasers(map), getRunTime() * 2);
+
+        RoboRally.scheduleSync(() -> cleanUpLasers(map), getRunTime() * 2);
+
     }
 
     /**
@@ -128,7 +130,7 @@ public class LaserPhase extends AbstractPhase {
         } else if (onPos != null) {
             throw new IllegalStateException("Found something in the entity layer that's not hurtable");
         }
-        GameGraphics.scheduleSync(() -> deactivateLasers(activatedLasers), getRunTime() * 2);
+        RoboRally.scheduleSync(() -> deactivateLasers(activatedLasers), getRunTime() * 2);
 
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.CardContainer;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
@@ -13,16 +14,20 @@ import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends AbstractPlayer {
 
     private CardContainer cards;
+    public final int id;
 
-    public Player(int x, int y, @NotNull Direction direction, MapHandler map) {
-        super(x, y, direction, map, Color.RED);
-
+    public Player(int x, int y, @NotNull Direction direction, MapHandler map, ComparableTuple<String, Color> color, int id) {
+        super(x, y, direction, map, color);
+        this.id = id;
         cards = new CardContainer(this);
         if (!GameGraphics.HEADLESS) {
-            ControlPanelEventHandler eventHandler = GameGraphics.getCPEventHandler();
+            ControlPanelEventHandler eventHandler = GameScreen.getCPEventHandler();
             eventHandler.registerListener(PowerDownEvent.class, (ControlPanelEventListener<PowerDownEvent>) event -> {
 
                 if (this != GameGraphics.getRoboRally().getPlayerHandler().mainPlayer()) {
@@ -31,12 +36,7 @@ public class Player extends AbstractPlayer {
                     return;
 
                 }
-
-                if (isPoweredDown()) {
-                    setPoweredDown(false);
-                }
                 setWillPowerDown(!willPowerDown());
-                System.out.println("Power down next round? " + willPowerDown());
             });
         }
     }
@@ -46,7 +46,7 @@ public class Player extends AbstractPlayer {
      */
     public void beginDrawCards() {
         cards.draw();
-        GameGraphics.getUiHandler().showDrawnCards();
+        GameScreen.getUiHandler().showDrawnCards();
     }
 
     /**
@@ -54,7 +54,7 @@ public class Player extends AbstractPlayer {
      * End turn
      */
     public void endDrawCards() {
-        GameGraphics.getUiHandler().hideDrawnCards();
+        GameScreen.getUiHandler().hideDrawnCards();
 
         if (cards.hasInvalidHand()) {
             cards.randomizeHand();
@@ -68,8 +68,22 @@ public class Player extends AbstractPlayer {
         return new ComparableTuple<>(cards.getCard(SlotType.HAND, id), this);
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     @NotNull
     public CardContainer getCards() {
+        return cards;
+    }
+
+    @NotNull
+    public List<Card> getCardList() {
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            cards.add(this.cards.getCard(SlotType.HAND, i));
+        }
         return cards;
     }
 
@@ -83,4 +97,5 @@ public class Player extends AbstractPlayer {
                 ", poweredDown=" + isPoweredDown() +
                 '}';
     }
+
 }

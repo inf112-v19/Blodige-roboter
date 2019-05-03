@@ -3,12 +3,14 @@ package no.uib.inf112.core.player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Movement;
 import no.uib.inf112.core.map.tile.Attribute;
 import no.uib.inf112.core.map.tile.TileGraphic;
 import no.uib.inf112.core.map.tile.api.*;
 import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.util.ComparableTuple;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.core.util.Vector2Int;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +20,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     private boolean stopMoving = false;
     private Direction direction;
     private boolean update;
-    private Color color;
+    private ComparableTuple<String, Color> color;
     private Vector2Int pos;
 
     /**
@@ -29,7 +31,7 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
      * @throws IllegalArgumentException If there is already an entity at the given {@code (x,y)}. See {@link MapHandler#addEntity(Entity)}
      * @throws IllegalStateException    If no {@link TiledMapTile} can be found
      */
-    public Robot(Vector2Int pos, Direction direction, Color color) {
+    public Robot(Vector2Int pos, Direction direction, ComparableTuple<String, Color> color) {
         super(pos, TileGraphic.ROBOT_TILE_NORTH);
         this.color = color;
         this.pos = pos;
@@ -131,10 +133,11 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
             update();
             Sound.ROBOT_MOVING.play();
             if (dx - sdx != 0 || dy - sdy != 0) {
-                GameGraphics.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
+                RoboRally.scheduleSync(() -> move(dx - sdx, dy - sdy, maxTime - maxTimePerMovement), maxTimePerMovement);
             }
         }
     }
+
 
     private boolean push(MovableTile mTile, Direction dir) {
         if (mTile.move(dir)) {
@@ -187,6 +190,11 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
                     } else {
                         throw new IllegalStateException("Expected one pushable on a position, found two");
                     }
+                } else if (tile.hasSuperClass(CollidableTile.class)) {
+                    CollidableTile collidableTile = (CollidableTile) tile;
+                    if (collidableTile.willCollide(this, dir)) {
+                        return false;
+                    }
                 }
             }
             return toBePushed != null && push(toBePushed, dir);
@@ -232,12 +240,12 @@ public abstract class Robot extends AbstractRequirementTile implements Entity {
     @NotNull
     @Override
     public Color getColor() {
-        return color;
+        return color.value;
     }
 
     @Override
     public void setColor(@NotNull Color color) {
-        this.color = color;
+        this.color.value = color;
     }
 
     @Override

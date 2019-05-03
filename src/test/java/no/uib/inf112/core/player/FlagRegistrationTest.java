@@ -9,6 +9,7 @@ import no.uib.inf112.core.round.phase.ActionPhase;
 import no.uib.inf112.core.round.phase.Phase;
 import no.uib.inf112.desktop.TestGraphics;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -17,17 +18,22 @@ import static org.junit.Assert.*;
 
 public class FlagRegistrationTest extends TestGraphics {
 
-    private IPlayer player;
+    private static IPlayer player;
     private static RoboRally roborally;
-    private MapHandler map;
-    private Phase phase;
+    private static MapHandler map;
+    private static Phase phase;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         roborally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "flag_test_map.tmx", 1);
         map = GameGraphics.getRoboRally().getCurrentMap();
-        player = roborally.getPlayerHandler().testPlayer();
+        player = roborally.getPlayerHandler().mainPlayer();
         phase = new ActionPhase(TileType.FLAG, 0);
+    }
+
+    @Before
+    public void initialize() {
+        player = resetPlayer(player);
     }
 
     @Test
@@ -42,11 +48,12 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void checkIfLandOnFlagRegistersFlag() {
-        for (int i = 0; i < 4; i++) {
+        map.update(0);
+        for (int i = 1; i < 5; i++) {
             player.move(Movement.MOVE_1);
             map.update(0);
             phase.startPhase(map);
-            assertEquals(1 + i, player.getFlags());
+            assertEquals(i, player.getFlags());
         }
     }
 
@@ -75,21 +82,13 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void registerFlagVisitFor2Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(2, player);
         assertEquals(2, player.getFlags());
     }
 
     @Test
     public void registerFlagVisitFor8Flags() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(8, player);
         assertEquals(8, player.getFlags());
     }
 
@@ -112,54 +111,37 @@ public class FlagRegistrationTest extends TestGraphics {
 
     @Test
     public void canGetFlag3Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(2, player);
         assertTrue(player.canGetFlag(3));
     }
 
     @Test
     public void canGetFlag4Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(3, player);
         assertTrue(player.canGetFlag(4));
     }
 
     @Test
     public void cantGetFlag5Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(3, player);
         assertFalse(player.canGetFlag(5));
     }
 
     @Test
     public void cantGetFlag6Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(4, player);
         assertFalse(player.canGetFlag(6));
     }
 
     @Test
     public void cantGetFlag7Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(5, player);
         assertFalse(player.canGetFlag(7));
     }
 
     @Test
     public void cantGetFlag8Test() {
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
-        player.registerFlagVisit();
+        registerFlagVisits(6, player);
         assertFalse(player.canGetFlag(8));
     }
 }

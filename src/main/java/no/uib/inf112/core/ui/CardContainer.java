@@ -2,12 +2,16 @@ package no.uib.inf112.core.ui;
 
 import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.map.cards.Card;
+import no.uib.inf112.core.map.cards.MovementCard;
+import no.uib.inf112.core.multiplayer.dtos.CardDto;
+import no.uib.inf112.core.multiplayer.dtos.DtoMapper;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.ui.actors.cards.CardSlot;
 import no.uib.inf112.core.ui.actors.cards.SlotType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -141,5 +145,56 @@ public class CardContainer {
      */
     public IPlayer getPlayer() {
         return holder;
+    }
+
+    public void setDrawnCards(List<CardDto> drawnCards) {
+        for (CardSlot actor : drawnCard) {
+            if (!actor.isDisabled()) {
+                actor.setCard(null);
+            }
+        }
+
+        List<Card> cards = DtoMapper.mapFromDto(drawnCards);
+        int amount = IPlayer.MAX_HEALTH - holder.getDamageTokens() - 1;
+
+        if (drawnCards.size() < amount) {
+            throw new IllegalArgumentException("Received drawn cards is to low");
+        }
+
+        for (int i = 0; i < IPlayer.MAX_DRAW_CARDS; i++) {
+            if (i >= amount) {
+                drawnCard[i].setCard(null);
+                drawnCard[i].getColor().a = 0.70f;
+            } else {
+                drawnCard[i].setCard(cards.get(i));
+            }
+        }
+    }
+
+    /**
+     * Clears the handcards for this container
+     */
+    public void clearSelectedCards() {
+        for (int i = 0; i < IPlayer.MAX_PLAYER_CARDS; i++) {
+            CardSlot cardSlot = handCard[i];
+            if (!cardSlot.isDisabled()) {
+                cardSlot.setCard(null);
+            }
+        }
+
+    }
+
+    /**
+     * Sets the given selected cards to this container
+     *
+     * @param selectedCards list of card dtos describing each card. first card in the list will be the first handcard
+     */
+    public void setSelectedCards(List<CardDto> selectedCards) {
+        for (int i = 0; i < selectedCards.size() && i < handCard.length; i++) {
+            if (!handCard[i].isDisabled()) {
+                CardDto cardDto = selectedCards.get(i);
+                handCard[i].setCard(new MovementCard(cardDto.movement, cardDto.priority));
+            }
+        }
     }
 }

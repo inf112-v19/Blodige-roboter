@@ -5,7 +5,7 @@ import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.core.util.Direction;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -16,17 +16,16 @@ import static org.junit.Assert.assertEquals;
 @SuppressWarnings("PointlessArithmeticExpression")
 public class ConveyorPhaseTest extends TestGraphics {
 
-    private RoboRally roboRally;
-    private IPlayer player;
-    private ConveyorPhase phase;
+    private static RoboRally roboRally;
+    private static IPlayer player;
+    private static ConveyorPhase phase;
 
     private static final int EXPRESS_DIST = 4;
 
-    @Before
-    public void setUp() {
-        roboRally = GameGraphics
-                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
-        player = roboRally.getPlayerHandler().testPlayer();
+    @BeforeClass
+    public static void setUp() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "conveyor_complex_rotation_test_map.tmx", 1);
+        player = roboRally.getPlayerHandler().mainPlayer();
         phase = new ConveyorPhase(0);
     }
 
@@ -51,6 +50,8 @@ public class ConveyorPhaseTest extends TestGraphics {
     public void rotateLeftCircleNormal() {
         player.teleport(1, 2);
         player.setDirection(SOUTH);
+        roboRally.getCurrentMap().update(0);
+
         runPhase();
 
         assertEquals(1, player.getX());
@@ -295,7 +296,7 @@ public class ConveyorPhaseTest extends TestGraphics {
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 
@@ -318,7 +319,7 @@ public class ConveyorPhaseTest extends TestGraphics {
         //express conveyors
         //the added +1 in endY is there as the express conveyor wil run twice
         testPhase(ttx + dx1, tty + dy1 + EXPRESS_DIST, NORTH, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(),
-                  NORTH);
+                NORTH);
         testPhase(ttx + dx2, tty + dy2 + EXPRESS_DIST, from, ttx + ttd.getDx(), tty + EXPRESS_DIST + ttd.getDy(), ttd);
     }
 

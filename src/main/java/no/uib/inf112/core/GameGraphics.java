@@ -2,135 +2,176 @@ package no.uib.inf112.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import no.uib.inf112.core.io.InputHandler;
-import no.uib.inf112.core.ui.UIHandler;
-import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.google.gson.Gson;
+import no.uib.inf112.core.map.MapHandler;
+import no.uib.inf112.core.map.TiledMapHandler;
+import no.uib.inf112.core.multiplayer.IClient;
+import no.uib.inf112.core.multiplayer.Server;
+import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.player.MultiPlayerHandler;
+import no.uib.inf112.core.player.PlayerHandler;
+import no.uib.inf112.core.screens.menuscreens.TitleScreen;
+import no.uib.inf112.core.testutils.HeadlessMapHandler;
+import no.uib.inf112.core.ui.Sound;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class GameGraphics extends Game {
 
     private static RoboRally roboRally;
     public static boolean HEADLESS;
 
-    public static final String MAP_FOLDER = "maps";
-    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "risky_exchange.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "checkmate.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "dizzy_dash.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "island_hop.tmx";
-//    public static final String FALLBACK_MAP_FILE_PATH = MAP_FOLDER + File.separatorChar + "chop_shop_challenge.tmx";
+    public static final String MAP_FOLDER = "maps" + File.separatorChar;
+    public static final String MAP_EXTENSION = ".tmx";
+    public static final String SCREEN_FONT = "screen_font.ttf";
+    public static final String SCREEN_FONT_BOLD = "screen_font_bold.ttf";
 
-    private SpriteBatch batch;
+    public static String mapFileName = "risky_exchange";
 
-    private static InputMultiplexer inputMultiplexer;
-    private static UIHandler uiHandler;
-    private static ControlPanelEventHandler cpEventHandler;
-    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    public static Music backgroundMusic;
+    public static boolean soundMuted = false;
+    public static int players;
+
+    public static Gson gson = new Gson();
+
+    public static String mainPlayerName = "default name";
+
+    public static final int MIN_PORT = 49152;
+    public static final int MAX_PORT = 65535;
+    public static int port = 55555; // Default port
+
+    public SpriteBatch batch;
+
+    private static Server server;
+    private static IClient client;
+
+    public static RoboRally createRoboRallyMultiplayer(@NotNull NewGameDto setup, IClient client) {
+        String mapPath = (!HEADLESS ? MAP_FOLDER : "") + setup.map + MAP_EXTENSION;
+        MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(mapPath) : new HeadlessMapHandler(mapPath);
+        roboRally = new RoboRally(mapHandler, new MultiPlayerHandler(setup, mapHandler, client));
+        return roboRally;
+    }
 
     @Override
     public void create() {
-
+        players = 2;
         batch = new SpriteBatch();
+        setScreen(new TitleScreen(this));
 
-        inputMultiplexer = new InputMultiplexer();
-        Gdx.input.setInputProcessor(inputMultiplexer);
-
-        cpEventHandler = new ControlPanelEventHandler();
-
-        getRoboRally();
-        uiHandler = new UIHandler();
-        new InputHandler(); //this must be after UIHandler to allow dragging of cards
-        getRoboRally().getPlayerHandler().startTurn();
+        backgroundMusic = Sound.getBackgroundMusic();
+        backgroundMusic.setVolume(1f);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
-
-    @Override
-    public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
-                (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
-        super.render();
-
-        batch.begin();
-
-        roboRally.getCurrentMap().update(Gdx.graphics.getDeltaTime());
-        roboRally.getCurrentMap().render(batch);
-
-        uiHandler.update();
-
-        batch.end();
-    }
-
 
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
         batch.dispose();
-        uiHandler.dispose();
+        closeResources();
     }
+
+    /**
+     * Close the client and the server and serve it to the garbage collector
+     */
+    public void closeResources() {
+        if (client != null) {
+            client.closeConnection();
+            client = null;
+        }
+        if (server != null) {
+            server.close();
+            server = null;
+        }
+    }
+
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        roboRally.getCurrentMap().resize(width, height);
-        uiHandler.resize();
     }
 
-    @NotNull
-    public static InputMultiplexer getInputMultiplexer() {
-        return inputMultiplexer;
-    }
-
-    @NotNull
-    public static ControlPanelEventHandler getCPEventHandler() {
-        return cpEventHandler;
-    }
-
-    @NotNull
-    public static UIHandler getUiHandler() {
-        return uiHandler;
+    /**
+     * Method to change the map that will be used to create roborally. The parameter string comes from the selectbox in
+     * AbstractSetupScreen and can therefore not have other values than the cases deal with.
+     *
+     * @param newMapFile The name of the map (not file name) that we want to use
+     */
+    public static void setMap(String newMapFile) {
+        mapFileName = newMapFile;
     }
 
     public static RoboRally getRoboRally() {
         if (null == roboRally) {
-            createRoboRally(FALLBACK_MAP_FILE_PATH, 8);
+            createRoboRally(MAP_FOLDER + mapFileName + MAP_EXTENSION, players);
         }
         return roboRally;
+    }
+
+    public static void resetRoborally() {
+        RoboRally.SECOND_THREAD.cancelTasks();
+        roboRally = null;
     }
 
     public static synchronized RoboRally createRoboRally(String map, int playerCount) {
-        roboRally = new RoboRally(map, playerCount);
+        MapHandler mapHandler = !HEADLESS ? new TiledMapHandler(map) : new HeadlessMapHandler(map);
+        roboRally = new RoboRally(mapHandler, new PlayerHandler(playerCount, mapHandler));
         return roboRally;
     }
 
-    /**
-     * This method will always run the runnable on the main thread
-     *
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
-        if (msDelay <= 0) {
-            runnable.run();
-        } else {
-            GameGraphics.executorService.schedule(() ->
-                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
-        }
+    public static BitmapFont generateFont(String fontFile, int size) {
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        return fontGenerator.generateFont(parameter);
+    }
+
+
+    public Label createLabel(String text, float x, float y, int fontSize) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = generateFont(GameGraphics.SCREEN_FONT, fontSize);
+
+        Label label = new Label(text, labelStyle);
+        label.setColor(Color.BLACK);
+
+        label.setPosition(x, y);
+        return label;
     }
 
     /**
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
+     * Set the given server for this instance
+     *
+     * @param newServer the server
      */
-    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
-        GameGraphics.executorService.schedule(() ->
-                runnable, msDelay, TimeUnit.MILLISECONDS);
+    public static void setServer(@Nullable Server newServer) {
+        server = newServer;
+    }
+
+    /**
+     * Set the given client for this instance
+     *
+     * @param newClient the client
+     */
+    public static void setClient(@Nullable IClient newClient) {
+        client = newClient;
+    }
+
+    /**
+     * @return the given client for this instance
+     */
+    @Nullable
+    public static IClient getClient() {
+        return client;
     }
 
 }

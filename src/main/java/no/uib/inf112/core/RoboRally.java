@@ -1,41 +1,48 @@
 package no.uib.inf112.core;
 
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Gdx;
 import no.uib.inf112.core.map.MapHandler;
-import no.uib.inf112.core.map.TiledMapHandler;
 import no.uib.inf112.core.map.cards.Deck;
 import no.uib.inf112.core.map.cards.MovementDeck;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.player.PlayerHandler;
+import no.uib.inf112.core.player.IPlayerHandler;
 import no.uib.inf112.core.round.DefaultGameRule;
-import no.uib.inf112.core.testutils.HeadlessMapHandler;
-import no.uib.inf112.core.ui.Sound;
+import no.uib.inf112.core.util.CancellableThreadScheduler;
 import org.jetbrains.annotations.NotNull;
 
 public class RoboRally {
     private static final int STANDARD_ROUND_DURATION = 910;
     private MapHandler map;
 
-    private PlayerHandler playerHandler;
+    private IPlayerHandler playerHandler;
     private Deck deck;
 
-    public RoboRally(String mapPath, int playerCount) {
-        if (GameGraphics.HEADLESS) {
-            map = new HeadlessMapHandler(mapPath);
-        } else {
-            map = new TiledMapHandler(mapPath);
-        }
+    public static final CancellableThreadScheduler SECOND_THREAD = new CancellableThreadScheduler();
 
-        //TODO #93 move this to a reasonable and easy to handle place
-        Music backgroundMusic = Sound.getBackgroundMusic();
-        backgroundMusic.setVolume(1f);
-        backgroundMusic.play();
-        backgroundMusic.setLooping(true);
-
+    public RoboRally(@NotNull MapHandler map, @NotNull IPlayerHandler playerHandler) {
+        RoboRally.SECOND_THREAD.cancelTasks();
+        this.map = map;
         deck = new MovementDeck();
-        playerHandler = new PlayerHandler(playerCount, map);
+        this.playerHandler = playerHandler;
         for (IPlayer player : playerHandler.getPlayers()) {
             map.addEntity(player);
+        }
+    }
+
+    /**
+     * This method will always run the runnable on the main thread
+     *
+     * @param runnable
+     *     The code to run
+     * @param msDelay
+     *     How long, in milliseconds, to wait before executing the runnable
+     */
+    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
+        if (msDelay <= 0) {
+            Gdx.app.postRunnable(runnable);
+        }
+        else {
+            SECOND_THREAD.scheduleSync(runnable, msDelay);
         }
     }
 
@@ -63,8 +70,7 @@ public class RoboRally {
 
 
     @NotNull
-    public PlayerHandler getPlayerHandler() {
+    public IPlayerHandler getPlayerHandler() {
         return playerHandler;
     }
-
 }

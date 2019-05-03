@@ -3,6 +3,7 @@ package no.uib.inf112.core.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import no.uib.inf112.core.GameGraphics;
 
 import java.io.File;
 
@@ -16,7 +17,6 @@ public enum Sound {
     ROBOT_FALLING("robotFalling.wav"),
     WINNER("winner.wav"),
     PUSHER("pusher.wav"),
-    GET_OPTION_CARD("getOptionCard.wav"),
     ROBOT_UPDATES_BACKUP("robotUpdatesBackup.wav");
 
     private static final String SOUND_FOLDER = "sound";
@@ -28,6 +28,9 @@ public enum Sound {
     }
 
     public void play() {
+        if (GameGraphics.soundMuted) { // Sound was muted in options screen
+            return;
+        }
         sound.play();
     }
 

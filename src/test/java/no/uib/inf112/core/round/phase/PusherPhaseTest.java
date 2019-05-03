@@ -21,7 +21,7 @@ public class PusherPhaseTest extends TestGraphics {
     @BeforeClass
     public static void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "pusher_test_map.tmx", 1);
-        player = roboRally.getPlayerHandler().testPlayer();
+        player = roboRally.getPlayerHandler().mainPlayer();
         pusherPhase = new PusherPhase(0);
     }
 
