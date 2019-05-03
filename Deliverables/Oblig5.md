@@ -9,6 +9,8 @@
 - Vi har hatt en konstant rotasjon, alle har jobbet med UI og spillLogikk. Vi har ikke tid til å rotere slik at absolutt alle får involvere seg på nettverksbiten.
 - Prosjektmetodikk er i utganspunktet slik som i oblig 2. Største endringer er testrolle per issue, og en todo kolonne på project boardet.
 
+- Ift til klassediagram anbefales det å finne GameGraphics klassen og se på ting i forhold til denne, for dette er klassen som binder ting sammen.
+
 ### Retroperspektiv  prosjekt
 
 - Justeringer
@@ -46,11 +48,11 @@
 - samlebånd som går i dobbelt tempo
 - spille mot AI (single-player-mode), evt spill mot random-roboter
 
-Vi har fullført alle krav for mvp og "dyttere" ingen spesielle tillegg utenom kart navigasjon.
+Vi har fullført alle krav for mvp og "dyttere", ingen andre spesielle tillegg utenom kart navigasjon.
 
 ## Deloppgave 3
 
 - Vi har trege tester
 - UI henger og lyden spiller ikke av
-- Power down kan kun gjøres før man får kort og kan som regel kun bestemmes runden før man ønsker å powere down. Dette kommer av tolkningen fra orginalspillet hvor man ikke skal få powere down etter man har trukket kort.
+- Power down kan kun gjøres før man får kort, det betyr i praksis at man kun kan sette power down i runden før den runden man ønsker å være powered down i. Dette kommer av tolkningen fra orginalspillet hvor man ikke skal få powere down etter man har trukket kort.
 - Det kan skje rare ting, når to spillere er ved hveandre på samlebåndet, den ene kan dytte den andre når den flyttes av beltet og da vil den andre først bli flyttet av dytten for så av samlebåndet
