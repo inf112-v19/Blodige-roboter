@@ -9,13 +9,10 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.io.InputHandler;
 import no.uib.inf112.core.multiplayer.IClient;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
+import no.uib.inf112.core.screens.menuscreens.EndScreen;
 import no.uib.inf112.core.ui.UIHandler;
 import no.uib.inf112.core.ui.event.ControlPanelEventHandler;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class GameScreen implements Screen {
 
@@ -24,7 +21,6 @@ public class GameScreen implements Screen {
     private static InputMultiplexer inputMultiplexer;
     private static UIHandler uiHandler;
     private static ControlPanelEventHandler cpEventHandler;
-    private static ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
 
     public GameScreen(GameGraphics game) {
@@ -68,6 +64,7 @@ public class GameScreen implements Screen {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            GameGraphics.getRoboRally().getPlayerHandler().setGameOver(true);
             game.setScreen(new EndScreen(game));
         } else if (GameGraphics.getRoboRally().getPlayerHandler().isGameOver()) {
             game.setScreen(new EndScreen(game));
@@ -107,30 +104,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         uiHandler.dispose();
-    }
-
-    /**
-     * This method will always run the runnable on the main thread
-     *
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleSync(@NotNull Runnable runnable, long msDelay) {
-        if (msDelay <= 0) {
-            Gdx.app.postRunnable(runnable);
-        } else {
-            GameScreen.executorService.schedule(() ->
-                    Gdx.app.postRunnable(runnable), msDelay, TimeUnit.MILLISECONDS);
-        }
-    }
-
-    /**
-     * @param runnable The code to run
-     * @param msDelay  How long, in milliseconds, to wait before executing the runnable
-     */
-    public static void scheduleAsync(@NotNull Runnable runnable, long msDelay) {
-        GameScreen.executorService.schedule(() ->
-                runnable, msDelay, TimeUnit.MILLISECONDS);
     }
 
     @NotNull

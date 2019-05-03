@@ -6,7 +6,7 @@ import no.uib.inf112.core.map.tile.TileType;
 import no.uib.inf112.core.player.AbstractPlayer;
 import no.uib.inf112.core.player.IPlayer;
 import no.uib.inf112.desktop.TestGraphics;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,13 +15,12 @@ import static org.junit.Assert.assertEquals;
 
 public class CleanupPhaseTest extends TestGraphics {
 
-    private RoboRally roboRally;
-    private IPlayer player;
+    private static RoboRally roboRally;
+    private static IPlayer player;
 
-    @Before
-    public void setUp() {
-        roboRally = GameGraphics
-                .createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "round_test_map.tmx", 1);
+    @BeforeClass
+    public static void setUp() {
+        roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "round_test_map.tmx", 1);
         player = roboRally.getPlayerHandler().mainPlayer();
     }
 

@@ -16,7 +16,7 @@ import no.uib.inf112.core.multiplayer.Server;
 import no.uib.inf112.core.multiplayer.dtos.NewGameDto;
 import no.uib.inf112.core.player.MultiPlayerHandler;
 import no.uib.inf112.core.player.PlayerHandler;
-import no.uib.inf112.core.screens.TitleScreen;
+import no.uib.inf112.core.screens.menuscreens.TitleScreen;
 import no.uib.inf112.core.testutils.HeadlessMapHandler;
 import no.uib.inf112.core.ui.Sound;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,6 @@ public class GameGraphics extends Game {
 
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
     public static final String MAP_EXTENSION = ".tmx";
-
     public static final String SCREEN_FONT = "screen_font.ttf";
     public static final String SCREEN_FONT_BOLD = "screen_font_bold.ttf";
 
@@ -69,12 +68,14 @@ public class GameGraphics extends Game {
 
         backgroundMusic = Sound.getBackgroundMusic();
         backgroundMusic.setVolume(1f);
+        backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }
 
     @Override
     public void dispose() {
         super.dispose();
+        backgroundMusic.stop();
         backgroundMusic.dispose();
         batch.dispose();
         closeResources();
@@ -118,6 +119,7 @@ public class GameGraphics extends Game {
     }
 
     public static void resetRoborally() {
+        RoboRally.SECOND_THREAD.cancelTasks();
         roboRally = null;
     }
 

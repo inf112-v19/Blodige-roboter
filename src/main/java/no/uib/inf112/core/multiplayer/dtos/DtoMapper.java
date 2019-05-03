@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A static class containing methods mapping between real instances and dtos
+ * A static class containing methods mapping between real instances and dtos. A dto stands for data transfer object
  */
 public class DtoMapper {
 
@@ -24,7 +24,9 @@ public class DtoMapper {
     public static List<CardDto> mapToDto(@NotNull List<Card> cards) {
         List<CardDto> result = new ArrayList<>();
         for (Card card : cards) {
-            result.add(new CardDto(card.getAction(), card.getPriority()));
+            if (card != null) {
+                result.add(new CardDto(card.getAction(), card.getPriority()));
+            }
         }
         return result;
     }

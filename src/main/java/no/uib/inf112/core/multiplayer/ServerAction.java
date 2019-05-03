@@ -9,14 +9,14 @@ import java.util.HashMap;
  */
 public enum ServerAction {
 
-    getName("getName "),
-    setDisplayName("setDisplayName"),
-    getConnectedPlayers("getConnectedPlayers"),
-    startGame("startGame"),
-    sendSelectedCards("sendSelectedCards"),
-    setHostId("setHostId"),
-    finishedSetup("finishedSetup"),
-    partyMode("partyMode");
+    GET_NAME("getName"),
+    SET_DISPLAY_NAME("setDisplayName"),
+    GET_CONNECTED_PLAYERS("getConnectedPlayers"),
+    START_GAME("START_GAME"),
+    SEND_SELECTED_CARDS("sendSelectedCards"),
+    SET_HOST_ID("setHostId"),
+    FINISHED_SETUP("finishedSetup"),
+    PARTY_MODE("partyMode");
 
     public final String command;
     private static HashMap<String, ServerAction> ServerActionMap = new HashMap<>();

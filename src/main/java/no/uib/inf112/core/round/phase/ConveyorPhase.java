@@ -28,9 +28,8 @@ public class ConveyorPhase extends AbstractPhase {
         super(totalRunTime);
     }
 
-    //TODO ISSUE #118 test, first all express CONVEYOR moves, then **all** conveyors move
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         subPhase(map, false);
         map.update(0);
         subPhase(map, true);

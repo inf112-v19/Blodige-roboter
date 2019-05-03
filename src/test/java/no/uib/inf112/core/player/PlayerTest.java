@@ -13,6 +13,7 @@ import no.uib.inf112.desktop.TestGraphics;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,12 +28,15 @@ public class PlayerTest extends TestGraphics {
     private static RoboRally roboRally;
     private static MapHandler map;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         roboRally = GameGraphics.createRoboRally(TEST_MAP_FOLDER + File.separatorChar + "player_test_map.tmx", 1);
         map = roboRally.getCurrentMap();
-
         testPlayer = roboRally.getPlayerHandler().mainPlayer();
+    }
+
+    @Before
+    public void initialize() {
         testPlayer.teleport(0, 0);
         testPlayer.setDirection(Direction.NORTH);
     }

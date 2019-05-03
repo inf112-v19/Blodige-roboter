@@ -1,10 +1,10 @@
 package no.uib.inf112.core.round.phase;
 
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.RoboRally;
 import no.uib.inf112.core.map.MapHandler;
 import no.uib.inf112.core.map.cards.Card;
 import no.uib.inf112.core.player.IPlayer;
-import no.uib.inf112.core.screens.GameScreen;
 import no.uib.inf112.core.ui.Sound;
 import no.uib.inf112.core.util.ComparableTuple;
 import org.jetbrains.annotations.NotNull;
@@ -45,13 +45,13 @@ public class PlayerPhase extends AbstractPhase {
     }
 
     @Override
-    public void startPhase(@NotNull MapHandler map) {
+    public void startPhase(@NotNull MapHandler map, int phaseNr) {
         List<ComparableTuple<Card, IPlayer>> phaseCards = cards.get(lastIndex);
         lastIndex++;
 
         for (int i = 0; i < phaseCards.size(); i++) {
             ComparableTuple<Card, IPlayer> tuple = phaseCards.get(i);
-            GameScreen.scheduleSync(() -> {
+            RoboRally.scheduleSync(() -> {
                 tuple.value.move(tuple.key.getAction(), delayPerPlayer);
                 Sound.ROBOT_MOVING.play();
             }, delayPerPlayer * (i + 1));

@@ -71,7 +71,7 @@ public class PlayerHandler implements IPlayerHandler {
         if (gameOver) {
             return;
         }
-        GameScreen.getUiHandler().getPowerButton().resetAlpha();
+        GameScreen.getUiHandler().getPowerButton().resetButton();
 
         Player p = (Player) mainPlayer();
         p.setPoweredDown(p.willPowerDown());
@@ -169,6 +169,11 @@ public class PlayerHandler implements IPlayerHandler {
     @Override
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    @Override
+    public void setGameOver(boolean state) {
+        gameOver = state;
     }
 
     @Override

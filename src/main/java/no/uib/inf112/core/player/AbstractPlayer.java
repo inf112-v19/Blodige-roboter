@@ -189,7 +189,8 @@ public abstract class AbstractPlayer extends Robot implements IPlayer {
         if (willPowerDown) {
             poweredDown = true;
             heal();
-
+        } else if (isPoweredDown()) {
+            setPoweredDown(false);
         }
     }
 

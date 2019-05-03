@@ -59,7 +59,7 @@ public class UIHandler implements Disposable {
     private static final TextureRegion NOT_FLAG_TAKEN_TEXTURE;
 
     //How much space there should be between each element in the ui
-    private static final int DEFAULT_SPACING = 5;
+    public static final int DEFAULT_SPACING = 5;
 
     private final Table controlPanelTable;
     private final Stage stage;
@@ -68,6 +68,7 @@ public class UIHandler implements Disposable {
     private final DragAndDrop dad;
     private final Table cardDrawTable;
     private final Table robotStatusTable;
+    private Label countDown;
 
     private static final String UI_FOLDER = "ui" + File.separatorChar;
     private static final String CARD_SKIN_FOLDER = UI_FOLDER + "cardSkins" + File.separatorChar;
@@ -75,7 +76,7 @@ public class UIHandler implements Disposable {
 
     public static final FreeTypeFontGenerator card_font_generator;
     public static final FreeTypeFontGenerator.FreeTypeFontParameter card_font_parameter;
-    public static final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
+    private final BitmapFont statusFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT, 30);
 
     static {
         UI_BACKGROUND_TEXTURE = new TextureRegion(new Texture(UI_FOLDER + "background2.png"), 602, 198);
@@ -130,6 +131,10 @@ public class UIHandler implements Disposable {
         cardDrawTable = new Table();
         robotStatusTable = new Table();
 
+        BitmapFont countDownFont = GameGraphics.generateFont(GameGraphics.SCREEN_FONT_BOLD, 80);
+        countDown = createLabel("", countDownFont);
+        countDown.setColor(Color.RED);
+
         Table nestingTable = new Table();
         nestingTable.add(cardDrawTable).align(Align.bottom);
         nestingTable.row();
@@ -138,7 +143,7 @@ public class UIHandler implements Disposable {
 
         backgroundTable.add(robotStatusTable).center().left().uniform();
         backgroundTable.add(nestingTable).expand().bottom();
-        backgroundTable.add().uniform(); // Adding this column to center the control panel and cards.
+        backgroundTable.add(countDown).center().uniform(); // Adding this column to center the control panel and cards.
 
         create();
     }
@@ -264,6 +269,7 @@ public class UIHandler implements Disposable {
         }
     }
 
+
     private void addRobotStatus() {
         robotStatusTable.clear();
         List<IPlayer> players = GameGraphics.getRoboRally().getPlayerHandler().getPlayers();
@@ -275,7 +281,7 @@ public class UIHandler implements Disposable {
                     "\nHealth: " + player.getHealth() +
                     "\nLives: " + player.getLives();
 
-            Label playerLabel = createLabel(playerString);
+            Label playerLabel = createLabel(playerString, statusFont);
             playerLabel.setColor(player.getColor());
             playerStatus.addActor(playerLabel);
         }
@@ -284,9 +290,9 @@ public class UIHandler implements Disposable {
 
     }
 
-    public Label createLabel(String text) {
+    public Label createLabel(String text, BitmapFont font) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = statusFont;
+        labelStyle.font = font;
         return new Label(text, labelStyle);
     }
 
@@ -318,6 +324,14 @@ public class UIHandler implements Disposable {
      */
     public boolean isDrawnCardsVisible() {
         return cardDrawTable.isVisible();
+    }
+
+    public void updateCountDown(int countDownTime) {
+        if (countDownTime == 0) {
+            countDown.setText("");
+        } else {
+            countDown.setText(Integer.toString(countDownTime));
+        }
     }
 
     public void update() {
