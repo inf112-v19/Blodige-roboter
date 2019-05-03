@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class GameMapTest extends TestGraphics {
 
@@ -57,10 +58,10 @@ public class GameMapTest extends TestGraphics {
 
     @Test
     public void getTileTestVOID(){
-        TiledMapTileLayer layer = roboRally.getCurrentMap().getLayer("board");
-
+        TiledMapTileLayer layer = roboRally.getCurrentMap().getLayer(MapHandler.BOARD_LAYER_NAME);
+        assertNotNull(layer);
         Tile tile = roboRally.getCurrentMap().getTile(layer, 0,1);
-
+        assertNotNull(tile);
         assertEquals(TileType.VOID, tile.getTileType());
     }
 
