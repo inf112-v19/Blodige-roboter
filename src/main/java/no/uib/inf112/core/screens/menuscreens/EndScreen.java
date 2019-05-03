@@ -13,11 +13,13 @@ import no.uib.inf112.core.player.IPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static no.uib.inf112.core.GameGraphics.ART_FOLDER;
+
 
 public class EndScreen extends AbstractMenuScreen {
 
     private String[] rankList;
-    private final Drawable GAME_OVER = new TextureRegionDrawable(new Texture("game_over.png"));
+    private final Drawable GAME_OVER = new TextureRegionDrawable(new Texture(ART_FOLDER + "game_over.png"));
 
 
     public EndScreen(GameGraphics game) {
@@ -27,7 +29,9 @@ public class EndScreen extends AbstractMenuScreen {
         List<String> ranks = new ArrayList<>();
         for (int rank = 0; rank < playerRanks.size(); rank++) {
             IPlayer player = playerRanks.get(rank);
-            if (player == null) { continue;}
+            if (player == null) {
+                continue;
+            }
             ranks.add((rank + 1) + ". " + player.getName() + ": " + player.getFlags() + " flags");
         }
 

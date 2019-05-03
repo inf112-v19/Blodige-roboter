@@ -11,14 +11,12 @@ import no.uib.inf112.core.GameGraphics;
 import no.uib.inf112.core.screens.setupscreens.HostSetup;
 import no.uib.inf112.core.screens.setupscreens.SinglePlayerSetup;
 
-import java.io.File;
+import static no.uib.inf112.core.GameGraphics.ART_FOLDER;
 
 
 public class TitleScreen extends AbstractMenuScreen {
 
-    private final String TITLE_SCREEN_FOLDER = "titlescreen" + File.separatorChar;
-
-    private final Drawable HEADER = new TextureRegionDrawable(new Texture(TITLE_SCREEN_FOLDER + "header.png"));
+    private final Drawable HEADER = new TextureRegionDrawable(new Texture(ART_FOLDER + "titlescreen_header.png"));
 
 
     public TitleScreen(GameGraphics game) {

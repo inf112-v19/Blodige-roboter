@@ -29,6 +29,7 @@ public class GameGraphics extends Game {
     private static RoboRally roboRally;
     public static boolean HEADLESS;
 
+    public static final String ART_FOLDER = "art" + File.separatorChar;
     public static final String MAP_FOLDER = "maps" + File.separatorChar;
     public static final String MAP_EXTENSION = ".tmx";
     public static final String SCREEN_FONT = "screen_font.ttf";

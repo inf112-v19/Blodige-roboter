@@ -29,6 +29,8 @@ import no.uib.inf112.core.screens.menuscreens.AbstractMenuScreen;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static no.uib.inf112.core.GameGraphics.ART_FOLDER;
+
 public abstract class AbstractSetupScreen extends AbstractMenuScreen {
 
     // Workaround of listing problem with files in desktop applications
@@ -38,7 +40,7 @@ public abstract class AbstractSetupScreen extends AbstractMenuScreen {
             "Vault Assault", "Interference", "Option World", "Moving Targets", "Whirlwind Tour", "Tandem Carnage",
             "Factory Rejects", "Tight Collar", "Twister", "Marathon Madness", "Risky Exchange", "Oddest Sea", "Island Hop"));
 
-    private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture("drop_down_background.png"));
+    private final Drawable SELECT_BOX_BACKGROUND = new TextureRegionDrawable(new Texture(ART_FOLDER + "drop_down_background.png"));
 
     private BitmapFont listFont;
     private BitmapFont selectedFont;
