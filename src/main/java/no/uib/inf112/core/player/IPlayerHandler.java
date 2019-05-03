@@ -93,12 +93,11 @@ public interface IPlayerHandler {
     }
 
     /**
-     * Rank players according to flags and
-     * time played
+     * Rank players according to flags and time played
      *
-     * @return String list of players ranked in correct order
+     * @return List of players ranked in descending order
      */
-    default String[] rankPlayers() {
+    default List<IPlayer> rankPlayers() {
         getPlayers().forEach(player -> getWonPlayers().put(player, System.currentTimeMillis()));
         List<IPlayer> playerStackWon = new ArrayList<>(getWonPlayers().keySet());
         playerStackWon.sort((p1, p2) -> {
@@ -116,13 +115,7 @@ public interface IPlayerHandler {
                 return Integer.compare(p2.getFlags(), p1.getFlags());
             }
         });
-
-        String[] playersInRankingOrder = new String[getPlayerCount()];
-        int i = 0;
-        for (IPlayer player : playerStackWon) {
-            playersInRankingOrder[i++] = i + ". " + player.getName() + ": " + player.getFlags() + " flags";
-        }
-        return playersInRankingOrder;
+        return playerStackWon;
     }
 
     /**

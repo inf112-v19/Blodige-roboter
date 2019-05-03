@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import no.uib.inf112.core.GameGraphics;
+import no.uib.inf112.core.ui.UIHandler;
 
 public abstract class AbstractMenuScreen implements Screen {
 
@@ -94,7 +95,7 @@ public abstract class AbstractMenuScreen implements Screen {
             }
         });
         button.setHeight(font.getCapHeight());
-        button.padBottom(5);
+        button.padBottom(UIHandler.DEFAULT_SPACING);
 
         return button;
     }
