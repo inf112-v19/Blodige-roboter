@@ -68,6 +68,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
      */
     public void runRound(StartRoundDto startRoundDto) {
         this.startRoundDto = startRoundDto;
+        GameScreen.getUiHandler().hideDrawnCards();
         for (IPlayer player : players) {
             if (!mainPlayer().equals(player)) {
                 OnlinePlayer onlinePlayer = (OnlinePlayer) player;
