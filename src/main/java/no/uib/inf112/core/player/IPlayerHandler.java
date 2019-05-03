@@ -98,7 +98,8 @@ public interface IPlayerHandler {
      * @return List of players ranked in descending order
      */
     default List<IPlayer> rankPlayers() {
-        getPlayers().forEach(player -> getWonPlayers().put(player, System.currentTimeMillis()));
+        long currTime = System.currentTimeMillis();
+        getPlayers().forEach(player -> getWonPlayers().put(player, currTime));
         List<IPlayer> playerStackWon = new ArrayList<>(getWonPlayers().keySet());
         playerStackWon.sort((p1, p2) -> {
             if (p1.getFlags() == p2.getFlags()) {
