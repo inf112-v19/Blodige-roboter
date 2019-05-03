@@ -31,7 +31,7 @@ public class MultiPlayerHandler implements IPlayerHandler {
 
     public MultiPlayerHandler(@NotNull NewGameDto newGameDto, @NotNull MapHandler map, IClient client) {
         if (newGameDto.players.size() < 2 || newGameDto.players.size() > 8) {
-            throw new IllegalArgumentException("Number of players not allowed");
+            throw new IllegalArgumentException("Number of players not allowed: " + newGameDto.players.size());
         }
         playerCount = newGameDto.players.size();
         flagCount = 0;
